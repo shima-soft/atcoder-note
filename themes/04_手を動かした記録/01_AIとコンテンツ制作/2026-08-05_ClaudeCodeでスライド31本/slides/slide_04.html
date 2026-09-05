@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">TROUBLE MAP</span>
+    <h2 class="slide-title">3回、同じところで転びました</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>原因はどれも同じでした。人間が覚えているつもりのことを、AIは覚えていない</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          row[i].y = 44 + i * 68  (rowHeight=56, gap=12)
+          row[i].bottom = 100, 168, 236
+          circle.cy = row.y + 28 → 72, 140, 208
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="620" height="310" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">つまずいた3か所</text>
+
+          <!-- 詰まり1 -->
+          <rect x="30" y="44" width="440" height="56" rx="10" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <circle cx="62" cy="72" r="15" fill="#c9162e"/>
+          <text x="62" y="77" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">1</text>
+          <text x="92" y="66" text-anchor="start" font-size="12" font-weight="700" fill="#1a1d2e">「いい感じに」が通じない</text>
+          <text x="92" y="85" text-anchor="start" font-size="9.5" fill="#5e6a8a">同じ頼み方をしても、返ってくるスライドが毎回ちがう</text>
+
+          <!-- 詰まり2 -->
+          <rect x="30" y="112" width="440" height="56" rx="10" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <circle cx="62" cy="140" r="15" fill="#c9162e"/>
+          <text x="62" y="145" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">2</text>
+          <text x="92" y="134" text-anchor="start" font-size="12" font-weight="700" fill="#1a1d2e">目で見ても、はみ出しは見つからない</text>
+          <text x="92" y="153" text-anchor="start" font-size="9.5" fill="#5e6a8a">数ピクセルの溢れは、何度見返しても気づけなかった</text>
+
+          <!-- 詰まり3 -->
+          <rect x="30" y="180" width="440" height="56" rx="10" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <circle cx="62" cy="208" r="15" fill="#c9162e"/>
+          <text x="62" y="213" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">3</text>
+          <text x="92" y="202" text-anchor="start" font-size="12" font-weight="700" fill="#1a1d2e">同じ図を2か所に置くとズレる</text>
+          <text x="92" y="221" text-anchor="start" font-size="9.5" fill="#5e6a8a">スライドとWeb公開版に手で貼ると、必ず食い違う</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 3つに共通していた原因</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">1</span>
+            <p>自分の頭の中の決めごとを、伝えていなかった</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">2</span>
+            <p>会話は残らない。次に頼むときには消えている</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">3</span>
+            <p>「だいたい合っている」を人の目では見抜けない</p>
+          </div>
+        </div>
+        <div class="ok-box" style="border-left-color:var(--pink)">
+          <div class="box-title">✅ 直し方は3つとも同じ形でした</div>
+          <ul class="box-list">
+            <li>自分の記憶に頼っていた部分を、外に出す</li>
+            <li>出したものを、機械にチェックさせる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 効かなかったこと</div>
+          <ul class="box-list">
+            <li>その都度「気をつけて」と言い直す</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

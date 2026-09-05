@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>実力はどこまで来たか</title>
+<style>
+  .compare-table table { font-size: .82rem; }
+  .compare-table td { padding: .62rem .7rem; }
+  .compare-table th { padding: .55rem .7rem; font-size: .76rem; }
+  .k3col { font-weight: 900; color: var(--purple); }
+  .table-note { font-size: .7rem; color: var(--muted); margin-top: .45rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">BENCHMARK</span>
+    <h2 class="slide-title">実力はどこまで来たか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>総合では最上位の有料AIに一歩届かないが、得意分野では首位を取っている</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:16%">分野</th>
+            <th style="width:38%">テストの中身</th>
+            <th style="width:16%">Kimi K3</th>
+            <th style="width:30%">比較対象の最高点</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>知識</td><td>大学院レベルの理系問題（GPQA Diamond）</td><td class="k3col">93.5</td><td>94.1 — GPT-5.6 Sol</td></tr>
+          <tr><td>コード</td><td>バグ修正の自動化（DeepSWE）</td><td class="k3col">67.5</td><td>73.0 — GPT-5.6 Sol</td></tr>
+          <tr><td>コード</td><td>難関のソフト開発課題（FrontierSWE）</td><td class="k3col">81.2</td><td>86.6 — Claude Fable 5</td></tr>
+          <tr><td>コード</td><td>長丁場の開発作業（SWE-Marathon）</td><td class="k3col">42.0 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>40.0 — Claude Opus 4.8</td></tr>
+          <tr><td>端末操作</td><td>ターミナルでの作業遂行（Terminal-Bench 2.1）</td><td class="k3col">88.3</td><td>88.8 — GPT-5.6 Sol</td></tr>
+          <tr><td>ネット調査</td><td>調べ抜いて答えを出す（BrowseComp）</td><td class="k3col">91.2 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>90.4 — GPT-5.6 Sol</td></tr>
+          <tr><td>業務自動化</td><td>手順のある業務の自動処理（AutomationBench）</td><td class="k3col">30.8 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>29.7 — GPT-5.6 Sol</td></tr>
+          <tr><td>ツール連携</td><td>外部ツールの正確な操作（MCPMark-Verified）</td><td class="k3col">94.5 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>92.9 — GPT-5.6 Sol</td></tr>
+          <tr><td>実務総合</td><td>実務課題の総合力（GDPval-AA v2・対戦形式のスコア）</td><td class="k3col">1686</td><td>1747 — Claude Fable 5</td></tr>
+        </tbody>
+      </table>
+      <p class="table-note">※ すべて各モデルの最高設定（reasoning effort: max など）での比較。外部評価では Artificial Analysis の知能指数で580モデル中4位、WebDev Arena ではオープンモデルとして初の1位（スコア1,678）を記録。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

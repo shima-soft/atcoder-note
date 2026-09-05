@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wide-diagram {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .5rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">SCORING</span>
+    <h2 class="slide-title">信頼度スコアリング — 0〜100</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>各エージェントの指摘にスコアを付け、80以上だけをGitHubに投稿する。偽陽性を大幅に減らす仕組み</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="wide-diagram">
+      <!--
+        スコアバー: x=80〜900 (幅820), 5セクション
+        セクション幅: 820/5 = 164
+        各バー: y=100〜350
+        viewBox: 0 0 960 430
+      -->
+      <svg viewBox="0 0 960 430" width="1100" height="500" font-family="'Noto Sans JP','Meiryo',sans-serif">
+        <text x="480" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">信頼度スコアが80以上の指摘だけが投稿される</text>
+
+        <!-- スケール -->
+        <text x="80" y="72" font-size="12" fill="#5e6a8a">信頼度が低い</text>
+        <text x="870" y="72" font-size="12" fill="#5e6a8a">信頼度が高い</text>
+
+        <!-- スコア帯 -->
+        <rect x="80" y="84" width="164" height="260" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="162" y="124" text-anchor="middle" font-size="42" font-weight="900" fill="#dde2ec">0</text>
+        <text x="162" y="156" text-anchor="middle" font-size="42" font-weight="900" fill="#dde2ec">〜</text>
+        <text x="162" y="198" text-anchor="middle" font-size="42" font-weight="900" fill="#dde2ec">39</text>
+        <text x="162" y="240" text-anchor="middle" font-size="13" fill="#5e6a8a">無視される</text>
+        <text x="162" y="260" text-anchor="middle" font-size="13" fill="#5e6a8a">（偽陽性が多い）</text>
+
+        <rect x="254" y="84" width="164" height="260" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="336" y="124" text-anchor="middle" font-size="42" font-weight="900" fill="#dde2ec">40</text>
+        <text x="336" y="156" text-anchor="middle" font-size="42" font-weight="900" fill="#dde2ec">〜</text>
+        <text x="336" y="198" text-anchor="middle" font-size="42" font-weight="900" fill="#dde2ec">79</text>
+        <text x="336" y="240" text-anchor="middle" font-size="13" fill="#5e6a8a">ログに記録</text>
+        <text x="336" y="260" text-anchor="middle" font-size="13" fill="#5e6a8a">（参考情報）</text>
+
+        <!-- 投稿対象（主役・青） -->
+        <rect x="428" y="84" width="164" height="260" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="510" y="124" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">80</text>
+        <text x="510" y="156" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">〜</text>
+        <text x="510" y="198" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">89</text>
+        <text x="510" y="240" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">投稿対象</text>
+        <text x="510" y="260" text-anchor="middle" font-size="13" fill="#1a96c0">（デフォルト閾値）</text>
+
+        <rect x="602" y="84" width="164" height="260" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="684" y="124" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">90</text>
+        <text x="684" y="156" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">〜</text>
+        <text x="684" y="198" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">95</text>
+        <text x="684" y="240" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">高確度</text>
+        <text x="684" y="260" text-anchor="middle" font-size="13" fill="#1a96c0">（ほぼ確実に問題あり）</text>
+
+        <rect x="776" y="84" width="164" height="260" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="858" y="124" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">96</text>
+        <text x="858" y="156" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">〜</text>
+        <text x="858" y="198" text-anchor="middle" font-size="42" font-weight="900" fill="#1a96c0">100</text>
+        <text x="858" y="240" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">最重要</text>
+        <text x="858" y="260" text-anchor="middle" font-size="13" fill="#1a96c0">（即座に対応推奨）</text>
+
+        <!-- 矢印（投稿対象の強調） -->
+        <rect x="428" y="364" width="510" height="4" rx="2" fill="#1a96c0"/>
+        <text x="684" y="394" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">← 80以上がGitHubに自動投稿される →</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</body>
+</html>

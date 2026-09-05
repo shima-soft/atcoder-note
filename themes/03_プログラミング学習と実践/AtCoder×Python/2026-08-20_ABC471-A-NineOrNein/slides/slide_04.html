@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem 1.2rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: .8rem 1.1rem;
+  font-size: .74rem;
+  line-height: 1.55;
+  overflow: hidden;
+}
+.info-col {
+  gap: .5rem;
+}
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .5rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .22rem;
+}
+.line-explain p {
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .76rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">Python 14行で完成</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>4つの式をif文で順番にチェックし、1つでも一致したら nine を True にする</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- 左カラム: コードブロック -->
+    <div class="diagram-box">
+      <div class="code-label">PYTHON</div>
+      <pre><code class="language-python">a, b = map(int, input().split())
+nine = False
+if a + b == 9:
+    nine = True
+if a - b == 9:
+    nine = True
+if a * b == 9:
+    nine = True
+if a % b == 0 and a // b == 9:
+    nine = True
+if nine:
+    print("Nine")
+else:
+    print("Nein")</code></pre>
+    </div>
+
+    <!-- 右カラム: 行ごとの解説 -->
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜2行目 — 入力の受け取りと下準備</h4>
+        <p><code>input().split()</code> で1行を空白で分割し、<code>map(int, ...)</code> で整数に変換して a・b に代入。
+           「一致したか」を覚えておく箱として <code>nine = False</code> を先に用意する。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>3〜10行目 — 4つの式を順番にチェック</h4>
+        <p>足し算・引き算・掛け算・割り算を1つずつ if で確認し、9と一致したら <code>nine = True</code> に書き換える。
+           割り算だけは <code>a % b == 0</code>（割り切れる）かつ <code>a // b == 9</code>（商が9）で判定し、小数のズレを避ける。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>11〜14行目 — 結果の出力</h4>
+        <p><code>nine</code> が True のままなら <code>"Nine"</code>、一度も一致しなければ <code>"Nein"</code> を出力する。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ キーワード確認</div>
+        <ul class="box-list">
+          <li><code style="font-size:.74rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">%</code> → 「余り」(割った余り)</li>
+          <li><code style="font-size:.74rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">//</code> → 「商」(小数点以下を切り捨てる割り算)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

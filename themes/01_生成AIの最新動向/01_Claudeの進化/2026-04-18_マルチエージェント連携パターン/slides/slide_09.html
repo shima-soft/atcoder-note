@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.compare-wrap {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .76rem;
+}
+thead th {
+  background: var(--card);
+  padding: .4rem .65rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+  font-size: .72rem;
+  letter-spacing: .03em;
+}
+tbody td {
+  padding: .4rem .65rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.55;
+  vertical-align: top;
+}
+tbody tr:nth-child(even) td { background: rgba(239,241,247,.4); }
+.pbadge {
+  display: inline-block;
+  padding: .1rem .55rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.key-point {
+  font-size: .72rem;
+  color: var(--muted);
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">COMPARE</span>
+    <h2 class="slide-title">5パターン 比較表</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>それぞれ「どう連携するか・何が強いか・何が弱いか」を一覧で確認</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:15%">パターン</th>
+            <th style="width:18%">連携方式</th>
+            <th style="width:22%">強み</th>
+            <th style="width:22%">主な限界</th>
+            <th style="width:23%">最適な用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="pbadge" style="background:rgba(217,96,24,.15);color:var(--orange)">Generator-Verifier</span></td>
+            <td>生成 → 検証 → ループ</td>
+            <td>
+              品質保証・精度向上<br>
+              <span class="key-point">明確な評価基準があれば強力</span>
+            </td>
+            <td>
+              検証基準が曖昧だと機能しない<br>
+              <span class="key-point">ループ上限の設定が必須</span>
+            </td>
+            <td>コード生成＋テスト、ファクトチェック、ルーブリック採点</td>
+          </tr>
+          <tr>
+            <td><span class="pbadge" style="background:rgba(26,150,192,.15);color:var(--blue)">Orchestrator-Subagent</span></td>
+            <td>階層的な委任・統合</td>
+            <td>
+              タスク分解・専門化<br>
+              <span class="key-point">並列実行で高速化</span>
+            </td>
+            <td>
+              情報ボトルネック<br>
+              <span class="key-point">Orchestratorが単一障害点に</span>
+            </td>
+            <td>コードレビュー、複雑な分析、多段階調査</td>
+          </tr>
+          <tr>
+            <td><span class="pbadge" style="background:rgba(0,143,106,.15);color:var(--green)">Agent Teams</span></td>
+            <td>共有キューから自律取得</td>
+            <td>
+              大規模並列処理<br>
+              <span class="key-point">経験蓄積で精度向上</span>
+            </td>
+            <td>
+              厳密なタスク分割が必要<br>
+              <span class="key-point">中間共有が難しい</span>
+            </td>
+            <td>大規模マイグレーション、一括変換・分類</td>
+          </tr>
+          <tr>
+            <td><span class="pbadge" style="background:rgba(122,59,206,.15);color:var(--purple)">Message Bus</span></td>
+            <td>Pub/Sub イベント駆動</td>
+            <td>
+              疎結合・拡張性<br>
+              <span class="key-point">新AI追加が既存に無影響</span>
+            </td>
+            <td>
+              サイレント障害<br>
+              <span class="key-point">連鎖デバッグが困難</span>
+            </td>
+            <td>セキュリティ監視、リアルタイム通知・トリガー連携</td>
+          </tr>
+          <tr>
+            <td><span class="pbadge" style="background:rgba(204,10,106,.15);color:var(--pink)">Shared State</span></td>
+            <td>共有ストア読み書き</td>
+            <td>
+              単一障害点なし<br>
+              <span class="key-point">リアルタイム情報共有</span>
+            </td>
+            <td>
+              重複作業・無限ループリスク<br>
+              <span class="key-point">終了条件の設計が重要</span>
+            </td>
+            <td>リサーチ統合、コラボ型知識ベース構築</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

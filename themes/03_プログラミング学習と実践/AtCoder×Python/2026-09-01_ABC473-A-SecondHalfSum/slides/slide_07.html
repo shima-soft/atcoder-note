@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">やってみる</span>
+    <h2 class="slide-title">初めて見る数列で、自分で解いてみる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>手順は同じ。半分の位置を出して、そこから最後まで足すだけ</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- SVG: 出題（答えは伏せる） -->
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 350" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          マス box[i].x = 84 + i*62 (w=54, gap=8) → 84,146,208,270,332,394 (right=448)
+          答えは書かない（想起練習のため）
+        -->
+
+        <text x="270" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">問題: N = 6 の数列の、後ろ半分の合計は？</text>
+
+        <!-- 番号 -->
+        <g font-size="11" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="111" y="66">1番目</text>
+          <text x="173" y="66">2番目</text>
+          <text x="235" y="66">3番目</text>
+          <text x="297" y="66">4番目</text>
+          <text x="359" y="66">5番目</text>
+          <text x="421" y="66">6番目</text>
+        </g>
+
+        <!-- 数列（全部同じ濃さ。どこが後半かは視聴者が決める） -->
+        <g>
+          <rect x="84"  y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="146" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="208" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="270" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="332" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="394" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="20" font-weight="900" text-anchor="middle" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">
+          <text x="111" y="110">4</text>
+          <text x="173" y="110">9</text>
+          <text x="235" y="110">2</text>
+          <text x="297" y="110">7</text>
+          <text x="359" y="110">1</text>
+          <text x="421" y="110">5</text>
+        </g>
+
+        <!-- 手順のリマインダ（ヒント。答えは出さない） -->
+        <rect x="40" y="156" width="460" height="120" rx="12" fill="rgba(26,150,192,.05)" stroke="rgba(26,150,192,.3)" stroke-width="1.5"/>
+        <text x="60" y="182" font-size="13" font-weight="700" fill="#1a96c0" font-family="'Noto Sans JP',sans-serif">思い出す手順</text>
+        <text x="60" y="208" font-size="13" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">① 半分の位置を出す（N ÷ 2 は？）</text>
+        <text x="60" y="234" font-size="13" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">② 後半の先頭は何番目？</text>
+        <text x="60" y="260" font-size="13" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">③ そこから6番目まで順に足す</text>
+
+        <!-- 答えは伏せる -->
+        <rect x="150" y="294" width="240" height="44" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="270" y="322" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">答え = ？</text>
+      </svg>
+    </div>
+
+    <!-- 右カラム -->
+    <div class="info-col">
+
+      <div class="practice">
+        <div class="practice-title">✋ ここで動画を止めて、自分で解いてみてください</div>
+        <div class="practice-q">N = 6
+4 9 2 7 1 5</div>
+        <p class="practice-note">答え合わせは次の「まとめ」で行います</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 詰まったときのヒント</div>
+        <ul class="box-list">
+          <li>N = 6 なので、前半3個・後半3個に分かれる</li>
+          <li>Python なら <strong>half = 6 // 2</strong>、つまり添字 3 から最後まで</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 引っかかりやすいところ</div>
+        <ul class="box-list">
+          <li>「4番目から」と数えて 7・1・5 を足せば正解。<strong>5番目から</strong>にすると1個足りない</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

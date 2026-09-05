@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>従来手法が満たせなかった3つの要求</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">課題</span>
+    <h2 class="slide-title">従来手法が満たせなかった3つの要求</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>知識の「渡し方」はあったが、文脈の無駄・手作業・放置という穴 — SkillSmithは三つを同時に塞ぐ</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="3手法と3要求のマトリクス比較">
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">3つの要求 × 3つの手法</text>
+
+        <!-- ヘッダ行 -->
+        <rect x="20" y="30" width="580" height="34" rx="8" fill="#1a1d2e"/>
+        <text x="120" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="rgba(255,255,255,.7)">手法</text>
+        <text x="270" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">R1 文脈節約</text>
+        <text x="390" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">R2 自動作成</text>
+        <text x="510" y="51" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">R3 自動進化</text>
+
+        <!-- Prompt -->
+        <rect x="20" y="70" width="580" height="56" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="30" y="78" width="180" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="120" y="96" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Prompt型</text>
+        <text x="120" y="110" text-anchor="middle" font-size="10" fill="#5e6a8a">プロンプトに直書き</text>
+        <text x="270" y="101" text-anchor="middle" font-size="18" fill="#c9162e">✕</text>
+        <text x="270" y="116" text-anchor="middle" font-size="10" fill="#5e6a8a">全部載せで溢れる</text>
+        <text x="390" y="101" text-anchor="middle" font-size="18" fill="#c9162e">✕</text>
+        <text x="390" y="116" text-anchor="middle" font-size="10" fill="#5e6a8a">専門家が手書き</text>
+        <text x="510" y="101" text-anchor="middle" font-size="18" fill="#c9162e">✕</text>
+        <text x="510" y="116" text-anchor="middle" font-size="10" fill="#5e6a8a">改訂なし</text>
+
+        <!-- Memory -->
+        <rect x="20" y="132" width="580" height="56" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="30" y="140" width="180" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="120" y="158" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Memory型</text>
+        <text x="120" y="172" text-anchor="middle" font-size="10" fill="#5e6a8a">軌跡から記憶を抽出</text>
+        <text x="270" y="163" text-anchor="middle" font-size="18" fill="#e6a700">△</text>
+        <text x="270" y="178" text-anchor="middle" font-size="10" fill="#5e6a8a">多少節約</text>
+        <text x="390" y="163" text-anchor="middle" font-size="14" fill="#008f6a">◯</text>
+        <text x="390" y="178" text-anchor="middle" font-size="10" fill="#5e6a8a">半自動</text>
+        <text x="510" y="163" text-anchor="middle" font-size="18" fill="#c9162e">✕</text>
+        <text x="510" y="178" text-anchor="middle" font-size="10" fill="#5e6a8a">検証・修正なし</text>
+
+        <!-- Skill 既存 -->
+        <rect x="20" y="194" width="580" height="56" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="30" y="202" width="180" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="120" y="220" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Skill型（従来）</text>
+        <text x="120" y="234" text-anchor="middle" font-size="10" fill="#5e6a8a">表紙＋別冊で逐次開示</text>
+        <text x="270" y="225" text-anchor="middle" font-size="14" fill="#008f6a">◯</text>
+        <text x="270" y="240" text-anchor="middle" font-size="10" fill="#008f6a">節約できる</text>
+        <text x="390" y="225" text-anchor="middle" font-size="18" fill="#c9162e">✕</text>
+        <text x="390" y="240" text-anchor="middle" font-size="10" fill="#5e6a8a">初期作成は手作業</text>
+        <text x="510" y="225" text-anchor="middle" font-size="14" fill="#008f6a">◯</text>
+        <text x="510" y="240" text-anchor="middle" font-size="10" fill="#5e6a8a">一部自動</text>
+
+        <!-- SkillSmith -->
+        <rect x="20" y="260" width="580" height="58" rx="10" fill="#f4efff" stroke="#7a3bce" stroke-width="2.2"/>
+        <rect x="30" y="268" width="180" height="40" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="120" y="286" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">SkillSmith</text>
+        <text x="120" y="300" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)">本論文</text>
+        <text x="270" y="291" text-anchor="middle" font-size="14" fill="#008f6a">◎</text>
+        <text x="270" y="306" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">逐次開示</text>
+        <text x="390" y="291" text-anchor="middle" font-size="14" fill="#008f6a">◎</text>
+        <text x="390" y="306" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">クラウドが自動作成</text>
+        <text x="510" y="291" text-anchor="middle" font-size="14" fill="#008f6a">◎</text>
+        <text x="510" y="306" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">失敗から自動進化</text>
+
+        <!-- 注記 -->
+        <rect x="20" y="330" width="580" height="84" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="350" font-size="11" font-weight="700" fill="#1a1d2e">逐次開示（Progressive Disclosure）とは</text>
+        <text x="34" y="368" font-size="10.5" fill="#5e6a8a">最初は“表紙”だけ読み、仕事に関係する“別冊”だけをその場で開く。全部を毎回広げるより節約できる。</text>
+        <text x="34" y="386" font-size="10.5" fill="#5e6a8a">例: 「メール別冊」「ショッピング別冊」— 今回はメールならメール別冊だけを読み込む。</text>
+        <rect x="34" y="392" width="540" height="2" rx="1" fill="#f4efff"/>
+        <text x="34" y="406" font-size="10" fill="#7a3bce">SkillSmithは ①carrierにSkillを採用し、②③をクラウド-ローカル協調で自動化した唯一の枠組み</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>Prompt＝毎回分厚いマニュアル全ページを机に広げる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>Memory＝先輩のメモを雑多に貼るが誤りも混ざる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>Skill＝索引付き手順書。必要な章だけ開く</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ SkillがR1に最適</div>
+        <ul class="box-list">
+          <li>読む量＝仕事に必要な分だけ。狭い文脈でも溢れない</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 従来Skillの穴</div>
+        <ul class="box-list">
+          <li>初期作成と育て方が職人頼みで再現しない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: .9rem 1.1rem;
+  flex-direction: column;
+  gap: .4rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .1rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: .9rem 1.1rem;
+  font-size: .8rem;
+  line-height: 1.55;
+  overflow: hidden;
+}
+pre, pre code { font-family: 'Consolas', 'Courier New', monospace; }
+.info-col {
+  gap: .5rem;
+}
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .5rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .2rem;
+}
+.line-explain p {
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .76rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">Python 19行で完成</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>x の位置を1回集めるだけ — ループは2本、どちらも N 回で終わる</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <div class="code-label">PYTHON</div>
+      <pre><code class="language-python">import sys
+
+data = sys.stdin.read().split()
+N = int(data[0])
+S = data[1]
+
+xpos = []
+for i in range(N):
+    if S[i] == 'x':
+        xpos.append(i + 1)
+
+ans = []
+for k in range(1, N + 1):
+    if k &lt;= len(xpos):
+        ans.append(xpos[k - 1])
+    else:
+        ans.append(N)
+
+print('\n'.join(map(str, ans)))</code></pre>
+    </div>
+
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜5行目 — 入力の受け取り</h4>
+        <p><code>sys.stdin.read()</code> で入力を丸ごと読み、空白で分割。
+           <code>data[0]</code> が N、<code>data[1]</code> が文字列 S。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>7〜10行目 — はずれの位置を集める</h4>
+        <p>左から順に見て、<code>x</code> だったら「何番目か」を <code>xpos</code> に追加。
+           添字は0から始まるので <code>i + 1</code> にする。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>12〜17行目 — 各 k の答えを作る</h4>
+        <p>k 個目のはずれがあれば <code>xpos[k - 1]</code>、
+           足りなければ最後まで食べられるので <code>N</code>。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>19行目 — まとめて出力</h4>
+        <p>N 行を改行でつないで1回で出力する。
+           1行ずつ <code>print</code> すると80万回かかって遅い。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ キーワード確認</div>
+        <ul class="box-list">
+          <li><code style="font-size:.76rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem;font-family:'Consolas','Courier New',monospace">sys.stdin.read()</code> → 入力を一気に読む</li>
+          <li><code style="font-size:.76rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem;font-family:'Consolas','Courier New',monospace">map(str, ans)</code> → 各要素を文字列に変換</li>
+          <li><code style="font-size:.76rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem;font-family:'Consolas','Courier New',monospace">'\n'.join()</code> → 改行でつないで1つの文字列に</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

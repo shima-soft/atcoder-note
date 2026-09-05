@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card { padding: .7rem .8rem; justify-content: center; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Anthropic</span>
+          <span class="term-reading">アンソロピック</span>
+        </div>
+        <p class="term-desc">Claude を開発した米国の AI 企業（2021年設立）。今回の事例は同社の社内の話。</p>
+        <a class="term-link" href="https://www.anthropic.com" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Claude Cowork</span>
+          <span class="term-reading">クロード コーワーク</span>
+        </div>
+        <p class="term-desc">社内の道具とつなぎ、決めた手順を任せられる Claude の使い方。仕事の相棒にあたる。</p>
+        <a class="term-link" href="https://www.claude.com/product/cowork" target="_blank">claude.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">スキル</span>
+          <span class="term-reading">スキル</span>
+        </div>
+        <p class="term-desc">「この場面ではこう動く」を書いた手順書。新人に渡す業務マニュアルのAI版。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">スケジュール実行</span>
+          <span class="term-reading">スケジュール じっこう</span>
+        </div>
+        <p class="term-desc">決めた時刻や間隔で自動的に動かす設定。「毎晩」「1時間ごと」がこれにあたる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ナレッジベース</span>
+          <span class="term-reading">ナレッジベース</span>
+        </div>
+        <p class="term-desc">よくある質問と最善の回答を集めた文書。回答の拠りどころになる社内の虎の巻。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">インバウンド</span>
+          <span class="term-reading">インバウンド</span>
+        </div>
+        <p class="term-desc">相手から来た問い合わせに応える営業活動。受け身側の動き。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">アウトバウンド</span>
+          <span class="term-reading">アウトバウンド</span>
+        </div>
+        <p class="term-desc">こちらから声をかけにいく営業活動。攻め側の動き。今回は下調べを自動化している。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">顧客管理システム</span>
+          <span class="term-reading">シーアールエム / CRM</span>
+        </div>
+        <p class="term-desc">顧客情報と商談の進み具合をまとめる台帳。営業部門の共有カルテにあたる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Salesforce</span>
+          <span class="term-reading">セールスフォース</span>
+        </div>
+        <p class="term-desc">世界で広く使われている顧客管理サービス。案件の段階もここで管理する。</p>
+        <a class="term-link" href="https://www.salesforce.com" target="_blank">salesforce.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Apollo</span>
+          <span class="term-reading">アポロ</span>
+        </div>
+        <p class="term-desc">企業と担当者の連絡先を調べられる営業向けの名簿サービス。</p>
+        <a class="term-link" href="https://www.apollo.io" target="_blank">apollo.io 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Common Room</span>
+          <span class="term-reading">コモン ルーム</span>
+        </div>
+        <p class="term-desc">見込み客の関心の兆しを各所から集めて見えるようにする道具。</p>
+        <a class="term-link" href="https://www.commonroom.io" target="_blank">commonroom.io 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Gong</span>
+          <span class="term-reading">ゴング</span>
+        </div>
+        <p class="term-desc">商談の通話を録音し、文字起こしして振り返るための道具。</p>
+        <a class="term-link" href="https://www.gong.io" target="_blank">gong.io 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

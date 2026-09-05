@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: flex-start;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方</span>
+    <h2 class="slide-title">失敗 → 気づき → 正解ルート</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>手持ちの当たりが減るのは「はずれを引いたとき」だけ</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!-- Title -->
+        <rect x="110" y="8" width="320" height="44" rx="8" fill="rgba(217,96,24,.07)" stroke="rgba(217,96,24,.2)" stroke-width="1"/>
+        <text x="270" y="38" text-anchor="middle" font-size="16" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">1個ずつ試すとなぜダメか</text>
+
+        <!-- NG approach -->
+        <rect x="18" y="68" width="240" height="158" rx="10" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.2)" stroke-width="1.5"/>
+        <text x="138" y="103" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">❌ 毎回シミュレーション</text>
+        <text x="30" y="131" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">k を 1 から N まで動かして、</text>
+        <text x="30" y="155" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">その都度 1個ずつ進めて数える</text>
+        <text x="30" y="179" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">最悪 N×N 回 = 約6400億回</text>
+        <text x="30" y="203" font-size="12" fill="var(--red)" font-weight="700" font-family="'Noto Sans JP',sans-serif">N=80万 では到底終わらない</text>
+
+        <!-- OK approach -->
+        <rect x="282" y="68" width="240" height="158" rx="10" fill="rgba(0,143,106,.06)" stroke="rgba(0,143,106,.2)" stroke-width="1.5"/>
+        <text x="402" y="103" text-anchor="middle" font-size="13.5" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✅ はずれの位置を先に並べる</text>
+        <text x="294" y="131" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">はずれが何番目にあるかを</text>
+        <text x="294" y="155" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">最初に1回だけ数えておく</text>
+        <text x="294" y="179" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">各 k は k 番目を取り出すだけ</text>
+        <text x="294" y="203" font-size="12" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">合計 O(N) — 一度なめるだけ</text>
+
+        <!-- Arrow from NG to OK -->
+        <line x1="258" y1="147" x2="282" y2="147" stroke="#5e6a8a" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+        <!-- Key insight box -->
+        <rect x="60" y="250" width="420" height="100" rx="10" fill="rgba(217,96,24,.08)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="270" y="282" text-anchor="middle" font-size="14.5" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">💡 気づき：減るのは「はずれ」のときだけ</text>
+        <text x="270" y="310" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">当たりを1枚捨てて1枚引く → o なら差し引きゼロ、x なら1枚減る</text>
+        <text x="270" y="336" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">手持ちの当たり = k −（これまでに引いたはずれの個数）</text>
+
+        <!-- Example walkthrough -->
+        <rect x="60" y="374" width="420" height="88" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+        <text x="270" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)" font-family="'Noto Sans JP',sans-serif">入力例1「oxoxo」→ はずれは 2番目 と 4番目</text>
+        <text x="270" y="428" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">k=1 → 1個目のはずれ（2番目）で当たりが尽きる = 2</text>
+        <text x="270" y="452" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">k=2 → 2個目のはずれ（4番目）で当たりが尽きる = 4</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 仕事の例え：架電リストとアポの連鎖</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>手元に「1件かける権利」が <strong>k枚</strong> ある</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>1件かけると権利を1枚使い、アポが取れれば1枚戻る</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>断られた回数が <strong>k回</strong> に達した時点で打ち止め</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 正解への気づき</div>
+        <ul class="box-list">
+          <li>当たりを引いた回は差し引きゼロ（捨てて引く）</li>
+          <li>手持ちの当たり = k − 引いたはずれの数</li>
+          <li>だから <strong>k個目のはずれ</strong>で必ず止まる</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ 失敗パターン</div>
+        <ul class="box-list">
+          <li>k ごとに1個ずつ進める → O(N²) で TLE</li>
+          <li>k ごとにはずれを数え直す → 結局 O(N²)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

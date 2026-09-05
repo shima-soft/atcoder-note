@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body { flex-direction: column; gap: .7rem; }
+.card { padding: 1.1rem 1.25rem; gap: .55rem; justify-content: center; }
+.card-head { display: flex; align-items: center; gap: .6rem; }
+.card-head .card-num { margin: 0; width: 32px; height: 32px; font-size: .92rem; background: var(--g-pink); }
+.card-title { font-size: 1.02rem; line-height: 1.3; }
+.card-desc { font-size: .92rem; line-height: 1.8; color: var(--text); }
+.wrap-note {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pink);
+  border-radius: 10px;
+  padding: .55rem .9rem;
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--text);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">まとめ</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>3つの詰まりは、どれも「自分の頭の中にあるものを外に出す」ことで直りました</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">1</span>
+          <span class="card-title">会話ではなく、書いて渡す</span>
+        </div>
+        <p class="card-desc">会話は次に持ち越されない。決めごとをファイルにしたら、同じ説明を毎回しなくてよくなった。</p>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">2</span>
+          <span class="card-title">目視をやめて、測らせる</span>
+        </div>
+        <p class="card-desc">完成の条件を「エラー0件」に変えた。人の目は、数ピクセルのはみ出しを見抜けなかった。</p>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">3</span>
+          <span class="card-title">同じものを2か所に持たない</span>
+        </div>
+        <p class="card-desc">手で写した時点で、片方が古くなり始める。元を1つに決めて、そこから流し込むようにした。</p>
+      </div>
+    </div>
+    <div class="wrap-note">31本つくって残ったのは、スライドそのものより、次の1本を同じ品質で作れる仕組みでした</div>
+  </div>
+</div>
+</body>
+</html>

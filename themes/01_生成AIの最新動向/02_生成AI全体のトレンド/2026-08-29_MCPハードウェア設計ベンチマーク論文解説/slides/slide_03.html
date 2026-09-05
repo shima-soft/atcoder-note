@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>なぜこの研究が必要か</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">課題</span>
+    <h2 class="slide-title">なぜ「ハードウェア設計」でAIエージェントを試すのか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>「順番を間違えると失敗する」定型作業 ×「社外に出せない」機密情報 — AIに任せたいのに任せにくい現場</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="ハードウェア設計の依存関係と機密性の課題">
+        <!-- タイトル -->
+        <text x="34" y="22" font-size="13" font-weight="900" fill="#5e6a8a">① 依存関係だらけの作業（順番を間違えるとエラー）</text>
+        <!-- コンポーネント -->
+        <rect x="30" y="32" width="180" height="62" rx="12" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="120" y="58" text-anchor="middle" font-size="13" font-weight="900" fill="#ffffff">部品を作る</text>
+        <text x="120" y="76" text-anchor="middle" font-size="11" fill="#ffffff">create_component</text>
+        <!-- 矢印 -->
+        <path d="M210 63 L244 63" stroke="#7a3bce" stroke-width="2.5" fill="none"/>
+        <polygon points="250,63 240,58 240,68" fill="#7a3bce"/>
+        <!-- ポート -->
+        <rect x="254" y="32" width="180" height="62" rx="12" fill="#ffffff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="344" y="58" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">端子を付ける</text>
+        <text x="344" y="76" text-anchor="middle" font-size="11" fill="#5e6a8a">add_signal_port</text>
+        <!-- 矢印 -->
+        <path d="M434 63 L468 63" stroke="#7a3bce" stroke-width="2.5" fill="none"/>
+        <polygon points="474,63 464,58 464,68" fill="#7a3bce"/>
+        <!-- 配線 -->
+        <rect x="478" y="32" width="112" height="62" rx="12" fill="#ffffff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="534" y="58" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">線でつなぐ</text>
+        <text x="534" y="76" text-anchor="middle" font-size="11" fill="#5e6a8a">add_connection</text>
+
+        <text x="310" y="116" text-anchor="middle" font-size="11" fill="#c9162e" font-weight="700">存在しない部品の端子は作れない → サーバが即エラーで弾く</text>
+
+        <!-- 2段目: 機密性 -->
+        <text x="34" y="144" font-size="13" font-weight="900" fill="#5e6a8a">② クラウドに出せない機密性</text>
+        <rect x="30" y="154" width="272" height="88" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="46" y="170" width="240" height="28" rx="8" fill="#fdecee" stroke="#c9162e"/>
+        <text x="166" y="189" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e">部品名・端子名＝未発表製品のヒント</text>
+        <text x="166" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">例: acme:core:top:1.0 / m_axi</text>
+        <text x="166" y="230" text-anchor="middle" font-size="11" fill="#1a1d2e">クラウドAPIに送るのはリスク</text>
+
+        <rect x="318" y="154" width="272" height="88" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="454" y="180" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">だからローカルLLMで動かしたい</text>
+        <text x="454" y="202" text-anchor="middle" font-size="11" fill="#1a1d2e">7モデルを Ollama 4bit量子化で</text>
+        <text x="454" y="220" text-anchor="middle" font-size="11" fill="#5e6a8a">社内PCで完結・データは外に出ない</text>
+
+        <!-- 3段目: 問い -->
+        <rect x="20" y="262" width="580" height="148" rx="14" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="310" y="296" text-anchor="middle" font-size="14" font-weight="900" fill="#1a1d2e">本研究の問い</text>
+        <text x="310" y="324" text-anchor="middle" font-size="13" fill="#1a1d2e">ローカルAIエージェントは、この「順番が命」の作業を</text>
+        <text x="310" y="348" text-anchor="middle" font-size="13" fill="#1a1d2e">実務レベルで任せられるほど正確にこなせるのか？</text>
+        <text x="310" y="380" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">→ MCPサーバ＋8種ベンチマークで徹底検証</text>
+
+        <!-- 凡例 -->
+        <text x="34" y="420" font-size="10" fill="#5e6a8a">■紫＝今から自動化したい主役の作業　■白＝依存される前提　■薄紫＝本研究の解決策</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら — 営業事務の「見積書作成」</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>顧客レコードを作る → 商品を登録 → 単価と数量で計算式を組む</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>商品が未登録なのに計算式を組むとエラーになるのと同じ</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>しかも顧客名や単価は社外に出せない機密情報</p></div>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ よくある失敗イメージ</div>
+        <ul class="box-list">
+          <li>AIが順番を飛ばして「存在しない部品に配線」→ 即失敗</li>
+          <li>クラウドAIに機密の部品名を送ってしまい情報漏洩リスク</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 本研究の狙い</div>
+        <ul class="box-list">
+          <li>順番を守れるか？機密を守りつつ任せられるか？を数値で答える</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

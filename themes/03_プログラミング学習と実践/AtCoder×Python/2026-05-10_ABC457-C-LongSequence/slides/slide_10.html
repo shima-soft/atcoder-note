@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場したアルゴリズム・概念の解説</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">二分探索</span>
+          <span class="term-reading">にぶんたんさく</span>
+        </div>
+        <p class="term-desc">ソート済みのデータから目的の値を O(log N) で見つけるアルゴリズム。「中央から半分に絞る」を繰り返す定番テクニック。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/二分探索" target="_blank">Wikipedia 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">累積和</span>
+          <span class="term-reading">るいせきわ</span>
+        </div>
+        <p class="term-desc">各要素までの合計を事前計算する技法。区間合計を O(1) で求められる。「過去の最適解を使い回す」思想と同じ。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/接頭辞_和" target="_blank">Wikipedia 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">モジュロ演算</span>
+          <span class="term-reading">もじゅろえんざん</span>
+        </div>
+        <p class="term-desc">剰余を求める演算（%演算子）。「周期的に繰り返すデータから該当位置を見つける」ときに活躍。コンテストでは基本。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/合同式" target="_blank">Wikipedia 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">オフセット計算</span>
+          <span class="term-reading">おふせっとけいさん</span>
+        </div>
+        <p class="term-desc">ある基準点からの「相対位置」を計算すること。二分探索で見つけた区間から、その内部での位置を逆算するときに使う。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">AtCoder 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">計算量 O(N log N)</span>
+          <span class="term-reading">おー あん ろぐ あん</span>
+        </div>
+        <p class="term-desc">「N個の要素それぞれに対して log N 回の処理」という計算量。ソートや二分探索の組み合わせで頻出。競プロでは「高速」のカテゴリ。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/計算複雑性理論" target="_blank">Wikipedia 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">TLE / WA</span>
+          <span class="term-reading">てぃーえるいー / だぶりゅーえー</span>
+        </div>
+        <p class="term-desc">TLE = Time Limit Exceeded（時間超過）。WA = Wrong Answer（不正解）。AtCoder では各ジャッジ判定を示す略語。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">AtCoder 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

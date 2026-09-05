@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.term-link    {
+  font-size: .65rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .25rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">点対称</span>
+          <span class="term-reading">てんたいしょう</span>
+        </div>
+        <p class="term-desc">ある点を中心に180°回転させたとき、元の図形とぴったり重なる性質。この問題では長方形内のマスが「中心点で折り返したペアと同じ色」であることを指す。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/点対称" target="_blank">Wikipedia: 点対称 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">全探索</span>
+          <span class="term-reading">ぜんたんさく</span>
+        </div>
+        <p class="term-desc">考えられる全ての候補を一つひとつ試す方法。制約が小さいときに最もシンプルで確実な解き方。人がアンケートを全件読み返して答えを探すのに近い。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/総当たり攻撃" target="_blank">Wikipedia: 総当たり 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ネストしたループ</span>
+          <span class="term-reading">ネストしたループ</span>
+        </div>
+        <p class="term-desc">ループの中にさらにループが入っている構造。この問題では4重ループ（h1, h2, w1, w2）を使う。表の縦と横を全組み合わせで調べるイメージ。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">input()</span>
+          <span class="term-reading">インプット</span>
+        </div>
+        <p class="term-desc">標準入力から1行を文字列として読み込む Python の組み込み関数。AtCoderでは毎回使う基本の命令。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python ドキュメント: input 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">リストの各要素に同じ変換を適用する関数。<code style="font-size:.72rem;color:var(--orange)">map(int, input().split())</code> で「スペース区切りの数字を整数に一括変換」できる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python ドキュメント: map 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングプラットフォーム。世界中のプログラマーが参加するコンテストを毎週開催。初心者向けの ABC が入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

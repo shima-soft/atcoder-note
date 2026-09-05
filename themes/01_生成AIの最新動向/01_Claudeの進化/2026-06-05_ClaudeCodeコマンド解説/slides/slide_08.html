@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">PARALLEL</span>
+    <h2 class="slide-title">並行作業は「背景・分担・確認」で使う</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>長い調査や複数ファイルの変更は、背景セッションやサブエージェントに分けられます。</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <table class="command-table">
+      <thead><tr><th>コマンド</th><th>役割</th><th>使いどころ</th></tr></thead>
+      <tbody>
+        <tr><td><code>/background</code><br><code>/bg</code></td><td>現在のセッションを背景で続ける</td><td>長い作業を走らせて端末を空けたい</td></tr>
+        <tr><td><code>/agents</code></td><td>サブエージェントを管理する</td><td>専門担当を分けたい、並行状況を見たい</td></tr>
+        <tr><td><code>/tasks</code></td><td>背景タスクを見る</td><td>実行中の作業を確認したい</td></tr>
+        <tr><td><code>/fork</code></td><td>会話を引き継いだ背景サブエージェントを出す</td><td>本筋を止めずに別案を調べたい</td></tr>
+        <tr><td><code>/branch</code></td><td>会話を分岐して別方向を試す</td><td>設計案AとBを比較したい</td></tr>
+        <tr><td><code>/batch</code></td><td>大規模変更を分解して並行実行する</td><td>リポジトリ全体の移行や大量修正</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>森の賢人 — 解説アーカイブ</title>
+<meta name="description" content="生成AI・開発ツール・競技プログラミングの解説スライドと台本のアーカイブ。初学者・ビジネスパーソン向けに噛み砕いて解説しています。">
+<style>
+:root {
+  --bg: #f9fafb; --surface: #eff1f7; --card: #ffffff; --border: #dde2ec;
+  --text: #1a1d2e; --muted: #5e6a8a; --purple: #7a3bce;
+  --header-h: 56px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7;
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+}
+a { color: inherit; }
+
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); z-index: 100;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 1rem; padding: 0 1.5rem;
+}
+.brand { font-size: .95rem; font-weight: 900; text-decoration: none; white-space: nowrap; }
+.brand span {
+  background: linear-gradient(135deg, #9a5ce8, #7a3bce); color: #fff;
+  font-size: .64rem; padding: .12rem .5rem; border-radius: 99px; margin-right: .5rem;
+  vertical-align: middle;
+}
+.head-nav { display: flex; gap: .2rem; margin-left: auto; flex-wrap: wrap; }
+.head-nav a {
+  font-size: .76rem; color: var(--muted); text-decoration: none;
+  padding: .3rem .6rem; border-radius: 8px;
+}
+.head-nav a:hover { background: var(--surface); color: var(--text); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: calc(var(--header-h) + 2rem) 1.5rem 4rem; }
+
+.hero {
+  background: var(--card); border: 1px solid var(--border); border-top: 5px solid var(--purple);
+  border-radius: 14px; padding: 2rem 2.2rem; margin-bottom: 1.6rem;
+}
+.hero h1 { font-size: 1.9rem; font-weight: 900; line-height: 1.3; margin-bottom: .5rem; }
+.hero p { font-size: .9rem; color: var(--muted); max-width: 640px; }
+.stats { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.2rem; }
+.stat { background: var(--surface); border-radius: 10px; padding: .5rem .9rem; display: flex; align-items: baseline; gap: .45rem; }
+.stat b { font-size: 1.3rem; font-weight: 900; color: var(--purple); }
+.stat span { font-size: .74rem; color: var(--muted); }
+
+.controls { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.8rem; }
+#q {
+  flex: 1; min-width: 220px; font: inherit; font-size: .86rem;
+  padding: .55rem .9rem; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--card); color: var(--text);
+}
+#q:focus { outline: 2px solid rgba(122,59,206,.35); outline-offset: 1px; }
+.chip {
+  font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer;
+  padding: .45rem .85rem; border-radius: 99px; border: 1px solid var(--border);
+  background: var(--card); color: var(--muted);
+}
+.chip:hover { border-color: var(--purple); color: var(--purple); }
+.chip.on { background: var(--purple); border-color: var(--purple); color: #fff; }
+
+.sec-title { font-size: 1.05rem; font-weight: 900; margin: 0 0 .9rem; display: flex; align-items: center; gap: .6rem; }
+.sec-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.theme { margin-top: 3rem; scroll-margin-top: calc(var(--header-h) + 12px); }
+.theme-head h2 { font-size: 1.4rem; font-weight: 900; }
+.theme-head p { font-size: .82rem; color: var(--muted); margin-bottom: 1.2rem; }
+.topic { margin-bottom: 1.8rem; }
+.topic-name {
+  font-size: .88rem; font-weight: 900; color: var(--text);
+  margin-bottom: .7rem; display: flex; align-items: center; gap: .5rem;
+}
+.topic-count { font-size: .7rem; font-weight: 700; color: var(--muted); background: var(--surface); padding: .1rem .5rem; border-radius: 99px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .9rem; }
+
+.ep {
+  background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--c);
+  border-radius: 12px; padding: .95rem 1.1rem; display: flex; flex-direction: column; gap: .35rem;
+  transition: box-shadow .18s, transform .18s;
+}
+.ep:hover { box-shadow: 0 6px 18px rgba(26,29,46,.08); transform: translateY(-2px); }
+.ep.hide { display: none; }
+.ep-top { display: flex; align-items: center; gap: .5rem; }
+.ep-date { font-size: .7rem; font-weight: 700; color: var(--c); }
+.ep-topic { font-size: .68rem; color: var(--muted); background: var(--surface); padding: .08rem .5rem; border-radius: 99px; margin-left: auto; }
+.ep-title { font-size: .95rem; font-weight: 900; line-height: 1.45; }
+.ep-sum {
+  font-size: .78rem; color: var(--muted); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.ep-meta { font-size: .7rem; color: var(--muted); }
+.ep-links { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .35rem; }
+.btn {
+  font-size: .74rem; font-weight: 700; text-decoration: none;
+  padding: .3rem .7rem; border-radius: 8px; border: 1px solid var(--border); color: var(--muted);
+  background: var(--card); white-space: nowrap;
+}
+.btn:hover { border-color: var(--c); color: var(--c); }
+.btn.primary { background: var(--c); border-color: var(--c); color: #fff; }
+.btn.primary:hover { opacity: .88; color: #fff; }
+.btn.disabled { opacity: .5; }
+
+.empty { display: none; text-align: center; color: var(--muted); font-size: .85rem; padding: 3rem 0; }
+.empty.on { display: block; }
+
+footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: .76rem; color: var(--muted); }
+
+@media (max-width: 720px) {
+  .head-nav { display: none; }
+  .hero { padding: 1.4rem 1.2rem; }
+  .hero h1 { font-size: 1.4rem; }
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span>ARCHIVE</span>森の賢人</a>
+  <nav class="head-nav"><a href="#t1">生成AIの最新動向</a><a href="#t2">開発環境と効率化ツール</a><a href="#t3">プログラミング学習と実践</a><a href="#t4">手を動かした記録</a></nav>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>解説アーカイブ</h1>
+    <p>生成AIの最新動向、開発ツール、競技プログラミングを、初学者・ビジネスパーソン向けに噛み砕いて解説しています。各回のスライドと読み物版をここから辿れます。</p>
+    <div class="stats">
+      <div class="stat"><b>49</b><span>エピソード</span></div>
+      <div class="stat"><b>4</b><span>テーマ</span></div>
+      <div class="stat"><b>9</b><span>トピック</span></div>
+      <div class="stat"><b>27</b><span>Web版あり</span></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="キーワードで探す（例: Claude、MoE、二分探索）" autocomplete="off">
+    <button class="chip on" data-f="all">すべて</button><button class="chip" data-f="生成AIの最新動向">生成AIの最新動向</button><button class="chip" data-f="開発環境と効率化ツール">開発環境と効率化ツール</button><button class="chip" data-f="プログラミング学習と実践">プログラミング学習と実践</button><button class="chip" data-f="手を動かした記録">手を動かした記録</button>
+  </div>
+
+  <section id="latest">
+    <h2 class="sec-title">新着</h2>
+    <div class="grid">
+      <article class="ep" data-search="Astra の Recurrent Depth AIが考えを「書き出さず」 頭の中だけで深く考える新方式 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-09-02</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">Astra の Recurrent Depth</h3>
+        <p class="ep-sum">AIが考えを「書き出さず」 頭の中だけで深く考える新方式</p>
+        <div class="ep-meta">13枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-09-02_Astra%E3%81%AERecurrentDepth%E8%A7%A3%E8%AA%AC/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-09-02_Astra%E3%81%AERecurrentDepth%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC473 A問題 Second Half Sum 数列の「後ろ半分」だけを足す AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-09-01</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC473 A問題 Second Half Sum</h3>
+        <p class="ep-sum">数列の「後ろ半分」だけを足す</p>
+        <div class="ep-meta">9枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-A-SecondHalfSum/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-A-SecondHalfSum/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC473 B問題 Old Maid 同じ数字を2枚ずつ捨てていって、最後に残るカードの合計は？ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-09-01</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC473 B問題 Old Maid</h3>
+        <p class="ep-sum">同じ数字を2枚ずつ捨てていって、最後に残るカードの合計は？</p>
+        <div class="ep-meta">10枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-B-OldMaid/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-B-OldMaid/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC473 D問題 Coefficient Stair 重み付き和がちょうどKになる数列を辞書順に全部出力する AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-31</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC473 D問題 Coefficient Stair</h3>
+        <p class="ep-sum">重み付き和がちょうどKになる数列を辞書順に全部出力する</p>
+        <div class="ep-meta">12枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-31_ABC473-D-CoefficientStair/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-31_ABC473-D-CoefficientStair/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="MCPで ハードウェア設計は 自動化できるか？ 社内データを外に出さず ローカルAIに任せる新ベンチマーク Benchmarking AI Agents for Hardware Design via MCP Tool Calling 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-29</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">MCPで ハードウェア設計は 自動化できるか？</h3>
+        <p class="ep-sum">社内データを外に出さず ローカルAIに任せる新ベンチマーク Benchmarking AI Agents for Hardware Design via MCP Tool Calling</p>
+        <div class="ep-meta">14枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-08-29_MCP%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A7%E3%82%A2%E8%A8%AD%E8%A8%88%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="SkillSmith 論文解説 クラウドに送らず高性能な AI秘書を作る「スキル鍛冶屋」 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-29</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">SkillSmith 論文解説</h3>
+        <p class="ep-sum">クラウドに送らず高性能な AI秘書を作る「スキル鍛冶屋」</p>
+        <div class="ep-meta">14枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-08-29_SkillSmith%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="theme" id="t1">
+    <div class="theme-head">
+      <h2>生成AIの最新動向</h2>
+      <p>各社の新モデルや論文を、初学者向けに噛み砕いて解説します。</p>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">Claudeの進化<span class="topic-count">8本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="PRレビューを 5つのAIが 同時審査する Claude Code Review プラグイン解説 Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-26</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">PRレビューを 5つのAIが 同時審査する</h3>
+        <p class="ep-sum">Claude Code Review プラグイン解説</p>
+        <div class="ep-meta">10枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-08-26_ClaudeCodeReview%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="1日5時間の メール返信をやめた Anthropic 社内の営業チームの使い方 Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-12</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">1日5時間の メール返信をやめた</h3>
+        <p class="ep-sum">Anthropic 社内の営業チームの使い方</p>
+        <div class="ep-meta">12枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-08-12_Anthropic%E5%96%B6%E6%A5%AD%E3%83%81%E3%83%BC%E3%83%A0%E3%81%AEClaude%E6%B4%BB%E7%94%A8/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="CLAUDE.md に 書いても守らない スライド31本ぶんの試行錯誤 Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-05</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">CLAUDE.md に 書いても守らない</h3>
+        <p class="ep-sum">スライド31本ぶんの試行錯誤</p>
+        <div class="ep-meta">13枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-08-05_CLAUDEmd%E3%81%8C%E5%AE%88%E3%82%89%E3%82%8C%E3%81%AA%E3%81%84%E5%95%8F%E9%A1%8C/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Claude Opus 5 徹底解説 2026年7月24日リリース Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-07-25</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">Claude Opus 5 徹底解説</h3>
+        <p class="ep-sum">2026年7月24日リリース</p>
+        <div class="ep-meta">13枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-07-25_ClaudeOpus5%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-07-25_ClaudeOpus5%E3%83%AA%E3%83%AA%E3%83%BC%E3%82%B9/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Claudeの コマンド 解説 起動・整理・レビューを流れで覚える Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-05</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">Claudeの コマンド 解説</h3>
+        <p class="ep-sum">起動・整理・レビューを流れで覚える</p>
+        <div class="ep-meta">10枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-06-05_ClaudeCode%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E8%A7%A3%E8%AA%AC/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-06-05_ClaudeCode%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Claude Opus 4.7 新機能 完全解説 2026年4月16日リリース — 4つの進化を徹底紹介 Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-19</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">Claude Opus 4.7 新機能 完全解説</h3>
+        <p class="ep-sum">2026年4月16日リリース — 4つの進化を徹底紹介</p>
+        <div class="ep-meta">10枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-04-19_ClaudeOpus47%E6%96%B0%E6%A9%9F%E8%83%BD%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Claude Opus 4.7 × Claude Code ベストプラクティス 最新モデルの力を最大限に引き出す設定術 Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-18</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">Claude Opus 4.7 × Claude Code ベストプラクティス</h3>
+        <p class="ep-sum">最新モデルの力を最大限に引き出す設定術</p>
+        <div class="ep-meta">13枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-04-18_ClaudeOpus47%E3%83%99%E3%82%B9%E3%83%88%E3%83%97%E3%83%A9%E3%82%AF%E3%83%86%E3%82%A3%E3%82%B9/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-04-18_ClaudeOpus47%E3%83%99%E3%82%B9%E3%83%88%E3%83%97%E3%83%A9%E3%82%AF%E3%83%86%E3%82%A3%E3%82%B9/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="マルチエージェント 連携パターン 入門 5つのパターンと使い分け Claudeの進化 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-18</span>
+          <span class="ep-topic">Claudeの進化</span>
+        </div>
+        <h3 class="ep-title">マルチエージェント 連携パターン 入門</h3>
+        <p class="ep-sum">5つのパターンと使い分け</p>
+        <div class="ep-meta">13枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-04-18_%E3%83%9E%E3%83%AB%E3%83%81%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E9%80%A3%E6%90%BA%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/01_Claude%E3%81%AE%E9%80%B2%E5%8C%96/2026-04-18_%E3%83%9E%E3%83%AB%E3%83%81%E3%82%A8%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%B3%E3%83%88%E9%80%A3%E6%90%BA%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">生成AI全体のトレンド<span class="topic-count">7本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="Astra の Recurrent Depth AIが考えを「書き出さず」 頭の中だけで深く考える新方式 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-09-02</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">Astra の Recurrent Depth</h3>
+        <p class="ep-sum">AIが考えを「書き出さず」 頭の中だけで深く考える新方式</p>
+        <div class="ep-meta">13枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-09-02_Astra%E3%81%AERecurrentDepth%E8%A7%A3%E8%AA%AC/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-09-02_Astra%E3%81%AERecurrentDepth%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="MCPで ハードウェア設計は 自動化できるか？ 社内データを外に出さず ローカルAIに任せる新ベンチマーク Benchmarking AI Agents for Hardware Design via MCP Tool Calling 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-29</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">MCPで ハードウェア設計は 自動化できるか？</h3>
+        <p class="ep-sum">社内データを外に出さず ローカルAIに任せる新ベンチマーク Benchmarking AI Agents for Hardware Design via MCP Tool Calling</p>
+        <div class="ep-meta">14枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-08-29_MCP%E3%83%8F%E3%83%BC%E3%83%89%E3%82%A6%E3%82%A7%E3%82%A2%E8%A8%AD%E8%A8%88%E3%83%99%E3%83%B3%E3%83%81%E3%83%9E%E3%83%BC%E3%82%AF%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="SkillSmith 論文解説 クラウドに送らず高性能な AI秘書を作る「スキル鍛冶屋」 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-29</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">SkillSmith 論文解説</h3>
+        <p class="ep-sum">クラウドに送らず高性能な AI秘書を作る「スキル鍛冶屋」</p>
+        <div class="ep-meta">14枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-08-29_SkillSmith%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="DFlash 論文解説 AIの「考える速さ」を、質を落とさず 最大6倍にする新発想 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-20</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">DFlash 論文解説</h3>
+        <p class="ep-sum">AIの「考える速さ」を、質を落とさず 最大6倍にする新発想</p>
+        <div class="ep-meta">17枚</div>
+        <div class="ep-links"><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-08-20_DFlash%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Kimi K3 論文解説 2.8兆パラメータ・100万トークン。 モデル本体まで公開された「最前線」のAI 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-07-29</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">Kimi K3 論文解説</h3>
+        <p class="ep-sum">2.8兆パラメータ・100万トークン。 モデル本体まで公開された「最前線」のAI</p>
+        <div class="ep-meta">11枚 ・ 15〜18分 ・ 動画あり</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-07-29_KimiK3%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-07-29_KimiK3%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-07-29_KimiK3%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/assets/anim_architecture.mp4">動画</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-07-29_KimiK3%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/assets/anim_architecture_en.mp4">動画</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-07-29_KimiK3%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/assets/anim_architecture_full.mp4">動画</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-07-29_KimiK3%E8%AB%96%E6%96%87%E8%A7%A3%E8%AA%AC/assets/anim_architecture_full_en.mp4">動画</a></div>
+      </article>
+      <article class="ep" data-search="Gemma 4 12B ローカルAI解説 16GB級の環境で、文章・画像・音声・動画を扱う 新しい中量級マルチモーダルモデル 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-05</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">Gemma 4 12B ローカルAI解説</h3>
+        <p class="ep-sum">16GB級の環境で、文章・画像・音声・動画を扱う 新しい中量級マルチモーダルモデル</p>
+        <div class="ep-meta">8枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-06-05_Gemma4-12B%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%ABAI%E8%A7%A3%E8%AA%AC/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-06-05_Gemma4-12B%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%ABAI%E8%A7%A3%E8%AA%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="生成AI トレンド 4月まとめ 2026年4月 各社リリース動向 生成AI全体のトレンド 生成AIの最新動向" data-theme="生成AIの最新動向" data-web="1" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-30</span>
+          <span class="ep-topic">生成AI全体のトレンド</span>
+        </div>
+        <h3 class="ep-title">生成AI トレンド 4月まとめ</h3>
+        <p class="ep-sum">2026年4月 各社リリース動向</p>
+        <div class="ep-meta">9枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-04-30_%E7%94%9F%E6%88%90AI%E3%83%88%E3%83%AC%E3%83%B3%E3%83%894%E6%9C%88%E3%81%BE%E3%81%A8%E3%82%81/web/index.html">Web版を読む</a><a class="btn" href="themes/01_%E7%94%9F%E6%88%90AI%E3%81%AE%E6%9C%80%E6%96%B0%E5%8B%95%E5%90%91/02_%E7%94%9F%E6%88%90AI%E5%85%A8%E4%BD%93%E3%81%AE%E3%83%88%E3%83%AC%E3%83%B3%E3%83%89/2026-04-30_%E7%94%9F%E6%88%90AI%E3%83%88%E3%83%AC%E3%83%B3%E3%83%894%E6%9C%88%E3%81%BE%E3%81%A8%E3%82%81/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+  </section>
+  <section class="theme" id="t2">
+    <div class="theme-head">
+      <h2>開発環境と効率化ツール</h2>
+      <p>日々の仕事を軽くするツールの使いどころをまとめます。</p>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">GitHubCopilot<span class="topic-count">1本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="Claude Codeの効率的な使い方 トークンコストとキャッシュの仕組み GitHubCopilot 開発環境と効率化ツール" data-theme="開発環境と効率化ツール" data-web="1" style="--c:#008f6a">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-15</span>
+          <span class="ep-topic">GitHubCopilot</span>
+        </div>
+        <h3 class="ep-title">Claude Codeの効率的な使い方</h3>
+        <p class="ep-sum">トークンコストとキャッシュの仕組み</p>
+        <div class="ep-meta">7枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/01_GitHubCopilot/2026-08-15_ClaudeCode%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E4%BD%BF%E3%81%84%E6%96%B9/web/index.html">Web版を読む</a><a class="btn" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/01_GitHubCopilot/2026-08-15_ClaudeCode%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E4%BD%BF%E3%81%84%E6%96%B9/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">Google_Workspace<span class="topic-count">1本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="Google Vids × AI音声 Gemini 3.1 Flash TTS で動画が変わる Google_Workspace 開発環境と効率化ツール" data-theme="開発環境と効率化ツール" data-web="0" style="--c:#008f6a">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-20</span>
+          <span class="ep-topic">Google_Workspace</span>
+        </div>
+        <h3 class="ep-title">Google Vids × AI音声</h3>
+        <p class="ep-sum">Gemini 3.1 Flash TTS で動画が変わる</p>
+        <div class="ep-meta">8枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/02_Google_Workspace/2026-04-20_GoogleVids_AI%E9%9F%B3%E5%A3%B0%E6%A9%9F%E8%83%BD/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">Codexオートメーション<span class="topic-count">1本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="Codexオートメーション入門 Thread / Standalone automationの使い分け Codexオートメーション 開発環境と効率化ツール" data-theme="開発環境と効率化ツール" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-03</span>
+          <span class="ep-topic">Codexオートメーション</span>
+        </div>
+        <h3 class="ep-title">Codexオートメーション入門</h3>
+        <p class="ep-sum">Thread / Standalone automationの使い分け</p>
+        <div class="ep-meta">9枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/03_Codex%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/2026-06-03_Codex%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%85%A5%E9%96%80/web/index.html">Web版を読む</a><a class="btn" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/03_Codex%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3/2026-06-03_Codex%E3%82%AA%E3%83%BC%E3%83%88%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E5%85%A5%E9%96%80/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">Codexプラグイン<span class="topic-count">2本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="Codexで使える プラグイン 活用ガイド 目的から選ぶ、実践編 Codexプラグイン 開発環境と効率化ツール" data-theme="開発環境と効率化ツール" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-04</span>
+          <span class="ep-topic">Codexプラグイン</span>
+        </div>
+        <h3 class="ep-title">Codexで使える プラグイン 活用ガイド</h3>
+        <p class="ep-sum">目的から選ぶ、実践編</p>
+        <div class="ep-meta">8枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/03_Codex%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3/2026-06-04_Codex%E4%BD%BF%E3%81%88%E3%82%8B%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E6%B4%BB%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89/web/index.html">Web版を読む</a><a class="btn" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/03_Codex%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3/2026-06-04_Codex%E4%BD%BF%E3%81%88%E3%82%8B%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E6%B4%BB%E7%94%A8%E3%82%AC%E3%82%A4%E3%83%89/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Codex プラグイン 入門 AIを自分の仕事用に拡張する Codexプラグイン 開発環境と効率化ツール" data-theme="開発環境と効率化ツール" data-web="1" style="--c:#1a96c0">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-03</span>
+          <span class="ep-topic">Codexプラグイン</span>
+        </div>
+        <h3 class="ep-title">Codex プラグイン 入門</h3>
+        <p class="ep-sum">AIを自分の仕事用に拡張する</p>
+        <div class="ep-meta">8枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/03_Codex%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3/2026-06-03_Codex%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E5%85%A5%E9%96%80/web/index.html">Web版を読む</a><a class="btn" href="themes/02_%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%A8%E5%8A%B9%E7%8E%87%E5%8C%96%E3%83%84%E3%83%BC%E3%83%AB/03_Codex%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3/2026-06-03_Codex%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E5%85%A5%E9%96%80/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+  </section>
+  <section class="theme" id="t3">
+    <div class="theme-head">
+      <h2>プログラミング学習と実践</h2>
+      <p>AtCoder の問題を題材に、考え方から手を動かすところまで追います。</p>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">競技プログラミングの実践<span class="topic-count">3本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="鳥の色が変わる日は 何種類ある？ ABC464 — C 問題「Plumage Palette」 競技プログラミングの実践 プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-07-04</span>
+          <span class="ep-topic">競技プログラミングの実践</span>
+        </div>
+        <h3 class="ep-title">鳥の色が変わる日は 何種類ある？</h3>
+        <p class="ep-sum">ABC464 — C 問題「Plumage Palette」</p>
+        <div class="ep-meta">8枚 ・ 15〜17分</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/02_%E7%AB%B6%E6%8A%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AE%E5%AE%9F%E8%B7%B5/2026-07-04_ABC464-C_%E8%89%B2%E3%81%AE%E5%A4%89%E5%8C%96%E3%81%A8%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="誰が、 何を着てる？ ABC454 — B 問題「Mapping」 競技プログラミングの実践 プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-19</span>
+          <span class="ep-topic">競技プログラミングの実践</span>
+        </div>
+        <h3 class="ep-title">誰が、 何を着てる？</h3>
+        <p class="ep-sum">ABC454 — B 問題「Mapping」</p>
+        <div class="ep-meta">6枚 ・ 12〜15分</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/02_%E7%AB%B6%E6%8A%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AE%E5%AE%9F%E8%B7%B5/2026-04-19_ABC454-B_%E9%9B%86%E5%90%88%E3%81%AE%E6%B4%BB%E7%94%A8/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="アイテム交換で 何が集まる？ ABC454 — C 問題「Straw Millionaire」 競技プログラミングの実践 プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-19</span>
+          <span class="ep-topic">競技プログラミングの実践</span>
+        </div>
+        <h3 class="ep-title">アイテム交換で 何が集まる？</h3>
+        <p class="ep-sum">ABC454 — C 問題「Straw Millionaire」</p>
+        <div class="ep-meta">7枚 ・ 15〜17分</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/02_%E7%AB%B6%E6%8A%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AE%E5%AE%9F%E8%B7%B5/2026-04-19_ABC454-C_%E3%82%B0%E3%83%A9%E3%83%95%E5%88%B0%E9%81%94%E5%8F%AF%E8%83%BD%E6%80%A7/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">AtCoder×Python<span class="topic-count">24本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="ABC473 A問題 Second Half Sum 数列の「後ろ半分」だけを足す AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-09-01</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC473 A問題 Second Half Sum</h3>
+        <p class="ep-sum">数列の「後ろ半分」だけを足す</p>
+        <div class="ep-meta">9枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-A-SecondHalfSum/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-A-SecondHalfSum/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC473 B問題 Old Maid 同じ数字を2枚ずつ捨てていって、最後に残るカードの合計は？ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-09-01</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC473 B問題 Old Maid</h3>
+        <p class="ep-sum">同じ数字を2枚ずつ捨てていって、最後に残るカードの合計は？</p>
+        <div class="ep-meta">10枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-B-OldMaid/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-09-01_ABC473-B-OldMaid/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC473 D問題 Coefficient Stair 重み付き和がちょうどKになる数列を辞書順に全部出力する AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-31</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC473 D問題 Coefficient Stair</h3>
+        <p class="ep-sum">重み付き和がちょうどKになる数列を辞書順に全部出力する</p>
+        <div class="ep-meta">12枚</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-31_ABC473-D-CoefficientStair/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-31_ABC473-D-CoefficientStair/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC472 D問題 Bomber Mad 爆弾グリッドで、K手以内に「安全」へ避難できるマスはいくつ？ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-23</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC472 D問題 Bomber Mad</h3>
+        <p class="ep-sum">爆弾グリッドで、K手以内に「安全」へ避難できるマスはいくつ？</p>
+        <div class="ep-meta">10枚 ・ 15〜18分 / 話者: 森の賢人</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-23_ABC472-D-BomberMad/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-23_ABC472-D-BomberMad/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC471 A問題 Nine or Nein 4つの式のどれかが「9」になる？ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-20</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC471 A問題 Nine or Nein</h3>
+        <p class="ep-sum">4つの式のどれかが「9」になる？</p>
+        <div class="ep-meta">5枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-20_ABC471-A-NineOrNein/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC469 D: The Big Two  AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-08</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC469 D: The Big Two</h3>
+        <p class="ep-sum">&nbsp;</p>
+        <div class="ep-meta">7枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-08_ABC469-D-The_Big_Two/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC470 C - A and B 解説  AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-08</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC470 C - A and B 解説</h3>
+        <p class="ep-sum">&nbsp;</p>
+        <div class="ep-meta">7枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-08_ABC470-C-A_and_B/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC469 C問題 Cantrip 当たり袋は「次の1個を開けるチケット」 AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-05</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC469 C問題 Cantrip</h3>
+        <p class="ep-sum">当たり袋は「次の1個を開けるチケット」</p>
+        <div class="ep-meta">7枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-08-05_ABC469-C-Cantrip/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC468 B問題 Corridor Watch 見張りの届かないマスを数えよう AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-07-31</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC468 B問題 Corridor Watch</h3>
+        <p class="ep-sum">見張りの届かないマスを数えよう</p>
+        <div class="ep-meta">7枚 ・ 17〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-07-31_ABC468-B-CorridorWatch/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-07-31_ABC468-B-CorridorWatch/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC468 A問題 Maximal Value 数列の「山」を数えよう AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-07-27</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC468 A問題 Maximal Value</h3>
+        <p class="ep-sum">数列の「山」を数えよう</p>
+        <div class="ep-meta">7枚 ・ 15〜16分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-07-27_ABC468-A-MaximalValue/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-07-27_ABC468-A-MaximalValue/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC463 D問題Maximize the Gap 布どうしの「最小距離」を最大にしよう AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-21</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC463 D問題Maximize the Gap</h3>
+        <p class="ep-sum">布どうしの「最小距離」を最大にしよう</p>
+        <div class="ep-meta">12枚 ・ 15〜18分 / 話者: 森の賢人</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-21_ABC463-D-MaximizeTheGap/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-21_ABC463-D-MaximizeTheGap/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC463 E問題Roads and Gates 20万都市のワープを、たった2頂点に圧縮 AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-21</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC463 E問題Roads and Gates</h3>
+        <p class="ep-sum">20万都市のワープを、たった2頂点に圧縮</p>
+        <div class="ep-meta">13枚 ・ 15〜18分 / 話者: 森の賢人</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-21_ABC463-E-RoadsAndGates/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-21_ABC463-E-RoadsAndGates/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC462 C問題 Not Covered Points 長方形の内部に点がない条件を考えよう AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-15</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC462 C問題 Not Covered Points</h3>
+        <p class="ep-sum">長方形の内部に点がない条件を考えよう</p>
+        <div class="ep-meta">6枚 ・ 12〜15分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-15_ABC462-C-NotCoveredPoints/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-15_ABC462-C-NotCoveredPoints/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC461 A問題 Armor 大小比較をマスターしよう AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-13</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC461 A問題 Armor</h3>
+        <p class="ep-sum">大小比較をマスターしよう</p>
+        <div class="ep-meta">5枚 ・ 8〜10分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-13_ABC461-A-Armor/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-13_ABC461-A-Armor/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC461 D問題 Count Subgrid Sum = K 0/1グリッド上の総和Kの長方形を数える AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-11</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC461 D問題 Count Subgrid Sum = K</h3>
+        <p class="ep-sum">0/1グリッド上の総和Kの長方形を数える</p>
+        <div class="ep-meta">8枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-11_ABC461-D-CountSubgridSumK/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC461 E問題 E-liter 行を黒く・列を白く塗るたびに、黒いマスの数を答える AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-06-11</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC461 E問題 E-liter</h3>
+        <p class="ep-sum">行を黒く・列を白く塗るたびに、黒いマスの数を答える</p>
+        <div class="ep-meta">10枚 ・ 15〜17分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-11_ABC461-E-Eliter/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-06-11_ABC461-E-Eliter/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC457 C問題 Long Sequence 大きなシーケンスから K 番目の要素を見つける AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-05-10</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC457 C問題 Long Sequence</h3>
+        <p class="ep-sum">大きなシーケンスから K 番目の要素を見つける</p>
+        <div class="ep-meta">10枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-05-10_ABC457-C-LongSequence/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC457 D問題 Raise Minimum 操作 K 回以下で最小値をできるだけ大きくする AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-05-10</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC457 D問題 Raise Minimum</h3>
+        <p class="ep-sum">操作 K 回以下で最小値をできるだけ大きくする</p>
+        <div class="ep-meta">9枚</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-05-10_ABC457-D-RaiseMinimum/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC455 B問題 Spiral Galaxy 点対称な長方形を数え上げろ！ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-28</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC455 B問題 Spiral Galaxy</h3>
+        <p class="ep-sum">点対称な長方形を数え上げろ！</p>
+        <div class="ep-meta">6枚 ・ 14〜17分</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-28_ABC455-B-SpiralGalaxy/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC455 A問題 455 問題名そのものがヒット！ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-26</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC455 A問題 455</h3>
+        <p class="ep-sum">問題名そのものがヒット！</p>
+        <div class="ep-meta">5枚 ・ 8〜10分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-26_ABC455-A-455/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-26_ABC455-A-455/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC454 D問題 (xx) 同じ「形」に変換できる？その判定法 AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-22</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC454 D問題 (xx)</h3>
+        <p class="ep-sum">同じ「形」に変換できる？その判定法</p>
+        <div class="ep-meta">8枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-22_ABC454-D_%28xx%29/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-22_ABC454-D_%28xx%29/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC454 C問題 Straw Millionaire 持っていないものを手に入れる道を探せ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-20</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC454 C問題 Straw Millionaire</h3>
+        <p class="ep-sum">持っていないものを手に入れる道を探せ</p>
+        <div class="ep-meta">8枚 ・ 15〜18分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-20_ABC454-C_%E3%82%B0%E3%83%A9%E3%83%95%E6%8E%A2%E7%B4%A2/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-20_ABC454-C_%E3%82%B0%E3%83%A9%E3%83%95%E6%8E%A2%E7%B4%A2/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC454 A問題 Closed Intervals L 以上 R 以下の整数は何個？ AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="0" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-19</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC454 A問題 Closed Intervals</h3>
+        <p class="ep-sum">L 以上 R 以下の整数は何個？</p>
+        <div class="ep-meta">5枚 ・ 8〜10分</div>
+        <div class="ep-links"><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-19_ABC454-A_%E9%96%89%E5%8C%BA%E9%96%93/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="ABC454 B問題 Mapping 2つの質問に Yes/No で答えよう AtCoder×Python プログラミング学習と実践" data-theme="プログラミング学習と実践" data-web="1" style="--c:#d96018">
+        <div class="ep-top">
+          <span class="ep-date">2026-04-19</span>
+          <span class="ep-topic">AtCoder×Python</span>
+        </div>
+        <h3 class="ep-title">ABC454 B問題 Mapping</h3>
+        <p class="ep-sum">2つの質問に Yes/No で答えよう</p>
+        <div class="ep-meta">6枚 ・ 8〜10分</div>
+        <div class="ep-links"><a class="btn primary" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-19_ABC454-B_set%E6%B4%BB%E7%94%A8/web/index.html">Web版を読む</a><a class="btn" href="themes/03_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E5%AD%A6%E7%BF%92%E3%81%A8%E5%AE%9F%E8%B7%B5/AtCoder%C3%97Python/2026-04-19_ABC454-B_set%E6%B4%BB%E7%94%A8/slideshow.html">スライド</a></div>
+      </article>
+      </div>
+    </div>
+  </section>
+  <section class="theme" id="t4">
+    <div class="theme-head">
+      <h2>手を動かした記録</h2>
+      <p></p>
+    </div>
+    <div class="topic">
+      <h3 class="topic-name">AIとコンテンツ制作<span class="topic-count">2本</span></h3>
+      <div class="grid">
+      <article class="ep" data-search="Claude Code に 31本つくらせた 動画スライドを3か月半、 AIに作らせ続けた記録 AIとコンテンツ制作 手を動かした記録" data-theme="手を動かした記録" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-05</span>
+          <span class="ep-topic">AIとコンテンツ制作</span>
+        </div>
+        <h3 class="ep-title">Claude Code に 31本つくらせた</h3>
+        <p class="ep-sum">動画スライドを3か月半、 AIに作らせ続けた記録</p>
+        <div class="ep-meta">11枚</div>
+        <div class="ep-links"><a class="btn" href="themes/04_%E6%89%8B%E3%82%92%E5%8B%95%E3%81%8B%E3%81%97%E3%81%9F%E8%A8%98%E9%8C%B2/01_AI%E3%81%A8%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84%E5%88%B6%E4%BD%9C/2026-08-05_ClaudeCode%E3%81%A7%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%8931%E6%9C%AC/slideshow.html">スライド</a></div>
+      </article>
+      <article class="ep" data-search="Gemma4の4サイズを3060で動かす  AIとコンテンツ制作 手を動かした記録" data-theme="手を動かした記録" data-web="0" style="--c:#7a3bce">
+        <div class="ep-top">
+          <span class="ep-date">2026-08-05</span>
+          <span class="ep-topic">AIとコンテンツ制作</span>
+        </div>
+        <h3 class="ep-title">Gemma4の4サイズを3060で動かす</h3>
+        <p class="ep-sum">&nbsp;</p>
+        <div class="ep-meta"></div>
+        <div class="ep-links"><span class="btn disabled">準備中</span></div>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <p class="empty" id="empty">該当するエピソードがありません。</p>
+
+  <footer>
+    スライド・台本は制作物のアーカイブです。各ページの出典表記をご確認ください。
+  </footer>
+</div>
+
+<script>
+const q = document.getElementById('q');
+const chips = document.querySelectorAll('.chip');
+const eps = document.querySelectorAll('.ep');
+const empty = document.getElementById('empty');
+const latest = document.getElementById('latest');
+let theme = 'all';
+
+function apply() {
+  const kw = q.value.trim().toLowerCase();
+  let shown = 0;
+  eps.forEach(el => {
+    const okTheme = theme === 'all' || el.dataset.theme === theme;
+    const okKw = !kw || el.dataset.search.toLowerCase().includes(kw);
+    const show = okTheme && okKw;
+    el.classList.toggle('hide', !show);
+    if (show) shown++;
+  });
+  // 絞り込み中は「新着」を隠して重複表示を避ける
+  const filtering = !!kw || theme !== 'all';
+  latest.style.display = filtering ? 'none' : '';
+  document.querySelectorAll('.topic, .theme').forEach(box => {
+    const any = box.querySelectorAll('.ep:not(.hide)').length > 0;
+    box.style.display = any ? '' : 'none';
+  });
+  empty.classList.toggle('on', shown === 0);
+}
+
+q.addEventListener('input', apply);
+chips.forEach(c => c.addEventListener('click', () => {
+  chips.forEach(x => x.classList.toggle('on', x === c));
+  theme = c.dataset.f;
+  apply();
+}));
+</script>
+</body>
+</html>

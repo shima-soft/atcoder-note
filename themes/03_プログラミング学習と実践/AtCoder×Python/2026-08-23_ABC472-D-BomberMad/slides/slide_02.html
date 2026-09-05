@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC472 D - Bomber Mad 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+  <style>
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .7rem .9rem;
+    }
+    .problem-card h4 {
+      margin: 0 0 .35rem 0;
+      font-size: .8rem;
+      color: var(--text);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: .25rem;
+    }
+    .problem-card p, .problem-card li {
+      margin: .25rem 0;
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+    .problem-card ul { padding-left: 1.1rem; }
+    .sample-box {
+      background: #f0f4f8;
+      padding: .5rem .7rem;
+      border-radius: 8px;
+      font-family: Consolas, monospace;
+      font-size: .74rem;
+      line-height: 1.6;
+      white-space: pre;
+    }
+    .cols2 { display: flex; gap: 1rem; flex: 1; overflow: hidden; }
+    .col { flex: 1; display: flex; flex-direction: column; gap: .5rem; overflow: hidden; }
+    .grid-demo {
+      display: grid;
+      grid-template-columns: repeat(3, 44px);
+      gap: 4px;
+      width: fit-content;
+    }
+    .grid-demo span {
+      height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-family: Consolas, monospace;
+      font-weight: 700;
+    }
+    .grid-demo b {
+      height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      background: var(--green);
+      color: #fff;
+      font-size: .68rem;
+    }
+    .grid-demo u {
+      height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      background: #3a3f55;
+      color: #fff;
+      text-decoration: none;
+    }
+    .cap { font-size: .72rem; color: var(--muted); line-height: 1.5; }
+    strong.o { color: var(--orange); }
+    .mk {
+      font-family: Consolas, monospace;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0 .25rem;
+      color: var(--orange);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+      <h2 class="slide-title">問題文・制約・入出力例</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>K手以内に「安全な空マス」へ避難できる空マスの個数を数える</p>
+      </div>
+    </div>
+    <div class="cols2 slide-body">
+      <div class="col">
+        <div class="problem-card">
+          <h4>問題の概要</h4>
+          <p>縦 H × 横 W のマス目があります。<span class="mk">.</span> は普通に入れる空マス、<span class="mk">#</span> は入れない爆弾マスです。上下左右の<strong>空マスへだけ</strong>移動できます。</p>
+          <p><strong>安全な空マス</strong> ＝ 「そのマスの<strong>行にも列にも爆弾が1個もない</strong>」空マス。</p>
+          <p>各空マスについて「<strong>K回以下の移動で安全な空マスに到達できるか？」</strong>を判定し、条件を満たす空マスの個数を出します。</p>
+        </div>
+        <div class="problem-card">
+          <h4>制約（何を意味する？）</h4>
+          <ul>
+            <li>H, W ≤ 5×10<sup>5</sup>、かつ <strong>H×W ≤ 5×10<sup>5</sup></strong></li>
+            <li>0 ≤ K ≤ H×W−1</li>
+            <li>→ マスの総数は最大<strong>50万個</strong>。「全マスからしらみつぶしに探索」は無理そう、と読み取る</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="problem-card">
+          <h4>入力例 1（H=3, W=3, K=1）</h4>
+          <div class="sample-box">#..
+...
+..#</div>
+          <div class="grid-demo" style="margin-top:.5rem">
+            <u>#</u><span>.</span><span>.</span>
+            <span>.</span><b>安全</b><span>.</span>
+            <span>.</span><span>.</span><u>#</u>
+          </div>
+          <p class="cap">行1・行3・列1・列3に爆弾があるため、「安全な空マス」は中央の <strong>(2,2) だけ</strong>。そこへ K=1 回以内で届くのは、(2,2) と上下左右の4マスの <strong>5個</strong> → 出力 5</p>
+        </div>
+        <div class="problem-card">
+          <h4>入力例 2（K=0・爆弾なし）</h4>
+          <p>爆弾がないので<strong>全部の空マスが安全</strong>。移動 0 回で条件OK → 出力 6。<br>K=0 でも「そのマス自身が安全なら答えに含む」ことに注意。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

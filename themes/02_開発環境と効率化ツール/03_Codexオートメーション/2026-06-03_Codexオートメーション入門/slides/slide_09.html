@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"></head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card"><div class="term-head"><span class="term-name">Codex</span><span class="term-reading">コーデックス</span><a class="term-link" href="https://developers.openai.com/codex" target="_blank">OpenAI</a></div><p class="term-desc">OpenAIのコーディングエージェント。コード理解、編集、レビュー、デバッグを支援する。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Automation</span><span class="term-reading">オートメーション</span></div><p class="term-desc">決まった予定でCodexに作業を実行させる仕組み。見回り当番のような役割。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Thread automation</span><span class="term-reading">スレッド・オートメーション</span></div><p class="term-desc">同じ会話に戻る定期実行。進行中のレビューや見守りに向く。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Standalone automation</span><span class="term-reading">スタンドアロン・オートメーション</span></div><p class="term-desc">毎回独立して実行する自動化。日次や週次の点検に向く。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Triage</span><span class="term-reading">トリアージ</span></div><p class="term-desc">自動化結果の受け箱。報告すべき発見がある実行だけを確認しやすくする場所。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Worktree</span><span class="term-reading">ワークツリー</span></div><p class="term-desc">同じGitリポジトリの別作業場所。自動化の差分を手元作業から分けられる。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Sandbox</span><span class="term-reading">サンドボックス</span></div><p class="term-desc">Codexが触れる範囲を制限する箱。読むだけ、ワークスペース編集などを選ぶ。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Rules</span><span class="term-reading">ルールズ</span></div><p class="term-desc">許可するコマンドや操作を絞る設定。無人実行のガードレールになる。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">AGENTS.md</span><span class="term-reading">エージェンツ・エムディー</span></div><p class="term-desc">リポジトリごとの作業ルールを書くファイル。Codexが作業前に読む。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Skills</span><span class="term-reading">スキルズ</span></div><p class="term-desc">再利用できる作業手順や知識のまとまり。自動化のレシピとして使える。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">Hooks</span><span class="term-reading">フックス</span></div><p class="term-desc">Codexの動作前後に独自チェックを差し込む仕組み。守衛や監査ログに近い。</p></div>
+      <div class="term-card"><div class="term-head"><span class="term-name">codex exec</span><span class="term-reading">コーデックス・エグゼック</span></div><p class="term-desc">CLIからCodexを非対話で実行する入口。CIやバッチ処理に組み込める。</p></div>
+    </div>
+  </div>
+</div>
+</body></html>

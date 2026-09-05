@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC461 A「Armor」解説 — AtCoder×Python</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: #f9fafb;
+  color: #1a1d2e;
+  line-height: 1.7;
+}
+.hero {
+  background: linear-gradient(135deg, #e8873a, #d96018);
+  color: #fff;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(255,255,255,.2);
+  border-radius: 99px;
+  padding: .2rem 1rem;
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: .8rem;
+}
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: .3rem;
+}
+.hero .sub {
+  opacity: .85;
+  font-size: 1rem;
+}
+.hero .links {
+  margin-top: 1rem;
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero .links a {
+  color: #fff;
+  text-decoration: underline;
+  font-size: .85rem;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem;
+}
+section {
+  background: #fff;
+  border: 1px solid #dde2ec;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+section h2 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #d96018;
+  margin-bottom: .8rem;
+  padding-bottom: .4rem;
+  border-bottom: 2px solid #dde2ec;
+}
+section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1d2e;
+  margin: 1rem 0 .4rem;
+}
+section p {
+  margin-bottom: .6rem;
+  color: #1a1d2e;
+}
+section strong {
+  color: #d96018;
+  font-weight: 900;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: .8rem;
+}
+.meta-card {
+  background: #eff1f7;
+  border-radius: 10px;
+  padding: .8rem 1rem;
+}
+.meta-card h4 {
+  font-size: .8rem;
+  font-weight: 700;
+  color: #5e6a8a;
+  margin-bottom: .4rem;
+}
+.meta-card ul {
+  list-style: none;
+}
+.meta-card ul li {
+  font-size: .9rem;
+  color: #1a1d2e;
+  padding-left: .8rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: #d96018;
+  font-weight: 900;
+}
+.meta-card code {
+  background: #fff;
+  border: 1px solid #dde2ec;
+  border-radius: 6px;
+  padding: .2rem .6rem;
+  font-size: .88rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+  margin: .8rem 0;
+}
+.sample-table th {
+  background: #eff1f7;
+  padding: .4rem .6rem;
+  font-weight: 700;
+  color: #5e6a8a;
+  border-bottom: 2px solid #dde2ec;
+  text-align: center;
+}
+.sample-table td {
+  padding: .4rem .8rem;
+  border-bottom: 1px solid #dde2ec;
+  text-align: center;
+}
+.sample-table td.note {
+  text-align: left;
+  color: #5e6a8a;
+  font-size: .85rem;
+}
+.sample-table td.yes { color: #008f6a; font-weight: 900; }
+.sample-table td.no { color: #c9162e; font-weight: 900; }
+.code-block {
+  background: #282c34;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: .9rem;
+  line-height: 1.7;
+  color: #e6e6e6;
+  overflow-x: auto;
+  margin: .8rem 0;
+  position: relative;
+}
+.code-copy {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  background: rgba(255,255,255,.1);
+  color: #aaa;
+  border: none;
+  border-radius: 6px;
+  padding: .25rem .6rem;
+  font-size: .75rem;
+  cursor: pointer;
+}
+.code-copy:hover { background: rgba(255,255,255,.2); color: #fff; }
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+}
+.term-card {
+  background: #fff;
+  border: 1px solid #dde2ec;
+  border-radius: 10px;
+  padding: .8rem 1rem;
+}
+.term-card h4 {
+  font-size: .9rem;
+  font-weight: 900;
+  margin-bottom: .2rem;
+}
+.term-card .reading {
+  font-size: .8rem;
+  color: #5e6a8a;
+  margin-bottom: .3rem;
+}
+.term-card p {
+  font-size: .82rem;
+  color: #5e6a8a;
+  line-height: 1.5;
+}
+.term-card a {
+  display: inline-block;
+  margin-top: .3rem;
+  font-size: .8rem;
+  color: #1a96c0;
+  text-decoration: none;
+}
+.term-card a:hover { text-decoration: underline; }
+.step-box {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem .8rem;
+  background: #eff1f7;
+  border-radius: 10px;
+  margin-bottom: .4rem;
+}
+.step-num {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8873a, #d96018);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .meta-grid, .glossary-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.4rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">AtCoder×Pythonシリーズ</div>
+  <h1>ABC461 A — Armor</h1>
+  <p class="sub">「A ≤ D」かどうか1つを確かめる — 比較演算子と条件分岐</p>
+  <div class="links">
+    <a class="header-home" href="../../../../../index.html">← 一覧へ戻る</a>
+    <a href="https://atcoder.jp/contests/abc461/tasks/abc461_a" target="_blank">問題ページ 🔗</a>
+    <a href="../slideshow.html" target="_blank">スライドモードで見る 🔗</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <section>
+    <h2>📝 問題を読み解く</h2>
+    <p>整数 <strong>A</strong> と <strong>D</strong> が与えられます。<strong>A が D 以下</strong>（A ≤ D）のとき <strong>"Yes"</strong>、そうでなければ <strong>"No"</strong> を出力してください。</p>
+
+    <div class="meta-grid">
+      <div class="meta-card">
+        <h4>🔒 制約</h4>
+        <ul>
+          <li>1 ≤ A, D ≤ 100</li>
+          <li>A・D はすべて整数</li>
+        </ul>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力形式</h4>
+        <code>A D</code>
+        <p style="font-size:.82rem;color:#5e6a8a;margin-top:.4rem">例: <code>10 20</code> → A=10, D=20</p>
+      </div>
+    </div>
+
+    <h3>📊 入出力例</h3>
+    <table class="sample-table">
+      <tr><th>入力</th><th>出力</th><th>理由</th></tr>
+      <tr><td>10 20</td><td class="yes">Yes</td><td class="note">10 ≤ 20 → 成立</td></tr>
+      <tr><td>20 10</td><td class="no">No</td><td class="note">20 ≤ 10 → 不成立</td></tr>
+      <tr><td>15 15</td><td class="yes">Yes</td><td class="note">15 ≤ 15 → 等しいので成立</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>💡 考え方</h2>
+    <p>RPGゲームの防具チェックと同じです。敵の攻撃力 A が防具の防御力 D 以下なら防具は耐えられます（Yes）。超えていたら壊されます（No）。</p>
+
+    <div class="step-box">
+      <span class="step-num">①</span>
+      <p>A（攻撃力）と D（防御力）を比較する</p>
+    </div>
+    <div class="step-box">
+      <span class="step-num">②</span>
+      <p>A ≤ D なら <strong>防具有効 → Yes</strong></p>
+    </div>
+    <div class="step-box">
+      <span class="step-num">③</span>
+      <p>A &gt; D なら <strong>防具無効 → No</strong></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>💻 コード（Python）</h2>
+    <div class="code-block">
+      <button class="code-copy" onclick="copyCode(this)">Copy</button>
+      <pre>A, D = map(int, input().split())
+if A <= D:
+    print("Yes")
+else:
+    print("No")</pre>
+    </div>
+
+    <h3>解説</h3>
+    <p><strong>1行目:</strong> <code>input().split()</code> で1行を空白で分割し、<code>map(int, ...)</code> で整数に変換して A・D に代入。</p>
+    <p><strong>2行目:</strong> <code>A &lt;= D</code> で「AはD以下か？」を判定。</p>
+    <p><strong>3〜5行目:</strong> 条件成立で <code>"Yes"</code>、不成立で <code>"No"</code> を出力。</p>
+  </section>
+
+  <section>
+    <h2>📖 用語解説</h2>
+    <div class="glossary-grid">
+      <div class="term-card">
+        <h4>標準入力</h4>
+        <div class="reading">ひょうじゅんにゅうりょく</div>
+        <p>キーボードからプログラムにデータを送る仕組み。AtCoderではテストケースが自動で流し込まれる。</p>
+        <a href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>input()</h4>
+        <div class="reading">インプット</div>
+        <p>標準入力から1行を文字列として読み込むPython関数。AtCoderで毎回使う基本の命令。</p>
+        <a href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python docs 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>map()</h4>
+        <div class="reading">マップ</div>
+        <p>リストの各要素に同じ変換を一括適用する関数。<code>map(int, ...)</code> は「全要素を整数に変換」の定型文。</p>
+        <a href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python docs 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>int()</h4>
+        <div class="reading">イント</div>
+        <p>文字列を整数に変換する関数。<code>input()</code> が返すのは文字列なので、計算前に必ず変換が必要。</p>
+        <a href="https://docs.python.org/ja/3/library/functions.html#int" target="_blank">Python docs 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>条件分岐</h4>
+        <div class="reading">じょうけんぶんき</div>
+        <p>条件（True/False）に応じて処理を切り替える仕組み。Pythonでは <code>if / else</code> で書く。</p>
+      </div>
+      <div class="term-card">
+        <h4>比較演算子</h4>
+        <div class="reading">ひかくえんざんし</div>
+        <p>2つの値を比較する記号。<code>&lt;=</code> は「以下」、<code>&gt;=</code> は「以上」、<code>==</code> は「等しい」。</p>
+        <a href="https://docs.python.org/ja/3/reference/expressions.html#comparisons" target="_blank">Python docs 🔗</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const code = btn.nextElementSibling.textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>

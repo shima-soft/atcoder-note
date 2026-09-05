@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">TOOL 2</span>
+    <h2 class="slide-title">「ERROR 0件まで直す」を合格条件にする</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>指示書に足したのは注意ではなく、終わってよい条件。数えられる形にすると自分で直しきる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          縦フロー: 作る(y=48) → 測る(y=120) → 判定菱形(150..350 / 192..272, center=250,232)
+          NO  → 右の「直して再実行」(x=382, y=208) → y=140 を通って「測る」へ戻す
+          YES → 左の「完成」(x=14, y=208)
+          viewBox: 0 0 500 320
+        -->
+        <svg viewBox="0 0 500 320" width="600" height="384" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">完成の判定を、数えられる形にする</text>
+
+          <!-- 作る -->
+          <rect x="140" y="48" width="220" height="48" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="250" y="77" text-anchor="middle" font-size="13" fill="#5e6a8a">Claude がスライドを作る</text>
+          <polygon points="244,102 256,102 250,114" fill="#c8cede"/>
+
+          <!-- 測る（主役） -->
+          <rect x="140" y="120" width="220" height="48" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="2"/>
+          <text x="250" y="149" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">検証ツールで実測する</text>
+          <polygon points="244,174 256,174 250,186" fill="#1a96c0"/>
+
+          <!-- 判定 -->
+          <polygon points="250,192 350,232 250,272 150,232" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="250" y="237" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">ERROR は 0 件か？</text>
+
+          <!-- NO: 右へ → 直して再実行 → 測るへ戻す -->
+          <text x="366" y="220" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">NO</text>
+          <line x1="350" y1="232" x2="368" y2="232" stroke="#1a96c0" stroke-width="1.5"/>
+          <polygon points="368,226 368,238 380,232" fill="#1a96c0"/>
+          <rect x="382" y="208" width="104" height="48" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="434" y="237" text-anchor="middle" font-size="13" fill="#1a96c0">直して再実行</text>
+          <polyline points="434,208 434,140 372,140" fill="none" stroke="#1a96c0" stroke-width="1.5"/>
+          <polygon points="372,134 372,146 360,140" fill="#1a96c0"/>
+
+          <!-- YES: 左へ → 完成 -->
+          <text x="134" y="220" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">YES</text>
+          <line x1="150" y1="232" x2="132" y2="232" stroke="#008f6a" stroke-width="1.5"/>
+          <polygon points="132,226 132,238 120,232" fill="#008f6a"/>
+          <rect x="14" y="208" width="104" height="48" rx="8" fill="rgba(0,143,106,.12)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="66" y="237" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">✅ 完成</text>
+
+          <text x="250" y="306" text-anchor="middle" font-size="11.5" fill="#5e6a8a">合格条件を1行足すだけ — 「ERROR 0件になるまで修正」</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 指示書に書いたのはこの一文</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>SVG を作ったら svg_check を実行し、ERROR 0件になるまで修正する</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>「きれいに作る」ではなく「0件にする」。達成したかを数で言える</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>0件になるまで止まらないので、人の確認待ちが発生しない</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 数えられる合格条件の例</div>
+          <ul class="box-list">
+            <li>ERROR 0件 ／ 差分 0枚 ／ テスト全通過</li>
+            <li>いずれも「できたつもり」で終われない書き方</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 効きにくい書き方</div>
+          <ul class="box-list">
+            <li>「丁寧に」「はみ出さないように」— 達成したか誰にも判定できない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

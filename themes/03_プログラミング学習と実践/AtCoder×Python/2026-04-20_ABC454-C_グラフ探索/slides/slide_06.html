@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-wrap {
+  background: #282c34;
+  border-radius: 12px;
+  padding: .7rem 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+.code-wrap pre {
+  margin: 0;
+  font-size: .82rem;
+  line-height: 1.75;
+}
+.step-badge {
+  display: inline-block;
+  background: rgba(217,96,24,.12);
+  color: var(--orange);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .12rem .5rem;
+  border-radius: 6px;
+  margin-bottom: .3rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード①</span>
+    <h2 class="slide-title">入力を受け取り、グラフを組み立てる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>隣接リスト graph[a] に「a から行けるノード b」を追加していくだけ</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード（9行） -->
+    <div class="diagram-box" style="flex-direction:column;align-items:stretch;padding:.7rem;">
+      <div class="code-wrap">
+        <pre><code class="language-python">from collections import deque
+
+N, M = map(int, input().split())
+
+# 隣接リスト: graph[a] に a→b の b を追加
+graph = [[] for _ in range(N + 1)]
+for _ in range(M):
+    a, b = map(int, input().split())
+    graph[a].append(b)</code></pre>
+      </div>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">📌 各行の意味</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">deque</code> をインポート（BFSのキューに使う）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p><code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">graph = [[] for ...]</code> — ノード番号ごとの「隣人リスト」を作る</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>交換ペア (a, b) を読み込み、<code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">graph[a].append(b)</code> でエッジを追加</p>
+        </div>
+      </div>
+
+      <div class="biz-example">
+        <div class="biz-title">📐 例1のグラフ構築結果（N=5, M=5）</div>
+        <div style="font-family:'Consolas',monospace;font-size:.78rem;color:var(--text);line-height:1.8;background:var(--surface);padding:.5rem .7rem;border-radius:8px;">
+          graph[1] = [2]<br>
+          graph[2] = [3, 4]<br>
+          graph[3] = [4]<br>
+          graph[4] = []<br>
+          graph[5] = [2]
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title">✅ N+1 で確保する理由</div>
+        <ul class="box-list">
+          <li>アイテム番号は 1〜N（0番は使わない）</li>
+          <li><code style="font-family:Consolas;font-size:.78rem;">range(N+1)</code> にして graph[1]〜graph[N] をそのまま使う</li>
+        </ul>
+      </div>
+
+      <div style="text-align:right;font-size:.72rem;color:var(--muted);margin-top:.2rem;">
+        → 次のスライドで BFS 本体を実装します
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

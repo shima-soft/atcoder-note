@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; flex: 1; }
+.term-link {
+  font-size: .65rem; color: var(--blue); text-decoration: none;
+  margin-top: auto; align-self: flex-start; white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">二分探索</span>
+          <span class="term-reading">にぶんたんさく / binary search</span>
+        </div>
+        <p class="term-desc">単調性がある問題で、探索範囲を半分ずつ絞り込む手法。O(log N) で答えを発見できる。「できる/できない」の境界を探すときに有効。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/二分探索" target="_blank">Wikipedia: 二分探索 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">単調性</span>
+          <span class="term-reading">たんちょうせい / monotonicity</span>
+        </div>
+        <p class="term-desc">入力が増えると出力も必ず増える（または減る）性質。二分探索が使える条件の一つ。本問では「m が大きいほど必要操作数も増える」ことが単調性。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/単調関数" target="_blank">Wikipedia: 単調関数 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">切り上げ除算</span>
+          <span class="term-reading">きりあげじょさん / ceiling division</span>
+        </div>
+        <p class="term-desc">割り算の結果を上方向に丸める演算。Python では <code>(a + b - 1) // b</code> で実現。⌈a ÷ b⌉ と表記する。操作回数の最小値を求めるときに使う。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/math.html#math.ceil" target="_blank">Python公式: math.ceil 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">判定問題</span>
+          <span class="term-reading">はんていもんだい / decision problem</span>
+        </div>
+        <p class="term-desc">答えが Yes / No の二択になる問題。最大化・最小化問題を「○○以上/以下にできるか？」に置き換えることで判定問題に変換できる。競プロの定番テクニック。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/決定問題" target="_blank">Wikipedia: 決定問題 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">O 記法</span>
+          <span class="term-reading">オーきほう / Big-O notation</span>
+        </div>
+        <p class="term-desc">アルゴリズムの計算量（実行時間の増え方）を表す記法。O(N log V) は入力 N と値域 V に対して比例的に増えることを示す。本問では O(N × 61) ≈ O(60N)。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/ランダウの記号" target="_blank">Wikipedia: ランダウの記号 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">sys.stdin.readline</span>
+          <span class="term-reading">シス・スタンダードイン・リードライン</span>
+        </div>
+        <p class="term-desc">Python で高速に標準入力を読み込む方法。<code>input()</code> より数倍速く、大量の入力がある競プロで必須のテクニック。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python公式: sys.stdin 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimi K3 論文解説 | 森の賢人</title>
+<meta name="description" content="2.8兆パラメータのオープンモデル Kimi K3 の技術レポートを、初学者・ビジネスパーソン向けに噛み砕いて解説します。">
+<style>
+:root {
+  --bg: #f9fafb; --surface: #eff1f7; --card: #ffffff; --border: #dde2ec;
+  --text: #1a1d2e; --muted: #5e6a8a;
+  --purple: #7a3bce; --blue: #1a96c0; --green: #008f6a; --orange: #d96018; --red: #c9162e;
+  --header-h: 52px; --sidebar-w: 220px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7;
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+}
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); z-index: 100;
+  background: #fff; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 1.5rem; gap: 1rem;
+}
+.header-home { font-size: .74rem; font-weight: 700; color: var(--purple); text-decoration: none; white-space: nowrap; }
+.header-home:hover { text-decoration: underline; }
+.header-badge {
+  font-size: .68rem; font-weight: 700; color: #fff; white-space: nowrap;
+  background: linear-gradient(135deg, #9a5ce8, #7a3bce); padding: .15rem .6rem; border-radius: 99px;
+}
+.header-title { font-size: .9rem; font-weight: 900; }
+.header-sub { font-size: .75rem; color: var(--muted); margin-left: auto; }
+
+.layout { display: flex; padding-top: var(--header-h); min-height: 100vh; }
+.sidebar {
+  width: var(--sidebar-w); flex-shrink: 0; position: sticky; top: var(--header-h);
+  height: calc(100vh - var(--header-h)); overflow-y: auto;
+  padding: 1.2rem .8rem; border-right: 1px solid var(--border); background: var(--card);
+}
+.sidebar h3 {
+  font-size: .68rem; font-weight: 700; color: var(--muted); letter-spacing: .08em;
+  text-transform: uppercase; margin-bottom: .6rem; padding-left: .4rem;
+}
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: .15rem; }
+.nav-list a {
+  display: block; padding: .35rem .55rem; border-radius: 8px; font-size: .78rem;
+  color: var(--muted); text-decoration: none; border-left: 3px solid transparent; transition: all .15s;
+}
+.nav-list a:hover { background: var(--surface); color: var(--text); }
+.nav-list a.active { background: rgba(122,59,206,.08); color: var(--purple); border-left-color: var(--purple); font-weight: 700; }
+
+.main { flex: 1; min-width: 0; max-width: 880px; padding: 2rem 2rem 4rem; }
+
+.hero {
+  background: var(--card); border: 1px solid var(--border); border-top: 5px solid var(--purple);
+  border-radius: 12px; padding: 2rem 2.2rem; margin-bottom: 2rem;
+}
+.hero-badge {
+  display: inline-block; background: rgba(122,59,206,.1); color: var(--purple);
+  font-size: .7rem; font-weight: 700; padding: .18rem .7rem; border-radius: 99px; margin-bottom: .8rem;
+}
+.hero h1 { font-size: 1.8rem; font-weight: 900; line-height: 1.3; margin-bottom: .6rem; }
+.hero-meta { font-size: .82rem; color: var(--muted); margin-bottom: 1.1rem; }
+.hero-stats { display: flex; gap: .8rem; flex-wrap: wrap; }
+.stat-box { background: var(--surface); border-radius: 10px; padding: .55rem .8rem; display: flex; align-items: center; gap: .5rem; }
+.stat-num { font-size: 1.3rem; font-weight: 900; color: var(--purple); line-height: 1; }
+.stat-label { font-size: .72rem; color: var(--muted); line-height: 1.4; }
+
+.section { margin-bottom: 2.6rem; scroll-margin-top: calc(var(--header-h) + 16px); }
+.section-label {
+  display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .08em;
+  padding: .15rem .6rem; border-radius: 99px; background: rgba(122,59,206,.1); color: var(--purple);
+  margin-bottom: .5rem;
+}
+.timestamp { float: right; font-size: .7rem; color: var(--muted); background: var(--surface); padding: .14rem .5rem; border-radius: 99px; }
+.section h2 { font-size: 1.25rem; font-weight: 900; line-height: 1.4; }
+.section-sub { font-size: .85rem; color: var(--muted); margin-bottom: 1rem; }
+
+/* スライドからコピーした図 */
+.figure {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1rem; margin-bottom: 1rem; overflow-x: auto;
+}
+.figure svg { display: block; margin: 0 auto; width: 100%; height: auto; max-width: 620px; }
+.figure svg text { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif; }
+
+.video-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+.video-box video { width: 100%; border-radius: 8px; display: block; }
+.video-cap { font-size: .74rem; color: var(--muted); margin-top: .5rem; }
+
+/* スライドの右カラム（biz-example / ok-box / ng-box）を流用 */
+.info-col { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: 1rem; }
+.biz-example, .ok-box, .ng-box, .note-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1rem;
+}
+.biz-example { grid-column: 1 / -1; }
+.biz-title, .box-title { font-size: .78rem; font-weight: 800; color: var(--muted); margin-bottom: .4rem; }
+.biz-step { display: flex; align-items: center; gap: .5rem; margin-bottom: .3rem; }
+.snum {
+  min-width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: .72rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.biz-step p { font-size: .84rem; }
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.note-box { border-left: 3px solid var(--purple); }
+.box-list { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+.box-list li { font-size: .84rem; padding-left: .8rem; position: relative; line-height: 1.6; }
+.box-list li::before { content: '•'; position: absolute; left: 0; color: var(--muted); }
+
+/* カードグリッド */
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; margin-bottom: 1rem; }
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: .9rem 1.1rem; display: flex; flex-direction: column; gap: .3rem;
+}
+.card-num {
+  display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+  border-radius: 50%; font-size: .76rem; font-weight: 900; color: #fff;
+}
+.card-title { font-size: .92rem; font-weight: 900; }
+.card-desc { font-size: .84rem; color: var(--muted); line-height: 1.65; }
+
+/* 比較表 */
+.table-wrap { overflow-x: auto; margin-bottom: .6rem; }
+table { width: 100%; border-collapse: collapse; font-size: .84rem; background: var(--card); border-radius: 10px; }
+th {
+  background: var(--surface); padding: .6rem .8rem; text-align: left; font-weight: 700;
+  color: var(--muted); border-bottom: 2px solid var(--border); white-space: nowrap;
+}
+td { padding: .6rem .8rem; border-bottom: 1px solid var(--border); vertical-align: middle; line-height: 1.6; }
+tr:last-child td { border-bottom: none; }
+.k3col { font-weight: 900; color: var(--purple); }
+.pattern-badge { display: inline-block; padding: .1rem .5rem; border-radius: 99px; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+.table-note { font-size: .76rem; color: var(--muted); margin-bottom: 1rem; }
+
+/* 用語解説 */
+.glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+.term-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: .7rem .9rem; display: flex; flex-direction: column; gap: .2rem;
+}
+.term-head { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.term-name { font-size: .88rem; font-weight: 900; }
+.term-reading { font-size: .72rem; color: var(--muted); }
+.term-link { font-size: .7rem; color: var(--blue); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.term-link:hover { text-decoration: underline; }
+.term-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+
+/* 理解度チェック */
+.check-section { display: flex; flex-direction: column; gap: .4rem; margin-top: 1rem; }
+details {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: .55rem .9rem;
+}
+summary { font-size: .82rem; font-weight: 700; cursor: pointer; color: var(--text); }
+details p { font-size: .82rem; color: var(--muted); margin-top: .5rem; }
+
+.source-list { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.source-list li { font-size: .84rem; }
+.source-list a { color: var(--blue); }
+
+footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--border); font-size: .76rem; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 1.4rem 1.1rem 3rem; }
+  .info-col, .card-grid, .glossary-grid { grid-template-columns: 1fr; }
+  .hero { padding: 1.4rem 1.2rem; }
+  .hero h1 { font-size: 1.4rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html">← 一覧</a>
+  <span class="header-badge">新モデル解説</span>
+  <span class="header-title">Kimi K3 論文解説</span>
+  <span class="header-sub">2026年7月 | 森の賢人</span>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <h3>目次</h3>
+    <ul class="nav-list">
+      <li><a href="#overview">Kimi K3 とは</a></li>
+      <li><a href="#architecture">3方向の設計</a></li>
+      <li><a href="#spec">前作との比較</a></li>
+      <li><a href="#context">100万トークン</a></li>
+      <li><a href="#posttrain">9人の専門家</a></li>
+      <li><a href="#benchmark">実力</a></li>
+      <li><a href="#cost">コスト</a></li>
+      <li><a href="#howto">使い方</a></li>
+      <li><a href="#wrap">現場から見て</a></li>
+      <li><a href="#glossary">用語解説</a></li>
+      <li><a href="#sources">出典</a></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <div class="hero">
+      <span class="hero-badge">Moonshot AI / Kimi K3</span>
+      <h1>2.8兆パラメータの公開モデルは<br>どこまで来たか</h1>
+      <p class="hero-meta">2026年7月27日に公開された技術レポート arXiv:2607.24653 を、営業・事務の現場目線で読み解きます。プログラミングの知識は不要です。</p>
+      <div class="hero-stats">
+        <div class="stat-box"><span class="stat-num">2.8兆</span><span class="stat-label">総パラメータ<br>（動くのは1,042億）</span></div>
+        <div class="stat-box"><span class="stat-num">100万</span><span class="stat-label">トークンの<br>コンテキスト</span></div>
+        <div class="stat-box"><span class="stat-num">38%</span><span class="stat-label">最上位モデル比<br>のコスト</span></div>
+      </div>
+    </div>
+
+    <section class="section" id="overview">
+      <span class="section-label">OVERVIEW</span>
+      <span class="timestamp">動画 01:30</span>
+      <h2>Kimi K3 とは</h2>
+      <p class="section-sub">誰でも中身を手に入れられるのに、最上位の有料AIに肉薄した「超大型モデル」</p>
+      <div class="card-grid"><div class="card">
+        <span class="card-num" style="background:var(--g-purple)">1</span>
+        <div class="card-title">2.8兆パラメータのMoE</div>
+        <p class="card-desc">全体は2兆7,800億。ただし1回の応答で実際に動くのは1,042億だけ。世界初の「3兆級」オープンモデル。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">2</span>
+        <div class="card-title">100万トークンの文脈</div>
+        <p class="card-desc">分厚い契約書や1年分の議事録をまとめて渡しても、最初から最後まで見渡したまま考えられる。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">3</span>
+        <div class="card-title">画像・動画も最初から</div>
+        <p class="card-desc">後付けではなく、学習の初日から文章と画像を一緒に学ぶ設計。資料のスクショや動画もそのまま読める。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">4</span>
+        <div class="card-title">前世代比2.5倍の学習効率</div>
+        <p class="card-desc">同じ計算コストで前作Kimi K2の約2.5倍賢くなる設計。力任せの大型化ではない点が論文の主張。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">5</span>
+        <div class="card-title">長時間タスクに強い</div>
+        <p class="card-desc">数百〜数千回の道具呼び出しを伴う長い作業を、途中で崩れずやり切る訓練を重点的に実施。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">6</span>
+        <div class="card-title">モデル本体を公開</div>
+        <p class="card-desc">誰でも入手・改変できる形で公開され、提供元1社に縛られない。ただし4ビットに圧縮しても約1.5TB、動かすにはGPUクラスタが必要。</p></div>
+      <div class="check-section"><details><summary>理解度チェック: 2.8兆パラメータは、毎回すべて動くの？</summary><p>動きません。1回の応答で実際に計算するのは1,042億パラメータだけです。多数の専門家から一部だけを呼び出すMoEという仕組みによるものです。</p></details><details><summary>理解度チェック: 100万トークンとはどのくらいの量？</summary><p>分厚い契約書一式や、1年分の議事録をまとめて渡せる程度の量です。</p></details></div>
+    </section>
+    <section class="section" id="architecture">
+      <span class="section-label">ARCHITECTURE</span>
+      <span class="timestamp">動画 03:00</span>
+      <h2>情報の通り道を3方向に広げた</h2>
+      <p class="section-sub">長さ・深さ・幅の3方向で情報を流しやすくしたのが Kimi K3 の設計</p>
+      <div class="video-box">
+        <video src="../assets/anim_architecture.mp4" poster="../assets/anim_architecture_poster.jpg" controls preload="none" playsinline></video>
+        <p class="video-cap">入力から出力までの流れ（1分41秒）。論文 Figure 2 をもとに作成。</p>
+      </div>
+<div class="figure"><svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="Kimi K3が情報の流れを広げた3つの方向">
+        <!--
+          カード: x=14, w=592, rx=16
+          カード1 y=18  h=124 (18..142)
+          カード2 y=154 h=124 (154..278)
+          カード3 y=290 h=124 (290..414)
+        -->
+
+        <!-- ① 長さ方向 -->
+        <rect x="14" y="18" width="592" height="124" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="62" font-size="16" font-weight="900" fill="#7a3bce">① 長さ方向 — Hybrid Attention</text>
+        <text x="34" y="90" font-size="13" fill="#1a1d2e">KDA 3層 + Gated MLA 1層をくり返す</text>
+        <text x="34" y="112" font-size="13" fill="#5e6a8a">長い文脈を安く読み、要所で全体を見渡す</text>
+        <!-- 小図: box[i].x = 390 + i*52 (w=44, gap=8) → 390,442,494,546 / 中心 412,464,516,568 -->
+        <rect x="390" y="63" width="44" height="34" rx="8" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="412" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">KDA</text>
+        <rect x="442" y="63" width="44" height="34" rx="8" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="464" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">KDA</text>
+        <rect x="494" y="63" width="44" height="34" rx="8" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="516" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">KDA</text>
+        <rect x="546" y="63" width="44" height="34" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="568" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">MLA</text>
+
+        <!-- ② 深さ方向 -->
+        <rect x="14" y="154" width="592" height="124" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="198" font-size="16" font-weight="900" fill="#7a3bce">② 深さ方向 — Attention Residuals</text>
+        <text x="34" y="226" font-size="13" fill="#1a1d2e">前のブロックの情報を選んで取り寄せる</text>
+        <text x="34" y="248" font-size="13" fill="#5e6a8a">層が深くなっても情報が薄まりにくい</text>
+        <!-- 小図: 3段の層 x=410 w=150 h=20 / y=184,214,244 -->
+        <path d="M400 254 L390 254 L390 194 L400 194" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <polygon points="402,194 394,190 394,198" fill="#7a3bce"/>
+        <rect x="410" y="184" width="150" height="20" rx="6" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="485" y="198" text-anchor="middle" font-size="11" fill="#7a3bce">いまのブロック</text>
+        <rect x="410" y="214" width="150" height="20" rx="6" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="485" y="228" text-anchor="middle" font-size="11" fill="#5e6a8a">1つ前のブロック</text>
+        <rect x="410" y="244" width="150" height="20" rx="6" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="485" y="258" text-anchor="middle" font-size="11" fill="#5e6a8a">2つ前のブロック</text>
+
+        <!-- ③ 幅方向 -->
+        <rect x="14" y="290" width="592" height="124" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="334" font-size="16" font-weight="900" fill="#7a3bce">③ 幅方向 — Stable LatentMoE</text>
+        <text x="34" y="362" font-size="13" fill="#1a1d2e">896人の専門家から毎回16人だけ呼ぶ</text>
+        <text x="34" y="384" font-size="13" fill="#5e6a8a">規模は巨大でも、動く部分はごく一部</text>
+        <!-- 小図: 点グリッド cx = 406 + i*12 (i=0..15), cy = 326/340/354 -->
+        <g fill="#dde2ec">
+          <circle cx="406" cy="326" r="4"/><circle cx="418" cy="326" r="4"/><circle cx="430" cy="326" r="4"/>
+          <circle cx="442" cy="326" r="4"/><circle cx="454" cy="326" r="4"/><circle cx="466" cy="326" r="4"/>
+          <circle cx="478" cy="326" r="4"/><circle cx="490" cy="326" r="4"/><circle cx="502" cy="326" r="4"/>
+          <circle cx="514" cy="326" r="4"/><circle cx="526" cy="326" r="4"/><circle cx="538" cy="326" r="4"/>
+          <circle cx="550" cy="326" r="4"/><circle cx="562" cy="326" r="4"/><circle cx="574" cy="326" r="4"/>
+          <circle cx="586" cy="326" r="4"/>
+          <circle cx="406" cy="340" r="4"/><circle cx="418" cy="340" r="4"/><circle cx="430" cy="340" r="4"/>
+          <circle cx="442" cy="340" r="4"/><circle cx="454" cy="340" r="4"/><circle cx="466" cy="340" r="4"/>
+          <circle cx="478" cy="340" r="4"/><circle cx="490" cy="340" r="4"/><circle cx="502" cy="340" r="4"/>
+          <circle cx="514" cy="340" r="4"/><circle cx="526" cy="340" r="4"/><circle cx="538" cy="340" r="4"/>
+          <circle cx="550" cy="340" r="4"/><circle cx="562" cy="340" r="4"/><circle cx="574" cy="340" r="4"/>
+          <circle cx="586" cy="340" r="4"/>
+          <circle cx="406" cy="354" r="4"/><circle cx="418" cy="354" r="4"/><circle cx="430" cy="354" r="4"/>
+          <circle cx="442" cy="354" r="4"/><circle cx="454" cy="354" r="4"/><circle cx="466" cy="354" r="4"/>
+          <circle cx="478" cy="354" r="4"/><circle cx="490" cy="354" r="4"/><circle cx="502" cy="354" r="4"/>
+          <circle cx="514" cy="354" r="4"/><circle cx="526" cy="354" r="4"/><circle cx="538" cy="354" r="4"/>
+          <circle cx="550" cy="354" r="4"/><circle cx="562" cy="354" r="4"/><circle cx="574" cy="354" r="4"/>
+          <circle cx="586" cy="354" r="4"/>
+        </g>
+        <g fill="#7a3bce">
+          <circle cx="430" cy="326" r="4"/><circle cx="514" cy="340" r="4"/><circle cx="466" cy="354" r="4"/>
+        </g>
+        <text x="406" y="384" font-size="10" fill="#5e6a8a">紫＝そのとき動く専門家（概念図）</text>
+      </svg></div>
+      <div class="info-col"><div class="biz-example">
+        <div class="biz-title">会社に例えると</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">長</span><p>過去のやりとりを要約して覚える担当を増やした</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">深</span><p>前工程の資料を必要な分だけ取り寄せられる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">幅</span><p>896人の社員から毎回16人だけ招集する</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>同じ計算量で前作の約2.5倍の伸び</li>
+          <li>100万トークンでも計算量が破綻しにくい</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">誤解しやすい点</div>
+        <ul class="box-list">
+          <li>2.8兆すべてが毎回動くわけではない</li>
+          <li>専門家を増やすだけでは学習が不安定になる</li>
+        </ul></div>
+      <div class="check-section"><details><summary>理解度チェック: 「長さ・深さ・幅」はそれぞれ何を指す？</summary><p>長さは文章の長さ（Hybrid Attention）、深さは層の重なり（Attention Residuals）、幅は専門家の数（Stable LatentMoE）です。</p></details><details><summary>理解度チェック: 専門家を増やせば賢くなる？</summary><p>単純にはそうなりません。増やすほど学習が不安定になるため、それを安定させる工夫（Stable LatentMoE）が本体です。</p></details></div>
+    </section>
+    <section class="section" id="spec">
+      <span class="section-label">SPEC</span>
+      <span class="timestamp">動画 05:00</span>
+      <h2>前作 Kimi K2 との比較</h2>
+      <p class="section-sub">1年前の自社モデルから、規模も視野もおよそ2〜8倍に広がった</p>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr>
+            <th style="width:26%">項目</th>
+            <th style="width:24%">Kimi K2（前作）</th>
+            <th style="width:30%">Kimi K3</th>
+            <th style="width:20%">変化</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>総パラメータ</td><td>1兆400億</td><td class="k3col">2兆7,800億</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+167%</span></td>
+          </tr>
+          <tr>
+            <td>1回の応答で動く量</td><td>326億</td><td class="k3col">1,042億</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+220%</span></td>
+          </tr>
+          <tr>
+            <td>層（ブロック）の数</td><td>61層</td><td class="k3col">93層</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+52%</span></td>
+          </tr>
+          <tr>
+            <td>専門家（エキスパート）の数</td><td>384</td><td class="k3col">896</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+133%</span></td>
+          </tr>
+          <tr>
+            <td>1回に呼ぶ専門家</td><td>8</td><td class="k3col">16</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+100%</span></td>
+          </tr>
+          <tr>
+            <td>学習時のコンテキスト</td><td>12万8千トークン</td><td class="k3col">100万トークン</td>
+            <td><span class="pattern-badge" style="background:rgba(217,96,24,.12);color:var(--orange)">8倍</span></td>
+          </tr>
+          <tr>
+            <td>注意の仕組み</td><td>MLA のみ</td><td class="k3col">KDA + MLA のハイブリッド</td>
+            <td><span class="pattern-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">刷新</span></td>
+          </tr>
+          <tr>
+            <td>画像・動画の処理</td><td>なし</td><td class="k3col">専用の画像エンジン（4億）を内蔵</td>
+            <td><span class="pattern-badge" style="background:rgba(0,143,106,.12);color:var(--green)">新搭載</span></td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p class="table-note">※ 語彙サイズ16万・隠れ層の幅7,168 は据え置き。数を増やすだけでなく、情報の流し方を作り替えたことで同じ計算量あたりの伸びが約2.5倍になったと報告されている。</p>
+    </section>
+    <section class="section" id="context">
+      <span class="section-label">LONG CONTEXT</span>
+      <span class="timestamp">動画 06:00</span>
+      <h2>100万トークンの記憶はこう作る</h2>
+      <p class="section-sub">いきなり長文を読ませず、4段階で少しずつ視野を広げていく</p>
+<div class="figure"><svg width="620" height="410" viewBox="0 0 620 410" role="img" aria-label="コンテキスト長を4段階で拡張する学習カリキュラム">
+        <!--
+          bar[i].x = 60 + i*130 (w=100, gap=30) → 60,190,320,450 / 中心 110,240,370,500
+          事前学習ゾーン: bar0-1 → x=50, right=300, w=250
+          クールダウンゾーン: bar2-3 → x=310, right=560, w=250
+          ゾーン y=40 h=275 (40..315) / バー下端 270
+        -->
+        <rect x="50" y="40" width="250" height="275" rx="14" fill="#f6f7fb" stroke="#dde2ec"/>
+        <rect x="310" y="40" width="250" height="275" rx="14" fill="#f4efff" stroke="#7a3bce"/>
+
+        <rect x="60" y="240" width="100" height="30" rx="6" fill="#d9c8f2"/>
+        <text x="110" y="232" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">8K</text>
+        <rect x="190" y="200" width="100" height="70" rx="6" fill="#bfa0e8"/>
+        <text x="240" y="192" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">64K</text>
+        <rect x="320" y="140" width="100" height="130" rx="6" fill="#a578dd"/>
+        <text x="370" y="132" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">256K</text>
+        <rect x="450" y="70" width="100" height="200" rx="6" fill="#7a3bce"/>
+        <text x="500" y="62" text-anchor="middle" font-size="15" font-weight="900" fill="#7a3bce">100万</text>
+
+        <text x="175" y="303" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">事前学習の期間</text>
+        <text x="435" y="303" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3bce">仕上げ（クールダウン）</text>
+
+        <rect x="50" y="335" width="510" height="60" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="305" y="360" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">位置の番号札を使わない設計（NoPE）</text>
+        <text x="305" y="380" text-anchor="middle" font-size="12" fill="#5e6a8a">設定を変えずに100万トークンまでそのまま伸ばせる</text>
+      </svg></div>
+      <div class="info-col"><div class="biz-example">
+        <div class="biz-title">なぜ段階的に広げるのか</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>長文の学習は費用が跳ね上がるため、最後にまとめて集中投入する</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>短い文から長い文へ、少しずつ視野を慣らしていく</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">長さを活かすための工夫</div>
+        <ul class="box-list">
+          <li>重複や壊れた長文・動画を除いて教材を厳選</li>
+          <li>全体を見ないと解けない問題を人工的に作って学習</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">誤解しやすい点</div>
+        <ul class="box-list">
+          <li>「入る」と「使いこなす」は別物。訓練しないと近くしか見なくなる</li>
+          <li>毎回100万トークン渡せば、その分だけ費用も時間も増える</li>
+        </ul></div>
+      <div class="check-section"><details><summary>理解度チェック: なぜ最初から長文で学習しないの？</summary><p>長文の学習は費用が跳ね上がるためです。8K→64K→256K→100万と4段階で広げ、費用のかかる長文学習を仕上げ期間に集中させています。</p></details><details><summary>理解度チェック: コンテキストが長ければ、そのまま賢く使える？</summary><p>使えません。訓練しないと近くの文しか見ない癖がつくため、全体を見ないと解けない問題を作って学習させています。</p></details></div>
+    </section>
+    <section class="section" id="posttrain">
+      <span class="section-label">POST-TRAINING</span>
+      <span class="timestamp">動画 07:30</span>
+      <h2>9人の専門家を1つにまとめる</h2>
+      <p class="section-sub">分野ごとに鍛えた9つのモデルを、最後に1つのモデルへ教え込んで統合する</p>
+<div class="figure"><svg width="620" height="410" viewBox="0 0 620 410" role="img" aria-label="Kimi K3の学習後半3ステップ">
+        <!--
+          縦フロー: box x=60 w=500
+          Step1 y=24 h=58 / Step2 y=100 h=150 / Step3 y=268 h=58 / 結果 y=340 h=52
+          セル: cell[j].x = 196 + j*116 (w=104, gap=12) → 196,312,428 / 中心 248,364,480
+          行: row[i].y = 152 + i*30 (h=26)
+        -->
+        <rect x="60" y="24" width="500" height="58" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="48" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">① お手本で基礎を作る（SFT）</text>
+        <text x="310" y="68" text-anchor="middle" font-size="12" fill="#5e6a8a">複雑な作業の進め方を、良質な例から覚えさせる</text>
+
+        <path d="M310 82 L310 96" stroke="#7a3bce" stroke-width="2"/>
+        <polygon points="310,100 305,92 315,92" fill="#7a3bce"/>
+
+        <rect x="60" y="100" width="500" height="150" rx="12" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="310" y="124" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">② 分野 × 考える深さ で9人を育てる（強化学習）</text>
+        <text x="248" y="142" text-anchor="middle" font-size="11" fill="#5e6a8a">浅く考える</text>
+        <text x="364" y="142" text-anchor="middle" font-size="11" fill="#5e6a8a">深く考える</text>
+        <text x="480" y="142" text-anchor="middle" font-size="11" fill="#5e6a8a">最大まで考える</text>
+
+        <text x="80" y="169" font-size="11" fill="#1a1d2e">一般タスク</text>
+        <rect x="196" y="152" width="104" height="26" rx="7" fill="#c9aef0"/>
+        <rect x="312" y="152" width="104" height="26" rx="7" fill="#a578dd"/>
+        <rect x="428" y="152" width="104" height="26" rx="7" fill="#7a3bce"/>
+
+        <text x="80" y="199" font-size="11" fill="#1a1d2e">エージェント</text>
+        <rect x="196" y="182" width="104" height="26" rx="7" fill="#c9aef0"/>
+        <rect x="312" y="182" width="104" height="26" rx="7" fill="#a578dd"/>
+        <rect x="428" y="182" width="104" height="26" rx="7" fill="#7a3bce"/>
+
+        <text x="80" y="229" font-size="11" fill="#1a1d2e">コーディング</text>
+        <rect x="196" y="212" width="104" height="26" rx="7" fill="#c9aef0"/>
+        <rect x="312" y="212" width="104" height="26" rx="7" fill="#a578dd"/>
+        <rect x="428" y="212" width="104" height="26" rx="7" fill="#7a3bce"/>
+
+        <path d="M310 250 L310 264" stroke="#7a3bce" stroke-width="2"/>
+        <polygon points="310,268 305,260 315,260" fill="#7a3bce"/>
+
+        <rect x="60" y="268" width="500" height="58" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="292" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">③ 9人の先生から1人の生徒へ教え込む（MOPD）</text>
+        <text x="310" y="312" text-anchor="middle" font-size="12" fill="#5e6a8a">分野ごとの強みを、1つのモデルに集約する</text>
+
+        <rect x="60" y="340" width="500" height="52" rx="12" fill="#7a3bce"/>
+        <text x="310" y="371" text-anchor="middle" font-size="15" font-weight="900" fill="#ffffff">1つの Kimi K3 で全部こなせる</text>
+      </svg></div>
+      <div class="info-col"><div class="biz-example">
+        <div class="biz-title">鍛える3つの分野</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>一般: 調べもの・知識・画像を見ながらの判断</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>エージェント: 長時間の調査やアシスタント業務</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>コーディング: ソフト開発・Webサイト制作</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">長い作業を学ばせる工夫</div>
+        <ul class="box-list">
+          <li>全員の作業完了を待たず、途中で区切って学習を先に進める</li>
+          <li>考えすぎを防ぐため、使える分量に上限を設ける</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">利用時に効いてくる点</div>
+        <ul class="box-list">
+          <li>「考える深さ」は使う側が選べる。深いほど賢いが時間と費用も増える</li>
+        </ul></div>
+      <div class="check-section"><details><summary>理解度チェック: なぜ9人の専門家モデルを作るの？</summary><p>3つの分野（一般・エージェント・コーディング）と3段階の考える深さを掛け合わせるためです。最後にMOPDで1つのモデルへ統合します。</p></details><details><summary>理解度チェック: 「考える深さ」は利用者が選べる？</summary><p>選べます。深いほど賢い一方で、時間と費用も増えます。社内で標準をどこに置くか決めておくとよいでしょう。</p></details></div>
+    </section>
+    <section class="section" id="benchmark">
+      <span class="section-label">BENCHMARK</span>
+      <span class="timestamp">動画 09:30</span>
+      <h2>実力はどこまで来たか</h2>
+      <p class="section-sub">総合では最上位の有料AIに一歩届かないが、得意分野では首位を取っている</p>
+      <div class="table-wrap"><table>
+        <thead>
+          <tr>
+            <th style="width:16%">分野</th>
+            <th style="width:38%">テストの中身</th>
+            <th style="width:16%">Kimi K3</th>
+            <th style="width:30%">比較対象の最高点</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>知識</td><td>大学院レベルの理系問題（GPQA Diamond）</td><td class="k3col">93.5</td><td>94.1 — GPT-5.6 Sol</td></tr>
+          <tr><td>コード</td><td>バグ修正の自動化（DeepSWE）</td><td class="k3col">67.5</td><td>73.0 — GPT-5.6 Sol</td></tr>
+          <tr><td>コード</td><td>難関のソフト開発課題（FrontierSWE）</td><td class="k3col">81.2</td><td>86.6 — Claude Fable 5</td></tr>
+          <tr><td>コード</td><td>長丁場の開発作業（SWE-Marathon）</td><td class="k3col">42.0 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>40.0 — Claude Opus 4.8</td></tr>
+          <tr><td>端末操作</td><td>ターミナルでの作業遂行（Terminal-Bench 2.1）</td><td class="k3col">88.3</td><td>88.8 — GPT-5.6 Sol</td></tr>
+          <tr><td>ネット調査</td><td>調べ抜いて答えを出す（BrowseComp）</td><td class="k3col">91.2 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>90.4 — GPT-5.6 Sol</td></tr>
+          <tr><td>業務自動化</td><td>手順のある業務の自動処理（AutomationBench）</td><td class="k3col">30.8 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>29.7 — GPT-5.6 Sol</td></tr>
+          <tr><td>ツール連携</td><td>外部ツールの正確な操作（MCPMark-Verified）</td><td class="k3col">94.5 <span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">首位</span></td><td>92.9 — GPT-5.6 Sol</td></tr>
+          <tr><td>実務総合</td><td>実務課題の総合力（GDPval-AA v2・対戦形式のスコア）</td><td class="k3col">1686</td><td>1747 — Claude Fable 5</td></tr>
+        </tbody>
+      </table></div>
+      <p class="table-note">※ すべて各モデルの最高設定（reasoning effort: max など）での比較。外部評価では Artificial Analysis の知能指数で580モデル中4位、WebDev Arena ではオープンモデルとして初の1位（スコア1,678）を記録。</p>
+      <div class="check-section"><details><summary>理解度チェック: Kimi K3 が首位を取った分野の共通点は？</summary><p>長く働き続けるタイプの課題です。1回のひらめきで解く問題ではなく、調べて・試して・直してを繰り返す作業で強さが出ています。</p></details></div>
+    </section>
+    <section class="section" id="cost">
+      <span class="section-label">COST</span>
+      <span class="timestamp">動画 11:30</span>
+      <h2>同じ成果を、より安く</h2>
+      <p class="section-sub">最上位モデルに近い成績を、数分の1の費用で出せることが最大の武器</p>
+<div class="figure"><svg width="620" height="380" viewBox="0 0 620 380" role="img" aria-label="Kimi K3のコスト効率比較">
+        <!--
+          カードA x=14 y=18 w=592 h=170 (18..188)
+          カードB x=14 y=200 w=592 h=170 (200..370)
+          バー起点 x=180 / 値テキストは x=496 固定 text-anchor=start で縦揃え
+        -->
+        <rect x="14" y="18" width="592" height="170" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="44" font-size="14" font-weight="900" fill="#1a1d2e">① コーディング課題1件あたりの費用（相対）</text>
+
+        <text x="34" y="85" font-size="12" fill="#5e6a8a">Claude Fable 5</text>
+        <rect x="180" y="64" width="300" height="34" rx="6" fill="#dde2ec"/>
+        <text x="496" y="85" font-size="13" font-weight="900" fill="#5e6a8a">100</text>
+
+        <text x="34" y="129" font-size="12" fill="#1a1d2e">Kimi K3</text>
+        <rect x="180" y="108" width="114" height="34" rx="6" fill="#7a3bce"/>
+        <text x="496" y="129" font-size="13" font-weight="900" fill="#7a3bce">38</text>
+
+        <text x="34" y="170" font-size="11" fill="#5e6a8a">スコア差はわずか4.0ポイント（最高設定どうしの比較）</text>
+
+        <rect x="14" y="200" width="592" height="170" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="226" font-size="14" font-weight="900" fill="#1a1d2e">② ネット調査1件あたりの費用（BrowseComp）</text>
+
+        <text x="34" y="265" font-size="12" fill="#5e6a8a">Claude 系モデル</text>
+        <rect x="180" y="246" width="300" height="28" rx="6" fill="#dde2ec"/>
+        <text x="496" y="265" font-size="13" font-weight="900" fill="#5e6a8a">約10倍</text>
+
+        <text x="34" y="299" font-size="12" fill="#5e6a8a">GPT-5.6 Sol</text>
+        <rect x="180" y="280" width="61" height="28" rx="6" fill="#bfa0e8"/>
+        <text x="496" y="299" font-size="13" font-weight="900" fill="#5e6a8a">約2倍</text>
+
+        <text x="34" y="333" font-size="12" fill="#1a1d2e">Kimi K3</text>
+        <rect x="180" y="314" width="30" height="28" rx="6" fill="#7a3bce"/>
+        <text x="496" y="333" font-size="13" font-weight="900" fill="#7a3bce">$2.03</text>
+
+        <text x="34" y="362" font-size="11" fill="#5e6a8a">Kimi K3 は最高スコア91.2%を1件あたり約2.03ドルで達成</text>
+      </svg></div>
+      <div class="info-col"><div class="biz-example">
+        <div class="biz-title">費用対効果の読み方</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>最高得点のモデルに近い成績を、数分の1の費用で出せる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>「考える深さ」を1段下げると、さらに安く運用できる</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">向いている使い方</div>
+        <ul class="box-list">
+          <li>数をこなす定型業務（情報収集・整理・下書き作成）</li>
+          <li>同じモデルを複数の事業者から選べ、価格を比較しやすい</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">注意点</div>
+        <ul class="box-list">
+          <li>最高精度が求められる場面では上位の有料モデルが有利</li>
+          <li>この価格はAPI利用の場合。自社設置の費用は別に試算する</li>
+        </ul></div>
+    </section>
+    <section class="section" id="howto">
+      <span class="section-label">HOW TO USE</span>
+      <span class="timestamp">動画 13:30</span>
+      <h2>実際にどう使うのか</h2>
+      <p class="section-sub">モデル本体が公開されていても、ほとんどの会社の入り口はAPIです</p>
+<div class="figure"><svg width="620" height="405" viewBox="0 0 620 405" role="img" aria-label="Kimi K3を利用する3つの経路">
+        <!--
+          カード: x=14 w=592 rx=16
+          A y=18  h=112 (18..130)
+          B y=142 h=112 (142..254)
+          C y=266 h=126 (266..392)
+          バッジ: x=430 w=150 h=30 / text中心 505
+        -->
+        <rect x="14" y="18" width="592" height="112" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="56" font-size="16" font-weight="900" fill="#7a3bce">① 提供元のAPIを使う</text>
+        <text x="34" y="84" font-size="13" fill="#1a1d2e">契約すればすぐ使える。設備投資はゼロ</text>
+        <text x="34" y="106" font-size="13" fill="#5e6a8a">ほとんどの会社にとっての入り口</text>
+        <rect x="430" y="58" width="150" height="30" rx="15" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="505" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">個人〜中小企業</text>
+
+        <rect x="14" y="142" width="592" height="112" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="180" font-size="16" font-weight="900" fill="#7a3bce">② 他社の推論サービスを使う</text>
+        <text x="34" y="208" font-size="13" fill="#1a1d2e">同じモデルを別の会社も提供している</text>
+        <text x="34" y="230" font-size="13" fill="#5e6a8a">価格・地域・契約条件で選べる</text>
+        <rect x="430" y="182" width="150" height="30" rx="15" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="505" y="201" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">中小〜大企業</text>
+
+        <rect x="14" y="266" width="592" height="126" rx="16" fill="#f9fafb" stroke="#dde2ec"/>
+        <text x="34" y="298" font-size="16" font-weight="900" fill="#5e6a8a">③ 自前のGPUクラスタに置く</text>
+        <text x="34" y="326" font-size="13" fill="#1a1d2e">4ビットに圧縮してもモデル本体だけで約1.5TB</text>
+        <text x="34" y="348" font-size="13" fill="#5e6a8a">80GBのGPUを20枚前後、さらに作業用メモリ</text>
+        <text x="34" y="372" font-size="12" fill="#c9162e">データは外に出ないが、設備と運用の負担は大きい</text>
+        <rect x="430" y="300" width="150" height="30" rx="15" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="505" y="319" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">大企業・官公庁</text>
+      </svg></div>
+      <div class="info-col"><div class="biz-example">
+        <div class="biz-title">公開モデルの本当の利点</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>提供元1社に縛られない</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>供給者どうしが競争し、値下がりしやすい</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>提供元が撤退しても、他社が動かし続けられる</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">中小企業の現実解</div>
+        <ul class="box-list">
+          <li>まずAPIで小さく試し、効果が出た業務だけ広げる</li>
+          <li>機密度の高い資料は、渡してよい範囲を決めてから使う</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">よくある誤解</div>
+        <ul class="box-list">
+          <li>入手が無料でも、運用まで無料ではない</li>
+          <li>手元のPCやふつうの社内サーバーでは動かない</li>
+        </ul></div>
+      <div class="check-section"><details><summary>理解度チェック: 重みが公開されていれば、自社サーバーで動かせる？</summary><p>現実的ではありません。4ビットに圧縮してもモデル本体だけで約1.5TBあり、80GBのGPUが20枚前後必要です。ほとんどの会社にとっての入り口はAPIです。</p></details><details><summary>理解度チェック: それでも公開されている意味は？</summary><p>提供元1社に縛られないこと、供給者が競争して価格が下がりやすいこと、提供元が撤退しても他社が動かし続けられることです。</p></details></div>
+    </section>
+    <section class="section" id="wrap">
+      <span class="section-label">WRAP UP</span>
+      <span class="timestamp">動画 15:00</span>
+      <h2>現場から見た Kimi K3</h2>
+      <p class="section-sub">「世界一の性能」より「十分な性能を、安く・手元で」が現実的な価値</p>
+      <div class="card-grid"><div class="card">
+        <span class="card-num" style="background:var(--g-purple)">1</span>
+        <div class="card-title">長い資料がそのまま武器に</div>
+        <p class="card-desc">100万トークン。契約書一式や1年分の議事録をまとめて渡し、横断で調べさせる使い方ができる。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">2</span>
+        <div class="card-title">紙の資料・画面も読める</div>
+        <p class="card-desc">画像や動画を最初から扱える設計。スキャンした資料やスクリーンショットを、文字起こしせず渡せる。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">3</span>
+        <div class="card-title">長い作業を任せられる</div>
+        <p class="card-desc">調査・整理・下書きのように工程が多い仕事を、途中で崩れずに最後までやり切る訓練を受けている。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">4</span>
+        <div class="card-title">1社に縛られない</div>
+        <p class="card-desc">同じモデルを複数の事業者が提供する。値上げや提供終了があっても乗り換えられるのが、公開モデルの強み。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">5</span>
+        <div class="card-title">費用の見通しが立つ</div>
+        <p class="card-desc">上位モデルの数分の1の費用で近い成果。数をこなす定型業務ほど差が効いてくる。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">6</span>
+        <div class="card-title">まだ届かないところ</div>
+        <p class="card-desc">研究レベルの難問や最高精度が求められる判断は上位の有料モデルが優勢。人による確認は引き続き必須。</p></div>
+    </section>
+    <section class="section" id="glossary">
+      <span class="section-label">GLOSSARY</span>
+      <span class="timestamp">動画 16:00</span>
+      <h2>用語解説</h2>
+      <p class="section-sub">この回で登場した用語の読み方と概要</p>
+      <div class="glossary-grid"><div class="term-card">
+        <div class="term-head"><span class="term-name">Kimi K3</span><span class="term-reading">キミ ケイスリー</span></div>
+        <p class="term-desc">2026年7月に公開された2.8兆パラメータのAIモデル。モデル本体まで公開されている点が特徴。</p>
+        <a class="term-link" href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank">huggingface.co</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Moonshot AI</span><span class="term-reading">ムーンショット エーアイ</span></div>
+        <p class="term-desc">Kimiシリーズを開発する中国のAI企業。対話AI「Kimi」で知られる。</p>
+        <a class="term-link" href="https://www.moonshot.ai" target="_blank">moonshot.ai</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">MoE</span><span class="term-reading">エムオーイー</span></div>
+        <p class="term-desc">混合エキスパート。多数の専門家のうち一部だけを動かし、巨大でも計算量を抑える仕組み。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">パラメータ</span><span class="term-reading">パラメータ</span></div>
+        <p class="term-desc">AIが学習で身につけた「調整つまみ」の数。多いほど表現力が高くなりやすい。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">トークン</span><span class="term-reading">トークン</span></div>
+        <p class="term-desc">文章を細かく区切った処理単位。日本語ではおよそ1文字〜数文字で1トークン。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">コンテキストウィンドウ</span><span class="term-reading">コンテキストウィンドウ</span></div>
+        <p class="term-desc">一度に渡せる文章量の上限。AIの「見渡せる机の広さ」にあたる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">KDA</span><span class="term-reading">ケイディーエー</span></div>
+        <p class="term-desc">Kimi Delta Attention。長い文脈を安く処理する仕組み。要所を見渡す MLA と3対1で組み合わせる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Attention Residuals</span><span class="term-reading">アテンション レジデュアルズ</span></div>
+        <p class="term-desc">深い層からでも前のブロックの情報を直接取りに行ける仕組み。情報の目減りを防ぐ。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SFT</span><span class="term-reading">エスエフティー</span></div>
+        <p class="term-desc">教師あり微調整。良質なお手本を見せて、AIに作業の進め方を覚えさせる工程。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">RL</span><span class="term-reading">アールエル（強化学習）</span></div>
+        <p class="term-desc">うまくいった行動にご褒美を与えて上達させる学習方法。長時間の作業訓練に使われる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">MOPD</span><span class="term-reading">エムオーピーディー</span></div>
+        <p class="term-desc">複数の先生モデルの答え方を1つの生徒モデルに写し取る手法（多教師オンポリシー蒸留）。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">オープンウェイト</span><span class="term-reading">オープンウェイト</span></div>
+        <p class="term-desc">モデル本体（重み）が公開され、誰でも入手・改変・再配布できる状態。動かす設備は別途必要。</p></div>
+    </section>
+    <section class="section" id="sources">
+      <span class="section-label">SOURCES</span>
+      <h2>出典</h2>
+      <ul class="source-list">
+        <li><a href="https://arxiv.org/abs/2607.24653" target="_blank" rel="noopener">Kimi Team「Kimi K3: Open Frontier Intelligence」arXiv:2607.24653（2026年7月27日）</a></li>
+        <li><a href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank" rel="noopener">Hugging Face: moonshotai/Kimi-K3（公開されているモデル本体）</a></li>
+      </ul>
+      <p class="table-note">本ページの図は、上記論文の Figure 2 ほかをもとに、初学者向けに描き起こしたものです。数値はすべて論文の記載に基づきます。</p>
+    </section>
+
+    <footer>
+      出典: Kimi Team「Kimi K3: Open Frontier Intelligence」arXiv:2607.24653 / 制作: 森の賢人
+    </footer>
+  </main>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

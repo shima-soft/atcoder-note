@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.step-flow {
+  display: flex;
+  align-items: stretch;
+  gap: .6rem;
+  flex: 1;
+  overflow: hidden;
+}
+.step-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .7rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.step-card.is-key { border: 2px solid var(--blue); }
+.step-head { display: flex; align-items: center; gap: .55rem; }
+.step-num {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--g-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .88rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.step-title { font-size: 1rem; font-weight: 900; color: var(--text); line-height: 1.3; }
+.step-desc { font-size: .86rem; color: var(--muted); line-height: 1.65; }
+.step-quote {
+  font-size: .84rem;
+  line-height: 1.55;
+  background: rgba(26,150,192,.08);
+  color: var(--text);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: .5rem .7rem;
+}
+.step-arrow {
+  align-self: center;
+  color: var(--border);
+  font-size: 1.5rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">ACTION</span>
+    <h2 class="slide-title">明日からできる3ステップ</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>同じ手直しを2回したら記録する。数えられるものだけ、道具に任せる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="step-flow">
+      <div class="step-card">
+        <div class="step-head">
+          <span class="step-num">1</span>
+          <span class="step-title">同じ手直しを<br>2回したら記録する</span>
+        </div>
+        <div class="step-desc">「またこれか」と思った瞬間が合図。その場で直して終わらせず、一行メモに残す。何が繰り返されているかは、数えないと見えない</div>
+        <div class="step-quote">記録するのは指摘の内容ではなく、<b>何を見て不合格と判断したか</b></div>
+      </div>
+      <span class="step-arrow">›</span>
+      <div class="step-card is-key">
+        <div class="step-head">
+          <span class="step-num">2</span>
+          <span class="step-title">目で見るものと<br>数えられるものに分ける</span>
+        </div>
+        <div class="step-desc">「読みやすいか」は人が見るしかない。「はみ出していないか」「合計が合うか」は数えられる。数えられる側だけを道具に渡す</div>
+        <div class="step-quote">分け方を間違えなければ、<b>作る道具は小さくて済む</b></div>
+      </div>
+      <span class="step-arrow">›</span>
+      <div class="step-card">
+        <div class="step-head">
+          <span class="step-num">3</span>
+          <span class="step-title">その道具も<br>Claude に作らせる</span>
+        </div>
+        <div class="step-desc">判定の条件さえ言葉にできれば、確認用のプログラムは Claude が書く。自分で書ける必要はない</div>
+        <div class="step-quote">「この条件を判定する仕組みを作って。<b>作ったら毎回それを通して</b>」</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

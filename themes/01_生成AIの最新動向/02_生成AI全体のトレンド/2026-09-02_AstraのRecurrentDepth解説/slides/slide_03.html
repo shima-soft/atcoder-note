@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>どこまでが事実か</title>
+<style>
+.fact-wrap { flex: 1; display: flex; flex-direction: column; gap: .7rem; overflow: hidden; }
+.fact-grid { flex: 3; display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+.fact-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .7rem .9rem .6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.fact-card.strong { border: 2px solid var(--purple); }
+.fact-tag {
+  align-self: flex-start;
+  font-size: .66rem; font-weight: 900;
+  padding: .12rem .55rem; border-radius: 99px;
+  background: var(--surface); color: var(--muted);
+}
+.fact-card.strong .fact-tag { background: var(--purple); color: #fff; }
+.fact-title { font-size: .86rem; font-weight: 900; color: var(--text); }
+.fact-desc  { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.fact-list { list-style: none; display: flex; flex-direction: column; gap: .14rem; margin-top: .1rem; }
+.fact-list li {
+  font-size: .76rem; color: var(--text); line-height: 1.45;
+  padding-left: .75rem; position: relative;
+}
+.fact-list li::before { content: '•'; position: absolute; left: 0; color: var(--purple); }
+.fact-src {
+  font-size: .68rem; color: var(--muted);
+  margin-top: auto; padding-top: .4rem;
+  border-top: 1px solid var(--border);
+}
+.stance {
+  flex: 2;
+  background: #f4efff;
+  border: 1px solid #c9b3ec;
+  border-radius: 14px;
+  padding: .65rem 1rem;
+  display: flex; flex-direction: column; gap: .3rem;
+}
+.stance-title { font-size: .82rem; font-weight: 900; color: var(--purple); }
+.stance-row { display: flex; gap: .7rem; align-items: baseline; }
+.stance-key {
+  flex: 0 0 10.5rem;
+  font-size: .78rem; font-weight: 900; color: var(--text);
+}
+.stance-val { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">前提の確認</span>
+    <h2 class="slide-title">どこまでが事実で、どこからが報道か</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>Recurrent Depth という技術は論文もオープンモデルもある確かな話。Astra が使っているという部分だけが、まだ報道の段階</p>
+    </div>
+  </div>
+  <div class="slide-body">
+   <div class="fact-wrap">
+    <div class="fact-grid">
+      <div class="fact-card strong">
+        <span class="fact-tag">確度 高 — 公開研究</span>
+        <div class="fact-title">技術そのものは実在する</div>
+        <p class="fact-desc">2025年に論文が出て学会に採択済み。誰でも動かせるモデルが公開されている。</p>
+        <ul class="fact-list">
+          <li>論文は ICML 2025 に採択</li>
+          <li>Huginn-3.5B（最大50周）</li>
+          <li>Ouro 1.4B / 2.6B（4周）</li>
+          <li>重みは誰でも入手できる</li>
+          <li>成績を第三者が再現できる</li>
+        </ul>
+        <p class="fact-src">arXiv:2502.05171 / ICML 2025</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-tag">確度 中 — 関係者情報</span>
+        <div class="fact-title">Astra が採用、と報じられた</div>
+        <p class="fact-desc">The Information が関係者の話として報道。OpenAI の公式発表ではない。</p>
+        <ul class="fact-list">
+          <li>技術資料は公開されていない</li>
+          <li>コスト削減の主張も報道ベース</li>
+          <li>OpenAI は安全対策について説明</li>
+          <li>研究者からは懸念の声</li>
+          <li>主要メディアが一斉に追随した</li>
+        </ul>
+        <p class="fact-src">The Information（2026年9月1日）</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-tag">未確定</span>
+        <div class="fact-title">中身の数字はわからない</div>
+        <p class="fact-desc">報道は仕組みの名前までで、具体的な数字には触れていない。</p>
+        <ul class="fact-list">
+          <li>何周まわすのか</li>
+          <li>モデルの大きさ</li>
+          <li>読める推論をどれだけ残すのか</li>
+          <li>一般提供の時期</li>
+          <li>実際の料金と速度</li>
+        </ul>
+        <p class="fact-src">2026年9月2日時点</p>
+      </div>
+    </div>
+    <div class="stance">
+      <div class="stance-title">この解説の進め方</div>
+      <div class="stance-row">
+        <div class="stance-key">公開研究を使うところ</div>
+        <div class="stance-val">仕組みの図・計算の数字・効果の比較は、すべて論文とオープンモデルから取っています。</div>
+      </div>
+      <div class="stance-row">
+        <div class="stance-key">「報道では」と断るところ</div>
+        <div class="stance-val">Astra が採用していること、コストが下がるという主張、OpenAI の安全対策の説明。</div>
+      </div>
+      <div class="stance-row">
+        <div class="stance-key">持ち帰るときの注意</div>
+        <div class="stance-val">社内で共有するときは「OpenAI がそう言った」ではなく「そう報じられた」として伝えてください。</div>
+      </div>
+    </div>
+   </div>
+  </div>
+</div>
+</body>
+</html>

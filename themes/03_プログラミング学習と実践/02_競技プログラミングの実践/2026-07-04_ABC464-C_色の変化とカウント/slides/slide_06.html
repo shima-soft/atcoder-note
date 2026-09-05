@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.pattern-cols {
+  display: flex;
+  gap: 1.2rem;
+  flex: 1;
+  overflow: hidden;
+}
+.diagram-box {
+  flex: 0 0 52%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .4rem;
+}
+.info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow: hidden;
+}
+.biz-example {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .8rem;
+}
+.biz-example .biz-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.biz-step {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .2rem;
+}
+.snum {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.biz-step p {
+  font-size: .82rem;
+  color: var(--text);
+}
+.ok-box, .ng-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .5rem .8rem;
+}
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.box-title {
+  font-size: .8rem;
+  font-weight: 700;
+  margin-bottom: .2rem;
+}
+.box-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.box-list li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.box-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+.code-block {
+  background: #1a1d2e;
+  border-radius: 8px;
+  padding: .6rem;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: .7rem;
+  line-height: 1.4;
+  color: #e0e0e0;
+  overflow-x: auto;
+}
+.code-comment { color: #5e6a8a; }
+.code-keyword { color: #d96018; }
+.code-string { color: #008f6a; }
+.code-number { color: #7a3bce; }
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">CODE</span>
+    <h2 class="slide-title">コード全体と計算量</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>イベントリストとカウント辞書で効率的に処理</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <div class="code-block">
+<span class="code-keyword">from</span> collections <span class="code-keyword">import</span> defaultdict
+
+<span class="code-keyword">def</span> solve():
+    <span class="code-comment"># 入力読み込み</span>
+    n, m = map(int, input().split())
+    
+    <span class="code-comment"># 日ごとのイベントリスト</span>
+    changes = [[] <span class="code-keyword">for</span> _ <span class="code-keyword">in</span> range(m + <span class="code-number">1</span>)]
+    cnt = defaultdict(int)  <span class="code-comment"># 色のカウント</span>
+    kind = <span class="code-number">0</span>  <span class="code-comment"># 色の種類数</span>
+    
+    <span class="code-comment"># 各鳥の情報を処理</span>
+    <span class="code-keyword">for</span> _ <span class="code-keyword">in</span> range(n):
+        a, d, b = map(int, input().split())
+        <span class="code-comment"># 初期色のカウント</span>
+        <span class="code-keyword">if</span> cnt[a] == <span class="code-number">0</span>:
+            kind += <span class="code-number">1</span>
+        cnt[a] += <span class="code-number">1</span>
+        <span class="code-comment"># イベントを記録</span>
+        <span class="code-keyword">if</span> d <= m:
+            changes[d].append((a, b))
+    
+    <span class="code-comment"># 各日のイベントを処理</span>
+    <span class="code-keyword">for</span> day <span class="code-keyword">in</span> range(<span class="code-number">1</span>, m + <span class="code-number">1</span>):
+        <span class="code-keyword">for</span> a, b <span class="code-keyword">in</span> changes[day]:
+            <span class="code-comment"># 色aのカウントを減らす</span>
+            cnt[a] -= <span class="code-number">1</span>
+            <span class="code-keyword">if</span> cnt[a] == <span class="code-number">0</span>:
+                kind -= <span class="code-number">1</span>
+            <span class="code-comment"># 色bのカウントを増やす</span>
+            cnt[b] += <span class="code-number">1</span>
+            <span class="code-keyword">if</span> cnt[b] == <span class="code-number">1</span>:
+                kind += <span class="code-number">1</span>
+        print(kind)
+      </div>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 コードのポイント</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>`changes[d]`: d日目のイベントリスト</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>`cnt[a]`: 色aを持つ鳥の数</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>`kind`: 現在存在する色の種類数</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 計算量</div>
+        <ul class="box-list">
+          <li>初期設定: O(N)</li>
+          <li>イベント処理: 合計O(N)</li>
+          <li>日ループ: O(M)</li>
+          <li>合計: O(N+M) ← 30万でも余裕</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 実装の注意</div>
+        <ul class="box-list">
+          <li> defaultdict を使うと初期値0で便利</li>
+          <li> イベントはd<=mのときだけ記録</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 B - 用語解説</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .34rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .45rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .86rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .7rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .74rem; color: var(--muted); line-height: 1.45; }
+.term-link    {
+  font-size: .64rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .2rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+.term-desc code { font-size: .7rem; color: var(--orange); }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">絶対値</span>
+          <span class="term-reading">ぜったいち</span>
+        </div>
+        <p class="term-desc">数からマイナス符号を取り除いた値。−2 も 2 も絶対値は 2。「どれだけ離れているか」を表すのに使う。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/絶対値" target="_blank">Wikipedia: 絶対値 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">abs()</span>
+          <span class="term-reading">アブス</span>
+        </div>
+        <p class="term-desc">絶対値を返す Python の組み込み関数。<code>abs(x - i)</code> で左右どちらの離れ方も同じ形で測れる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#abs" target="_blank">Python ドキュメント: abs 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">文字列</span>
+          <span class="term-reading">もじれつ</span>
+        </div>
+        <p class="term-desc">文字を並べたデータ。今回の S のように <code>S[i]</code> で1文字ずつ取り出して調べられる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/tutorial/introduction.html#text" target="_blank">Python ドキュメント: 文字列 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">インデックス</span>
+          <span class="term-reading">いんでっくす</span>
+        </div>
+        <p class="term-desc">「何番目か」を表す番号。Python は 0 から数えるので、マス1 は <code>S[0]</code> にあたる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/添字" target="_blank">Wikipedia: 添字 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">全探索</span>
+          <span class="term-reading">ぜんたんさく</span>
+        </div>
+        <p class="term-desc">考えられる場合を1つずつすべて調べる方法。今回はマスとガードマンの組み合わせを総当たりで確認する。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">二重ループ</span>
+          <span class="term-reading">にじゅうるーぷ</span>
+        </div>
+        <p class="term-desc">for の中にもう1つ for を書く形。「全マス × 全ガードマン」のような組み合わせを調べるときの定番。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">フラグ</span>
+          <span class="term-reading">ふらぐ</span>
+        </div>
+        <p class="term-desc">「見つかったかどうか」を覚えておく目印の変数。True / False の2択で持つ。今回の <code>watched</code> がこれ。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#boolean-values" target="_blank">Python ドキュメント: 真偽値 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">input()</span>
+          <span class="term-reading">インプット</span>
+        </div>
+        <p class="term-desc">1行分の入力を文字列として読み込む組み込み関数。AtCoder では毎回使う基本の命令。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python ドキュメント: input 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">並んだ要素すべてに同じ変換をかける関数。<code>map(int, ...)</code> は「全部まとめて整数に直す」定型文。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python ドキュメント: map 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングサイト。毎週コンテストが開催され、初心者向けの ABC が入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

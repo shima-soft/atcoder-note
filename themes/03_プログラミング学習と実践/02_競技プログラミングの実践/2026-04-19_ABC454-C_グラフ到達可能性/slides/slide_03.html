@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.fail-layout {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+.fail-left {
+  flex: 0 0 52%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.fail-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.naive-title {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .5rem;
+  text-align: center;
+}
+.tle-badge {
+  background: rgba(201,22,46,.1);
+  color: var(--red);
+  border: 1px solid rgba(201,22,46,.25);
+  border-radius: 8px;
+  padding: .5rem 1rem;
+  font-size: .8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: .5rem;
+}
+.tle-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .25rem;
+}
+.think-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .9rem;
+}
+.think-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.think-title.ng { color: var(--red); }
+.think-row {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  margin-bottom: .25rem;
+}
+.think-icon {
+  font-size: .82rem;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+.think-text {
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.think-text strong { color: var(--red); }
+
+.hint-box {
+  background: rgba(217,96,24,.06);
+  border: 1px solid rgba(217,96,24,.25);
+  border-radius: 14px;
+  padding: .6rem .9rem;
+  margin-top: auto;
+}
+.hint-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .3rem;
+}
+.hint-text {
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.55;
+}
+.hint-text em { color: var(--orange); font-style: normal; }
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(201,22,46,.12);color:var(--red)">NAIVE → TLE</span>
+    <h2 class="slide-title">単純な解法はなぜ通らない？</h2>
+    <div class="hitokoto" style="border-color:var(--red)">
+      <span class="badge" style="background:var(--red)">落とし穴</span>
+      <p>「全パターンを順に試せばいい」と考えると、状態爆発で時間切れになる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="fail-layout">
+      <div class="fail-left">
+        <div class="naive-title" style="width: 500px; height: 21px; font-size: 18px;">🤔 「こう考えた」— 全通りシミュレーション</div>
+        <!--
+          Tree of states showing explosion
+          root: {1}, children: {2}(via rule1→2)
+          from {2}: {3} or {4}, etc.
+          Nodes grow exponentially
+          viewBox 0 0 580 390
+        -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 370" class=""><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo5537s5_1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00a97d" stop-opacity="1"></stop><stop offset="46%" stop-color="#008f6a" stop-opacity="1"></stop><stop offset="100%" stop-color="#007b5b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s5_1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s5_1" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#0b2821" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s6_2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s6_2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s6_2" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s6_3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s6_3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s6_3" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s6_4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s6_4" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s6_4" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s6_5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s6_5" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s6_5" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s7_6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s7_6" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s7_6" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s7_7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s7_7" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s7_7" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s7_8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s7_8" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s7_8" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s7_9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s7_9" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s7_9" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s7_a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s7_a" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s7_a" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s7_b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#66759b" stop-opacity="1"></stop><stop offset="46%" stop-color="#5d698b" stop-opacity="1"></stop><stop offset="100%" stop-color="#55607f" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s7_b" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s7_b" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#3a4152" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo5537s8_c" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo5537s8_c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo5537s8_c" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo553rod_d" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo553rod_d" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo553rod_d" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo554ez4_e" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00a97d" stop-opacity="1"></stop><stop offset="46%" stop-color="#008f6a" stop-opacity="1"></stop><stop offset="100%" stop-color="#007b5b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo554ez4_e" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo554ez4_e" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#0b2821" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo554ez5_f" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo554ez5_f" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo554ez5_f" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo554ez5_g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo554ez5_g" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo554ez5_g" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo554ez5_h" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo554ez5_h" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo554ez5_h" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo554ez6_i" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#66759b" stop-opacity="1"></stop><stop offset="46%" stop-color="#5d698b" stop-opacity="1"></stop><stop offset="100%" stop-color="#55607f" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo554ez6_i" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo554ez6_i" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#3a4152" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo554ez6_j" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo554ez6_j" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo554ez6_j" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs>
+          <defs class="">
+            <marker id="arr-r" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto" class="">
+              <path d="M0,0 L0,6 L7,3 Z" fill="#c9162e" class=""></path>
+            </marker>
+          </defs>
+          <!-- Root: {1} -->
+          <g data-magic="1" data-magic-id="mo554ez4_e" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22225%22%20y%3D%2210%22%20width%3D%22130%22%20height%3D%2234%22%20rx%3D%228%22%20fill%3D%22rgba(0%2C143%2C106%2C.1)%22%20stroke%3D%22%23008f6a%22%20stroke-width%3D%221.8%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="225" y="10" width="130" height="34" rx="8" fill="url(#magic-grad-mo554ez4_e)" stroke="rgba(0,92,68,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo554ez4_e)" fill-opacity="0.1" ry="8"></rect><rect x="225" y="10" width="130" height="34" rx="8" fill="url(#magic-gloss-mo554ez4_e)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="225" y="10" width="130" height="34" rx="8" fill="none" stroke="rgba(31,112,90,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="290" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a" class="">持ち物: {1}</text>
+
+          <!-- Level 1 -->
+          <line x1="290" y1="44" x2="290" y2="68" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arr-r)" class=""></line>
+          <g data-magic="1" data-magic-id="mo554ez5_f" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22225%22%20y%3D%2268%22%20width%3D%22130%22%20height%3D%2234%22%20rx%3D%228%22%20fill%3D%22rgba(201%2C22%2C46%2C.06)%22%20stroke%3D%22%23c9162e%22%20stroke-width%3D%221.5%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="225" y="68" width="130" height="34" rx="8" fill="url(#magic-grad-mo554ez5_f)" stroke="rgba(155,17,35,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo554ez5_f)" fill-opacity="0.06" ry="8"></rect><rect x="225" y="68" width="130" height="34" rx="8" fill="url(#magic-gloss-mo554ez5_f)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="225" y="68" width="130" height="34" rx="8" fill="none" stroke="rgba(167,46,61,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="290" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e" class="">1→2交換: {2}</text>
+
+          <!-- Level 2 branches -->
+          <line x1="264" y1="102" x2="180" y2="128" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arr-r)" class=""></line>
+          <line x1="316" y1="102" x2="400" y2="128" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arr-r)" class=""></line>
+          <g data-magic="1" data-magic-id="mo554ez5_g" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22116%22%20y%3D%22128%22%20width%3D%22128%22%20height%3D%2234%22%20rx%3D%228%22%20fill%3D%22rgba(201%2C22%2C46%2C.06)%22%20stroke%3D%22%23c9162e%22%20stroke-width%3D%221.5%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="116" y="128" width="128" height="34" rx="8" fill="url(#magic-grad-mo554ez5_g)" stroke="rgba(155,17,35,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo554ez5_g)" fill-opacity="0.06" ry="8"></rect><rect x="116" y="128" width="128" height="34" rx="8" fill="url(#magic-gloss-mo554ez5_g)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="116" y="128" width="128" height="34" rx="8" fill="none" stroke="rgba(167,46,61,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="180" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e" class="">2→3交換: {3}</text>
+          <g data-magic="1" data-magic-id="mo554ez5_h" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22336%22%20y%3D%22128%22%20width%3D%22128%22%20height%3D%2234%22%20rx%3D%228%22%20fill%3D%22rgba(201%2C22%2C46%2C.06)%22%20stroke%3D%22%23c9162e%22%20stroke-width%3D%221.5%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="336" y="128" width="128" height="34" rx="8" fill="url(#magic-grad-mo554ez5_h)" stroke="rgba(155,17,35,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo554ez5_h)" fill-opacity="0.06" ry="8"></rect><rect x="336" y="128" width="128" height="34" rx="8" fill="url(#magic-gloss-mo554ez5_h)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="336" y="128" width="128" height="34" rx="8" fill="none" stroke="rgba(167,46,61,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="400" y="150" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e" class="">2→4交換: {4}</text>
+
+          <!-- Level 3 from {3} -->
+          <line x1="170" y1="162" x2="120" y2="190" stroke="#c9162e" stroke-width="1.3" marker-end="url(#arr-r)" class=""></line>
+          <g data-magic="1" data-magic-id="mo554ez6_j" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2256%22%20y%3D%22190%22%20width%3D%22128%22%20height%3D%2234%22%20rx%3D%228%22%20fill%3D%22rgba(201%2C22%2C46%2C.04)%22%20stroke%3D%22%23c9162e%22%20stroke-width%3D%221.3%22%20stroke-dasharray%3D%224%2C2%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="56" y="190" width="128" height="34" rx="8" fill="url(#magic-grad-mo554ez6_j)" stroke="rgba(155,17,35,0.95)" stroke-width="1" stroke-dasharray="4,2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo554ez6_j)" fill-opacity="0.04" ry="8"></rect><rect x="56" y="190" width="128" height="34" rx="8" fill="url(#magic-gloss-mo554ez6_j)" stroke="none" stroke-width="1.3" stroke-dasharray="4,2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="56" y="190" width="128" height="34" rx="8" fill="none" stroke="rgba(167,46,61,0.06)" stroke-width="0.85" stroke-dasharray="4,2" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="120" y="212" text-anchor="middle" font-size="11" fill="#c9162e" class="">3→4: {4}</text>
+
+          <!-- Level 3 from {4}: no more -->
+          <line x1="400" y1="162" x2="400" y2="190" stroke="#c9162e" stroke-width="1.3" marker-end="url(#arr-r)" class=""></line>
+          <g data-magic="1" data-magic-id="mo554ez6_i" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22336%22%20y%3D%22190%22%20width%3D%22128%22%20height%3D%2234%22%20rx%3D%228%22%20fill%3D%22rgba(94%2C106%2C138%2C.07)%22%20stroke%3D%22%235e6a8a%22%20stroke-width%3D%221.3%22%20stroke-dasharray%3D%224%2C2%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="336" y="190" width="128" height="34" rx="8" fill="url(#magic-grad-mo554ez6_i)" stroke="rgba(73,83,108,0.95)" stroke-width="1" stroke-dasharray="4,2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo554ez6_i)" fill-opacity="0.07" ry="8"></rect><rect x="336" y="190" width="128" height="34" rx="8" fill="url(#magic-gloss-mo554ez6_i)" stroke="none" stroke-width="1.3" stroke-dasharray="4,2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="336" y="190" width="128" height="34" rx="8" fill="none" stroke="rgba(95,104,126,0.06)" stroke-width="0.85" stroke-dasharray="4,2" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="400" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a" class="">行き詰まり…</text>
+
+          <!-- More dots suggestion -->
+          <text x="120" y="250" text-anchor="middle" font-size="18" fill="#c9162e" opacity=".5" class="">⋮</text>
+
+          <!-- Red box: problem -->
+          <g data-magic="1" data-magic-id="mo553rod_d" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2230%22%20y%3D%22282%22%20width%3D%22520%22%20height%3D%2272%22%20rx%3D%2210%22%20fill%3D%22rgba(201%2C22%2C46%2C.07)%22%20stroke%3D%22rgba(201%2C22%2C46%2C.3)%22%20stroke-width%3D%221.5%22%20class%3D%22%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="30" y="282" width="520" height="72" rx="11.5" fill="url(#magic-grad-mo553rod_d)" stroke="rgba(155,17,35,0.95)" stroke-width="1.6" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo553rod_d)" fill-opacity="0.07" ry="11.5"></rect><rect x="30" y="282" width="520" height="72" rx="10" fill="url(#magic-gloss-mo553rod_d)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="30" y="282" width="520" height="72" rx="10" fill="none" stroke="rgba(167,46,61,0.06)" stroke-width="1.36" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="290" y="308" text-anchor="middle" font-size="13" font-weight="700" fill="#c9162e" class="">❌ M=30万・N=30万 → 取りうる順列は天文学的な数に爆発！</text>
+          <text x="290" y="332" text-anchor="middle" font-size="12" fill="#5e6a8a" class="">2秒制限では到底終わらない（TLE: Time Limit Exceeded）</text>
+        </svg>
+      </div>
+      <div class="fail-right">
+        <div class="think-box">
+          <div class="think-title ng">❌ やりがちな間違い発想</div>
+          <div class="think-row">
+            <span class="think-icon">1.</span>
+            <span class="think-text">「交換を1ステップずつ全部試す」 → <strong>M 個のルールを組み合わせると指数的に増加</strong></span>
+          </div>
+          <div class="think-row">
+            <span class="think-icon">2.</span>
+            <span class="think-text">「現在の持ち物セットをすべての状態として管理する」 → <strong>2^N 通りの集合が存在し得る</strong></span>
+          </div>
+        </div>
+        <div class="think-box">
+          <div class="think-title">🔑 気づくべきこと</div>
+          <div class="think-row">
+            <span class="think-icon">💡</span>
+            <span class="think-text">
+              アイテム X を<strong>持っていれば</strong>アイテム Y を<strong>いつでも得られる</strong>。<br>
+              重要なのは「どのアイテムが手に入るか」の<strong>連鎖関係</strong>だけ！
+            </span>
+          </div>
+        </div>
+        <div class="hint-box">
+          <div class="hint-title">🗺 この問題の本質</div>
+          <div class="hint-text">
+            「アイテム X → アイテム Y が得られる」を<em>有向グラフの辺</em>とみなすと、<br>
+            問題は <em>「ノード1から到達できるノードをすべて数える」</em> に変わる！
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

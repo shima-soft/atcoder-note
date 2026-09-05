@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claudeコマンド選択フロー</title>
+<style>
+:root { --bg:#f9fafb; --surface:#eff1f7; --card:#fff; --border:#dde2ec; --text:#1a1d2e; --muted:#5e6a8a; --blue:#1a96c0; --green:#008f6a; --orange:#d96018; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:2rem; }
+.wrap { max-width:860px; margin:0 auto; }
+.top { display:flex; align-items:center; gap:1rem; margin-bottom:1.4rem; }
+.back { color:var(--blue); text-decoration:none; border:1px solid var(--blue); border-radius:6px; padding:.25rem .65rem; font-size:.82rem; }
+h1 { font-size:1.8rem; line-height:1.25; }
+.sub { color:var(--muted); margin:.4rem 0 1.2rem; }
+.panel { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.2rem; margin-bottom:1rem; }
+.question { font-size:1.05rem; font-weight:900; margin-bottom:.8rem; }
+.choices { display:grid; grid-template-columns:repeat(2,1fr); gap:.7rem; }
+button { border:1px solid var(--border); background:var(--surface); border-radius:10px; padding:.75rem .8rem; cursor:pointer; text-align:left; font-weight:900; color:var(--text); }
+button:hover { border-color:var(--blue); color:var(--blue); }
+.result { display:none; border-left:4px solid var(--blue); }
+.result h2 { font-size:1.2rem; margin-bottom:.4rem; }
+.cmd { font-family:'Consolas','Cascadia Code',monospace; background:#eef7fb; color:#116b88; padding:.1rem .35rem; border-radius:5px; }
+.note { color:var(--muted); font-size:.9rem; line-height:1.7; }
+@media (max-width:720px) { body { padding:1rem; } .choices { grid-template-columns:1fr; } .top { align-items:flex-start; flex-direction:column; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="index.html">Web版へ戻る</a><h1>Claudeコマンド選択フロー</h1></div>
+  <p class="sub">今やりたいことを選ぶと、最初に試すコマンドを表示します。</p>
+  <section class="panel" id="q1">
+    <div class="question">今はどの場面ですか？</div>
+    <div class="choices">
+      <button onclick="showResult('start')">Claude Codeを始めたい</button>
+      <button onclick="showResult('long')">会話や作業が長くなった</button>
+      <button onclick="showResult('review')">提出前に確認したい</button>
+      <button onclick="showResult('trouble')">動きがおかしい</button>
+    </div>
+  </section>
+  <section class="panel result" id="start"><h2>始めるなら <span class="cmd">claude</span></h2><p class="note">対話で始めるなら <span class="cmd">claude</span>。1回だけ聞いて終わるなら <span class="cmd">claude -p "query"</span>。前回の続きなら <span class="cmd">claude -c</span> を使います。</p></section>
+  <section class="panel result" id="long"><h2>長くなったら <span class="cmd">/context</span> と <span class="cmd">/compact</span></h2><p class="note">まず <span class="cmd">/context</span> で文脈の状態を見て、必要なら <span class="cmd">/compact</span> で要約します。大きな作業前は <span class="cmd">/plan</span> も有効です。</p></section>
+  <section class="panel result" id="review"><h2>提出前は <span class="cmd">/diff</span> から</h2><p class="note"><span class="cmd">/diff</span> で変更を見て、<span class="cmd">/code-review</span> でレビューします。セキュリティ観点が必要なら <span class="cmd">/security-review</span> を追加します。</p></section>
+  <section class="panel result" id="trouble"><h2>困った時は <span class="cmd">/status</span> と <span class="cmd">/doctor</span></h2><p class="note">使えるコマンドを見たいなら <span class="cmd">/help</span>。状態確認は <span class="cmd">/status</span>、診断は <span class="cmd">/doctor</span>、原因調査は <span class="cmd">/debug</span> です。</p></section>
+</main>
+<script>
+function showResult(id) {
+  document.querySelectorAll('.result').forEach(el => el.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+  document.getElementById(id).scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+</script>
+</body>
+</html>

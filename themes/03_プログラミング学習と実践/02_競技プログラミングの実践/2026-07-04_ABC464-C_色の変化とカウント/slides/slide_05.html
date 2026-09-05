@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.pattern-cols {
+  display: flex;
+  gap: 1.2rem;
+  flex: 1;
+  overflow: hidden;
+}
+.diagram-box {
+  flex: 0 0 52%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .4rem;
+}
+.info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow: hidden;
+}
+.biz-example {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .8rem;
+}
+.biz-example .biz-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.biz-step {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .2rem;
+}
+.snum {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.biz-step p {
+  font-size: .82rem;
+  color: var(--text);
+}
+.ok-box, .ng-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .5rem .8rem;
+}
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.box-title {
+  font-size: .8rem;
+  font-weight: 700;
+  margin-bottom: .2rem;
+}
+.box-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.box-list li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.box-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">METHOD</span>
+    <h2 class="slide-title">色のカウントを管理する</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>各色のカウントと「存在する色の種類数」を追跡する</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 280" class="">
+        <!-- タイトル -->
+        <text x="260" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e" class="">カウント管理の仕組み</text>
+        <!-- 初期状態 -->
+        <rect x="30" y="45" width="220" height="80" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="1.5" class=""></rect>
+        <text x="140" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a" class="">初期状態（1日目）</text>
+        <text x="140" y="85" text-anchor="middle" font-size="11" fill="#1a1d2e" class="">各鳥の初期色A_iをカウント</text>
+        <text x="140" y="105" text-anchor="middle" font-size="11" fill="#1a1d2e" class="">色が1羽でもいれば「存在」に追加</text>
+        <!-- 変化処理 -->
+        <rect x="270" y="45" width="220" height="80" rx="8" fill="rgba(217,96,24,.06)" stroke="#d96018" stroke-width="1.5" class=""></rect>
+        <text x="380" y="65" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018" class="">イベント処理</text>
+        <text x="380" y="85" text-anchor="middle" font-size="11" fill="#1a1d2e" class="">色A_iのカウントを1減らす</text>
+        <text x="380" y="105" text-anchor="middle" font-size="11" fill="#1a1d2e" class="">色B_iのカウントを1増やす</text>
+        <!-- 具体例 -->
+        <rect x="30" y="140" width="460" height="120" rx="8" fill="rgba(217,96,24,.06)" stroke="#d96018" stroke-width="1.5" class=""></rect>
+        <text x="260" y="160" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018" class="">具体例（3日目のイベント処理）</text>
+        <text x="50" y="180" font-size="11" fill="#1a1d2e" class="">イベント: 色2 → 色5</text>
+        <text x="50" y="200" font-size="11" fill="#1a1d2e" class="">① 色2のカウント: 3 → 2（まだ存在する）</text>
+        <text x="50" y="220" font-size="11" fill="#1a1d2e" class="">② 色5のカウント: 0 → 1（新しく存在に追加）</text>
+        <text x="50" y="240" font-size="11" fill="#5e6a8a" class="">→ 色の種類数は変わらない（色2が消えて色5が追加）</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">📊 カウント管理の手順</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>辞書`cnt`で各色のカウントを管理</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>変数`kind`で現在の色の種類数を追跡</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>カウントが0→1で`kind`増加、1→0で`kind`減少</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 効率のポイント</div>
+        <ul class="box-list">
+          <li>変化した色だけを更新（全色を調べない）</li>
+          <li>1日の処理はその日起きるイベント数に比例</li>
+          <li>全体でO(N+M)を実現</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 注意点</div>
+        <ul class="box-list">
+          <li>カウントが0になった色は「存在しない」と判断</li>
+          <li>同じ色への変化（A_i=B_i）はイベントとして記録しない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

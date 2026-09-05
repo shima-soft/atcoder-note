@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">解法の鍵</span>
+    <h2 class="slide-title">「最大化」→「判定問題」に変換し、単調性で二分探索</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「最小値を m 以上にできるか？」を O(N) で答えられれば、二分探索で最大の m を O(N log V) で求められる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 単調性グラフ SVG -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 390">
+        <defs>
+          <marker id="ax" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#dde2ec"/>
+          </marker>
+          <marker id="ag" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#008f6a"/>
+          </marker>
+          <marker id="ar" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#c9162e"/>
+          </marker>
+        </defs>
+
+        <!-- タイトル -->
+        <text x="270" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">必要操作回数 vs 目標最小値 m（例: A=(1,2,3), K=3）</text>
+
+        <!-- 達成可能ゾーン（緑） -->
+        <rect x="60" y="40" width="195" height="235" fill="rgba(0,143,106,.06)" rx="4"/>
+        <text x="157" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">達成可能 ✅</text>
+        <text x="157" y="72" text-anchor="middle" font-size="10" fill="#008f6a">ops ≤ K</text>
+
+        <!-- 不可能ゾーン（赤） -->
+        <rect x="255" y="40" width="270" height="235" fill="rgba(201,22,46,.04)" rx="4"/>
+        <text x="390" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">不可能 ❌</text>
+        <text x="390" y="72" text-anchor="middle" font-size="10" fill="#c9162e">ops &gt; K</text>
+
+        <!-- K 水平線（破線） -->
+        <line x1="60" y1="190" x2="510" y2="190" stroke="#d96018" stroke-width="1.5" stroke-dasharray="6,3"/>
+        <rect x="460" y="178" width="42" height="20" rx="4" fill="#d96018"/>
+        <text x="481" y="191" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">K=3 回</text>
+
+        <!-- 棒グラフ: m=1〜5 -->
+        <!-- m=1: ops=0 -->
+        <rect x="80" y="270" width="40" height="0" fill="#008f6a" rx="3"/>
+        <text x="100" y="262" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">0</text>
+        <text x="100" y="290" text-anchor="middle" font-size="12" fill="#5e6a8a">m=1</text>
+
+        <!-- m=2: ops=1 -->
+        <rect x="150" y="230" width="40" height="40" fill="#008f6a" rx="3"/>
+        <text x="170" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">1</text>
+        <text x="170" y="290" text-anchor="middle" font-size="12" fill="#5e6a8a">m=2</text>
+
+        <!-- m=3: ops=3（K と一致、境界） -->
+        <rect x="220" y="190" width="40" height="80" fill="#d96018" rx="3"/>
+        <text x="240" y="182" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018">3=K</text>
+        <text x="240" y="290" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018">m=3 ★</text>
+
+        <!-- m=4: ops=5 -->
+        <rect x="290" y="110" width="40" height="160" fill="#c9162e" rx="3"/>
+        <text x="310" y="102" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">5</text>
+        <text x="310" y="290" text-anchor="middle" font-size="12" fill="#5e6a8a">m=4</text>
+
+        <!-- m=5: ops=7 -->
+        <rect x="360" y="50" width="40" height="220" fill="#c9162e" rx="3"/>
+        <text x="380" y="42" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">7</text>
+        <text x="380" y="290" text-anchor="middle" font-size="12" fill="#5e6a8a">m=5</text>
+
+        <!-- 軸 -->
+        <line x1="60" y1="30" x2="60" y2="275" stroke="#dde2ec" stroke-width="1.5" marker-end="url(#ax)"/>
+        <line x1="55" y1="270" x2="510" y2="270" stroke="#dde2ec" stroke-width="1.5" marker-end="url(#ax)"/>
+        <text x="285" y="310" text-anchor="middle" font-size="12" fill="#5e6a8a">目標最小値 m →</text>
+        <text x="22" y="195" text-anchor="middle" font-size="11" fill="#5e6a8a" transform="rotate(-90,22,195)">必要操作回数</text>
+
+        <!-- 境界 縦破線 -->
+        <line x1="255" y1="40" x2="255" y2="280" stroke="#d96018" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+        <!-- 二分探索の矢印 -->
+        <text x="270" y="335" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">二分探索: lo=1, hi=10¹⁸ で境界を探す</text>
+
+        <!-- lo / mid / hi バー -->
+        <line x1="100" y1="347" x2="100" y2="358" stroke="#008f6a" stroke-width="2"/>
+        <text x="100" y="372" text-anchor="middle" font-size="11" fill="#008f6a" font-weight="700">lo</text>
+
+        <line x1="240" y1="347" x2="240" y2="358" stroke="#d96018" stroke-width="2"/>
+        <text x="240" y="372" text-anchor="middle" font-size="11" fill="#d96018" font-weight="700">mid</text>
+        <text x="240" y="385" text-anchor="middle" font-size="10" fill="#d96018">ok→lo=mid</text>
+
+        <line x1="430" y1="347" x2="430" y2="358" stroke="#c9162e" stroke-width="2"/>
+        <text x="430" y="372" text-anchor="middle" font-size="11" fill="#c9162e" font-weight="700">hi</text>
+
+        <!-- lo〜hi 区間 -->
+        <line x1="100" y1="352" x2="430" y2="352" stroke="#5e6a8a" stroke-width="1" stroke-dasharray="3,2"/>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">💼 仕事で例えると…</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>目標売上 m 円を全員が達成できるか予算で判定</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>m を上げるほど必要な追加予算も増える（単調）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>予算内に収まる最大の m を二分探索で素早く発見</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 変換の 3 ステップ</div>
+        <ul class="box-list">
+          <li>① 最大化 → 「m 以上にできる？」の判定問題に</li>
+          <li>② 判定を O(N) で実装（次のスライド）</li>
+          <li>③ 単調性を確認 → 二分探索で最大 m を探す</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 単調性の確認</div>
+        <ul class="box-list">
+          <li>m が増えると A[i] との差 (m−A[i]) が広がる</li>
+          <li>各要素の必要操作数が増える or 変わらない</li>
+          <li>→ 合計操作数は m について単調非減少 ✓</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

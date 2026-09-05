@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.method-badge {
+  display: inline-block;
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  margin-bottom: .35rem;
+}
+.code-block {
+  background: #1a1d2e;
+  color: #f0a060;
+  font-size: .78rem;
+  font-family: 'Courier New', monospace;
+  padding: .4rem .7rem;
+  border-radius: 8px;
+  margin: .3rem 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.code-result {
+  font-size: .76rem;
+  color: var(--muted);
+  padding-left: .5rem;
+  border-left: 2px solid var(--border);
+  line-height: 1.5;
+  margin-top: .2rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">CONTROL</span>
+    <h2 class="slide-title">3つの表現コントロール方法</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>普通の日本語で「こう読んで」と指示するだけ。プログラミング不要で音声を自在に操れる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="method-badge">① 感情指示</span>
+        <div class="card-title">「読み方の感情」を一文で伝える</div>
+        <div class="code-block">Read this like you're excited</div>
+        <div class="card-desc">
+          ナレーションの前や途中に<br>「興奮した感じで読んで」と指示するだけで、
+          音声のトーンが自動的に変わる。<br>
+          <br>
+          <strong style="color:var(--text)">使える感情の例：</strong><br>
+          excited（興奮）/ calm（落ち着いた）/ serious（真剣）
+        </div>
+      </div>
+      <div class="card">
+        <span class="method-badge">② ポーズ指定</span>
+        <div class="card-title">ブラケットで「間」を作る</div>
+        <div class="code-block">This [pause] is amazing!</div>
+        <div class="card-desc">
+          強調したい場所に <code style="background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">[pause]</code> と書くだけで、
+          自然な間（ま）が入る。<br>
+          <br>
+          <strong style="color:var(--text)">使い方の例：</strong><br>
+          「この数字が [pause] 重要です」のように、
+          ポイントの直前に配置して聴衆の注意を引く。
+        </div>
+      </div>
+      <div class="card">
+        <span class="method-badge">③ 効果音挿入</span>
+        <div class="card-title">ブラケットで「効果音」を追加</div>
+        <div class="code-block">[laugh] That was a great point.</div>
+        <div class="card-desc">
+          文中に <code style="background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">[laugh]</code> と書くと、
+          笑い声などの効果音が自然に挿入される。<br>
+          <br>
+          <strong style="color:var(--text)">使い方の例：</strong><br>
+          「お疲れ様でした [laugh] 今月は特に大変でしたね」のように、
+          雑談・社内動画で親しみを演出できる。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

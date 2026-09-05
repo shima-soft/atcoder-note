@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">BEFORE / AFTER</span>
+    <h2 class="slide-title">同じ質問への返信で、1日が埋まっていた</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>作業がなくなったのではなく、人の担当が「最後の確認と送信」だけに移った</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          BEFORE box[i].x = 24 + i * 92  (boxWidth=84, gap=8, 送り幅=92) → 24,116,208,300,392 / right=476
+          AFTER  Claude box: x=24 w=270 (right=294) / 人 box: x=322 w=154 (right=476)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">受信箱の返信は、どこが変わったのか</text>
+
+          <!-- BEFORE: 脇役（グレー） -->
+          <text x="24" y="68" font-size="13" font-weight="700" fill="#5e6a8a">BEFORE すべて人がやっていた</text>
+          <rect x="24" y="80" width="84" height="68" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="66" y="110" text-anchor="middle" font-size="11.5" fill="#5e6a8a">受信箱を</text>
+          <text x="66" y="126" text-anchor="middle" font-size="11.5" fill="#5e6a8a">開く</text>
+          <rect x="116" y="80" width="84" height="68" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="158" y="110" text-anchor="middle" font-size="11.5" fill="#5e6a8a">1件ずつ</text>
+          <text x="158" y="126" text-anchor="middle" font-size="11.5" fill="#5e6a8a">読む</text>
+          <rect x="208" y="80" width="84" height="68" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="250" y="110" text-anchor="middle" font-size="11.5" fill="#5e6a8a">過去の回答</text>
+          <text x="250" y="126" text-anchor="middle" font-size="11.5" fill="#5e6a8a">を探す</text>
+          <rect x="300" y="80" width="84" height="68" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="342" y="110" text-anchor="middle" font-size="11.5" fill="#5e6a8a">文面を</text>
+          <text x="342" y="126" text-anchor="middle" font-size="11.5" fill="#5e6a8a">書く</text>
+          <rect x="392" y="80" width="84" height="68" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="434" y="110" text-anchor="middle" font-size="11.5" fill="#5e6a8a">確認して</text>
+          <text x="434" y="126" text-anchor="middle" font-size="11.5" fill="#5e6a8a">送る</text>
+          <text x="250" y="176" text-anchor="middle" font-size="14" font-weight="700" fill="#c9162e">受信箱の対応だけで 1日 約5時間</text>
+
+          <text x="250" y="214" text-anchor="middle" font-size="17" fill="#5e6a8a">▼</text>
+
+          <!-- AFTER: 主役（青） -->
+          <text x="24" y="254" font-size="13" font-weight="700" fill="#1a96c0">AFTER Claude が下書きまで作る</text>
+          <rect x="24" y="266" width="270" height="76" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="159" y="299" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a96c0">Claude が受信箱を確認し</text>
+          <text x="159" y="320" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a96c0">返信の下書きまで用意する</text>
+          <polygon points="300,296 316,304 300,312" fill="#1a96c0"/>
+          <rect x="322" y="266" width="154" height="76" rx="10" fill="#ffffff" stroke="#1a96c0" stroke-width="1.2"/>
+          <text x="399" y="299" text-anchor="middle" font-size="14.5" fill="#1a1d2e">人が読んで直し</text>
+          <text x="399" y="320" text-anchor="middle" font-size="14.5" fill="#1a1d2e">送信ボタンを押す</text>
+
+          <!-- 凡例 -->
+          <rect x="24" y="372" width="14" height="14" rx="3" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="44" y="384" font-size="12" fill="#5e6a8a">Claude が担当</text>
+          <rect x="160" y="372" width="14" height="14" rx="3" fill="#ffffff" stroke="#1a96c0" stroke-width="1.2"/>
+          <text x="180" y="384" font-size="12" fill="#5e6a8a">人が担当</text>
+          <rect x="264" y="372" width="14" height="14" rx="3" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="284" y="384" font-size="12" fill="#5e6a8a">以前の手作業</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 何が起きていたか</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>問い合わせの多くは「料金は」「導入手順は」といった同じ質問だった</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>それでも1件ずつ、過去の回答を探して文面を書き直していた</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>自分の担当顧客を持ちながら、返信だけで1日5時間が消えていた</p>
+          </div>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 手を動かす人が増えても解けない</div>
+          <ul class="box-list">
+            <li>質問が同じでも、探して書く手間は毎回まるごと発生する</li>
+            <li>返信が遅れるほど、相手の熱が冷める</li>
+          </ul>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 変えたのは分担</div>
+          <ul class="box-list">
+            <li>下書きまでを Claude、確認と送信を人に振り分けた</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

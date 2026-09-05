@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 05 - 高度な活用</title>
+  <link rel="stylesheet" href="common.css">
+</head>
+<body class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-green);color:#fff">高度な活用</span>
+    <h2 class="slide-title">複雑なタスクを賢く分離する</h2>
+    <p class="slide-sub">サブエージェントと出力抑制のテクニック</p>
+  </div>
+  <div class="pattern-cols">
+    <div class="diagram-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--card); border-radius: 10px; padding: 1rem; border: 1px solid var(--border);">
+      <div style="font-size: 1.1rem; font-weight: 900; margin-bottom: 2rem; text-align: center;">サブエージェントによるコンテキスト分離</div>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+        <div style="border: 2px solid var(--blue); border-radius: 10px; padding: 1rem; background: var(--bg);">
+          <div style="font-weight: 900; color: var(--blue); margin-bottom: 0.5rem;">メインセッション</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">・会話履歴を保持<br>・最終的な意思決定を行う</div>
+        </div>
+        <div style="font-size: 2rem; color: var(--muted);">⬇</div>
+        <div style="border: 2px solid var(--muted); border-radius: 10px; padding: 1rem; background: #f9fafb; opacity: 0.8;">
+          <div style="font-weight: 900; color: var(--muted); margin-bottom: 0.5rem;">サブエージェント</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">・独自のコンテキストを持つ<br>・大量のログ解析や単発の作業を実行<br>・結果だけをメインへ報告</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="box-title">💡 効率化のポイント</div>
+        <ul class="box-list">
+          <li><b class="badge" style="background:var(--g-orange);margin-right:0.5rem;">分離</b> ログ解析や大量のファイル探索はサブエージェントへ</li>
+          <li><b class="badge" style="background:var(--g-orange);margin-right:0.5rem;">抑制</b> `BASH_MAX_OUTPUT_LENGTH` の理解</li>
+          <li><b class="badge" style="background:var(--g-orange);margin-right:0.5rem;">静音</b> `tail` や `quiet` フラグの積極活用</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 効率化の鍵</div>
+        <ul class="box-list">
+          <li><b class="badge" style="background:var(--g-green);margin-right:0.5rem;">Tip</b> 繰り返しのnoisyな作業にはサブエージェント定義を！</li>
+          <li><b class="badge" style="background:var(--g-green);margin-right:0.5rem;">Tip</b> `CLAUDE.md` に常用コマンドを登録して出力量を抑制</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

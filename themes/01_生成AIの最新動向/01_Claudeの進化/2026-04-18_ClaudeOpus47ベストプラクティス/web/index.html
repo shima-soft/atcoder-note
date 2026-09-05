@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Opus 4.7 × Claude Code ベストプラクティス | ep02 Web版</title>
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --header-h: 52px;
+  --sidebar-w: 220px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 1.5rem; gap: 1rem;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.header-ep {
+  background: linear-gradient(135deg, #2ab8e0, #1a96c0);
+  color: #fff; font-size: .68rem; font-weight: 700;
+  padding: .15rem .55rem; border-radius: 99px; letter-spacing: .08em;
+}
+.header-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.header-sub { font-size: .78rem; color: var(--muted); margin-left: auto; }
+.page-layout {
+  display: flex;
+  margin-top: var(--header-h);
+  min-height: calc(100vh - var(--header-h));
+}
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 1.2rem 0;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.nav-section-label {
+  font-size: .65rem; font-weight: 700; color: var(--muted);
+  padding: .5rem 1rem .2rem; letter-spacing: .06em; text-transform: uppercase;
+}
+.nav-item {
+  display: block; padding: .4rem 1rem;
+  font-size: .8rem; color: var(--muted);
+  text-decoration: none; border-left: 3px solid transparent;
+  transition: all .15s; line-height: 1.4;
+}
+.nav-item:hover { color: var(--text); background: var(--surface); }
+.nav-item.active { color: var(--text); background: var(--surface); font-weight: 700; }
+.nav-item[data-color="blue"].active   { border-left-color: var(--blue);   color: var(--blue); }
+.nav-item[data-color="orange"].active { border-left-color: var(--orange); color: var(--orange); }
+.nav-item[data-color="green"].active  { border-left-color: var(--green);  color: var(--green); }
+.nav-item[data-color="purple"].active { border-left-color: var(--purple); color: var(--purple); }
+.nav-item[data-color="neutral"].active { border-left-color: var(--blue);  color: var(--blue); }
+.main-content {
+  flex: 1;
+  max-width: 820px;
+  padding: 2rem 2.5rem;
+  margin: 0 auto;
+}
+section { margin-bottom: 3.5rem; scroll-margin-top: calc(var(--header-h) + 16px); }
+.section-label {
+  display: inline-block; padding: .15rem .6rem;
+  border-radius: 99px; font-size: .68rem; font-weight: 700;
+  letter-spacing: .04em; margin-bottom: .5rem;
+}
+.section-title { font-size: 1.6rem; font-weight: 900; color: var(--text); margin-bottom: .4rem; line-height: 1.25; }
+.section-sub { font-size: .9rem; color: var(--muted); margin-bottom: 1.2rem; }
+.hitokoto-web {
+  display: flex; align-items: center; gap: .6rem;
+  border-left: 3px solid; padding-left: .8rem; margin-bottom: 1.5rem;
+}
+.hitokoto-web .badge {
+  font-size: .65rem; font-weight: 700; color: #fff;
+  padding: .1rem .45rem; border-radius: 99px; white-space: nowrap;
+}
+.hitokoto-web p { font-size: .92rem; font-weight: 700; color: var(--text); }
+.svg-wrap {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 1.2rem; padding: .6rem;
+}
+.svg-wrap svg { width: 100%; height: auto; display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.detail-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1rem; }
+.detail-card.ok { border-left: 3px solid var(--green); }
+.detail-card.ng { border-left: 3px solid var(--red); }
+.detail-card.biz { border-left: 3px solid var(--muted); }
+.detail-title { font-size: .78rem; font-weight: 700; margin-bottom: .4rem; color: var(--text); }
+.detail-list { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+.detail-list li { font-size: .82rem; color: var(--text); padding-left: .7rem; position: relative; }
+.detail-list li::before { content: '•'; position: absolute; left: 0; color: var(--muted); }
+.biz-steps { display: flex; flex-direction: column; gap: .3rem; }
+.biz-step-row { display: flex; align-items: flex-start; gap: .5rem; }
+.step-num {
+  min-width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.biz-step-row p { font-size: .82rem; color: var(--text); }
+
+/* テーブル */
+.web-table-wrap { overflow-x: auto; margin-bottom: 1.2rem; }
+.web-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.web-table th {
+  background: var(--surface); padding: .5rem .8rem;
+  font-weight: 700; color: var(--muted);
+  border-bottom: 2px solid var(--border); text-align: left; white-space: nowrap;
+}
+.web-table td { padding: .5rem .8rem; border-bottom: 1px solid var(--border); color: var(--text); line-height: 1.5; vertical-align: middle; }
+.web-table tr:nth-child(even) td { background: rgba(239,241,247,.5); }
+.web-table tr:last-child td { border-bottom: none; }
+.effort-badge {
+  display: inline-block; padding: .15rem .55rem;
+  border-radius: 99px; font-size: .72rem; font-weight: 700;
+  white-space: nowrap; font-family: 'Courier New', monospace;
+}
+.default-tag {
+  display: inline-block; background: rgba(122,59,206,.15);
+  color: var(--purple); font-size: .62rem; font-weight: 700;
+  padding: .1rem .4rem; border-radius: 99px; margin-left: .4rem;
+}
+.improve-tag {
+  display: inline-block; background: rgba(0,143,106,.12);
+  color: var(--green); font-size: .62rem; font-weight: 700;
+  padding: .08rem .35rem; border-radius: 99px;
+}
+.new-tag {
+  display: inline-block; background: rgba(122,59,206,.12);
+  color: var(--purple); font-size: .62rem; font-weight: 700;
+  padding: .08rem .35rem; border-radius: 99px;
+}
+
+/* カードグリッド */
+.cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: 1.2rem; }
+.web-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1rem 1.1rem;
+}
+.web-card-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  font-size: .76rem; font-weight: 900; color: #fff; margin-bottom: .4rem;
+}
+.web-card-tag {
+  display: inline-block; font-size: .62rem; font-weight: 700;
+  padding: .1rem .4rem; border-radius: 99px; margin-bottom: .3rem; margin-left: .3rem;
+}
+.web-card-title { font-size: .9rem; font-weight: 900; color: var(--text); margin-bottom: .35rem; }
+.web-card-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+/* コードブロック */
+.code-line {
+  font-family: 'Courier New', monospace; font-size: .78rem;
+  background: #f3f4f8; border-radius: 6px;
+  padding: .3rem .7rem; color: var(--muted);
+  display: block; margin: .2rem 0;
+  text-decoration: line-through;
+}
+.code-line.new-code { background: rgba(0,143,106,.08); color: var(--green); text-decoration: none; }
+
+/* チェックリスト */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.checklist li { font-size: .85rem; color: var(--text); padding-left: 1.4rem; position: relative; line-height: 1.5; }
+.checklist li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+.warn-list { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.warn-list li { font-size: .85rem; color: var(--text); padding-left: 1.4rem; position: relative; line-height: 1.5; }
+.warn-list li::before { content: '›'; position: absolute; left: 0; color: var(--yellow); font-weight: 700; }
+
+/* セルフチェック */
+.self-check { background: var(--surface); border-radius: 14px; padding: 1rem 1.2rem; margin-top: 1.5rem; }
+.self-check-title { font-size: .78rem; font-weight: 700; color: var(--muted); margin-bottom: .7rem; letter-spacing: .04em; }
+.q-item { margin-bottom: .5rem; }
+.q-toggle {
+  background: none; border: none; cursor: pointer;
+  font-size: .84rem; font-weight: 700; color: var(--text);
+  text-align: left; width: 100%; padding: .3rem 0;
+  display: flex; align-items: center; gap: .5rem;
+}
+.q-toggle::before { content: '▶'; color: var(--blue); font-size: .7rem; transition: transform .2s; }
+.q-toggle.open::before { transform: rotate(90deg); }
+.q-answer {
+  display: none; font-size: .82rem; color: var(--muted);
+  background: var(--card); border-radius: 8px; padding: .5rem .8rem;
+  margin-top: .2rem; line-height: 1.6;
+}
+.q-answer.open { display: block; }
+
+/* タイムスタンプ */
+.timestamp { font-size: .72rem; color: var(--blue); font-weight: 700; margin-bottom: .3rem; opacity: .8; }
+
+/* 用語解説グリッド */
+.glossary-web { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.term-card-web {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: .7rem .9rem;
+  display: flex; flex-direction: column; gap: .15rem;
+}
+.term-head-web { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.term-name-web { font-size: .9rem; font-weight: 900; color: var(--text); }
+.term-reading-web { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-link-web { font-size: .65rem; color: var(--blue); text-decoration: none; margin-left: auto; }
+.term-link-web:hover { text-decoration: underline; }
+.term-desc-web { font-size: .8rem; color: var(--muted); line-height: 1.55; }
+
+/* ヒーローセクション */
+.hero-box {
+  background: linear-gradient(135deg, #1a1d2e 0%, #2a3060 100%);
+  border-radius: 18px; padding: 2rem 2.4rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+}
+.hero-box::before {
+  content: ''; position: absolute; top: -80px; right: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(26,150,192,.2) 0%, transparent 60%); pointer-events: none;
+}
+.hero-ep { display: inline-block; background: linear-gradient(135deg,#2ab8e0,#1a96c0); color:#fff; font-size:.68rem;font-weight:700;padding:.18rem .7rem;border-radius:99px;letter-spacing:.1em;margin-bottom:.8rem; }
+.hero-title { font-size: 1.8rem; font-weight: 900; color: #fff; line-height: 1.3; margin-bottom: .5rem; }
+.hero-sub { font-size: .84rem; color: rgba(255,255,255,.6); margin-bottom: 1.2rem; }
+.hero-points { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.hero-points li { display: flex; align-items: flex-start; gap: .5rem; font-size: .84rem; color: rgba(255,255,255,.85); line-height: 1.5; }
+.hero-pnum {
+  min-width: 20px; height: 20px; border-radius: 50%;
+  background: linear-gradient(135deg,#2ab8e0,#1a96c0); color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:.1rem;
+}
+.hero-credit { font-size: .68rem; color: rgba(255,255,255,.4); margin-top: 1rem; }
+
+/* step migration */
+.step-migration {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .8rem 1rem; margin-bottom: .7rem;
+  display: flex; gap: .7rem;
+}
+.step-migration-num {
+  min-width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, #18b87a, #008f6a);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .82rem; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.step-migration-title { font-size: .86rem; font-weight: 900; color: var(--text); margin-bottom: .25rem; }
+.step-migration-desc { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+/* action summary */
+.action-summary { display: flex; flex-direction: column; gap: .8rem; margin-bottom: 1.2rem; }
+.action-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .8rem 1rem; display: flex; gap: .7rem;
+}
+.action-num {
+  min-width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .88rem; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.action-title { font-size: .88rem; font-weight: 900; color: var(--text); margin-bottom: .2rem; }
+.action-desc { font-size: .8rem; color: var(--muted); line-height: 1.55; }
+.action-code {
+  font-family: 'Courier New', monospace; font-size: .74rem;
+  background: rgba(26,150,192,.08); color: var(--blue);
+  border-radius: 6px; padding: .15rem .5rem; display: inline-block; margin-top: .25rem;
+}
+
+/* 注意ボックス */
+.caution-web {
+  background: rgba(168,106,0,.05); border: 1px solid rgba(168,106,0,.25);
+  border-radius: 12px; padding: .8rem 1rem; margin-bottom: 1rem;
+}
+.caution-web-title { font-size: .78rem; font-weight: 700; color: var(--yellow); margin-bottom: .4rem; }
+.success-web {
+  background: rgba(0,143,106,.06); border: 1px solid rgba(0,143,106,.2);
+  border-radius: 12px; padding: .8rem 1rem; margin-bottom: 1rem;
+}
+.success-web-title { font-size: .78rem; font-weight: 700; color: var(--green); margin-bottom: .4rem; }
+.note-web {
+  background: rgba(122,59,206,.06); border: 1px solid rgba(122,59,206,.2);
+  border-radius: 12px; padding: .8rem 1rem; font-size: .84rem; color: var(--text); line-height: 1.6; margin-bottom: 1rem;
+}
+.note-web strong { color: var(--purple); }
+
+/* レスポンシブ */
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .main-content { padding: 1.5rem 1rem; }
+  .detail-grid, .cards-grid, .glossary-web { grid-template-columns: 1fr; }
+  .hero-title { font-size: 1.4rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-ep">ep. 02</span>
+  <span class="header-title">Claude Opus 4.7 × Claude Code ベストプラクティス</span>
+  <span class="header-sub">Anthropic ブログ解説 | 2026年4月</span>
+</header>
+
+<div class="page-layout">
+  <!-- サイドバー -->
+  <nav class="sidebar" id="sidebar">
+    <div class="nav-section-label">目次</div>
+    <a class="nav-item" href="#overview" data-color="blue">🏠 概要・Opus 4.7とは</a>
+    <div class="nav-section-label">5つのポイント</div>
+    <a class="nav-item" href="#point01" data-color="orange">POINT 01 エンジニアとして扱う</a>
+    <a class="nav-item" href="#point02" data-color="green">POINT 02 包括的に指定する</a>
+    <a class="nav-item" href="#point03" data-color="purple">POINT 03 エフォート設定</a>
+    <a class="nav-item" href="#point04" data-color="blue">POINT 04 アダプティブ思考</a>
+    <a class="nav-item" href="#point05" data-color="orange">POINT 05 4つの行動変化</a>
+    <div class="nav-section-label">移行・比較</div>
+    <a class="nav-item" href="#migration" data-color="green">移行チェックリスト</a>
+    <a class="nav-item" href="#auto" data-color="blue">Auto モード活用</a>
+    <a class="nav-item" href="#compare" data-color="purple">4.6 vs 4.7 比較</a>
+    <div class="nav-section-label">実践・まとめ</div>
+    <a class="nav-item" href="#biz" data-color="orange">実務活用シナリオ</a>
+    <a class="nav-item" href="#summary" data-color="neutral">まとめ</a>
+    <a class="nav-item" href="#glossary" data-color="neutral">用語解説</a>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+
+    <!-- ====== OVERVIEW ====== -->
+    <section id="overview">
+      <div class="timestamp">⏱ 0:00〜3:00</div>
+      <div class="hero-box">
+        <span class="hero-ep">ep. 02</span>
+        <div class="hero-title">Claude Opus 4.7 ×<br>Claude Code<br>ベストプラクティス</div>
+        <div class="hero-sub">最新モデルの力を最大限に引き出す設定術</div>
+        <ul class="hero-points">
+          <li><span class="hero-pnum">1</span>エフォート設定（5段階）でAIの「考える深さ」をコントロールできる</li>
+          <li><span class="hero-pnum">2</span>アダプティブ思考で、難問もAIが自動で深く考えてくれるようになった</li>
+          <li><span class="hero-pnum">3</span>「有能なエンジニア」として扱うと、成果物のレベルが格段に上がる</li>
+        </ul>
+        <p class="hero-credit">参考: Anthropic ブログ「Best practices for using Claude Opus 4.7 with Claude Code」（2026年4月16日）</p>
+      </div>
+
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">INTRO</span>
+      <h2 class="section-title">Opus 4.7 とは？</h2>
+      <div class="hitokoto-web" style="border-color:var(--blue)">
+        <span class="badge" style="background:var(--blue)">一言で</span>
+        <p>コーディング・AIエージェントタスクに最も強い最新の公開モデル。ただし使い方の「慣らし」が必要</p>
+      </div>
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:1rem;line-height:1.7;">
+        Claude Opus 4.7は新しいトークナイザーと進化した推論パターンを持つ。そのため
+        Opus 4.6のプロンプトをそのまま使うと最適でない場合がある。
+        3点を把握しておくだけで、移行後のギャップに戸惑わなくなる。
+      </p>
+      <div class="detail-grid">
+        <div class="detail-card" style="border-left:3px solid var(--blue)">
+          <div class="detail-title">① 新しいトークナイザーで処理方式が変わった</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">テキストの分割方法が更新され、より効率的に処理できるようになった反面、同じプロンプトへの応答が若干変化することがある</p>
+        </div>
+        <div class="detail-card" style="border-left:3px solid var(--blue)">
+          <div class="detail-title">② 推論パターンが進化した</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">より柔軟に「考える」ようになった。問題の難しさに応じて自動で思考の深さを変える「アダプティブ思考」を採用</p>
+        </div>
+        <div class="detail-card" style="border-left:3px solid var(--blue)">
+          <div class="detail-title">③ デフォルト動作が変わった</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">レスポンスの冗長性が低下し、ツール使用も慎重になった。「エフォート設定」という新機能で動作を細かく制御できる</p>
+        </div>
+        <div class="detail-card biz">
+          <div class="detail-title">移行の基本スタンス</div>
+          <p style="font-size:.82rem;color:var(--muted);line-height:1.6;">4.6向けのプロンプトをそのまま使わず、新しい「癖」に合わせて3点チューニングするだけでOK</p>
+        </div>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. Opus 4.6から4.7に切り替えるだけで性能が出ない理由は？</button>
+          <div class="q-answer">新しいトークナイザーの採用と推論パターンの進化により、同じプロンプトへの応答が変化するため。3点のチューニング（thinking_budget削除・effort追加・プロンプト簡素化）が必要。</div>
+        </div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. Opus 4.7の3つの変更点は何？</button>
+          <div class="q-answer">①新しいトークナイザーで処理方式が変わった ②アダプティブ思考で推論パターンが進化した ③デフォルトの冗長性低下・ツール使用の慎重化</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== POINT 01 ====== -->
+    <section id="point01">
+      <div class="timestamp">⏱ 3:00〜5:00</div>
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">POINT 01</span>
+      <h2 class="section-title">Claudeを「有能なエンジニア」として扱う</h2>
+      <div class="hitokoto-web" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>「一緒に手を動かすアシスタント」ではなく「仕事を丸ごと任せられる優秀な部下」として接する</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg viewBox="0 0 590 360" xmlns="http://www.w3.org/2000/svg"
+             font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#d96018"/></marker>
+            <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#008f6a"/></marker>
+            <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c9162e"/></marker>
+          </defs>
+          <rect x="10" y="14" width="570" height="148" rx="12" fill="rgba(201,22,46,.04)" stroke="#c9162e" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <rect x="22" y="26" width="78" height="20" rx="10" fill="#c9162e"/>
+          <text x="61" y="40" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">❌ ペア作業型</text>
+          <rect x="30" y="60" width="72" height="44" rx="10" fill="#fff4ec" stroke="#d96018" stroke-width="1.4"/>
+          <text x="66" y="83" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018">👤 担当者</text>
+          <text x="66" y="98" text-anchor="middle" font-size="9" fill="#5e6a8a">都度確認</text>
+          <line x1="102" y1="82" x2="148" y2="82" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR)"/>
+          <text x="125" y="76" text-anchor="middle" font-size="8.5" fill="#c9162e">「次は？」</text>
+          <rect x="149" y="60" width="72" height="44" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"/>
+          <text x="185" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="185" y="95" text-anchor="middle" font-size="9" fill="#5e6a8a">部分的に返す</text>
+          <line x1="221" y1="82" x2="264" y2="82" stroke="#5e6a8a" stroke-width="1.4" marker-end="url(#arrowR)"/>
+          <text x="243" y="76" text-anchor="middle" font-size="8.5" fill="#5e6a8a">断片回答</text>
+          <rect x="265" y="60" width="72" height="44" rx="10" fill="#fff4ec" stroke="#d96018" stroke-width="1.4"/>
+          <text x="301" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018">👤 担当者</text>
+          <text x="301" y="95" text-anchor="middle" font-size="9" fill="#5e6a8a">またレビュー</text>
+          <line x1="337" y1="82" x2="380" y2="82" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR)"/>
+          <text x="359" y="76" text-anchor="middle" font-size="8.5" fill="#c9162e">「次は？」</text>
+          <rect x="381" y="60" width="72" height="44" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"/>
+          <text x="417" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="417" y="95" text-anchor="middle" font-size="9" fill="#5e6a8a">断片的に…</text>
+          <text x="490" y="86" text-anchor="middle" font-size="16" fill="#c9162e">…</text>
+          <text x="295" y="148" text-anchor="middle" font-size="9" fill="#c9162e">やりとりが増えるほどコンテキストが増え、コストと時間が増大</text>
+          <rect x="10" y="180" width="570" height="160" rx="12" fill="rgba(0,143,106,.04)" stroke="#008f6a" stroke-width="1.2"/>
+          <rect x="22" y="192" width="94" height="20" rx="10" fill="#008f6a"/>
+          <text x="69" y="206" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">✅ エンジニア型</text>
+          <rect x="30" y="218" width="96" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="78" y="240" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">👤 担当者</text>
+          <text x="78" y="254" text-anchor="middle" font-size="8.5" fill="#5e6a8a">最初に全要件を</text>
+          <text x="78" y="265" text-anchor="middle" font-size="8.5" fill="#5e6a8a">一括指定</text>
+          <line x1="126" y1="244" x2="182" y2="244" stroke="#008f6a" stroke-width="2" marker-end="url(#arrowG)"/>
+          <text x="154" y="238" text-anchor="middle" font-size="8.5" fill="#008f6a" font-weight="600">包括的な仕様</text>
+          <rect x="183" y="212" width="200" height="64" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="283" y="237" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">Claude（自律実行）</text>
+          <text x="283" y="253" text-anchor="middle" font-size="8.5" fill="#5e6a8a">計画 → 実行 → 自己チェック</text>
+          <text x="283" y="267" text-anchor="middle" font-size="8.5" fill="#5e6a8a">→ 完成まで走り切る</text>
+          <line x1="383" y1="244" x2="434" y2="244" stroke="#008f6a" stroke-width="2" marker-end="url(#arrowG)"/>
+          <text x="409" y="238" text-anchor="middle" font-size="8.5" fill="#008f6a" font-weight="600">完成品</text>
+          <rect x="435" y="218" width="120" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="495" y="240" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">👤 担当者</text>
+          <text x="495" y="254" text-anchor="middle" font-size="8.5" fill="#5e6a8a">最終レビュー</text>
+          <text x="495" y="265" text-anchor="middle" font-size="8.5" fill="#5e6a8a">のみでOK</text>
+          <text x="295" y="330" text-anchor="middle" font-size="9" fill="#008f6a">やりとりを最小化 → コスト・時間・品質すべてが改善</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 実務シナリオ: 月次レポート作成</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:#c9162e">旧</span><p>「次は何のグラフを作ればいい？」と都度Claudeに確認</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--green)">新</span><p>「6月売上CSVを使い、前月比グラフ付きA4 2ページで。競合比較は除く」と最初に全部伝える</p></div>
+          </div>
+        </div>
+        <div class="detail-card ok">
+          <div class="detail-title">✅ 最初に伝えるべきこと</div>
+          <ul class="detail-list">
+            <li>タスクの全体像と最終ゴール</li>
+            <li>成功の基準（どうなれば完成か）</li>
+            <li>やらなくていいこと（除外事項）</li>
+          </ul>
+        </div>
+        <div class="detail-card ng">
+          <div class="detail-title">⚠️ 失敗パターン</div>
+          <ul class="detail-list">
+            <li>「いい感じに」「適当に」などの曖昧表現</li>
+            <li>途中で仕様を小出しに変更する</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. 「エンジニア型」と「ペア作業型」の違いは？</button>
+          <div class="q-answer">エンジニア型は最初に包括的な仕様を渡してあとは任せる。ペア作業型は都度確認しながら進める。エンジニア型の方がコスト・時間・品質すべてで優れる。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== POINT 02 ====== -->
+    <section id="point02">
+      <div class="timestamp">⏱ 5:00〜7:00</div>
+      <span class="section-label" style="background:rgba(0,143,106,.12);color:var(--green)">POINT 02</span>
+      <h2 class="section-title">タスクを包括的に指定する技術</h2>
+      <div class="hitokoto-web" style="border-color:var(--green)">
+        <span class="badge" style="background:var(--green)">一言で</span>
+        <p>あいまいな指示は途中停止の原因。最初に「何を・どのレベルまで・何をやらないか」を伝える</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg viewBox="0 0 590 360" xmlns="http://www.w3.org/2000/svg"
+             font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowG2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#008f6a"/></marker>
+            <marker id="arrowR2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c9162e"/></marker>
+            <marker id="arrowM2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5e6a8a"/></marker>
+          </defs>
+          <text x="295" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">❌ 曖昧な指示ルート</text>
+          <rect x="30" y="32" width="160" height="52" rx="10" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.4"/>
+          <text x="110" y="53" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">曖昧な指示</text>
+          <text x="110" y="68" text-anchor="middle" font-size="9" fill="#5e6a8a">「いい感じにまとめて」</text>
+          <text x="110" y="78" text-anchor="middle" font-size="9" fill="#5e6a8a">「適当に作って」</text>
+          <line x1="190" y1="58" x2="230" y2="58" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR2)"/>
+          <rect x="231" y="32" width="120" height="52" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"/>
+          <text x="291" y="53" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="291" y="68" text-anchor="middle" font-size="9" fill="#5e6a8a">仕様が不明…</text>
+          <text x="291" y="78" text-anchor="middle" font-size="9" fill="#c9162e">途中停止・確認待ち</text>
+          <line x1="351" y1="58" x2="391" y2="58" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR2)"/>
+          <rect x="392" y="32" width="168" height="52" rx="10" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.4"/>
+          <text x="476" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">❌ 手直し多発</text>
+          <text x="476" y="65" text-anchor="middle" font-size="9" fill="#5e6a8a">手戻り・コスト増大</text>
+          <text x="476" y="78" text-anchor="middle" font-size="9" fill="#5e6a8a">仕上がりも期待外れ</text>
+          <line x1="30" y1="105" x2="560" y2="105" stroke="#dde2ec" stroke-width="1"/>
+          <text x="295" y="128" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">✅ 包括的な指示ルート</text>
+          <rect x="30" y="140" width="120" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="90" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">① 何を</text>
+          <text x="90" y="177" text-anchor="middle" font-size="9" fill="#5e6a8a">タスクの全体像</text>
+          <text x="90" y="190" text-anchor="middle" font-size="9" fill="#5e6a8a">最終ゴール</text>
+          <rect x="168" y="140" width="140" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="238" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">② どのレベルまで</text>
+          <text x="238" y="177" text-anchor="middle" font-size="9" fill="#5e6a8a">成功の基準</text>
+          <text x="238" y="190" text-anchor="middle" font-size="9" fill="#5e6a8a">品質・形式の指定</text>
+          <rect x="326" y="140" width="130" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="391" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">③ 何をしない</text>
+          <text x="391" y="177" text-anchor="middle" font-size="9" fill="#5e6a8a">除外事項</text>
+          <text x="391" y="190" text-anchor="middle" font-size="9" fill="#5e6a8a">スコープ外の明示</text>
+          <line x1="90" y1="198" x2="90" y2="220" stroke="#008f6a" stroke-width="1.4"/>
+          <line x1="238" y1="198" x2="238" y2="220" stroke="#008f6a" stroke-width="1.4"/>
+          <line x1="391" y1="198" x2="391" y2="220" stroke="#008f6a" stroke-width="1.4"/>
+          <line x1="90" y1="220" x2="470" y2="220" stroke="#008f6a" stroke-width="1.4"/>
+          <line x1="280" y1="220" x2="280" y2="240" stroke="#008f6a" stroke-width="1.4" marker-end="url(#arrowG2)"/>
+          <rect x="196" y="241" width="168" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.8"/>
+          <text x="280" y="261" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">Claude 自律実行</text>
+          <text x="280" y="276" text-anchor="middle" font-size="8.5" fill="#5e6a8a">確認なし / 完成まで走り切る</text>
+          <text x="280" y="287" text-anchor="middle" font-size="8.5" fill="#5e6a8a">（途中停止なし）</text>
+          <line x1="364" y1="267" x2="406" y2="267" stroke="#008f6a" stroke-width="1.8" marker-end="url(#arrowG2)"/>
+          <rect x="407" y="241" width="150" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.8"/>
+          <text x="482" y="261" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">✅ 完成品</text>
+          <text x="482" y="276" text-anchor="middle" font-size="9" fill="#5e6a8a">期待通りの仕上がり</text>
+          <text x="482" y="287" text-anchor="middle" font-size="9" fill="#5e6a8a">手直し最小</text>
+          <rect x="30" y="310" width="530" height="34" rx="8" fill="rgba(26,150,192,.06)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="295" y="325" text-anchor="middle" font-size="10" fill="#1a96c0" font-weight="600">💡 途中で質問したいことが出てきたら「まとめてバッチ質問」がコツ — 都度割り込まない</text>
+          <text x="295" y="338" text-anchor="middle" font-size="9" fill="#5e6a8a">質問は一度まとめてClaudeに渡し、回答を受け取ってから作業再開</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 提案書作成 NG vs OK</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:#c9162e">❌</span><p>「A社向けの提案書を作って」（ゴール・形式・除外不明）</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--green)">✅</span><p>「A社向けにクラウド移行の提案書をPPT形式6枚で。価格比較はCFO確認済みのものを使い、競合言及は除く」</p></div>
+          </div>
+        </div>
+        <div class="detail-card ok">
+          <div class="detail-title">✅ 指示テンプレート</div>
+          <ul class="detail-list">
+            <li>「〇〇を使って△△し、□□形式で出力」</li>
+            <li>「〜〜は不要、〜〜は除く」を必ず追加</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. 包括的な指示の3要素とは？</button>
+          <div class="q-answer">①何を（タスクの全体像と最終ゴール）②どのレベルまで（成功の基準・品質・形式）③何をしない（除外事項・スコープ外）の3点を最初に伝える。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== POINT 03 ====== -->
+    <section id="point03">
+      <div class="timestamp">⏱ 7:00〜9:30</div>
+      <span class="section-label" style="background:rgba(122,59,206,.12);color:var(--purple)">POINT 03</span>
+      <h2 class="section-title">エフォート設定 — 5段階の賢い使い分け</h2>
+      <div class="hitokoto-web" style="border-color:var(--purple)">
+        <span class="badge" style="background:var(--purple)">一言で</span>
+        <p>問題の難しさに合わせてAIの「考える深さ」を調整。コストと精度のバランスが鍵</p>
+      </div>
+      <div class="web-table-wrap">
+        <table class="web-table">
+          <thead>
+            <tr>
+              <th>設定値</th>
+              <th>使いどき（業務例）</th>
+              <th>コスト</th>
+              <th>速度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(94,106,138,.12);color:#5e6a8a">low</span></td>
+              <td>メール文面チェック・簡単なデータ変換・定型コピー</td>
+              <td>★☆☆☆☆ 最小</td>
+              <td>⚡ 最速</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">medium</span></td>
+              <td>標準的な文書要約・ルーティンコーディング・FAQ回答</td>
+              <td>★★☆☆☆ 低め</td>
+              <td>🚀 速い</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(0,143,106,.12);color:var(--green)">high</span></td>
+              <td>要件整理・中規模なコード修正・競合調査レポート</td>
+              <td>★★★☆☆ 中程度</td>
+              <td>🏃 普通</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(122,59,206,.15);color:var(--purple)">xhigh</span><span class="default-tag">推奨デフォルト</span></td>
+              <td>ほとんどの開発作業・複雑な資料作成・システム設計</td>
+              <td>★★★★☆ やや高め</td>
+              <td>🚶 やや遅</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(201,22,46,.12);color:var(--red)">max</span></td>
+              <td>本番バグ修正・難解な仕様策定・高度な分析・意思決定</td>
+              <td>★★★★★ 最大</td>
+              <td>🐢 遅い</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-web">
+        💡 <strong>ほとんどの作業は「xhigh」がベストバランス。</strong>「max」は難題に限定——すべてに使うとコストが跳ね上がる。
+        簡単なチェック作業は「low / medium」でコストを抑えよう。
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. 「推奨デフォルト」はどの設定値？理由は？</button>
+          <div class="q-answer">xhigh。コストと品質のベストバランスを提供するため。ほとんどの開発作業や資料作成で十分な品質が得られる。maxはすべてに使うと収穫逓減があり過剰になる。</div>
+        </div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. エフォート設定がない場合はどうなる？</button>
+          <div class="q-answer">デフォルト動作（xhigh相当）になるが、明示的に設定することで意図を明確にし、コストを最適化できる。特に low/medium に下げると大幅なコスト削減が可能。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== POINT 04 ====== -->
+    <section id="point04">
+      <div class="timestamp">⏱ 9:30〜11:30</div>
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">POINT 04</span>
+      <h2 class="section-title">アダプティブ思考 — もう「考える量」は指定しなくていい</h2>
+      <div class="hitokoto-web" style="border-color:var(--blue)">
+        <span class="badge" style="background:var(--blue)">一言で</span>
+        <p>Opus 4.7 から、問題の難しさを見てAIが自動で考える深さを調整してくれるようになった</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg viewBox="0 0 590 360" xmlns="http://www.w3.org/2000/svg"
+             font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowB4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1a96c0"/></marker>
+            <marker id="arrowM4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5e6a8a"/></marker>
+          </defs>
+          <rect x="10" y="10" width="570" height="148" rx="12" fill="rgba(94,106,138,.05)" stroke="#dde2ec" stroke-width="1.2"/>
+          <text x="295" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">Opus 4.6 — 固定思考予算モデル</text>
+          <rect x="30" y="42" width="150" height="46" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"/>
+          <text x="105" y="63" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1a1d2e">👤 ユーザー</text>
+          <text x="105" y="78" text-anchor="middle" font-size="9" fill="#5e6a8a">thinking_budget=5000</text>
+          <text x="105" y="88" text-anchor="middle" font-size="9" fill="#5e6a8a">と手動で指定</text>
+          <line x1="180" y1="65" x2="222" y2="65" stroke="#5e6a8a" stroke-width="1.6" marker-end="url(#arrowM4)"/>
+          <rect x="223" y="42" width="180" height="46" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"/>
+          <text x="313" y="60" text-anchor="middle" font-size="10" fill="#5e6a8a">思考量: 固定</text>
+          <rect x="234" y="68" width="158" height="10" rx="5" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <rect x="234" y="68" width="158" height="10" rx="5" fill="#5e6a8a" opacity=".4"/>
+          <text x="313" y="88" text-anchor="middle" font-size="8.5" fill="#c9162e">難問でも易問でも同じ量</text>
+          <line x1="403" y1="65" x2="445" y2="65" stroke="#5e6a8a" stroke-width="1.6" marker-end="url(#arrowM4)"/>
+          <rect x="446" y="42" width="130" height="46" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"/>
+          <text x="511" y="63" text-anchor="middle" font-size="10" fill="#1a1d2e">結果</text>
+          <text x="511" y="78" text-anchor="middle" font-size="8.5" fill="#c9162e">簡単な問題に</text>
+          <text x="511" y="88" text-anchor="middle" font-size="8.5" fill="#c9162e">コストを浪費</text>
+          <text x="295" y="145" text-anchor="middle" font-size="9" fill="#c9162e">⚠️ 手動チューニングが必要 — 難しすぎる設定も易しすぎる設定も無駄になる</text>
+          <rect x="10" y="172" width="570" height="168" rx="12" fill="rgba(26,150,192,.05)" stroke="#1a96c0" stroke-width="1.4"/>
+          <text x="295" y="192" text-anchor="middle" font-size="11" font-weight="700" fill="#1a96c0">Opus 4.7 — アダプティブ思考モデル</text>
+          <rect x="30" y="202" width="120" height="46" rx="10" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"/>
+          <text x="90" y="222" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1a96c0">問題を受取</text>
+          <text x="90" y="237" text-anchor="middle" font-size="9" fill="#5e6a8a">難易度を自動判定</text>
+          <text x="90" y="247" text-anchor="middle" font-size="9" fill="#5e6a8a">（ユーザー指定不要）</text>
+          <line x1="150" y1="225" x2="190" y2="225" stroke="#1a96c0" stroke-width="1.8" marker-end="url(#arrowB4)"/>
+          <rect x="191" y="202" width="216" height="112" rx="10" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"/>
+          <text x="299" y="220" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">思考量を動的に配分</text>
+          <text x="200" y="238" font-size="8.5" fill="#5e6a8a">簡単な問題:</text>
+          <rect x="200" y="242" width="196" height="8" rx="4" fill="#eff1f7"/>
+          <rect x="200" y="242" width="50" height="8" rx="4" fill="#1a96c0" opacity=".5"/>
+          <text x="200" y="268" font-size="8.5" fill="#5e6a8a">中程度の問題:</text>
+          <rect x="200" y="272" width="196" height="8" rx="4" fill="#eff1f7"/>
+          <rect x="200" y="272" width="110" height="8" rx="4" fill="#1a96c0" opacity=".7"/>
+          <text x="200" y="298" font-size="8.5" fill="#5e6a8a">難しい問題:</text>
+          <rect x="200" y="302" width="196" height="8" rx="4" fill="#eff1f7"/>
+          <rect x="200" y="302" width="190" height="8" rx="4" fill="#1a96c0"/>
+          <line x1="407" y1="258" x2="445" y2="258" stroke="#1a96c0" stroke-width="1.8" marker-end="url(#arrowB4)"/>
+          <rect x="446" y="202" width="134" height="112" rx="10" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"/>
+          <text x="513" y="222" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">✅ 最適な結果</text>
+          <text x="513" y="242" text-anchor="middle" font-size="9" fill="#5e6a8a">難問には</text>
+          <text x="513" y="254" text-anchor="middle" font-size="9" fill="#5e6a8a">深く考える</text>
+          <text x="513" y="274" text-anchor="middle" font-size="9" fill="#5e6a8a">簡単な問題</text>
+          <text x="513" y="286" text-anchor="middle" font-size="9" fill="#5e6a8a">はサクッと</text>
+          <text x="513" y="306" text-anchor="middle" font-size="9" fill="#5e6a8a">コスト最適</text>
+          <text x="295" y="355" text-anchor="middle" font-size="9.5" fill="#1a96c0" font-weight="600">💡 thinking_budget の手動指定は不要になった — Opus 4.7 に任せよう</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card ok">
+          <div class="detail-title">✅ Opus 4.7 移行時にやること</div>
+          <ul class="detail-list">
+            <li>thinking_budget の指定を削除する</li>
+            <li>アダプティブ思考に任せてOK</li>
+          </ul>
+        </div>
+        <div class="detail-card ng">
+          <div class="detail-title">⚠️ 注意点</div>
+          <ul class="detail-list">
+            <li>固定予算設定は Opus 4.7 では非対応</li>
+            <li>エフォート設定（xhigh等）で制御しよう</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. アダプティブ思考で何が変わった？</button>
+          <div class="q-answer">Opus 4.6ではthinking_budgetを手動で指定する必要があったが、Opus 4.7ではAIが問題の難しさを自動判定して思考量を動的に配分する。固定予算の手動設定が不要になった。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== POINT 05 ====== -->
+    <section id="point05">
+      <div class="timestamp">⏱ 11:30〜13:30</div>
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">POINT 05</span>
+      <h2 class="section-title">Opus 4.7 の4つの行動変化</h2>
+      <div class="hitokoto-web" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>4.6との違いを知っておけば「なんか変だな？」を感じたときにすぐ原因がわかる</p>
+      </div>
+      <div class="cards-grid">
+        <div class="web-card">
+          <span class="web-card-num" style="background:linear-gradient(135deg,#e8873a,#d96018)">1</span>
+          <span class="web-card-tag" style="background:rgba(217,96,24,.12);color:var(--orange)">レスポンス長</span>
+          <div class="web-card-title">🎯 タスクの難しさに応じて長さが変わる</div>
+          <div class="web-card-desc">シンプルな質問には簡潔に、複雑な問題には詳しく返答する。詳細が欲しいときは「詳しく説明して」と指示すればOK。</div>
+        </div>
+        <div class="web-card">
+          <span class="web-card-num" style="background:linear-gradient(135deg,#2ab8e0,#1a96c0)">2</span>
+          <span class="web-card-tag" style="background:rgba(26,150,192,.12);color:var(--blue)">冗長性</span>
+          <div class="web-card-title">📝 デフォルトの冗長性が低下した</div>
+          <div class="web-card-desc">前置き・締めくくりが減少。「まず〜を説明します」などが少なくなった。「ステップごとに詳しく説明して」と明示すれば長く書いてくれる。</div>
+        </div>
+        <div class="web-card">
+          <span class="web-card-num" style="background:linear-gradient(135deg,#18b87a,#008f6a)">3</span>
+          <span class="web-card-tag" style="background:rgba(0,143,106,.12);color:var(--green)">ツール使用</span>
+          <div class="web-card-title">🔧 ツール使用が慎重になった</div>
+          <div class="web-card-desc">ツールをすぐ使わず、まず推論で解決しようとする。精度が上がる。明示的にツール使用を指示すればすぐ動く。</div>
+        </div>
+        <div class="web-card">
+          <span class="web-card-num" style="background:linear-gradient(135deg,#9a5ce8,#7a3bce)">4</span>
+          <span class="web-card-tag" style="background:rgba(122,59,206,.12);color:var(--purple)">サブエージェント</span>
+          <div class="web-card-title">🤖 サブエージェント生成が節制的に</div>
+          <div class="web-card-desc">本当に必要な場合のみ生成するようになった。コストの無駄遣いが自然に減る。大規模タスクでの不必要なコスト増大が抑えられる。</div>
+        </div>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. 4.7でレスポンスが短くなった場合、どうすればいい？</button>
+          <div class="q-answer">「詳しく説明して」「ステップごとに説明して」と明示的に指示する。4.7は「必要十分」が基本なので、詳細が必要なときは要求すれば対応してくれる。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== MIGRATION ====== -->
+    <section id="migration">
+      <div class="timestamp">⏱ 13:30〜15:00</div>
+      <span class="section-label" style="background:rgba(0,143,106,.12);color:var(--green)">MIGRATION</span>
+      <h2 class="section-title">4.6 → 4.7 移行チェックリスト</h2>
+      <div class="hitokoto-web" style="border-color:var(--green)">
+        <span class="badge" style="background:var(--green)">一言で</span>
+        <p>Opus 4.6をそのまま4.7に換えるだけでは性能が出ないことがある。3点を確認しよう</p>
+      </div>
+
+      <div class="step-migration">
+        <div class="step-migration-num">1</div>
+        <div>
+          <div class="step-migration-title">thinking_budget の設定を削除する</div>
+          <code class="code-line">thinking_budget=5000  ← 削除</code>
+          <code class="code-line new-code">// アダプティブ思考に任せる（設定不要）</code>
+          <div class="step-migration-desc">固定予算は Opus 4.7 では非対応。削除するだけでOK — アダプティブ思考が自動で最適化してくれる</div>
+        </div>
+      </div>
+      <div class="step-migration">
+        <div class="step-migration-num">2</div>
+        <div>
+          <div class="step-migration-title">エフォート設定「xhigh」をデフォルトに追加</div>
+          <code class="code-line">// effort設定なし  ← 追加が必要</code>
+          <code class="code-line new-code">effort: "xhigh"  ← 追加</code>
+          <div class="step-migration-desc">ほとんどの作業は xhigh がベスト。コスト重視なら high、難題は max に変更できる</div>
+        </div>
+      </div>
+      <div class="step-migration">
+        <div class="step-migration-num">3</div>
+        <div>
+          <div class="step-migration-title">プロンプトの見直し（冗長な指示を整理）</div>
+          <code class="code-line">「詳しく・丁寧に・ステップを分けて…」← 過剰指示は削除</code>
+          <code class="code-line new-code">「〇〇をして。必要なら詳しく説明を加えて」← シンプルに</code>
+          <div class="step-migration-desc">4.7はより賢くなっているので、余分な指示は逆効果になることがある。シンプルに目的だけ伝えよう</div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="caution-web">
+          <div class="caution-web-title">⚠️ よくある移行の失敗</div>
+          <ul class="warn-list">
+            <li>4.6向けのプロンプトをそのまま使って「なんか違う」</li>
+            <li>thinking_budgetを削除し忘れてエラーが出る</li>
+            <li>冗長な指示が多すぎてClaudeが混乱する</li>
+          </ul>
+        </div>
+        <div class="success-web">
+          <div class="success-web-title">✅ 移行成功のサイン</div>
+          <ul class="checklist">
+            <li>シンプルな指示で期待通りの結果が出る</li>
+            <li>難しい問題で自動的に深く考えてくれる</li>
+            <li>コスト効率が4.6より改善している</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. 4.6から4.7への移行で最初にやる3つのことは？</button>
+          <div class="q-answer">①thinking_budgetの削除 ②effort:"xhigh"の追加 ③プロンプトの簡素化（過剰な指示を整理）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== AUTO MODE ====== -->
+    <section id="auto">
+      <div class="timestamp">⏱ 15:00〜16:30</div>
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">POINT 06</span>
+      <h2 class="section-title">Auto モードで自律作業を最大化する</h2>
+      <div class="hitokoto-web" style="border-color:var(--blue)">
+        <span class="badge" style="background:var(--blue)">一言で</span>
+        <p>人が都度確認しなくてもClaudeが最後まで走り切る設定と、完了通知で仕事を任せきれる</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg viewBox="0 0 590 360" xmlns="http://www.w3.org/2000/svg"
+             font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowB9" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1a96c0"/></marker>
+            <marker id="arrowG9" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#008f6a"/></marker>
+          </defs>
+          <rect x="10" y="10" width="570" height="320" rx="12" fill="rgba(26,150,192,.04)" stroke="#1a96c0" stroke-width="1.2"/>
+          <text x="295" y="28" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">Auto モード ワークフロー</text>
+          <rect x="30" y="50" width="118" height="100" rx="12" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"/>
+          <text x="89" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">🌅 朝</text>
+          <text x="89" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">タスクを</text>
+          <text x="89" y="101" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">包括的に設定</text>
+          <text x="89" y="117" text-anchor="middle" font-size="8.5" fill="#5e6a8a">Auto mode ON</text>
+          <text x="89" y="129" text-anchor="middle" font-size="8.5" fill="#5e6a8a">通知設定あり</text>
+          <text x="89" y="143" text-anchor="middle" font-size="8.5" fill="#1a96c0">所要:1〜2分</text>
+          <line x1="148" y1="100" x2="192" y2="100" stroke="#1a96c0" stroke-width="2" marker-end="url(#arrowB9)"/>
+          <text x="170" y="93" text-anchor="middle" font-size="8.5" fill="#1a96c0">任せる</text>
+          <rect x="193" y="50" width="180" height="100" rx="12" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"/>
+          <text x="283" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">⚙️ 昼〜夕方</text>
+          <text x="283" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">Claude 自律実行中</text>
+          <circle cx="249" cy="105" r="4" fill="#1a96c0" opacity=".9"/>
+          <circle cx="263" cy="105" r="4" fill="#1a96c0" opacity=".6"/>
+          <circle cx="277" cy="105" r="4" fill="#1a96c0" opacity=".3"/>
+          <text x="283" y="122" text-anchor="middle" font-size="8.5" fill="#5e6a8a">計画→実行→確認</text>
+          <text x="283" y="135" text-anchor="middle" font-size="8.5" fill="#5e6a8a">を自動で繰り返す</text>
+          <text x="283" y="143" text-anchor="middle" font-size="8.5" fill="#1a96c0">あなたは他の仕事へ</text>
+          <line x1="373" y1="100" x2="416" y2="100" stroke="#008f6a" stroke-width="2" marker-end="url(#arrowG9)"/>
+          <text x="395" y="93" text-anchor="middle" font-size="8.5" fill="#008f6a">完了通知</text>
+          <rect x="417" y="50" width="143" height="100" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"/>
+          <text x="488" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">📬 夕方</text>
+          <text x="488" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">通知受信</text>
+          <text x="488" y="103" text-anchor="middle" font-size="8.5" fill="#5e6a8a">「タスク完了しました」</text>
+          <text x="488" y="116" text-anchor="middle" font-size="8.5" fill="#5e6a8a">最終レビューのみ</text>
+          <text x="488" y="129" text-anchor="middle" font-size="8.5" fill="#5e6a8a">数分で確認→提出</text>
+          <text x="488" y="143" text-anchor="middle" font-size="8.5" fill="#008f6a">所要:数分</text>
+          <rect x="30" y="170" width="530" height="54" rx="10" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="1"/>
+          <text x="295" y="192" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">✅ Auto モードがもたらすメリット</text>
+          <text x="130" y="212" text-anchor="middle" font-size="9.5" fill="#5e6a8a">⏱ 監視不要で時間節約</text>
+          <text x="295" y="212" text-anchor="middle" font-size="9.5" fill="#5e6a8a">💰 割り込みコストゼロ</text>
+          <text x="460" y="212" text-anchor="middle" font-size="9.5" fill="#5e6a8a">🎯 集中した自律実行で品質UP</text>
+          <rect x="30" y="244" width="530" height="72" rx="10" fill="rgba(168,106,0,.05)" stroke="rgba(168,106,0,.3)" stroke-width="1"/>
+          <text x="50" y="264" font-size="10" font-weight="700" fill="#a86a00">⚠️ Auto モードを使うべき場面 / 使わない場面</text>
+          <text x="50" y="282" font-size="9" fill="#5e6a8a">✅ 使うべき: 繰り返し作業・パターン化できるタスク・信頼できる処理の自動化</text>
+          <text x="50" y="298" font-size="9" fill="#5e6a8a">❌ 使わない: 重要な判断が必要な箇所・機密データの処理・承認が必要な外部操作</text>
+          <text x="50" y="310" font-size="9" fill="#5e6a8a">→ 「信頼できる範囲のタスク」にだけ自律を与えるのがポイント</text>
+        </svg>
+      </div>
+
+      <div class="self-check">
+        <div class="self-check-title">📝 理解度セルフチェック</div>
+        <div class="q-item">
+          <button class="q-toggle" onclick="toggleQ(this)">Q. Auto モードを使うべきタスクと使わないタスクの違いは？</button>
+          <div class="q-answer">使うべき: 繰り返し作業・パターン化できるタスク・信頼できる処理の自動化。使わない: 重要な判断が必要・機密データの処理・承認が必要な外部操作。「信頼できる範囲のタスク」にだけ使う。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== COMPARE ====== -->
+    <section id="compare">
+      <div class="timestamp">⏱ 16:30〜18:00</div>
+      <span class="section-label" style="background:rgba(122,59,206,.12);color:var(--purple)">COMPARE</span>
+      <h2 class="section-title">Opus 4.6 vs 4.7 — 主要比較</h2>
+      <div class="hitokoto-web" style="border-color:var(--purple)">
+        <span class="badge" style="background:var(--purple)">一言で</span>
+        <p>どこが変わったか一覧で把握。移行時の「なぜ動作が違う？」がこれで解消</p>
+      </div>
+      <div class="web-table-wrap">
+        <table class="web-table">
+          <thead>
+            <tr>
+              <th>比較項目</th>
+              <th>Opus 4.6（旧）</th>
+              <th>Opus 4.7（新）</th>
+              <th>評価</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700">思考予算</td>
+              <td>thinking_budget=N を手動指定</td>
+              <td>アダプティブ思考で自動調整</td>
+              <td><span class="improve-tag">改善</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700">レスポンス長</td>
+              <td>固定傾向（やや長め）</td>
+              <td>タスク複雑さに応じて可変</td>
+              <td><span class="improve-tag">改善</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700">デフォルト冗長性</td>
+              <td>高め（前置き・まとめが多い）</td>
+              <td>低め（必要最小限）</td>
+              <td><span class="improve-tag">改善</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700">ツール使用</td>
+              <td>積極的（すぐ使う）</td>
+              <td>慎重（推論優先）</td>
+              <td><span class="improve-tag">改善</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700">サブエージェント</td>
+              <td>比較的よく生成</td>
+              <td>必要な場合のみ（コスト最適）</td>
+              <td><span class="improve-tag">改善</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700">エフォート設定</td>
+              <td>非対応</td>
+              <td>5段階（low/medium/high/xhigh/max）</td>
+              <td><span class="new-tag">新機能</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700">得意領域</td>
+              <td>汎用（幅広いタスク）</td>
+              <td>コーディング・エージェントタスクに特化</td>
+              <td><span class="new-tag">特化</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-web">
+        💡 <strong>移行の鍵:</strong> thinking_budget 削除 + effort: "xhigh" 追加 + プロンプト簡素化 の3点だけでOK。
+        Opus 4.7はより少ない指示で、より高い品質を出せるようになった。
+      </div>
+    </section>
+
+    <!-- ====== BIZ ====== -->
+    <section id="biz">
+      <div class="timestamp">⏱ 18:00〜20:00</div>
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">BIZ USE CASE</span>
+      <h2 class="section-title">営業・事務職での活用シナリオ</h2>
+      <div class="hitokoto-web" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>プログラミングスキル不要。Claude Codeは「繰り返し仕事を代わりにやってくれるAI助手」として使える</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="web-card" style="border-left:3px solid var(--orange)">
+          <div class="web-card-title">💼 営業職: 提案書自動生成</div>
+          <div class="web-card-desc">
+            「A社向けにクラウド移行の提案書をPPT形式6枚で。価格比較はCFO確認済みのものを使い、競合言及は除く」と指示するだけで構成・執筆・整形まで完了。
+          </div>
+        </div>
+        <div class="web-card" style="border-left:3px solid var(--green)">
+          <div class="web-card-title">📊 事務職: データ集計・レポート化</div>
+          <div class="web-card-desc">
+            「6月のCSVを読み込んで、前月比グラフ付きでA4 2ページのレポートを作って」と指定するだけ。毎月の定型作業を90%削減できる。
+          </div>
+        </div>
+        <div class="web-card" style="border-left:3px solid var(--blue)">
+          <div class="web-card-title">🏢 管理職: 週報まとめ・アクション抽出</div>
+          <div class="web-card-desc">
+            チームの週報をClaudeに読ませて「課題をまとめ、来週のアクション3点を提案して」。週次ミーティングの準備時間を70%削減できる。
+          </div>
+        </div>
+        <div class="web-card" style="border-left:3px solid var(--purple)">
+          <div class="web-card-title">🚀 3点セットで始める</div>
+          <div class="web-card-desc">
+            ①毎月やっているルーティン作業を1つ選ぶ → ②「何を・どのレベルまで・何をしないか」を書き出す → ③effort: xhigh + Auto modeでClaudeに任せる
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card ok">
+          <div class="detail-title">✅ 向いているタスク</div>
+          <ul class="detail-list">
+            <li>繰り返し発生する定型業務</li>
+            <li>決まったフォーマットへの変換・整形</li>
+            <li>データ読み込み→集計→レポート化</li>
+          </ul>
+        </div>
+        <div class="detail-card ng">
+          <div class="detail-title">⚠️ 注意が必要なタスク</div>
+          <ul class="detail-list">
+            <li>機密情報・個人情報を含む処理</li>
+            <li>法的・財務的に重要な最終判断</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SUMMARY ====== -->
+    <section id="summary">
+      <div class="timestamp">⏱ 20:00〜21:00</div>
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">WRAP UP</span>
+      <h2 class="section-title">まとめ — 今日から試せる3つのアクション</h2>
+      <div class="hitokoto-web" style="border-color:var(--blue)">
+        <span class="badge" style="background:var(--blue)">一言で</span>
+        <p>3点の設定変更で、Claude Opus 4.7 の真の実力を引き出せる</p>
+      </div>
+
+      <div class="action-summary">
+        <div class="action-item">
+          <span class="action-num" style="background:linear-gradient(135deg,#2ab8e0,#1a96c0)">1</span>
+          <div>
+            <div class="action-title">エフォート設定を「xhigh」に変える</div>
+            <div class="action-desc">ほとんどの作業でコストと品質のベストバランス。最初の設定として迷ったらこれ一択。難しい問題は max に、簡単な確認は low/medium に使い分けよう。</div>
+            <span class="action-code">effort: "xhigh"</span>
+          </div>
+        </div>
+        <div class="action-item">
+          <span class="action-num" style="background:linear-gradient(135deg,#18b87a,#008f6a)">2</span>
+          <div>
+            <div class="action-title">thinking_budget の指定を削除する</div>
+            <div class="action-desc">Opus 4.7 はアダプティブ思考で問題の難しさを自動判定する。固定予算の手動設定は不要になった — 削除するだけで自動最適化してくれる。</div>
+            <span class="action-code">thinking_budget の行を削除</span>
+          </div>
+        </div>
+        <div class="action-item">
+          <span class="action-num" style="background:linear-gradient(135deg,#e8873a,#d96018)">3</span>
+          <div>
+            <div class="action-title">タスクを「走り切れる仕様書」として最初に伝える</div>
+            <div class="action-desc">「何を・どのレベルまで・何をしないか」を最初に全部書く。途中の都度確認をなくすことで、コストも品質も改善する。</div>
+            <span class="action-code">① 全体像 ② 成功基準 ③ 除外事項</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== GLOSSARY ====== -->
+    <section id="glossary">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+      <h2 class="section-title">用語解説</h2>
+      <p class="section-sub">このスライドで登場した用語の読み方と概要</p>
+
+      <div class="glossary-web">
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">Claude Code</span>
+            <span class="term-reading-web">クロード・コード</span>
+            <a class="term-link-web" href="https://claude.ai/code" target="_blank">claude.ai/code 🔗</a>
+          </div>
+          <p class="term-desc-web">Anthropicが提供するAIコーディングアシスタント。ターミナルやIDEから直接Claudeを呼び出せる。プログラミング知識がなくても文章で指示するだけで動く。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">Claude Opus 4.7</span>
+            <span class="term-reading-web">クロード・オーパス・フォー・セブン</span>
+            <a class="term-link-web" href="https://anthropic.com" target="_blank">anthropic.com 🔗</a>
+          </div>
+          <p class="term-desc-web">Claudeシリーズの最上位モデル（2026年4月公開）。コーディングとエージェントタスクに特に強く、アダプティブ思考とエフォート設定を新搭載。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">エフォート設定</span>
+            <span class="term-reading-web">エフォートせってい</span>
+          </div>
+          <p class="term-desc-web">AIが問題解決にかける「考える深さ」を5段階（low / medium / high / xhigh / max）で調整する機能。Opus 4.7の新機能。ほとんどの作業は xhigh がベスト。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">アダプティブ思考</span>
+            <span class="term-reading-web">アダプティブしこう</span>
+          </div>
+          <p class="term-desc-web">問題の難しさをAIが自動判定し、必要な思考量を動的に配分する機能。Opus 4.7から採用。以前の固定予算（thinking_budget）指定が不要になった。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">サブエージェント</span>
+            <span class="term-reading-web">サブエージェント</span>
+          </div>
+          <p class="term-desc-web">複雑なタスクを処理するためにメインのAIが必要に応じて呼び出す補助的なAIエージェント。Opus 4.7では必要な場合のみ節制的に生成され、コスト最適化される。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">Anthropic</span>
+            <span class="term-reading-web">アンソロピック</span>
+            <a class="term-link-web" href="https://anthropic.com" target="_blank">anthropic.com 🔗</a>
+          </div>
+          <p class="term-desc-web">Claudeを開発した米国のAI企業（2021年設立）。安全なAIの研究・開発を目指し、Claude Code・Claude APIなど多数のツールを提供している。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">トークナイザー</span>
+            <span class="term-reading-web">トークナイザー</span>
+          </div>
+          <p class="term-desc-web">テキストを小さな単位（トークン）に分割するAIの処理機構。Opus 4.7では更新されより効率的に処理できるようになった。料理に例えると「食材を切り分ける包丁」のような存在。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">Auto モード</span>
+            <span class="term-reading-web">オート・モード</span>
+          </div>
+          <p class="term-desc-web">人の介入なしにClaudeが最後まで自律的にタスクを実行するモード。「朝タスクをセット→通知を受けて夕方にレビュー」という使い方が可能。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">推論（Thinking）</span>
+            <span class="term-reading-web">すいろん・シンキング</span>
+          </div>
+          <p class="term-desc-web">AIが問題を解くために内部でステップを踏んで考えるプロセス。人間が紙に計算を書き出して考えるように、AIも内部で思考ステップを踏む。深い推論ほど精度が上がる。</p>
+        </div>
+        <div class="term-card-web">
+          <div class="term-head-web">
+            <span class="term-name-web">エージェント</span>
+            <span class="term-reading-web">エージェント</span>
+          </div>
+          <p class="term-desc-web">目標を達成するために自律的に判断・行動するAIプログラムの総称。会社で言えば「指示なしに仕事を進められる優秀な部下」のようなもの。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// セルフチェック開閉
+function toggleQ(btn) {
+  btn.classList.toggle('open');
+  const ans = btn.nextElementSibling;
+  ans.classList.toggle('open');
+}
+
+// サイドバー IntersectionObserver
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

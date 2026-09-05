@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABC470 C - A and B 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <style>
+    pre code.hljs { background: transparent !important; padding: 0 !important; }
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .problem-card h4 {
+      margin: 0 0 0.5rem 0;
+      color: var(--text);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.3rem;
+    }
+    .problem-card p {
+      margin: 0.5rem 0;
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+    .sample-box {
+      background: #f0f4f8;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+      <h2 class="slide-title">問題文・制約・入出力例</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>2つの整数に対し、複数のクエリで状態を更新していく問題</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="info-col">
+        <div class="problem-card">
+          <h4>問題の概要</h4>
+          <p>2つの整数 $A$ と $B$ が与えられます。
+             その後、クエリが $Q$ 個与えられ、各クエリによって $A$ または $B$ のビットの状態が更新されます。
+             最後に $A$ と $B$ の値を求めてください。</p>
+        </div>
+        <div class="problem-card">
+          <h4>制約</h4>
+          <p>
+            - A, B <= 10^9 (約 30ビット)
+            - Q <= 10^5 (10万回)
+          </p>
+          <p><small>※ Q が多いため、各クエリで重い計算をすると間に合いません。</small></p>
+        </div>
+        <div class="problem-card">
+          <h4>入出力例</h4>
+          <p>入力例 1:</p>
+          <div class="sample-box">
+            A = 3 (0011), B = 5 (0101)<br>
+            Q = 1, Query = (Update A bit 1)<br>
+            A = 2 (0010), B = 5 (0101)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

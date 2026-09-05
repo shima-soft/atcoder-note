@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ABC463 E — Roads and Gates 解説</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css"><style>
+:root{--bg:#f9fafb;--surface:#eff1f7;--card:#fff;--border:#dde2ec;--text:#1a1d2e;--muted:#5e6a8a;--orange:#d96018;--green:#008f6a;--blue:#1a96c0;--purple:#7a3bce;--red:#c9162e}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif;line-height:1.75;overflow-x:hidden}header{height:52px;position:fixed;inset:0 0 auto;z-index:5;background:#1a1d2e;color:#fff;display:flex;align-items:center;padding:0 1.2rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}header span{color:#e8873a;margin-right:.6rem}.layout{display:grid;grid-template-columns:220px minmax(0,820px);gap:2rem;max-width:1100px;margin:52px auto 0;padding:0 1rem}.side{position:sticky;top:52px;height:calc(100vh - 52px);padding:1.5rem 0;overflow:auto}.side a{display:block;padding:.4rem .75rem;color:var(--muted);text-decoration:none;border-left:3px solid transparent;font-size:.84rem}.side a.active{color:var(--orange);border-left-color:var(--orange);background:rgba(217,96,24,.07);font-weight:800}main{padding:2rem 0 4rem}section{scroll-margin-top:70px;margin-bottom:2.4rem}.hero{background:linear-gradient(135deg,#fff7ed,#fff);border:1px solid #f3d5bd;border-radius:18px;padding:2.2rem}.eyebrow{display:inline-block;background:var(--orange);color:#fff;border-radius:99px;padding:.12rem .65rem;font-size:.76rem;font-weight:800}h1{font-size:2.1rem;line-height:1.25;margin:.65rem 0 .45rem}h2{font-size:1.45rem;margin:0 0 .8rem;border-left:5px solid var(--orange);padding-left:.7rem}h3{font-size:1rem;margin:.2rem 0}.lead{font-size:1.05rem;color:var(--muted)}.card,.check{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem 1.15rem;margin:.65rem 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem}.num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;font-weight:900}.ok{border-left:4px solid var(--green)}.ng{border-left:4px solid var(--red)}.info{border-left:4px solid var(--blue)}code{font-family:Consolas,monospace}.formula{background:var(--surface);border-radius:8px;padding:.75rem .9rem;font-family:Consolas,monospace;font-weight:700;text-align:center;font-size:1.05rem}.route{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin:1rem 0}.route b{padding:.45rem .7rem;background:#fff;border:2px solid var(--orange);border-radius:9px}.route span{color:var(--muted);font-size:.85rem}.ac-code-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:1rem 0}.ac-code-header{display:flex;align-items:center;gap:.6rem;background:var(--surface);padding:.45rem .8rem;border-bottom:1px solid var(--border)}.ac-filename{font-family:Consolas,monospace;font-size:.82rem;color:var(--muted);flex:1}.ac-badge{font-size:.72rem;color:var(--green);font-weight:700}.copy-btn,.flow-link{font-size:.76rem;font-weight:700;padding:.3rem .7rem;border-radius:6px;border:1px solid var(--orange);color:var(--orange);background:transparent;cursor:pointer;text-decoration:none}.ac-code-block pre{margin:0;padding:1rem;overflow:auto}.ac-code-block pre code.hljs{background:transparent!important;padding:0!important}.complexity{width:100%;border-collapse:collapse}.complexity th,.complexity td{text-align:left;padding:.55rem;border-bottom:1px solid var(--border)}details{border-top:1px solid var(--border);padding:.55rem 0}summary{cursor:pointer;font-weight:700}.glossary{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.term{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem}.term strong{display:block}.term small{color:var(--muted)}footer{color:var(--muted);font-size:.8rem;margin-top:2rem}@media(max-width:800px){.layout{display:block;width:100%;max-width:100%;padding:0 .75rem}.side{display:none}main{padding-top:1rem}.grid,.steps,.glossary{grid-template-columns:1fr}h1{font-size:1.7rem}.hero{padding:1.3rem;max-width:100%;overflow:hidden}.ac-badge{display:none}}
+</style><!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head><body><header><a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;margin-right:.7rem;white-space:nowrap">← 一覧</a><span>AtCoder×Python</span>ABC463 E — Roads and Gates</header><div class="layout"><nav class="side"><a href="#overview">概要</a><a href="#problem">問題を読み解く</a><a href="#failure">失敗アプローチ</a><a href="#compress">超頂点で圧縮</a><a href="#direction">有向辺の設計</a><a href="#dijkstra">ダイクストラ法</a><a href="#code">AC想定コード</a><a href="#complexity">計算量</a><a href="#summary">まとめ</a><a href="#glossary">用語解説</a></nav><main>
+<section id="overview" class="hero"><span class="eyebrow">ABC463 E / 450点</span><h1>Roads and Gates</h1><p class="lead">全都市ペアのワープを、入口・出口の2つの超頂点へ圧縮。通常の最短経路問題として解きます。</p><div class="steps"><div class="step"><span class="num">1</span><h3>N²辺を疑う</h3><p>完全グラフは作れない</p></div><div class="step"><span class="num">2</span><h3>式を3辺へ分解</h3><p>Xᵢ + Y + Xⱼ</p></div><div class="step"><span class="num">3</span><h3>最短経路</h3><p>ダイクストラ法を1回</p></div></div><p><a class="flow-link" href="flowchart.html">考え方フローチャートを開く →</a></p></section>
+<section id="problem"><h2>問題を読み解く</h2><div class="card"><p>N都市とM本の双方向道路があります。道路iはT<sub>i</sub>分。都市iから都市jへは、ワープで <strong>X<sub>i</sub> + X<sub>j</sub> + Y</strong> 分かかります。都市1から都市2〜Nへの最短時間を求めます。</p></div><div class="grid"><div class="card"><h3>制約が示すこと</h3><p>N,M ≤ 2×10<sup>5</sup>。全都市ペアの辺は作れません。値は最大10<sup>9</sup>で、答えは2<sup>31</sup>を超える場合があります。</p></div><div class="card ok"><h3>サンプル1の都市7</h3><p>都市1→2を道路で1分、都市2→7をワープで1+2+3=6分。合計7分です。</p></div></div><div class="check"><details><summary>セルフチェック：ワープ料金の3つの部品は？</summary><p>出発側X<sub>i</sub>、全員共通Y、到着側X<sub>j</sub>です。</p></details></div></section>
+<section id="failure"><h2>全都市ペアのワープ辺を作る？</h2><div class="card ng"><h3>約400億本</h3><p>N=20万で有向辺を全ペアに作ると、N(N−1)本。メモリにも時間にも収まりません。</p></div><p>全支店間の直通便を作るのではなく、共通の物流センターへ集約する発想へ切り替えます。</p></section>
+<section id="compress"><h2>Xᵢ + Xⱼ + Y を3区間へ</h2><div class="formula">都市 i ─ Xᵢ → 入口 Wₛ ─ Y → 出口 Wₜ ─ Xⱼ → 都市 j</div><div class="grid"><div class="card info"><h3>追加する辺</h3><ul><li>都市i → Wₛ：X<sub>i</sub></li><li>Wₛ → Wₜ：Y</li><li>Wₜ → 都市j：X<sub>j</sub></li></ul></div><div class="card ok"><h3>辺数</h3><p>N²本から <strong>2N+1本</strong>へ。どのi,jでも合計料金は元の式と一致します。</p></div></div><div class="check"><details><summary>セルフチェック：なぜ超頂点が2つ必要？</summary><p>共通費用Yをちょうど1回通し、入口→出口という向きを表現するためです。</p></details></div></section>
+<section id="direction"><h2>有向辺の向きを守る</h2><div class="route"><b>都市</b><span>→ Xᵢ →</span><b>入口 Wₛ</b><span>→ Y →</span><b>出口 Wₜ</b><span>→ Xⱼ →</span><b>都市</b></div><div class="grid"><div class="card ok"><h3>ワープ</h3><p>すべて一方向。不要な逆向き辺は追加しません。</p></div><div class="card info"><h3>道路</h3><p>双方向なので、u→vとv→uの2本を追加します。</p></div></div></section>
+<section id="dijkstra"><h2>ダイクストラ法を1回</h2><p>圧縮後はN+2頂点の重み付きグラフです。すべてのコストが正なので、都市1を始点にダイクストラ法を使えます。</p><div class="steps"><div class="step"><span class="num">1</span><p>都市1を0、ほかを∞にする</p></div><div class="step"><span class="num">2</span><p>heapから最小候補を取り出す</p></div><div class="step"><span class="num">3</span><p>より短い距離なら更新する</p></div></div></section>
+<section id="code"><h2>提出コード</h2><p>公式サンプル3件とランダムな小ケースで確認したコードです。</p><div class="ac-code-block"><div class="ac-code-header"><span class="ac-filename">abc463e.py</span><span class="ac-badge">✅ AC想定・公式サンプル確認済み</span><button class="copy-btn" onclick="copyCode(this)">コピー</button></div><pre><code class="language-python">import sys
+import heapq
+
+input = sys.stdin.readline
+N, M, Y = map(int, input().split())
+
+graph = []
+for _ in range(N + 2):
+    graph.append([])
+
+for _ in range(M):
+    u, v, T = map(int, input().split())
+    u -= 1
+    v -= 1
+    graph[u].append((v, T))
+    graph[v].append((u, T))
+
+X = list(map(int, input().split()))
+gate_in = N
+gate_out = N + 1
+
+for city in range(N):
+    graph[city].append((gate_in, X[city]))
+    graph[gate_out].append((city, X[city]))
+
+graph[gate_in].append((gate_out, Y))
+
+INF = 10**30
+dist = [INF] * (N + 2)
+dist[0] = 0
+queue = [(0, 0)]
+
+while queue:
+    current_dist, city = heapq.heappop(queue)
+    if current_dist != dist[city]:
+        continue
+
+    for next_city, cost in graph[city]:
+        new_dist = current_dist + cost
+        if new_dist < dist[next_city]:
+            dist[next_city] = new_dist
+            heapq.heappush(queue, (new_dist, next_city))
+
+print(*dist[1:N])</code></pre></div></section>
+<section id="complexity"><h2>計算量</h2><table class="complexity"><tr><th>項目</th><th>規模</th></tr><tr><td>頂点数</td><td>N + 2</td></tr><tr><td>有向辺数</td><td>2M + 2N + 1</td></tr><tr><td>全体</td><td><strong>O((N + M) log N)</strong></td></tr></table><p>N,M ≤ 2×10<sup>5</sup>。Pythonでも現実的な範囲です。</p></section>
+<section id="summary"><h2>まとめ</h2><div class="steps"><div class="step"><span class="num">1</span><p>完全グラフは作らない</p></div><div class="step"><span class="num">2</span><p>共通部分を超頂点にする</p></div><div class="step"><span class="num">3</span><p>定番の最短経路へ帰着</p></div></div><p>全ペアに同じ形のコストが現れたら、共通のハブへ圧縮できないか考えましょう。</p></section>
+<section id="glossary"><h2>用語解説</h2><div class="glossary"><div class="term"><strong>完全グラフ</strong><small>すべての頂点ペアが辺で結ばれたグラフ。</small></div><div class="term"><strong>超頂点</strong><small>共通経路をまとめるため追加する仮想頂点。</small></div><div class="term"><strong>有向辺</strong><small>進める向きが決まった辺。</small></div><div class="term"><strong>隣接リスト</strong><small>各頂点から出る辺だけを保存する形式。</small></div><div class="term"><strong>ダイクストラ法</strong><small>負辺がないグラフの単一始点最短経路法。</small></div><div class="term"><strong>優先度付きキュー</strong><small>最小候補を高速に取り出すデータ構造。</small></div></div></section><footer>出典: <a href="https://atcoder.jp/contests/abc463/tasks/abc463_e">AtCoder ABC463 E</a> / <a href="https://atcoder.jp/contests/abc463/editorial/21940">公式解説</a>。問題文は平易に言い換えています。</footer>
+</main></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());function copyCode(btn){const code=btn.closest('.ac-code-block').querySelector('code').textContent;navigator.clipboard.writeText(code).then(()=>{btn.textContent='コピー完了！';setTimeout(()=>btn.textContent='コピー',2000)})}const links=[...document.querySelectorAll('.side a')],sections=[...document.querySelectorAll('main section')];const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-20% 0px -60% 0px'});sections.forEach(s=>ob.observe(s));</script></body></html>
+

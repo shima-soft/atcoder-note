@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">道具を選ぶ</span>
+    <h2 class="slide-title">「時刻◯より前は何本？」を BIT で一瞬で数える</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>BIT は「件数の追加・削除」と「先頭からの累計」を両方 O(log Q) でこなす集計表です</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BITで時刻4より前に白塗りされた列の本数を数える図">
+        <!-- 質問 -->
+        <rect x="40" y="24" width="480" height="40" rx="10" fill="rgba(217,96,24,.07)" stroke="#d96018" stroke-width="1.5"/>
+        <text x="280" y="49" text-anchor="middle" font-size="14" font-weight="800" fill="#d96018">Q. 時刻4より前に白く塗られた列は何本？（N=5）</text>
+
+        <!-- 各列の最終白塗り時刻 -->
+        <rect x="40" y="84" width="88" height="44" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="84" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列1</text>
+        <text x="84" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">時刻7</text>
+        <rect x="136" y="84" width="88" height="44" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="180" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列2</text>
+        <text x="180" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">時刻5</text>
+        <rect x="232" y="84" width="88" height="44" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="2"/>
+        <text x="276" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列3</text>
+        <text x="276" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">時刻0</text>
+        <rect x="328" y="84" width="88" height="44" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="2"/>
+        <text x="372" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列4</text>
+        <text x="372" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">時刻0</text>
+        <rect x="424" y="84" width="88" height="44" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="2"/>
+        <text x="468" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列5</text>
+        <text x="468" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">時刻2</text>
+
+        <!-- タイムライン -->
+        <rect x="50" y="150" width="215" height="70" rx="8" fill="rgba(0,143,106,.08)"/>
+        <text x="157" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">時刻4より前</text>
+        <line x1="50" y1="190" x2="510" y2="190" stroke="#5e6a8a" stroke-width="2"/>
+        <circle cx="70" cy="178" r="7" fill="#1a96c0"/>
+        <circle cx="180" cy="178" r="7" fill="#1a96c0"/>
+        <circle cx="345" cy="178" r="7" fill="#1a96c0"/>
+        <circle cx="455" cy="178" r="7" fill="#1a96c0"/>
+        <line x1="70" y1="185" x2="70" y2="195" stroke="#5e6a8a"/>
+        <line x1="125" y1="185" x2="125" y2="195" stroke="#5e6a8a"/>
+        <line x1="180" y1="185" x2="180" y2="195" stroke="#5e6a8a"/>
+        <line x1="235" y1="185" x2="235" y2="195" stroke="#5e6a8a"/>
+        <line x1="290" y1="185" x2="290" y2="195" stroke="#5e6a8a"/>
+        <line x1="345" y1="185" x2="345" y2="195" stroke="#5e6a8a"/>
+        <line x1="400" y1="185" x2="400" y2="195" stroke="#5e6a8a"/>
+        <line x1="455" y1="185" x2="455" y2="195" stroke="#5e6a8a"/>
+        <line x1="510" y1="185" x2="510" y2="195" stroke="#5e6a8a"/>
+        <text x="70" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">0</text>
+        <text x="125" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">1</text>
+        <text x="180" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">2</text>
+        <text x="235" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">3</text>
+        <text x="290" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">4</text>
+        <text x="345" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">5</text>
+        <text x="400" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">6</text>
+        <text x="455" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">7</text>
+        <text x="510" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">8</text>
+
+        <!-- 答え -->
+        <rect x="40" y="240" width="480" height="36" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="280" y="263" text-anchor="middle" font-size="13" font-weight="800" fill="#008f6a">A. 3本（列3・列4・列5）— BIT なら O(log Q) で即答</text>
+
+        <!-- BIT表 -->
+        <rect x="40" y="300" width="480" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="280" y="322" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">BIT（時刻カウント表）のイメージ</text>
+        <text x="92" y="349" text-anchor="end" font-size="11" fill="#5e6a8a">件数</text>
+        <text x="92" y="381" text-anchor="end" font-size="11" fill="#5e6a8a">累計</text>
+        <rect x="98" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="144" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="190" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="236" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="282" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="328" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="374" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="420" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="466" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <text x="121" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">2</text>
+        <text x="167" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+        <text x="213" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">1</text>
+        <text x="259" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+        <text x="305" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+        <text x="351" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">1</text>
+        <text x="397" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+        <text x="443" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">1</text>
+        <text x="489" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+        <rect x="98" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="144" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="190" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="236" y="364" width="46" height="26" fill="rgba(217,96,24,.1)" stroke="#d96018" stroke-width="2"/>
+        <rect x="282" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="328" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="374" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="420" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <rect x="466" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+        <text x="121" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">2</text>
+        <text x="167" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">2</text>
+        <text x="213" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">3</text>
+        <text x="259" y="381" text-anchor="middle" font-size="12" font-weight="800" fill="#d96018">3</text>
+        <text x="305" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">3</text>
+        <text x="351" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">4</text>
+        <text x="397" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">4</text>
+        <text x="443" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">4</text>
+        <text x="489" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">5</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">💼 身近な例え</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">例</span>
+          <p>売上台帳の<strong>小計欄</strong>。日付ごとの件数に小計を付けておけば「◯日までの累計」が一瞬で答えられる。BIT はその台帳のデータ構造版</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ BIT ができること（どちらも O(log Q)）</div>
+        <ul class="box-list">
+          <li>ある時刻の件数を <strong>+1 / −1</strong> する（塗り直し＝古い時刻を −1、新しい時刻に +1）</li>
+          <li>先頭からある時刻までの<strong>累計</strong>を出す</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">📝 本問での使い方</div>
+        <ul class="box-list">
+          <li><strong>行用と列用の 2 本</strong>を用意する</li>
+          <li>「時刻 t より後」は「全体 N − 時刻 t までの累計」で求める</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

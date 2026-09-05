@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 50%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .78rem;
+  line-height: 1.55;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">DFS本体 + 出力（16行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>1行ごとのprintは呼び出し回数が多いと遅い。文字列を貯めて最後に1回で出力する</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — DFS本体 + 出力</div>
+      <pre><code class="language-python">A = [0] * N
+out = []
+
+def dfs(idx, rem):
+    if idx == N:
+        A[idx - 1] = rem // idx
+        out.append(' '.join(map(str, A)))
+        return
+    for v in range(rem // idx + 1):
+        r = rem - idx * v
+        if reach[idx + 1][r]:
+            A[idx - 1] = v
+            dfs(idx + 1, r)
+
+dfs(1, K)
+print('\n'.join(out))</code></pre>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 dfs(idx, rem) の流れ</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>idx==N（最後の位置）なら rem÷idx で確定値を代入し、1行分の文字列をoutに追加</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>そうでなければ v を 0 から順に試す（小さい方から試すので辞書順のまま）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>reach[idx+1][r] が○のときだけ次の位置へ進む（枝刈り）</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ なぜ1行ずつprintしないのか</div>
+        <ul class="box-list">
+          <li>出力は最大3×10⁵行。<code>print()</code>を毎回呼ぶと1回ごとの処理コストが積み重なり遅くなる</li>
+          <li>文字列をリストoutに貯めて<code>'\n'.join(out)</code>で1回にまとめて出力すると大幅に速くなる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

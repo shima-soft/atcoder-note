@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.ov-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .4rem;
+  position: relative;
+  overflow: hidden;
+}
+.ov-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  border-radius: 14px 0 0 14px;
+  background: var(--blue);
+}
+.ov-head { display: flex; align-items: center; gap: .5rem; }
+.ov-icon { font-size: 1.35rem; line-height: 1; }
+.ov-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.ov-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  width: fit-content;
+  background: rgba(26,150,192,.12);
+  color: var(--blue);
+}
+.ov-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+.ov-highlight { font-size: .78rem; font-weight: 700; color: var(--blue); margin-top: .1rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">持ち帰るのはこの4つ</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>レビューを「属人的な作業」から「仕組み」に変えた。人間は判断だけに集中できるようになった</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">🤖</span>
+          <span class="ov-title">5つの視点が同時に動く</span>
+        </div>
+        <span class="ov-badge">並行動作</span>
+        <div class="ov-desc">バグ・規約・履歴・過去コメント・コードコメントを、それぞれ専門のエージェントが同時に審査する</div>
+        <div class="ov-highlight">1つのAIより精度が高く、時間も半分以下</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">📊</span>
+          <span class="ov-title">信頼度でノイズを削る</span>
+        </div>
+        <span class="ov-badge">0〜100スコア</span>
+        <div class="ov-desc">スコア80以上の指摘だけを投稿。偽陽性（間違った指摘）が大幅に減り、開発者の負担が軽くなる</div>
+        <div class="ov-highlight">「ちょっと気になる」レベルは自動的に除外される</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">⚡</span>
+          <span class="ov-title">不要なPRは自動スキップ</span>
+        </div>
+        <span class="ov-badge">スマートフィルタ</span>
+        <div class="ov-desc">閉じたPR・ドラフト・自動生成PR・レビュー済みPRを判別し、必要なものだけを審査する</div>
+        <div class="ov-highlight">API呼び出しの無駄を削減し、コストも下がる</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">🔗</span>
+          <span class="ov-title">GitHub に直接コメント</span>
+        </div>
+        <span class="ov-badge">SHA リンク付き</span>
+        <div class="ov-desc">ファイル名・行番号・SHA ハッシュのリンクが投稿される。ワンクリックで該当コードにジャンプ</div>
+        <div class="ov-highlight">レビュー→修正→確認のサイクルが高速化</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

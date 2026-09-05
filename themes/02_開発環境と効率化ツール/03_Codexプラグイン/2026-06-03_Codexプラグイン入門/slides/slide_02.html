@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.overview-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.85rem; flex:1; }
+.big-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem; display:flex; flex-direction:column; gap:.45rem; }
+.big-icon { font-size:1.9rem; line-height:1; }
+.big-title { font-size:1rem; font-weight:900; }
+.big-desc { font-size:.82rem; line-height:1.62; color:var(--muted); }
+.bridge { margin-top:.65rem; background:#eaf7fc; border:1px solid rgba(26,150,192,.22); border-radius:14px; padding:.75rem 1rem; display:flex; align-items:center; gap:.7rem; }
+.bridge strong { color:var(--blue); font-size:.92rem; white-space:nowrap; }
+.bridge p { font-size:.84rem; color:var(--text); line-height:1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">INTRO</span>
+    <h2 class="slide-title">プラグインは「AI用の部品箱」</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>Codexに、得意技・外部窓口・追加道具をまとめて渡す仕組みです</p>
+    </div>
+  </div>
+  <div class="slide-body" style="flex-direction:column">
+    <div class="overview-grid">
+      <div class="big-card">
+        <div class="big-icon">手順</div>
+        <div class="big-title">いつもの作業手順を覚えさせる</div>
+        <p class="big-desc">例: 「スライドを作る時は仕様書を先に読む」「レビューはリスクから書く」。毎回説明しなくても、Codexが流れを取り出せます。</p>
+      </div>
+      <div class="big-card">
+        <div class="big-icon">接続</div>
+        <div class="big-title">外部サービスにつなぐ</div>
+        <p class="big-desc">Gmail、Google Drive、Slackのような外部アプリと接続すると、Codexが情報を読んだり、必要な操作を手伝ったりできます。</p>
+      </div>
+      <div class="big-card">
+        <div class="big-icon">道具</div>
+        <div class="big-title">専用ツールを追加する</div>
+        <p class="big-desc">MCP serverを通じて、社内DB、独自API、検索ツールなどをCodexの道具箱に追加できます。</p>
+      </div>
+    </div>
+    <div class="bridge">
+      <strong>大事な見方</strong>
+      <p>プラグインは「魔法の追加機能」ではなく、Codexが仕事を進めるための部品を整理して配るパッケージです。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

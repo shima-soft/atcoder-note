@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>結果 小さなAIがクラウド級に 36%→79%へ</title>
+<style>
+.result-body{flex:1;display:flex;flex-direction:column;gap:.6rem;overflow:hidden}
+.result-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;flex:0 0 auto}
+.result-highlights .card{padding:.55rem .85rem;gap:.2rem}
+.result-highlights .card-desc{font-size:.72rem}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">実験結果 ①</span>
+    <h2 class="slide-title">結果① 小さなAIがクラウド級に — 36%→79%へ</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>AppWorld-Normalで+42.3pt、WorkBenchではクラウド超え。最強ベースラインより11〜26点上回った</p>
+    </div>
+  </div>
+  <div class="result-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th>手法 / モデル</th>
+            <th>AppWorld-Normal</th>
+            <th>AppWorld-Challenge</th>
+            <th>WorkBench</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qwen3.6-27B そのまま（ローカル）</td>
+            <td>36.3%</td>
+            <td>28.1%</td>
+            <td>51.1%</td>
+          </tr>
+          <tr>
+            <td>Few-shot ICL（プロンプト例示）</td>
+            <td>67.3%</td>
+            <td>41.7%</td>
+            <td>48.9%</td>
+          </tr>
+          <tr>
+            <td>ExpeL / AWM（Memory型）</td>
+            <td>65.9% / 51.5%</td>
+            <td>62.1% / 45.6%</td>
+            <td>49.5% / 48.7%</td>
+          </tr>
+          <tr>
+            <td>Trace2Skill（Skill型 従来）</td>
+            <td>59.8%</td>
+            <td>42.9%</td>
+            <td>62.8%</td>
+          </tr>
+          <tr style="background:rgba(122,59,206,.08)">
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.14);color:var(--purple)">SkillSmith（Qwen3.6-27B＋Skill）</span></td>
+            <td style="color:var(--purple);font-weight:900">78.6%</td>
+            <td style="color:var(--purple);font-weight:900">74.9%</td>
+            <td style="color:var(--purple);font-weight:900">89.0%</td>
+          </tr>
+          <tr>
+            <td>Claude Opus 4.7（クラウド）</td>
+            <td>94.0%</td>
+            <td>85.6%</td>
+            <td>73.7%</td>
+          </tr>
+          <tr>
+            <td>GPT-5.5（クラウド）</td>
+            <td>90.5%</td>
+            <td>89.2%</td>
+            <td>75.4%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="result-highlights">
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">1</div>
+        <div class="card-title">Normalで+42.3pt</div>
+        <p class="card-desc">36.3%→78.6%。クラウド（94%）との差を57.7pt→15.4ptへ大幅縮小。Challengeでも同様。</p>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">2</div>
+        <div class="card-title">WorkBenchではクラウド超え</div>
+        <p class="card-desc">51.1%→89.0%。最強クラウド75.4%を13.6pt上回る。事務タスクほど手順化が効いた。</p>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">3</div>
+        <div class="card-title">最強ベースラインに+11〜26pt</div>
+        <p class="card-desc">どのデータセットでも従来の非パラメトリック手法を圧倒。特に難しいChallengeで差が開く。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

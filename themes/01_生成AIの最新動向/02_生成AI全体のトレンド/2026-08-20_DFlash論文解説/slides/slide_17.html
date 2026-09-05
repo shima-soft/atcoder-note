@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>用語解説</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">DFlash</span><span class="term-reading">ディーフラッシュ</span></div>
+        <p class="term-desc">本論文が提案する高速化手法。拡散モデルを下書き役に使い、最大6.1倍速を実現。</p>
+        <a class="term-link" href="https://dflash.z-lab.ai" target="_blank">dflash.z-lab.ai 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">投機的デコーディング</span><span class="term-reading">スペキュレイティブ・デコーディング</span></div>
+        <p class="term-desc">下書き役が候補を先に書き、本番AIが一括で検証する高速化技術。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">自己回帰</span><span class="term-reading">じこかいき</span></div>
+        <p class="term-desc">1語出すたびに次を考え直す、今のAIの標準的な文章生成方式。英語では Autoregressive。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">拡散モデル</span><span class="term-reading">Diffusion Model</span></div>
+        <p class="term-desc">画像生成AIでも使われる技術。空欄だらけの状態を一度にまとめて埋めていく。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">ドラフト / ターゲット</span><span class="term-reading">下書き役 / 本番のAI</span></div>
+        <p class="term-desc">候補を先回りして書く小さなモデルと、それを最終チェックする大きなAI本体。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">GPU / VRAM</span><span class="term-reading">ジーピーユー / ブイラム</span></div>
+        <p class="term-desc">AIの計算を担う専用チップと、その専用メモリ。重みはVRAMに置かれ、読み出しが遅い。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">KVキャッシュ</span><span class="term-reading">ケーブイキャッシュ</span></div>
+        <p class="term-desc">AIが文章を読み書きする際に使う内部メモ。DFlashはここに本体の情報を注入する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">トークン</span><span class="term-reading">トークン</span></div>
+        <p class="term-desc">文章を細かく区切った処理単位。日本語ではおよそ1文字〜数文字で1トークン。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">受理長（τ）</span><span class="term-reading">じゅりちょう</span></div>
+        <p class="term-desc">1回のやり取りで本番AIに採用された候補語の数。多いほど効率がよい。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">ロスレス</span><span class="term-reading">Lossless</span></div>
+        <p class="term-desc">高速化しても、最終的な出力の中身がまったく変わらないこと。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">EAGLE-3</span><span class="term-reading">イーグルスリー</span></div>
+        <p class="term-desc">DFlash登場まで最速だった投機的デコーディング手法。今回の比較対象。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Qwen3</span><span class="term-reading">クウェン スリー</span></div>
+        <p class="term-desc">実験に使われたオープンな大規模言語モデル。4B・8Bのサイズが登場。</p>
+        <a class="term-link" href="https://huggingface.co/Qwen" target="_blank">huggingface.co 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC472 D「Bomber Mad」解説 — AtCoder×Python</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --g-orange: linear-gradient(135deg, #e8873a, #d96018);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+header {
+  height: 52px;
+  position: fixed; inset: 0 0 auto;
+  z-index: 5;
+  background: #1a1d2e; color: #fff;
+  display: flex; align-items: center;
+  padding: 0 1.2rem;
+  font-weight: 800;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+header span { color: #e8873a; margin-right: .6rem; }
+.header-home {
+  font-size: .74rem; font-weight: 700;
+  color: #7a3bce; text-decoration: none;
+  margin-right: .7rem; white-space: nowrap;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 820px);
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 52px auto 0;
+  padding: 0 1rem;
+}
+.side {
+  position: sticky; top: 52px;
+  height: calc(100vh - 52px);
+  padding: 1.5rem 0;
+  overflow: auto;
+}
+.side a {
+  display: block;
+  padding: .4rem .75rem;
+  color: var(--muted); text-decoration: none;
+  border-left: 3px solid transparent;
+  font-size: .84rem;
+}
+.side a.active {
+  color: var(--orange);
+  border-left-color: var(--orange);
+  background: rgba(217,96,24,.07);
+  font-weight: 800;
+}
+main { padding: 2rem 0 4rem; }
+section { scroll-margin-top: 70px; margin-bottom: 2.4rem; }
+.hero {
+  background: linear-gradient(135deg, #fff7ed, #fff);
+  border: 1px solid #f3d5bd;
+  border-radius: 18px;
+  padding: 2.2rem;
+}
+.eyebrow {
+  display: inline-block;
+  background: var(--orange); color: #fff;
+  border-radius: 99px;
+  padding: .12rem .65rem;
+  font-size: .76rem; font-weight: 800;
+}
+h1 { font-size: 2.1rem; line-height: 1.25; margin: .65rem 0 .45rem; }
+h2 { font-size: 1.45rem; margin: 0 0 .8rem; border-left: 5px solid var(--orange); padding-left: .7rem; }
+h3 { font-size: 1rem; margin: .2rem 0; }
+.lead { font-size: 1.05rem; color: var(--muted); }
+.card, .check {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  margin: .65rem 0;
+}
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+.step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+.num {
+  display: inline-grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--orange); color: #fff; font-weight: 900;
+}
+.ok { border-left: 4px solid var(--green); }
+.ng { border-left: 4px solid var(--red); }
+.info { border-left: 4px solid var(--blue); }
+code { font-family: Consolas, monospace; }
+.mk {
+  font-family: Consolas, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 .25rem;
+  color: var(--orange);
+  font-weight: 700;
+}
+.sample-box {
+  background: #f0f4f8;
+  padding: .6rem .8rem;
+  border-radius: 8px;
+  font-family: Consolas, monospace;
+  font-size: .85rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+/* ▼ スライドから同期したSVG図（sync_web_svg.py 対応） */
+.fig-wrap { width: 100%; margin: .8rem 0 1rem; }
+.fig {
+  width: 100%; height: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .6rem;
+}
+.fig svg { display: block; }
+.ac-code-block { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 1rem 0; }
+.ac-code-header {
+  display: flex; align-items: center; gap: .6rem;
+  background: var(--surface);
+  padding: .45rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename { font-family: Consolas, monospace; font-size: .82rem; color: var(--muted); flex: 1; }
+.ac-badge { font-size: .72rem; color: var(--green); font-weight: 700; }
+.copy-btn {
+  font-size: .76rem; font-weight: 700;
+  padding: .3rem .7rem; border-radius: 6px;
+  border: 1px solid var(--orange); color: var(--orange);
+  background: transparent; cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: 1rem; overflow: auto; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; }
+.complexity { width: 100%; border-collapse: collapse; }
+.complexity th, .complexity td { text-align: left; padding: .55rem; border-bottom: 1px solid var(--border); }
+details { border-top: 1px solid var(--border); padding: .55rem 0; }
+summary { cursor: pointer; font-weight: 700; }
+.glossary { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.term { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: .8rem; }
+.term strong { display: block; }
+.term small { color: var(--muted); }
+.term a { font-size: .74rem; color: var(--blue); word-break: break-all; }
+footer { color: var(--muted); font-size: .8rem; margin-top: 2rem; }
+@media(max-width:800px){
+  .layout { display: block; width: 100%; max-width: 100%; padding: 0 .75rem; }
+  .side { display: none; }
+  main { padding-top: 1rem; }
+  .grid, .steps, .glossary { grid-template-columns: 1fr; }
+  h1 { font-size: 1.7rem; }
+  .hero { padding: 1.3rem; max-width: 100%; overflow: hidden; }
+  .ac-badge { display: none; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header><a class="header-home" href="../../../../../index.html">← 一覧</a><span>AtCoder×Python</span>ABC472 D — Bomber Mad</header>
+
+<div class="layout">
+<nav class="side">
+  <a href="#overview">概要</a>
+  <a href="#problem">問題を読み解く</a>
+  <a href="#safe">安全な空マス</a>
+  <a href="#failure">失敗アプローチ</a>
+  <a href="#multi-bfs">多始点BFS</a>
+  <a href="#walkthrough">サンプルで追う</a>
+  <a href="#code">AC想定コード</a>
+  <a href="#complexity">計算量</a>
+  <a href="#summary">まとめ</a>
+  <a href="#glossary">用語解説</a>
+</nav>
+
+<main>
+
+<section id="overview" class="hero">
+  <span class="eyebrow">ABC472 D / 400点 / 茶色 ★★☆</span>
+  <h1>Bomber Mad</h1>
+  <p class="lead">爆弾グリッドで、K手以内に「安全な空マス」へ避難できる空マスの個数を数える。<strong>多始点BFS</strong>（始点を全部キューへ）で O(HW) に落とします。</p>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><h3>行・列を前計算</h3><p>安全な空マスが一瞬で判定できる</p></div>
+    <div class="step"><span class="num">2</span><h3>逆から考える</h3><p>全マス個別探索は約2,500億ステップで不可</p></div>
+    <div class="step"><span class="num">3</span><h3>多始点BFS</h3><p>全マスの最寄り距離を一括計算</p></div>
+  </div>
+</section>
+
+<section id="problem">
+  <h2>問題を読み解く</h2>
+  <div class="card"><p>縦 H × 横 W のマス目があります。<span class="mk">.</span> は空マス、<span class="mk">#</span> は爆弾マス。上下左右の<strong>空マスへだけ</strong>移動できます。</p>
+  <p><strong>安全な空マス</strong> ＝ そのマスの<strong>行にも列にも爆弾が1個もない</strong>空マス。各空マスが K 回以下の移動で安全な空マスへ到達できるかを判定し、条件を満たす空マスの個数を出力します。</p></div>
+  <div class="grid">
+    <div class="card info"><h3>制約が示すこと</h3><p>H×W ≤ 5×10<sup>5</sup>（最大50万マス）、0 ≤ K ≤ H×W−1。この規模感が「全マスからしらみつぶし探索は無理」の合図です。</p></div>
+    <div class="card ok"><h3>入力例1（H=W=3, K=1）</h3><div class="sample-box">#..
+...
+..#</div><p>行1・行3・列1・列3に爆弾があるため、安全な空マスは中央 (2,2) のみ。K=1 で届くのは自分を含む <strong>5個</strong>。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：「隣に爆弾がない空マス」は安全な空マス？</summary><p>いいえ。同じ行・列のどこか遠くに爆弾があっても安全ではありません。行と列全体を見ます。</p></details><details><summary>セルフチェック：K=0 のとき数えられるのは？</summary><p>そのマス自身が安全な空マスなら、移動0回で条件OK。自分自身も答えに含めます。</p></details></div>
+</section>
+
+<section id="safe">
+  <h2>「安全な空マス」を見分ける</h2>
+  <p>地雷原の区画が完全に安全と言えるのは、縦・横どちらの通り道にも地雷が1個もないとき。グリッドでは<strong>マス単体ではなく、行と列の状態</strong>に注目します。</p>
+  <div class="fig-wrap" style="aspect-ratio:620/480"><div class="fig" data-slide="03"><svg viewBox="0 0 620 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- 図タイトル -->
+          <text x="310" y="58" text-anchor="middle" font-size="16" font-weight="bold" fill="var(--text)">入力例1：安全な空マスはどこ？</text>
+
+          <!-- 列チェック（上） -->
+          <text x="220" y="112" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--red)">✕</text>
+          <text x="308" y="112" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--green)">○</text>
+          <text x="396" y="112" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--red)">✕</text>
+
+          <!-- 行チェック（左） -->
+          <text x="150" y="180" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--red)">✕</text>
+          <text x="150" y="268" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--green)">○</text>
+          <text x="150" y="356" text-anchor="middle" font-size="22" font-weight="bold" fill="var(--red)">✕</text>
+
+          <!-- 1行目 -->
+          <rect x="176" y="128" width="88" height="88" rx="8" fill="#3a3f55"/>
+          <text x="220" y="182" text-anchor="middle" font-size="26" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="264" y="128" width="88" height="88" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="2"/>
+          <text x="308" y="180" text-anchor="middle" font-size="18" fill="var(--muted)">.</text>
+          <rect x="352" y="128" width="88" height="88" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="2"/>
+          <text x="396" y="180" text-anchor="middle" font-size="18" fill="var(--muted)">.</text>
+
+          <!-- 2行目 -->
+          <rect x="176" y="216" width="88" height="88" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="2"/>
+          <text x="220" y="268" text-anchor="middle" font-size="18" fill="var(--muted)">.</text>
+          <rect x="264" y="216" width="88" height="88" rx="8" fill="var(--green)" stroke="var(--green)" stroke-width="3"/>
+          <text x="308" y="272" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">安全</text>
+          <rect x="352" y="216" width="88" height="88" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="2"/>
+          <text x="396" y="268" text-anchor="middle" font-size="18" fill="var(--muted)">.</text>
+
+          <!-- 3行目 -->
+          <rect x="176" y="304" width="88" height="88" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="2"/>
+          <text x="220" y="356" text-anchor="middle" font-size="18" fill="var(--muted)">.</text>
+          <rect x="264" y="304" width="88" height="88" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="2"/>
+          <text x="308" y="356" text-anchor="middle" font-size="18" fill="var(--muted)">.</text>
+          <rect x="352" y="304" width="88" height="88" rx="8" fill="#3a3f55"/>
+          <text x="396" y="358" text-anchor="middle" font-size="26" font-weight="bold" fill="#ffffff">#</text>
+
+          <!-- 凡例1段目 -->
+          <rect x="60" y="414" width="18" height="18" rx="4" fill="#3a3f55"/>
+          <text x="86" y="429" text-anchor="start" font-size="15" fill="var(--text)">爆弾</text>
+          <rect x="170" y="414" width="18" height="18" rx="4" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="196" y="429" text-anchor="start" font-size="15" fill="var(--text)">空きマス</text>
+          <rect x="330" y="414" width="18" height="18" rx="4" fill="var(--green)"/>
+          <text x="356" y="429" text-anchor="start" font-size="15" fill="var(--text)">安全な空マス</text>
+
+          <!-- 凡例2段目 -->
+          <text x="60" y="462" text-anchor="start" font-size="15" fill="var(--muted)">○ ＝ その行・列に爆弾なし　　✕ ＝ 爆弾あり</text>
+        </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>前計算</h3><p>各行に爆弾があるか <code>row[i]</code>、各列にあるか <code>col[j]</code> を全マス一周で記録。「(i,j) は安全か？」は <code>not row[i] and not col[j]</code> の1発判定になります。</p></div>
+    <div class="card ng"><h3>よくある誤解</h3><p>「隣に爆弾がないマス」のことではない。同じ行・列のどこか遠くに爆弾があっても安全ではありません。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：安全判定に必要な情報は？</summary><p>row[i] と col[j] の2つだけ。前計算しておけば個々のマスを行や列ごと舐め直す必要がありません。</p></details></div>
+</section>
+
+<section id="failure">
+  <h2>全マスから調べるのは間に合わない</h2>
+  <div class="fig-wrap" style="aspect-ratio:620/420"><div class="fig" data-slide="04"><svg viewBox="0 0 620 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- NGカード -->
+          <rect x="24" y="36" width="572" height="158" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <rect x="32" y="52" width="4" height="126" fill="var(--red)"/>
+          <text x="52" y="68" text-anchor="start" font-size="16.5" font-weight="bold" fill="var(--red)">❌ 直球アプローチ：各空マスから個別にBFS</text>
+          <rect x="52" y="86" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="167" y="120" text-anchor="middle" font-size="15" fill="var(--text)">空マス 最大50万個</text>
+          <text x="300" y="121" text-anchor="middle" font-size="20" font-weight="bold" fill="var(--muted)">×</text>
+          <rect x="318" y="86" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="433" y="120" text-anchor="middle" font-size="15" fill="var(--text)">1回の探索 最大50万歩</text>
+          <text x="52" y="172" text-anchor="start" font-size="18" font-weight="bold" fill="var(--red)">＝ 最悪 約2,500億ステップ</text>
+
+          <!-- 転換の矢印 -->
+          <path d="M 310 202 L 310 220" stroke="var(--orange)" stroke-width="3" fill="none" marker-end="url(#arrow-o)"/>
+          <text x="330" y="220" text-anchor="start" font-size="14" font-weight="bold" fill="var(--orange)">発想の転換：向きを逆に</text>
+
+          <!-- OKカード -->
+          <rect x="24" y="232" width="572" height="158" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <rect x="32" y="248" width="4" height="126" fill="var(--green)"/>
+          <text x="52" y="264" text-anchor="start" font-size="16.5" font-weight="bold" fill="var(--green)">⭕ 多始点BFS：安全マス側から同時に広げる</text>
+          <rect x="52" y="282" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="167" y="316" text-anchor="middle" font-size="15" fill="var(--text)">出発点＝全安全マス</text>
+          <text x="300" y="317" text-anchor="middle" font-size="20" font-weight="bold" fill="var(--muted)">＋</text>
+          <rect x="318" y="282" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="433" y="316" text-anchor="middle" font-size="15" fill="var(--text)">探索はたった1回</text>
+          <text x="52" y="368" text-anchor="start" font-size="18" font-weight="bold" fill="var(--green)">＝ 約50万ステップで全マス確定</text>
+
+          <!-- 下段メモ -->
+          <text x="24" y="408" text-anchor="start" font-size="13.5" fill="var(--muted)">Python目安：O(N²) が耐えられるのは N ≤ 3,000。今回は N（マス数）≤ 50万。</text>
+
+          <defs>
+            <marker id="arrow-o" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+              <path d="M0,0 L0,7 L7,3.5 Z" fill="var(--orange)"/>
+            </marker>
+          </defs>
+        </svg></div></div>
+  <div class="grid">
+    <div class="card ng"><h3>直球アプローチ</h3><p>各空マスから個別にBFS。空マス 最大50万 × 探索1回 最大50万歩 ＝ 最悪 約2,500億ステップ。制限時間2秒では絶対に終わりません。</p></div>
+    <div class="card ok"><h3>発想の転換</h3><p>知りたいのは「最寄りの安全マスまでの距離」。向きが逆でも本質は同じ。<strong>安全マス側から同時に塗り広げれば</strong>探索は1回で済みます。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：PythonでO(N²)が耐えられる目安は？</summary><p>N ≤ 3,000 程度。今回は N（マス数）≤ 50万なので桁違いにアウトです。</p></details></div>
+</section>
+
+<section id="multi-bfs">
+  <h2>安全マス側から一気に広げる</h2>
+  <p>倉庫（安全マス）全部から同時にトラックを出発させ、各地点に「最初に届いた便の所要時間」を書き込む作業です。これが<strong>多始点BFS</strong>。普通のBFSとの違いは初期化だけで、「距離0のマスをキューに全部入れてから始める」だけです。</p>
+  <div class="fig-wrap" style="aspect-ratio:620/430"><div class="fig" data-slide="05"><svg viewBox="0 0 620 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- 図タイトル -->
+          <text x="310" y="48" text-anchor="middle" font-size="16" font-weight="bold" fill="var(--text)">安全マス（緑）を距離0にして、波のように広げる</text>
+
+          <!-- 1行目 -->
+          <rect x="107" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="136" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="165" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="194" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="223" y="76" width="58" height="58" rx="6" fill="#3a3f55"/>
+          <text x="252" y="112" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="281" y="76" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="310" y="109" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="339" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="368" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="397" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="426" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="455" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="484" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+
+          <!-- 2行目 -->
+          <rect x="107" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="136" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="165" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="194" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="223" y="134" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="252" y="168" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="281" y="134" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="310" y="168" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="339" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="368" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="397" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="426" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="455" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="484" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+
+          <!-- 3行目 -->
+          <rect x="107" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="136" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="165" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="194" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="223" y="192" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="252" y="225" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="281" y="192" width="58" height="58" rx="6" fill="#3a3f55"/>
+          <text x="310" y="228" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="339" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="368" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="397" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="426" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="455" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="484" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+
+          <!-- 4行目 -->
+          <rect x="107" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="136" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="165" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="194" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="223" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="252" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">3</text>
+          <rect x="281" y="250" width="58" height="58" rx="6" fill="#3a3f55"/>
+          <text x="310" y="286" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="339" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="368" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="397" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="426" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="455" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="484" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+
+          <!-- 凡例 -->
+          <rect x="30" y="326" width="16" height="16" rx="4" fill="var(--green)"/>
+          <text x="52" y="340" text-anchor="start" font-size="14" fill="var(--text)">距離0 安全マス</text>
+          <rect x="196" y="326" width="16" height="16" rx="4" fill="#f2a06a"/>
+          <text x="218" y="340" text-anchor="start" font-size="14" fill="var(--text)">距離1</text>
+          <rect x="300" y="326" width="16" height="16" rx="4" fill="#e3e6ef"/>
+          <text x="322" y="340" text-anchor="start" font-size="14" fill="var(--text)">距離2以上</text>
+          <rect x="430" y="326" width="16" height="16" rx="4" fill="#3a3f55"/>
+          <text x="452" y="340" text-anchor="start" font-size="14" fill="var(--text)">爆弾</text>
+
+          <!-- 手順ピル -->
+          <rect x="12" y="372" width="185" height="46" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="104" y="400" text-anchor="middle" font-size="13.5" fill="var(--text)">① 全安全マスを出発点に</text>
+          <path d="M 202 395 L 214 395" stroke="var(--orange)" stroke-width="2.5" fill="none" marker-end="url(#arrow-p)"/>
+          <rect x="219" y="372" width="185" height="46" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="312" y="400" text-anchor="middle" font-size="13.5" fill="var(--text)">② 隣へ距離＋1で広げる</text>
+          <path d="M 409 395 L 421 395" stroke="var(--orange)" stroke-width="2.5" fill="none" marker-end="url(#arrow-p)"/>
+          <rect x="426" y="372" width="185" height="46" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="518" y="400" text-anchor="middle" font-size="13.5" fill="var(--text)">③ 全マスの距離が確定</text>
+
+          <defs>
+            <marker id="arrow-p" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+              <path d="M0,0 L0,7 L7,3.5 Z" fill="var(--orange)"/>
+            </marker>
+          </defs>
+        </svg></div></div>
+  <ul>
+    <li><strong>なぜ正しいか:</strong> BFSは近い場所から順に訪れるので、各マスに最初に書き込まれた数＝最寄り安全マスまでの距離になる。</li>
+    <li><strong>実務での対応:</strong> 避難所の到達圏の計算、通信インフラのカバー範囲の推定など「複数拠点からの最寄り距離」を知りたい場面にそのまま使えます。</li>
+  </ul>
+  <div class="check"><details><summary>セルフチェック：普通のBFSからの変更点は？</summary><p>初期化だけです。始点1個の代わりに全始点をキューに入れてからループを始めます。道具は deque 1本。</p></details></div>
+</section>
+
+<section id="walkthrough">
+  <h2>サンプル1で動きを追う</h2>
+  <div class="fig-wrap" style="aspect-ratio:620/412"><div class="fig" data-slide="06"><svg viewBox="0 0 620 412" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- パネル1 -->
+          <rect x="14" y="72" width="188" height="240" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="108" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--text)">STEP 0</text>
+          <rect x="30" y="116" width="52" height="52" rx="6" fill="#3a3f55"/>
+          <text x="56" y="151" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="82" y="116" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="108" y="147" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="134" y="116" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="160" y="147" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="30" y="168" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="56" y="199" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="82" y="168" width="52" height="52" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="108" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="134" y="168" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="160" y="199" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="30" y="220" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="56" y="251" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="82" y="220" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="108" y="251" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="134" y="220" width="52" height="52" rx="6" fill="#3a3f55"/>
+          <text x="160" y="255" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">#</text>
+
+          <!-- パネル2 -->
+          <rect x="216" y="72" width="188" height="240" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="310" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--text)">STEP 1</text>
+          <rect x="232" y="116" width="52" height="52" rx="6" fill="#3a3f55"/>
+          <text x="258" y="151" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="284" y="116" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="310" y="151" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="336" y="116" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="362" y="147" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="232" y="168" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="258" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="284" y="168" width="52" height="52" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="310" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="336" y="168" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="362" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="232" y="220" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="258" y="251" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="284" y="220" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="310" y="251" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="336" y="220" width="52" height="52" rx="6" fill="#3a3f55"/>
+          <text x="362" y="255" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">#</text>
+
+          <!-- パネル3 -->
+          <rect x="418" y="72" width="188" height="240" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="512" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="var(--text)">答え（K=1）</text>
+          <rect x="434" y="116" width="52" height="52" rx="6" fill="#3a3f55"/>
+          <text x="460" y="151" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="486" y="116" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="512" y="151" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="538" y="116" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="564" y="147" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="434" y="168" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="460" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="486" y="168" width="52" height="52" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="512" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="538" y="168" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="564" y="203" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="434" y="220" width="52" height="52" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="460" y="251" text-anchor="middle" font-size="14" fill="var(--muted)">.</text>
+          <rect x="486" y="220" width="52" height="52" rx="6" fill="#f2a06a"/>
+          <text x="512" y="251" text-anchor="middle" font-size="19" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="538" y="220" width="52" height="52" rx="6" fill="#3a3f55"/>
+          <text x="564" y="255" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">#</text>
+
+          <!-- 答えバッジ -->
+          <rect x="418" y="330" width="188" height="44" rx="22" fill="var(--green)"/>
+          <text x="512" y="358" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">答え：5 マス</text>
+
+          <!-- 補足 -->
+          <text x="20" y="358" text-anchor="start" font-size="13.5" fill="var(--muted)">K=2 なら、距離2のマスまで数える</text>
+
+          <!-- 凡例 -->
+          <rect x="150" y="384" width="14" height="14" rx="4" fill="var(--green)"/>
+          <text x="172" y="396" text-anchor="start" font-size="14" fill="var(--text)">距離0（安全）</text>
+          <rect x="306" y="384" width="14" height="14" rx="4" fill="#f2a06a"/>
+          <text x="328" y="396" text-anchor="start" font-size="14" fill="var(--text)">距離1</text>
+          <rect x="406" y="384" width="14" height="14" rx="4" fill="#3a3f55"/>
+          <text x="428" y="396" text-anchor="start" font-size="14" fill="var(--text)">爆弾</text>
+        </svg></div></div>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><p>安全な空マスに「0」と書く</p></div>
+    <div class="step"><span class="num">2</span><p>隣の空マスへ「＋1」と書いていく</p></div>
+    <div class="step"><span class="num">3</span><p>距離が K 以下の空マスを数える</p></div>
+  </div>
+  <div class="card ng"><h3>⚠️ 移動ルールに注意</h3><p>爆弾マスは通れないため、距離の書き込みは空マスだけです。</p></div>
+</section>
+
+<section id="code">
+  <h2>AC想定コード</h2>
+  <p>公式サンプル3件・コーナーケース（安全マスなし／K=0）・最大サイズ50万マスの動作を確認済みのコードです。スライドのコード①〜③をつなげたものが丸ごと1ファイルになります。</p>
+  <div class="ac-code-block">
+    <div class="ac-code-header">
+      <span class="ac-filename">abc472d.py</span>
+      <span class="ac-badge">✅ 公式サンプル確認済み</span>
+      <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+    </div>
+<pre><code class="language-python">import sys
+input = sys.stdin.readline
+from collections import deque
+
+H, W, K = map(int, input().split())
+S = []
+for _ in range(H):
+    S.append(input())
+
+row = [False] * H
+col = [False] * W
+for i in range(H):
+    for j in range(W):
+        if S[i][j] == '#':
+            row[i] = True
+            col[j] = True
+
+dist = []
+for _ in range(H):
+    dist.append([-1] * W)
+
+q = deque()
+for i in range(H):
+    for j in range(W):
+        if S[i][j] == '.' and not row[i]:
+            if not col[j]:
+                dist[i][j] = 0
+                q.append((i, j))
+
+while q:
+    i, j = q.popleft()
+    for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        ni = i + di
+        nj = j + dj
+        if 0 <= ni < H and 0 <= nj < W:
+            if S[ni][nj] == '.':
+                if dist[ni][nj] == -1:
+                    dist[ni][nj] = dist[i][j] + 1
+                    q.append((ni, nj))
+
+ans = 0
+for i in range(H):
+    for j in range(W):
+        if S[i][j] == '.':
+            if dist[i][j] != -1 and dist[i][j] <= K:
+                ans += 1
+print(ans)</code></pre>
+  </div>
+  <div class="check"><details><summary>セルフチェック：<code>dist[ni][nj] != -1</code> の確認を忘れると？</summary><p>同じマスが何度も登録されて処理が膨張します。未訪問（−1）の確認で二重登録を防いでいます。</p></details><details><summary>セルフチェック：集計で <code>dist[i][j] != -1</code> を忘れると？</summary><p>どこからも届かない空マスは −1 のままですが「−1 ≤ K」は真なので誤って数えてしまいます。</p></details></div>
+</section>
+
+<section id="complexity">
+  <h2>計算量</h2>
+  <table class="complexity">
+    <tr><th>項目</th><th>規模</th></tr>
+    <tr><td>前計算（row / col / dist 初期化）</td><td>O(HW)</td></tr>
+    <tr><td>多始点BFS</td><td>O(HW)</td></tr>
+    <tr><td>集計</td><td>O(HW)</td></tr>
+    <tr><td>全体</td><td><strong>O(HW)</strong></td></tr>
+  </table>
+  <p>H×W ≤ 5×10<sup>5</sup>。O(N) 型は Python でも N ≤ 10<sup>7</sup> 程度までOKなので余裕を持って間に合います。約2,500億 → 約50万 への削減がすべてです。</p>
+</section>
+
+<section id="summary">
+  <h2>まとめ</h2>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><p>行・列の爆弾有無を前計算して安全マスを特定</p></div>
+    <div class="step"><span class="num">2</span><p>全マス個別探索は不可 → 安全マス側から考える</p></div>
+    <div class="step"><span class="num">3</span><p>多始点BFSで全マスの最寄り距離を一括計算</p></div>
+  </div>
+  <p>「複数の起点から最寄り距離を知りたい」ときは、<strong>起点側から同時に広げる</strong>発想を思い出してください。配送圏・到達圏・カバー範囲など、仕事の集計にも応用できる型です。</p>
+</section>
+
+<section id="glossary">
+  <h2>用語解説</h2>
+  <div class="glossary">
+    <div class="term"><strong>多始点BFS<small>たしてん・ビーエフエス</small></strong><small>出発点を複数にした幅優先探索。最寄りの出発点からの距離を全マス分まとめて求める。</small><br><a href="https://ja.wikipedia.org/wiki/幅優先探索" target="_blank">幅優先探索 - Wikipedia 🔗</a></div>
+    <div class="term"><strong>幅優先探索（BFS）<small>はばゆうせんたんさく</small></strong><small>スタートに近い場所から順に調べる探索。迷路の最短手数の定番。</small><br><a href="https://ja.wikipedia.org/wiki/幅優先探索" target="_blank">Wikipedia 🔗</a></div>
+    <div class="term"><strong>deque<small>デック</small></strong><small>両端から出し入れできるキュー。BFSの「先頭から取り出し・末尾へ追加」に使用。</small><br><a href="https://docs.python.org/ja/3/library/collections.html#collections.deque" target="_blank">Python公式ドキュメント 🔗</a></div>
+    <div class="term"><strong>二次元リスト<small>にじげんリスト</small></strong><small>リストの中にリストを入れた構造。グリッドや距離表 dist[i][j] の管理に使う。</small><br><a href="https://docs.python.org/ja/3/tutorial/datastructures.html" target="_blank">Pythonチュートリアル 🔗</a></div>
+    <div class="term"><strong>タプル<small>タプル</small></strong><small>中身を書き換えられない値の組。(i, j) のように座標をひとまとめにしてキューに積むのに便利。</small><br><a href="https://docs.python.org/ja/3/tutorial/datastructures.html#tuples-and-sequences" target="_blank">Pythonチュートリアル 🔗</a></div>
+    <div class="term"><strong>O記法<small>オーきほう</small></strong><small>計算量を「データ量 N に対して何倍のオーダーか」で表す記法。O(N²) と O(N) では扱える N の大きさが雲泥の差。</small><br><a href="https://ja.wikipedia.org/wiki/ランダウの記号" target="_blank">ランダウの記号 - Wikipedia 🔗</a></div>
+    <div class="term"><strong>continue文<small>コンティニューぶん</small></strong><small>その回の残り処理を飛ばし、次のループへ進む命令。</small><br><a href="https://docs.python.org/ja/3/reference/simple_stmts.html#continue" target="_blank">Python公式ドキュメント 🔗</a></div>
+    <div class="term"><strong>AtCoder<small>アットコーダー</small></strong><small>日本発の競技プログラミングサイト。ABCがほぼ毎週開催されている。</small><br><a href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a></div>
+  </div>
+</section>
+
+<footer>出典: <a href="https://atcoder.jp/contests/abc472/tasks/abc472_d">AtCoder ABC472 D — Bomber Mad</a>。問題文は平易に言い換えています。</footer>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+const links = [...document.querySelectorAll('.side a')];
+const sections = [...document.querySelectorAll('main section')];
+const ob = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+}), { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => ob.observe(s));
+</script>
+</body>
+</html>

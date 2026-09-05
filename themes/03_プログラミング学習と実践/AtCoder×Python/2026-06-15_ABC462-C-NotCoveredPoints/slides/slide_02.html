@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .55rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .65rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .35rem;
+  letter-spacing: .03em;
+}
+.prob-card p {
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.prob-card p strong {
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .55rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.meta-card ul li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .2rem .6rem;
+  font-size: .82rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+  display: inline-block;
+  margin-bottom: .25rem;
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+  flex: 1;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .3rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .3rem .8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .78rem;
+}
+.sample-table td.correct {
+  color: var(--green);
+  font-weight: 900;
+}
+.sample-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">ABC462 C — Not Covered Points</h2>
+  </div>
+  <div class="slide-body">
+
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p>2次元平面上に <strong>N個の点</strong>があります。
+         各点 i の座標は <strong>(X_i, Y_i)</strong>。
+         左下が (0,0)、右上が (X_i, Y_i) の<strong>長方形の内部</strong>に
+         どの点も含まれない i の個数を求めてください。</p>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約（入力の範囲）</h4>
+        <ul>
+          <li>1 ≤ N ≤ 3×10^5（30万）</li>
+          <li>X, Y はそれぞれ 1〜N の順列</li>
+        </ul>
+        <p class="hint">→ N が大きいので O(N²) は TLE。O(N log N) が必要</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力の形式</h4>
+        <code>N</code>
+        <p class="hint" style="margin-top:.3rem">1行目にN、以下N行に各点の座標</p>
+        <code style="margin-top:.3rem">X_1 Y_1</code>
+      </div>
+    </div>
+
+    <div class="sample-card">
+      <h4>📊 入出力例で確認（サンプル1: N=3）</h4>
+      <table class="sample-table">
+        <tr>
+          <th style="width:100px">点</th>
+          <th style="width:100px">座標</th>
+          <th style="width:80px">出力</th>
+          <th>なぜそうなる？</th>
+        </tr>
+        <tr>
+          <td>i=1</td>
+          <td>(2, 1)</td>
+          <td class="correct">OK</td>
+          <td class="note">長方形(0,0)→(2,1) の内部に他の点なし</td>
+        </tr>
+        <tr>
+          <td>i=2</td>
+          <td>(1, 3)</td>
+          <td class="correct">OK</td>
+          <td class="note">長方形(0,0)→(1,3) の内部に他の点なし</td>
+        </tr>
+        <tr>
+          <td>i=3</td>
+          <td>(3, 2)</td>
+          <td style="color:var(--red);font-weight:900">NG</td>
+          <td class="note">長方形(0,0)→(3,2) の内部に点1(2,1)が含まれる</td>
+        </tr>
+      </table>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:.3rem">→ 答えは <strong style="color:var(--green)">2</strong>（i=1, 2 の2つ）</p>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

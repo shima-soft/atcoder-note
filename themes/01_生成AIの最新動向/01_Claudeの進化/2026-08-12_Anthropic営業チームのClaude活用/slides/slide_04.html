@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">STEP 1 — 土台</span>
+    <h2 class="slide-title">最初に作るのは、ワークフローではなく1枚の文書</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>「よくある質問と、うちの最善の回答」を1か所に集める。すべての返信はここを読んでから作られる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左（情報源・脇役）: x=20 w=132 (right=152) / y = 76 + i*74 → 76, 150, 224
+          中央（Claude）    : x=178 w=112 (right=290)
+          右（主役・青）    : x=316 w=166 (right=482)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">回答の土台になる、たった1枚の文書</text>
+
+          <!-- 左: 情報の置き場所（脇役） -->
+          <text x="86" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">情報の置き場所</text>
+          <rect x="20" y="76" width="132" height="58" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="86" y="109" text-anchor="middle" font-size="13" fill="#5e6a8a">製品の資料</text>
+          <rect x="20" y="150" width="132" height="58" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="86" y="183" text-anchor="middle" font-size="13" fill="#5e6a8a">よくある質問</text>
+          <rect x="20" y="224" width="132" height="58" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="86" y="257" text-anchor="middle" font-size="13" fill="#5e6a8a">チームの記録</text>
+
+          <polygon points="158,171 172,179 158,187" fill="#5e6a8a"/>
+
+          <!-- 中央: Claude が集約（脇役） -->
+          <rect x="178" y="150" width="112" height="58" rx="9" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="234" y="184" text-anchor="middle" font-size="14" fill="#5e6a8a">Claude が集約</text>
+
+          <polygon points="296,171 310,179 296,187" fill="#1a96c0"/>
+
+          <!-- 右: 営業ナレッジベース（主役） -->
+          <rect x="316" y="98" width="166" height="168" rx="12" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="399" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">営業ナレッジベース</text>
+          <text x="332" y="160" font-size="11.5" fill="#5e6a8a">Q. 料金は？ → A. …</text>
+          <text x="332" y="188" font-size="11.5" fill="#5e6a8a">Q. 導入は？ → A. …</text>
+          <text x="332" y="216" font-size="11.5" fill="#5e6a8a">Q. 安全性は？ → A. …</text>
+          <text x="399" y="248" text-anchor="middle" font-size="11.5" fill="#1a96c0">古い記述は Claude が指摘</text>
+
+          <polygon points="391,278 407,278 399,290" fill="#1a96c0"/>
+
+          <text x="250" y="326" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">すべての返信は、この1枚を読んでから作られる</text>
+          <text x="250" y="356" text-anchor="middle" font-size="12.5" fill="#5e6a8a">作ったのは営業担当。資料の置き場所を教えただけ</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 事務・営業に置き換えると</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>問い合わせメールで毎回聞かれることを、質問と回答の対で書き出す</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>手書きしなくてよい。既存の資料と過去のやり取りを Claude に指すだけ</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>古そうな記述は Claude が印を付ける。人はその真偽だけを判定する</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 先に作る理由</div>
+          <ul class="box-list">
+            <li>回答の中身が定まっていないと、いくら自動化しても出力が揺れる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ ありがちな順番違い</div>
+          <ul class="box-list">
+            <li>自動返信の仕組みから作り始め、答えの根拠がないまま送ってしまう</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

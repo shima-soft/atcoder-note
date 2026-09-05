@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC454 B問題 Mapping — AtCoder×Pythonシリーズ Web公開版</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --red: #c9162e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* === Header === */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  z-index: 100;
+  gap: .8rem;
+}
+.header-badge {
+  background: linear-gradient(135deg,#e8873a,#d96018);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  letter-spacing: .05em;
+}
+.header-title {
+  font-size: .95rem;
+  font-weight: 900;
+  color: var(--text);
+}
+
+/* === Layout === */
+.layout {
+  display: flex;
+  padding-top: 52px;
+  min-height: 100vh;
+}
+.sidebar {
+  width: 220px;
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+  padding: 1.2rem 1rem;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--card);
+}
+.sidebar-title {
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .7rem;
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.nav-list a {
+  display: block;
+  padding: .35rem .6rem;
+  font-size: .82rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+  transition: all .15s;
+}
+.nav-list a:hover { background: var(--surface); color: var(--text); }
+.nav-list a.active {
+  border-left-color: var(--orange);
+  background: rgba(217,96,24,.07);
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.main {
+  flex: 1;
+  max-width: 820px;
+  padding: 2.5rem 2rem 4rem;
+}
+
+/* === Sections === */
+section {
+  margin-bottom: 3.5rem;
+  scroll-margin-top: 72px;
+}
+.section-label {
+  display: inline-block;
+  background: linear-gradient(135deg,#e8873a,#d96018);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  margin-bottom: .6rem;
+  letter-spacing: .04em;
+}
+h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .5rem;
+  line-height: 1.3;
+}
+h3 {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--text);
+  margin: 1.5rem 0 .5rem;
+}
+p { font-size: .92rem; color: var(--text); margin-bottom: .8rem; }
+.lead {
+  font-size: 1rem;
+  color: var(--muted);
+  border-left: 3px solid var(--orange);
+  padding-left: .8rem;
+  margin-bottom: 1.5rem;
+}
+
+/* === Cards === */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+  margin-bottom: 1.2rem;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+}
+.card-title {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .4rem;
+}
+.card p { font-size: .88rem; margin-bottom: 0; }
+.card-q1 { border-left: 3px solid var(--red); }
+.card-q2 { border-left: 3px solid var(--blue); }
+.card-ok { border-left: 3px solid var(--green); }
+
+/* === Table === */
+.io-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+  margin: .8rem 0 1.2rem;
+}
+.io-table th {
+  background: var(--surface);
+  padding: .5rem .8rem;
+  font-weight: 700;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.io-table td {
+  padding: .45rem .8rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.ans-yes { color: var(--green); font-weight: 700; }
+.ans-no  { color: var(--red);   font-weight: 700; }
+
+/* === Code Block (AC コード) === */
+.ac-code-block {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+.ac-code-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--surface);
+  padding: .4rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename {
+  font-family: 'Consolas', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+  flex: 1;
+}
+.ac-badge {
+  font-size: .72rem;
+  color: var(--green);
+  font-weight: 700;
+}
+.copy-btn {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .2rem .6rem;
+  border-radius: 6px;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  background: transparent;
+  cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: .8rem 1rem; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+/* === Biz box === */
+.biz-box {
+  background: rgba(217,96,24,.06);
+  border: 1px solid rgba(217,96,24,.2);
+  border-radius: 10px;
+  padding: .9rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.biz-box .biz-title {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .5rem;
+}
+.biz-box p { font-size: .88rem; margin-bottom: .3rem; }
+
+/* === Quiz (折りたたみ) === */
+.quiz-section {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+.quiz-title {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .5rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: .5rem;
+  padding: .5rem .8rem;
+}
+summary {
+  cursor: pointer;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--text);
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+summary::before { content: '▶'; font-size: .65rem; color: var(--orange); }
+details[open] summary::before { content: '▼'; }
+.quiz-answer {
+  margin-top: .6rem;
+  font-size: .88rem;
+  color: var(--muted);
+  border-left: 2px solid var(--green);
+  padding-left: .7rem;
+}
+
+/* === Glossary === */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .65rem .9rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: .3rem;
+}
+.term-name    { font-size: .92rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .74rem; color: var(--muted); font-weight: 500; }
+.term-link    { font-size: .68rem; color: var(--blue); text-decoration: none; margin-left: auto; }
+.term-link:hover { text-decoration: underline; }
+.term-desc    { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+/* === Responsive === */
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .main { padding: 1.5rem 1rem 3rem; max-width: 100%; }
+  .card-grid { grid-template-columns: 1fr; }
+  .glossary-grid { grid-template-columns: 1fr; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-badge">AtCoder×Python</span>
+  <span class="header-title">ABC454 B問題「Mapping」解説</span>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">目次</div>
+    <ul class="nav-list">
+      <li><a href="#overview">問題概要</a></li>
+      <li><a href="#problem">問題を読み解く</a></li>
+      <li><a href="#thinking">2つの質問を整理</a></li>
+      <li><a href="#solution">set()で解く</a></li>
+      <li><a href="#code">完成コード</a></li>
+      <li><a href="#glossary">用語解説</a></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+
+    <!-- Hero -->
+    <section id="overview">
+      <span class="section-label">AtCoder ABC454 B</span>
+      <h2>B問題「Mapping」</h2>
+      <p class="lead">2つの Yes/No 質問に答えるだけ — Python の set() を使えば4行で解決</p>
+      <div class="card-grid">
+        <div class="card card-q1">
+          <div class="card-title">Q1: 全員バラバラ？</div>
+          <p>N人全員が異なる服を着ているか。重複があれば No。</p>
+        </div>
+        <div class="card card-q2">
+          <div class="card-title">Q2: 全種類カバー？</div>
+          <p>M種類の服が全て誰かに着られているか。1種類でも欠けたら No。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 問題を読み解く -->
+    <section id="problem">
+      <span class="section-label">問題を読み解く</span>
+      <h2>N人とM種類の服</h2>
+      <p>N人の人がいて、それぞれが服番号 F_i（1〜Mの整数）を着ています。上の2つの質問にそれぞれ Yes/No で答えます。</p>
+
+      <h3>制約</h3>
+      <ul style="margin-left:1.2rem;font-size:.9rem;color:var(--text);margin-bottom:1rem;">
+        <li>1 ≤ N ≤ 100（人数）</li>
+        <li>1 ≤ M ≤ 100（服の種類数）</li>
+        <li>1 ≤ F_i ≤ M（各自が着ている服の番号）</li>
+      </ul>
+      <p style="font-size:.88rem;color:var(--muted);">N と M は独立。N が M より大きければ必ずどこかに重複があります（鳩の巣原理）。</p>
+
+      <h3>入出力例</h3>
+      <table class="io-table">
+        <tr><th>例</th><th>N</th><th>M</th><th>F</th><th>Q1</th><th>Q2</th></tr>
+        <tr><td>1</td><td>3</td><td>4</td><td>1 2 4</td><td class="ans-yes">Yes</td><td class="ans-no">No</td></tr>
+        <tr><td>2</td><td>4</td><td>2</td><td>1 2 1 2</td><td class="ans-no">No</td><td class="ans-yes">Yes</td></tr>
+        <tr><td>3</td><td>4</td><td>4</td><td>1 3 2 1</td><td class="ans-no">No</td><td class="ans-no">No</td></tr>
+        <tr><td>4</td><td>5</td><td>5</td><td>1 3 4 2 5</td><td class="ans-yes">Yes</td><td class="ans-yes">Yes</td></tr>
+      </table>
+      <p style="font-size:.84rem;color:var(--muted);">例1: 全員違う服だが服3を誰も着ていない。例4: 全員違う服＋5種類すべてカバー。</p>
+
+      <div class="quiz-section">
+        <div class="quiz-title">理解度チェック</div>
+        <details>
+          <summary>例3: N=4, M=4, F=[1,3,2,1] で Q1・Q2 が両方 No になる理由は？</summary>
+          <div class="quiz-answer">
+            Q1: 人1と人4が同じ服1を着ているので重複あり → No<br>
+            Q2: 服4を誰も着ていないので全カバーできていない → No<br>
+            どちらの条件も満たせていません。
+          </div>
+        </details>
+        <details>
+          <summary>N=M のとき、Q1=Yes かつ Q2=Yes は同時に成り立ちますか？</summary>
+          <div class="quiz-answer">
+            成り立ちます。N=M のとき「重複なし」と「全カバー」は同値です。<br>
+            ただし N≠M の場合はどちらか一方しか Yes にならないか、両方 No になります。
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 2つの質問を整理 -->
+    <section id="thinking">
+      <span class="section-label">考え方</span>
+      <h2>2つの質問、それぞれ何を確認する？</h2>
+
+      <div class="biz-box">
+        <div class="biz-title">💼 仕事で例えると…</div>
+        <p><strong>Q1:</strong> 5人の営業担当が「全員バラバラのお客様を担当しているか？」— 同じ顧客を2人で担当していたら重複あり。</p>
+        <p><strong>Q2:</strong> 全部門に最低1人のスタッフがいるか？— 誰も担当していない部署があればカバー不足。</p>
+      </div>
+
+      <div class="card-grid">
+        <div class="card card-q1">
+          <div class="card-title">Q1の言い換え</div>
+          <p>「全員バラバラ」＝ <strong>リストに重複がない</strong><br>重複があれば set() 後に個数が減る。</p>
+        </div>
+        <div class="card card-q2">
+          <div class="card-title">Q2の言い換え</div>
+          <p>「全種類カバー」＝ <strong>1〜Mの全番号が最低1回登場</strong><br>抜けがあれば set() 後の個数が M より少なくなる。</p>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">理解度チェック</div>
+        <details>
+          <summary>F=[2,2,2] N=3, M=3 のとき Q1・Q2 はそれぞれ何？</summary>
+          <div class="quiz-answer">
+            set(F)={2} → len=1<br>
+            Q1: 1==3 → No（全員同じ服）<br>
+            Q2: 1==3 → No（服1と3を誰も着ていない）
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- set()で解く -->
+    <section id="solution">
+      <span class="section-label">解法</span>
+      <h2>Pythonの set() で一発解決</h2>
+      <p>Python の <strong>set()</strong> は「集合型」です。リストを set() に入れると、重複した値が自動で除去されます。</p>
+
+      <div class="card card-ok" style="margin-bottom:1rem;">
+        <div class="card-title">set() の動作例</div>
+        <p style="font-family:'Consolas',monospace;font-size:.9rem;">
+          [1, 2, 1, 2] → set() → {1, 2}<br>
+          len({1, 2}) = 2
+        </p>
+      </div>
+
+      <div class="card-grid">
+        <div class="card card-q1">
+          <div class="card-title">Q1の判定式</div>
+          <p><code>len(set(F)) == N</code><br>
+          重複なし → set後もN個残る → True → Yes</p>
+        </div>
+        <div class="card card-q2">
+          <div class="card-title">Q2の判定式</div>
+          <p><code>len(set(F)) == M</code><br>
+          全カバー → set後ちょうどM種類 → True → Yes</p>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">理解度チェック</div>
+        <details>
+          <summary>N=3, M=3, F=[1,1,1] のとき len(set(F)) はいくつ？</summary>
+          <div class="quiz-answer">
+            set([1,1,1]) = {1} → len=1<br>
+            Q1: 1==3 → No（重複あり）<br>
+            Q2: 1==3 → No（服2,3を誰も着ていない）
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- コード -->
+    <section id="code">
+      <span class="section-label">Pythonコード</span>
+      <h2>完成コード — わずか4行</h2>
+
+      <div class="ac-code-block">
+        <div class="ac-code-header">
+          <span class="ac-filename">abc454_b.py</span>
+          <span class="ac-badge">✅ AC 確認済み</span>
+          <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        <pre><code class="language-python">N, M = map(int, input().split())
+F = list(map(int, input().split()))
+
+# Q1: 全員バラバラな服？
+if len(set(F)) == N:
+    print("Yes")
+else:
+    print("No")
+
+# Q2: 全種類カバーしてる？
+if len(set(F)) == M:
+    print("Yes")
+else:
+    print("No")</code></pre>
+      </div>
+
+      <h3>コード解説</h3>
+      <ul style="margin-left:1.2rem;font-size:.9rem;color:var(--text);line-height:2;">
+        <li><strong>1行目:</strong> N（人数）と M（服の種類数）を読み込む</li>
+        <li><strong>2行目:</strong> N人分の服番号リスト F を読み込む</li>
+        <li><strong>4〜8行目:</strong> Q1判定 — len(set(F))==N なら重複なし → Yes、そうでなければ No</li>
+        <li><strong>10〜14行目:</strong> Q2判定 — len(set(F))==M なら全カバー → Yes、そうでなければ No</li>
+      </ul>
+    </section>
+
+    <!-- 用語解説 -->
+    <section id="glossary">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue);">GLOSSARY</span>
+      <h2>用語解説</h2>
+      <p class="lead">このスライドで登場した用語の読み方と概要</p>
+      <div class="glossary-grid">
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">AtCoder</span>
+            <span class="term-reading">アットコーダー</span>
+            <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+          </div>
+          <p class="term-desc">日本発のプログラミングコンテストプラットフォーム。定期的にABCなどのコンテストが開催される。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">ABC</span>
+            <span class="term-reading">エービーシー</span>
+          </div>
+          <p class="term-desc">AtCoder Beginner Contest の略。毎週土曜開催でA〜H問題から構成される。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">set()</span>
+            <span class="term-reading">セット</span>
+            <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#set" target="_blank">Python公式 🔗</a>
+          </div>
+          <p class="term-desc">Pythonの組み込み型。重複した値を自動で除去した集合を作る。set([1,2,1])→{1,2}。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">len()</span>
+            <span class="term-reading">レン / レングス</span>
+          </div>
+          <p class="term-desc">要素数を返すPython組み込み関数。len({1,2,3})→3。set()と組み合わせてよく使う。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">map()</span>
+            <span class="term-reading">マップ</span>
+          </div>
+          <p class="term-desc">各要素に関数を適用するPython組み込み関数。入力の整数変換によく使う。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">🐍 Python 豆知識</span>
+            <span class="term-reading">競プロで有利な理由</span>
+          </div>
+          <p class="term-desc">set()・len()・sorted() がそのまま使える。コードが短くなるぶん「解法の考え方」に集中できるのが競プロで Python を使う最大のメリット。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+
+// IntersectionObserver でアクティブナビ
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.nav-list a[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

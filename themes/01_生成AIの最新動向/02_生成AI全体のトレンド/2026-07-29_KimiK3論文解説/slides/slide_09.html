@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>実際にどう使うのか</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">HOW TO USE</span>
+    <h2 class="slide-title">実際にどう使うのか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>モデル本体が公開されていても、ほとんどの会社の入り口はAPIです</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="405" viewBox="0 0 620 405" role="img" aria-label="Kimi K3を利用する3つの経路">
+        <!--
+          カード: x=14 w=592 rx=16
+          A y=18  h=112 (18..130)
+          B y=142 h=112 (142..254)
+          C y=266 h=126 (266..392)
+          バッジ: x=430 w=150 h=30 / text中心 505
+        -->
+        <rect x="14" y="18" width="592" height="112" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="56" font-size="16" font-weight="900" fill="#7a3bce">① 提供元のAPIを使う</text>
+        <text x="34" y="84" font-size="13" fill="#1a1d2e">契約すればすぐ使える。設備投資はゼロ</text>
+        <text x="34" y="106" font-size="13" fill="#5e6a8a">ほとんどの会社にとっての入り口</text>
+        <rect x="430" y="58" width="150" height="30" rx="15" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="505" y="77" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">個人〜中小企業</text>
+
+        <rect x="14" y="142" width="592" height="112" rx="16" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="180" font-size="16" font-weight="900" fill="#7a3bce">② 他社の推論サービスを使う</text>
+        <text x="34" y="208" font-size="13" fill="#1a1d2e">同じモデルを別の会社も提供している</text>
+        <text x="34" y="230" font-size="13" fill="#5e6a8a">価格・地域・契約条件で選べる</text>
+        <rect x="430" y="182" width="150" height="30" rx="15" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="505" y="201" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">中小〜大企業</text>
+
+        <rect x="14" y="266" width="592" height="126" rx="16" fill="#f9fafb" stroke="#dde2ec"/>
+        <text x="34" y="298" font-size="16" font-weight="900" fill="#5e6a8a">③ 自前のGPUクラスタに置く</text>
+        <text x="34" y="326" font-size="13" fill="#1a1d2e">4ビットに圧縮してもモデル本体だけで約1.5TB</text>
+        <text x="34" y="348" font-size="13" fill="#5e6a8a">80GBのGPUを20枚前後、さらに作業用メモリ</text>
+        <text x="34" y="372" font-size="12" fill="#c9162e">データは外に出ないが、設備と運用の負担は大きい</text>
+        <rect x="430" y="300" width="150" height="30" rx="15" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="505" y="319" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">大企業・官公庁</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">公開モデルの本当の利点</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>提供元1社に縛られない</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>供給者どうしが競争し、値下がりしやすい</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>提供元が撤退しても、他社が動かし続けられる</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">中小企業の現実解</div>
+        <ul class="box-list">
+          <li>まずAPIで小さく試し、効果が出た業務だけ広げる</li>
+          <li>機密度の高い資料は、渡してよい範囲を決めてから使う</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">よくある誤解</div>
+        <ul class="box-list">
+          <li>入手が無料でも、運用まで無料ではない</li>
+          <li>手元のPCやふつうの社内サーバーでは動かない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

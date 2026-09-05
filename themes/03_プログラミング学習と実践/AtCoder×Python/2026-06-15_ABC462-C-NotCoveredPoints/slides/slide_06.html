@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.term-link    {
+  font-size: .65rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .25rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">順列</span>
+          <span class="term-reading">じゅんれつ</span>
+        </div>
+        <p class="term-desc">1〜N の数字を1つずつ並べたもの。重複なく全ての数字が1回ずつ使われる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/順列" target="_blank">Wikipedia: 順列 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ソート</span>
+          <span class="term-reading">ソート</span>
+        </div>
+        <p class="term-desc">データを並べ替えること。Python の <code>.sort()</code> はデフォルトで昇順（小さい順）に並べる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#list.sort" target="_blank">Python ドキュメント: list.sort 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">貪欲法</span>
+          <span class="term-reading">たんよくほう</span>
+        </div>
+        <p class="term-desc">各ステップで「今この瞬間最善」な選択をするアルゴリズム。全体最適を保証しない場合もあるが、この問題では使える。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">計算量</span>
+          <span class="term-reading">けいさんりょう</span>
+        </div>
+        <p class="term-desc">アルゴリズムの処理時間を表す指標。O(N log N) は「N×log N のオーダー」で、N=50万程度まで Python で間に合う。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">sys.stdin.readline</span>
+          <span class="term-reading">システムスタンダードインリードライン</span>
+        </div>
+        <p class="term-desc">標準入力から1行高速に読み込む関数。<code>input()</code> よりも速いため、AtCoder では入力が多い問題でよく使う。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python ドキュメント: sys.stdin 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">float('inf')</span>
+          <span class="term-reading">フロート インフィニティ</span>
+        </div>
+        <p class="term-desc">「無限大」を表す値。最小値の初期値として使い、最初の点は必ず条件を満たすようにする。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#numeric-types-float-int-complex" target="_blank">Python ドキュメント: float 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Pareto最適</span>
+          <span class="term-reading">パレトさいてき</span>
+        </div>
+        <p class="term-desc">「他のどの選択肢よりも1つ以上が良く、残りが同等以上」の状態。この問題の正解点はPareto最適点に相当する。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/パレート最適" target="_blank">Wikipedia: パレート最適 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングプラットフォーム。毎週コンテストが開催されていて、初心者向けの ABC が入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

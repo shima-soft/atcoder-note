@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>答えは本体が知っている DFlashのアイデア</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">DFlashの発想</span>
+    <h2 class="slide-title">答えは「本体AI」が一番よく知っている</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>本体AIの「考えた跡」を丸ごと取り出し、下書き役に直接注ぎ込むのがDFlashの発想</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="本体モデルの隠れ特徴量をドラフトモデルに注入する仕組み">
+        <text x="120" y="24" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">本体AI（ターゲット）</text>
+        <rect x="20" y="34" width="200" height="230" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="40" y="50" width="160" height="34" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="120" y="72" text-anchor="middle" font-size="11" fill="#5e6a8a">浅い層</text>
+        <rect x="40" y="94" width="160" height="34" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="120" y="116" text-anchor="middle" font-size="11" fill="#ffffff">中間層（抽出）</text>
+        <rect x="40" y="138" width="160" height="34" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="120" y="160" text-anchor="middle" font-size="11" fill="#5e6a8a">中間層</text>
+        <rect x="40" y="182" width="160" height="34" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="120" y="204" text-anchor="middle" font-size="11" fill="#ffffff">深い層（抽出）</text>
+        <text x="120" y="248" text-anchor="middle" font-size="11" fill="#5e6a8a">紫＝取り出す層（概念図）</text>
+
+        <path d="M220 111 L268 150" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <path d="M220 199 L268 170" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <polygon points="278,157 264,148 268,163" fill="#7a3bce"/>
+
+        <rect x="270" y="130" width="120" height="60" rx="10" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="330" y="156" text-anchor="middle" font-size="11" font-weight="900" fill="#7a3bce">特徴を融合</text>
+        <text x="330" y="174" text-anchor="middle" font-size="10" fill="#7a3bce">(1個のベクトルに)</text>
+
+        <path d="M390 160 L438 90" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <path d="M390 160 L438 160" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <path d="M390 160 L438 230" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <polygon points="448,86 434,84 440,98" fill="#7a3bce"/>
+        <polygon points="448,160 436,155 436,165" fill="#7a3bce"/>
+        <polygon points="448,234 434,236 440,222" fill="#7a3bce"/>
+
+        <text x="520" y="24" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">下書き役（拡散ドラフト）</text>
+        <rect x="440" y="34" width="160" height="230" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="452" y="66" width="136" height="34" rx="8" fill="#eafaf2" stroke="#008f6a"/>
+        <text x="520" y="88" text-anchor="middle" font-size="11" fill="#008f6a">層1（KV注入）</text>
+        <rect x="452" y="136" width="136" height="34" rx="8" fill="#eafaf2" stroke="#008f6a"/>
+        <text x="520" y="158" text-anchor="middle" font-size="11" fill="#008f6a">層2（KV注入）</text>
+        <rect x="452" y="206" width="136" height="34" rx="8" fill="#eafaf2" stroke="#008f6a"/>
+        <text x="520" y="228" text-anchor="middle" font-size="11" fill="#008f6a">層3（KV注入）</text>
+
+        <rect x="20" y="284" width="580" height="126" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="327" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">DFlashは全ての層のKey/Valueに直接注入する</text>
+        <text x="310" y="355" text-anchor="middle" font-size="12" fill="#1a1d2e">既存手法は入力に混ぜるだけなので、層が深くなるほど情報が薄まる</text>
+        <text x="310" y="379" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">→ DFlashは薄まらず、深い下書き役でも精度が伸び続ける</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>新人がゼロから考えず、上司の「考えた跡」を丸ごと渡される</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>作業のどの段階でも、上司のメモをすぐ参照できる</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>下書き役がゼロから推測しなくてよくなる</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">既存手法との違い</div>
+        <ul class="box-list">
+          <li>EAGLE-3は情報を入力に混ぜるだけで、深い層ほど薄まる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

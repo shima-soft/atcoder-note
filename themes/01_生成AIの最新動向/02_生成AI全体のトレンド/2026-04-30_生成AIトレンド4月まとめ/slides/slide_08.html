@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .8rem;
+  flex: 1;
+  overflow: hidden;
+}
+.sum-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.sum-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.sum-label {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.sum-title {
+  font-size: .92rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.3;
+}
+.sum-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.sum-list li {
+  font-size: .78rem;
+  color: var(--muted);
+  padding-left: .8rem;
+  position: relative;
+  line-height: 1.55;
+}
+.sum-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+.action-li::before { color: var(--purple) !important; }
+.next-li::before { color: var(--orange) !important; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">SUMMARY</span>
+    <h2 class="slide-title">4月総括と5月の注目点</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>「AIが考えて動く」エージェント時代が全社一斉に本格化した1ヶ月</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="summary-grid">
+
+      <!-- Card 1: 今月のキーワード -->
+      <div class="sum-card" style="border-top:3px solid var(--purple)">
+        <span class="sum-icon">🔑</span>
+        <span class="sum-label" style="color:var(--purple)">今月のキーワード</span>
+        <div class="sum-title">エージェント × マルチモーダルの加速</div>
+        <ul class="sum-list">
+          <li>全4社がAIの自律行動（エージェント）機能を同時強化</li>
+          <li>画像・音声・長文書を「当たり前に処理」する時代へ</li>
+          <li>各社が競争軸をコストから「使いやすさ・信頼性」に移行</li>
+          <li>Llama 4 の商用OSS化でAI民主化がさらに加速</li>
+        </ul>
+      </div>
+
+      <!-- Card 2: ビジネス担当者への3つのアクション -->
+      <div class="sum-card" style="border-top:3px solid var(--green)">
+        <span class="sum-icon">✅</span>
+        <span class="sum-label" style="color:var(--green)">今すぐ試せる3アクション</span>
+        <div class="sum-title">あなたの業務に取り入れるには</div>
+        <ul class="sum-list">
+          <li class="action-li"><strong style="color:var(--text)">Claude Opus 4.7</strong> で「xhigh」設定を使った重要文書レビューを試す</li>
+          <li class="action-li"><strong style="color:var(--text)">Gemini 2.5 Pro</strong> に長いPDFや規約を丸ごと貼り付けて要約させる</li>
+          <li class="action-li"><strong style="color:var(--text)">o4-mini API</strong> で反復処理（レポート・分類）のコスト削減を試算する</li>
+        </ul>
+        <div style="margin-top:.3rem;padding:.4rem .6rem;background:rgba(0,143,106,.07);border-radius:8px;font-size:.72rem;color:var(--green)">
+          💡 まず1つ選んで「毎月やっている定型作業」に当ててみる
+        </div>
+      </div>
+
+      <!-- Card 3: 5月の注目点 -->
+      <div class="sum-card" style="border-top:3px solid var(--orange)">
+        <span class="sum-icon">📅</span>
+        <span class="sum-label" style="color:var(--orange)">5月の注目ポイント</span>
+        <div class="sum-title">来月見逃せないAI動向</div>
+        <ul class="sum-list">
+          <li class="next-li"><strong style="color:var(--text)">Google I/O 2026</strong>（5月14日〜）新 Gemini・Androidへの統合発表予定</li>
+          <li class="next-li"><strong style="color:var(--text)">OpenAI Spring Update</strong> — GPT系最新版・エージェント機能の新発表に注目</li>
+          <li class="next-li"><strong style="color:var(--text)">Claude Code v2.0</strong> 予告 — より高度な自律コーディング機能の強化予定</li>
+          <li class="next-li"><strong style="color:var(--text)">EU AI 規制</strong>（AI Act）義務化フェーズ開始 — 企業の対応が本格化へ</li>
+        </ul>
+        <div style="margin-top:.3rem;padding:.4rem .6rem;background:rgba(217,96,24,.07);border-radius:8px;font-size:.72rem;color:var(--orange)">
+          📌 5月は Google I/O がトレンドの中心になる見込み
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

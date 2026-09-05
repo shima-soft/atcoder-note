@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.body-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .7rem; flex: 1; overflow: hidden;
+}
+.section-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .7rem .9rem;
+  display: flex; flex-direction: column; gap: .35rem; overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem; font-weight: 700; color: var(--pink);
+  text-transform: uppercase; letter-spacing: .06em;
+  padding-bottom: .3rem; border-bottom: 1px solid var(--border);
+}
+.sec-title { font-size: .82rem; font-weight: 900; color: var(--text); }
+.sec-body { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+.complexity-box {
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.comp-row {
+  display: flex; align-items: center; gap: .6rem;
+  background: var(--surface); border-radius: 8px; padding: .4rem .6rem;
+}
+.comp-label {
+  font-size: .72rem; font-weight: 700; color: var(--pink);
+  min-width: 90px; flex-shrink: 0;
+}
+.comp-body { font-size: .78rem; color: var(--text); }
+.comp-val {
+  font-family: 'Consolas', monospace; font-size: .9rem;
+  font-weight: 900; color: var(--orange); margin-left: auto;
+}
+.hint-box {
+  background: rgba(204,10,106,.06); border: 1px solid rgba(204,10,106,.2);
+  border-radius: 10px; padding: .4rem .6rem;
+  font-size: .76rem; color: var(--text); line-height: 1.6; margin-top: auto;
+}
+.compare-table { flex: 1; width: 100%; border-collapse: collapse; font-size: .76rem; }
+.compare-table th {
+  background: var(--card); padding: .35rem .5rem; font-weight: 700;
+  color: var(--muted); border-bottom: 2px solid var(--border);
+  text-align: left; white-space: nowrap;
+}
+.compare-table td {
+  padding: .35rem .5rem; border-bottom: 1px solid var(--border);
+  color: var(--text); line-height: 1.5; vertical-align: middle;
+}
+.compare-table tr:nth-child(even) td { background: rgba(239,241,247,.5); }
+.pattern-badge {
+  display: inline-block; padding: .1rem .5rem; border-radius: 99px;
+  font-size: .68rem; font-weight: 700;
+}
+.naive { color: var(--red); font-weight: 700; }
+.fast { color: var(--green); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">計算量</span>
+    <h2 class="slide-title">O(H²W) — なぜ間に合うのか</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">分析</span>
+      <p>単純な 4 重ループ O(H²W²) は 625 億回 → O(H²W) は 1.25 億回</p>
+    </div>
+  </div>
+  <div class="body-grid slide-body">
+    <div class="section-card">
+      <div class="sec-label">計算量分析</div>
+      <div class="sec-title">各パートのオーダー</div>
+      <div class="complexity-box">
+        <div class="comp-row">
+          <span class="comp-label">上下の固定</span>
+          <span class="comp-body">u=0..H-1, d=u..H-1</span>
+          <span class="comp-val">O(H²)</span>
+        </div>
+        <div class="comp-row">
+          <span class="comp-label">列和の更新</span>
+          <span class="comp-body">d が 1 増えるたびに 1 行分（W列）</span>
+          <span class="comp-val">O(W)</span>
+        </div>
+        <div class="comp-row">
+          <span class="comp-label">B の構築</span>
+          <span class="comp-body">col_sum から累積和</span>
+          <span class="comp-val">O(W)</span>
+        </div>
+        <div class="comp-row">
+          <span class="comp-label">count_eq</span>
+          <span class="comp-body">2ポインタで区間数をカウント</span>
+          <span class="comp-val">O(W)</span>
+        </div>
+        <div class="comp-row" style="background:rgba(0,143,106,.1);border:1px solid var(--green);">
+          <span class="comp-label" style="color:var(--green)">合計</span>
+          <span class="comp-body"><strong>H² × (W + W + W) = H²W × 3</strong></span>
+          <span class="comp-val" style="color:var(--green)">O(H²W)</span>
+        </div>
+      </div>
+      <div class="hint-box">
+        ⚡ H=W=500 の場合：<br>
+        125,250 組 × (500+500+500) ≈ 1.88 億回。<br>
+        4 秒制限で Python でも十分。
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="sec-label">比較</div>
+      <div class="sec-title">ナイーブ解法 vs 本解法</div>
+      <table class="compare-table">
+        <tr>
+          <th>手法</th>
+          <th>計算量</th>
+          <th>500×500 の回数</th>
+          <th>4秒判定</th>
+        </tr>
+        <tr>
+          <td><span class="pattern-badge" style="background:rgba(201,22,46,.1);color:var(--red)">全探索</span></td>
+          <td class="naive">O(H²W²)</td>
+          <td class="naive">6.25×10¹⁰</td>
+          <td class="naive">❌ 不可能</td>
+        </tr>
+        <tr>
+          <td><span class="pattern-badge" style="background:rgba(0,143,106,.1);color:var(--green)">本解法</span></td>
+          <td class="fast">O(H²W)</td>
+          <td class="fast">1.25×10⁸</td>
+          <td class="fast">✅ 余裕</td>
+        </tr>
+        <tr>
+          <td><span class="pattern-badge" style="background:rgba(26,150,192,.1);color:var(--blue)">更に高速</span></td>
+          <td>O(HW × min(H,W))</td>
+          <td>〜6.25×10⁷</td>
+          <td class="fast">✅ さらに速い</td>
+        </tr>
+      </table>
+      <div class="sec-body" style="margin-top:.3rem;">
+        ※ H,W のどちらか小さい方を外側にすると H×W×min(H,W) に改善できるが、本問では W≤500 で H²W で十分。
+      </div>
+      <div class="hint-box" style="margin-top:auto;">
+        💡 定数倍改善のコツ：<br>
+        内側の「for j in range(W)」のループを 1 つにまとめると約 1.5 倍高速化
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

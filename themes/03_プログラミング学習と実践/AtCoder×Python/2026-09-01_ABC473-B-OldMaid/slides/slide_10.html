@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本語で参加できるプログラミングコンテストのサイト。毎週末に初心者向けのABCが開催される。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">標準入力</span>
+          <span class="term-reading">ひょうじゅんにゅうりょく</span>
+        </div>
+        <p class="term-desc">プログラムが外から受け取るデータの通り道。AtCoderでは問題の入力例がここから流れてくる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">input()</span>
+          <span class="term-reading">インプット</span>
+        </div>
+        <p class="term-desc">標準入力から1行を文字列として読み取る組み込み関数。数値として使うには int() などで変換する。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">並んだ値すべてに同じ処理をまとめて適用する組み込み関数。ここでは文字列を一気に整数へ変換している。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">list</span>
+          <span class="term-reading">リスト</span>
+        </div>
+        <p class="term-desc">値を順番に並べて入れておける入れ物。今回の「数える箱の列」がまさにこれにあたる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#list" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">range()</span>
+          <span class="term-reading">レンジ</span>
+        </div>
+        <p class="term-desc">連続した整数を順番に取り出す組み込み関数。range(1, 101) は1から100までで、101は含まない。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#func-range" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">剰余演算（%）</span>
+          <span class="term-reading">じょうよえんざん</span>
+        </div>
+        <p class="term-desc">割り算のあまりを求める計算。7 % 2 は 1。あまりが1かどうかで奇数を見分けられる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/剰余演算" target="_blank">Wikipedia: 剰余演算 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">偶数・奇数</span>
+          <span class="term-reading">ぐうすう・きすう</span>
+        </div>
+        <p class="term-desc">2で割り切れる整数が偶数、割り切れない整数が奇数。今回は枚数がどちらかで結果が決まる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/偶数" target="_blank">Wikipedia: 偶数 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

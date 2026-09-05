@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.title-slide {
+  width: 1280px; height: 720px;
+  display: flex; flex-direction: row;
+  overflow: hidden;
+}
+.panel-dark {
+  width: 38%;
+  background: #1a1d2e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2.2rem 2.4rem;
+  position: relative;
+  overflow: hidden;
+}
+.panel-dark::before {
+  content: '';
+  position: absolute; top: -100px; left: -80px;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(217,96,24,.25) 0%, transparent 65%);
+  pointer-events: none;
+}
+.panel-dark::after {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(26,150,192,.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.ep-badge {
+  display: inline-block;
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  letter-spacing: .1em;
+  margin-bottom: .9rem;
+  width: fit-content;
+}
+.main-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: .5rem;
+}
+.main-sub {
+  font-size: .84rem;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 1.4rem;
+}
+.algo-badge {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: .28rem .6rem;
+  width: fit-content;
+  margin-top: .3rem;
+}
+.algo-badge .big-text {
+  font-size: .82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  line-height: 1;
+}
+.algo-badge .algo-label {
+  font-size: .65rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.4;
+}
+.panel-light {
+  flex: 1;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 2.8rem 1.8rem;
+}
+.point-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bottom-info {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.source-badge {
+  display: inline-block;
+  background: rgba(217,96,24,.1);
+  color: var(--orange);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  margin-bottom: .5rem;
+  width: fit-content;
+}
+.diff-badge {
+  display: inline-block;
+  background: rgba(94,106,138,.12);
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  width: fit-content;
+  border: 1px solid rgba(94,106,138,.3);
+}
+.right-heading {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.point-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  margin-bottom: 0;
+}
+.point-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.ptxt { flex: 1; }
+.pnum {
+  min-width: 22px; height: 22px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  flex-shrink: 0; margin-top: .05rem;
+}
+.credit {
+  font-size: .68rem;
+  color: var(--muted);
+  opacity: .7;
+  margin-top: 0;
+}
+.credit a { color: inherit; text-decoration: none; }
+.credit a:hover { text-decoration: underline; }
+</style>
+</head>
+<body style="position: relative;">
+<div class="title-slide">
+  <div class="panel-dark">
+    <span class="ep-badge">AtCoder×Pythonシリーズ</span>
+    <div class="main-title">ABC473<br>B問題<br>Old Maid</div>
+    <div class="main-sub">同じ数字を2枚ずつ捨てていって、最後に残るカードの合計は？</div>
+    <div class="algo-badge">
+      <span class="big-text">数え上げ（カウント）</span>
+      <span class="algo-label">偶数・奇数の判定</span>
+    </div>
+  </div>
+  <div class="panel-light">
+    <div class="point-section">
+      <span class="source-badge">📖 AtCoder ABC473 解説</span>
+      <div class="right-heading">Today's Points</div>
+      <ul class="point-list">
+        <li>
+          <span class="pnum">1</span>
+          <span class="ptxt">「2枚ずつ消す」を実際にやらなくていい。<strong>数字ごとの枚数</strong>だけ分かれば答えは出る</span>
+        </li>
+        <li>
+          <span class="pnum">2</span>
+          <span class="ptxt">同じ数字は2枚ペアで消えるので、残るのは<strong>枚数が奇数の数字だけ、しかも1枚</strong></span>
+        </li>
+        <li>
+          <span class="pnum">3</span>
+          <span class="ptxt">「箱に印を付けて数える」だけの<strong>数え上げ</strong>は、実務の集計そのもの</span>
+        </li>
+      </ul>
+    </div>
+    <div class="bottom-info">
+      <span class="diff-badge">ABC-B（200点）難易度: 灰色 ★☆☆</span>
+      <p class="credit">出典: <a href="https://atcoder.jp/contests/abc473/tasks/abc473_b" target="_blank">atcoder.jp/contests/abc473/tasks/abc473_b</a></p>
+    </div>
+  </div>
+</div>
+</body></html>

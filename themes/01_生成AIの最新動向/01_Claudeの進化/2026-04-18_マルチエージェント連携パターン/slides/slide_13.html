@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-link    {
+  font-size: .65rem; color: var(--blue); text-decoration: none;
+  margin-left: auto; white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Anthropic</span>
+          <span class="term-reading">アンソロピック</span>
+          <a class="term-link" href="https://anthropic.com" target="_blank">anthropic.com 🔗</a>
+        </div>
+        <p class="term-desc">Claudeを開発した米国のAI安全研究企業（2021年設立）。本記事の発行元。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Claude</span>
+          <span class="term-reading">クロード</span>
+          <a class="term-link" href="https://claude.ai" target="_blank">claude.ai 🔗</a>
+        </div>
+        <p class="term-desc">AnthropicのAIアシスタント。マルチエージェントシステムのベースAIとして活用できる。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">LLM</span>
+          <span class="term-reading">エル・エル・エム</span>
+        </div>
+        <p class="term-desc">Large Language Model（大規模言語モデル）。ChatGPT・Claudeなどの中核技術。文章を理解・生成するAI。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">マルチエージェント</span>
+          <span class="term-reading">Multi-Agent</span>
+        </div>
+        <p class="term-desc">複数のAIエージェントが役割分担しながら協力して目標を達成する設計手法。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Orchestrator</span>
+          <span class="term-reading">オーケストレーター</span>
+        </div>
+        <p class="term-desc">「指揮者」役のAI。タスク全体を計画し、各サブエージェントに仕事を割り振って結果を統合する。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Subagent</span>
+          <span class="term-reading">サブエージェント</span>
+        </div>
+        <p class="term-desc">Orchestratorから委任を受けて特定の専門タスクをこなすAI。「部下」にあたる存在。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Generator</span>
+          <span class="term-reading">ジェネレーター</span>
+        </div>
+        <p class="term-desc">コンテンツ・コードなどを生成する担当AI。Verifierとペアで品質を高めるために使われる。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Verifier</span>
+          <span class="term-reading">ベリファイアー</span>
+        </div>
+        <p class="term-desc">Generatorの出力を基準に照らして検証するAI。「校正・品質チェック」担当にあたる。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Message Bus</span>
+          <span class="term-reading">メッセージバス</span>
+        </div>
+        <p class="term-desc">AIエージェント間のイベント・メッセージを仲介するルーター。掲示板に書いて他のAIが受け取るイメージ。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Pub/Sub</span>
+          <span class="term-reading">パブサブ</span>
+        </div>
+        <p class="term-desc">Publish（投稿）とSubscribe（購読）の仕組み。Message Busの基盤技術。SNSのフォロー機能に近い。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Agent Teams</span>
+          <span class="term-reading">エージェント・チームズ</span>
+        </div>
+        <p class="term-desc">共有タスクキューから複数のWorker AIが自律的にタスクを取り出し並列処理するパターン。指揮者不在で大規模処理に強い。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Shared State</span>
+          <span class="term-reading">シェアード・ステート</span>
+        </div>
+        <p class="term-desc">全AIが共有の「ノート（State Store）」に読み書きしながら協調するパターン。単一障害点がなくリアルタイム情報共有が可能。</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

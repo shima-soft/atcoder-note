@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>Chain of Thought は書くほど高くつく</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">これまでの限界</span>
+    <h2 class="slide-title">Chain of Thought は「書くほど高くつく」</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>これまでは「もっと考えさせる」が「もっと書かせる」と同じ意味だった — 書いた分だけ料金も待ち時間も増える</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="410" viewBox="0 0 620 410" role="img" aria-label="Chain of Thoughtでは出力の大半が書き出した考えで占められ、3つのコストが生じる">
+        <text x="34" y="24" font-size="12" font-weight="900" fill="#5e6a8a">例: 1問に「考え800語＋答え200語」書き出したとき</text>
+
+        <rect x="20" y="36" width="580" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="58" text-anchor="middle" font-size="11.5" fill="#5e6a8a">答えを出す前に、この長さを毎回書き切る必要がある</text>
+
+        <rect x="50" y="70" width="47" height="34" rx="5" fill="#e5e8ef"/>
+        <text x="73" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e">質問</text>
+        <rect x="101" y="70" width="374" height="34" rx="5" fill="#c9cfdd"/>
+        <text x="288" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">書き出した考え 800語</text>
+        <rect x="479" y="70" width="91" height="34" rx="5" fill="#e5e8ef"/>
+        <text x="524" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e">答え 200語</text>
+
+        <line x1="101" y1="110" x2="475" y2="110" stroke="#7a3bce" stroke-width="2"/>
+        <text x="288" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7a3bce">全体の約7割が「考えを書く」ぶん</text>
+
+        <text x="34" y="170" font-size="12" font-weight="900" fill="#5e6a8a">書き出すことで生じる3つのコスト</text>
+
+        <rect x="20" y="180" width="186" height="124" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="34" y="200" width="24" height="24" rx="12" fill="#7a3bce"/>
+        <text x="46" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">1</text>
+        <text x="66" y="217" font-size="11.5" font-weight="900" fill="#1a1d2e">お金がかかる</text>
+        <text x="36" y="250" font-size="10.5" fill="#5e6a8a">書いた語の数だけ</text>
+        <text x="36" y="268" font-size="10.5" fill="#5e6a8a">料金が積み上がる</text>
+
+        <rect x="216" y="180" width="186" height="124" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="230" y="200" width="24" height="24" rx="12" fill="#7a3bce"/>
+        <text x="242" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">2</text>
+        <text x="262" y="217" font-size="11.5" font-weight="900" fill="#1a1d2e">待ち時間が伸びる</text>
+        <text x="232" y="250" font-size="10.5" fill="#5e6a8a">1語ずつ順に作るので</text>
+        <text x="232" y="268" font-size="10.5" fill="#5e6a8a">長く考えるほど遅い</text>
+
+        <rect x="412" y="180" width="186" height="124" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="426" y="200" width="24" height="24" rx="12" fill="#7a3bce"/>
+        <text x="438" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">3</text>
+        <text x="458" y="217" font-size="11.5" font-weight="900" fill="#1a1d2e">言葉の枠に入る</text>
+        <text x="428" y="250" font-size="10.5" fill="#5e6a8a">言葉にしにくい考えは</text>
+        <text x="428" y="268" font-size="10.5" fill="#5e6a8a">そもそも表現できない</text>
+
+        <rect x="20" y="320" width="580" height="76" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="348" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1a1d2e">「もっと考えさせる」＝「もっと書かせる」だった</text>
+        <text x="310" y="372" text-anchor="middle" font-size="11.5" fill="#5e6a8a">この結びつきを断ち切るのが Recurrent Depth</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">現場でいうと</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>提案書1本のAI利用料が、思考の長さで決まる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>難しい依頼ほど、返答を待つ時間が長くなる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>その待ち時間の大半は、読まない下書き</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 書き出す良さ</div>
+        <ul class="box-list">
+          <li>途中の考えを人が読んで確認できる</li>
+          <li>どこで間違えたかを指摘できる</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 限界</div>
+        <ul class="box-list">
+          <li>深く考えさせるほど、必ず高く・遅くなる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

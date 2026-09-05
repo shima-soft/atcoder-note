@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 A - 入力例1を手で追う</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">手を動かす</span>
+    <h2 class="slide-title">入力例1を4回のチェックで数え切る</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実演</span>
+      <p>6個の数列なら窓は4回。山だった回数がそのまま答えになる</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          box[j].x = 56 + j*39  (boxWidth=34, gap=5)
+          centers = 73,112,151,190,229,268
+          行の上端 y0 = 40, 100, 160, 220 (boxHeight=32)
+        -->
+
+        <text x="18" y="26" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">位置</text>
+        <text x="73"  y="26" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="112" y="26" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="151" y="26" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="190" y="26" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="229" y="26" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="268" y="26" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+
+        <!-- ▼ 1回目: 3 1 4 → 山ではない -->
+        <text x="18" y="60" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1回目</text>
+        <rect x="56"  y="40" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="73"  y="62" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">3</text>
+        <rect x="95"  y="40" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="112" y="62" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="134" y="40" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="151" y="62" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">4</text>
+        <rect x="173" y="40" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="62" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="212" y="40" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="229" y="62" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">5</text>
+        <rect x="251" y="40" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="268" y="62" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="306" y="61" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3 &lt; 1 ではない → ✗</text>
+
+        <!-- ▼ 2回目: 1 4 1 → 山 -->
+        <text x="18" y="120" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2回目</text>
+        <rect x="56"  y="100" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="73"  y="122" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">3</text>
+        <rect x="95"  y="100" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="112" y="122" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="134" y="100" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="151" y="122" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">4</text>
+        <rect x="173" y="100" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="190" y="122" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="212" y="100" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="229" y="122" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">5</text>
+        <rect x="251" y="100" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="268" y="122" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="306" y="121" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">1 &lt; 4 &gt; 1 → 山 ✓</text>
+
+        <!-- ▼ 3回目: 4 1 5 → 山ではない -->
+        <text x="18" y="180" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3回目</text>
+        <rect x="56"  y="160" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="73"  y="182" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">3</text>
+        <rect x="95"  y="160" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="112" y="182" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="134" y="160" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="151" y="182" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">4</text>
+        <rect x="173" y="160" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="190" y="182" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="212" y="160" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="229" y="182" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">5</text>
+        <rect x="251" y="160" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="268" y="182" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="306" y="181" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4 &lt; 1 ではない → ✗</text>
+
+        <!-- ▼ 4回目: 1 5 2 → 山 -->
+        <text x="18" y="240" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4回目</text>
+        <rect x="56"  y="220" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="73"  y="242" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">3</text>
+        <rect x="95"  y="220" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="112" y="242" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="134" y="220" width="34" height="32" rx="7" fill="#fafbfd" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="151" y="242" text-anchor="middle" font-size="17" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">4</text>
+        <rect x="173" y="220" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="190" y="242" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="212" y="220" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="229" y="242" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">5</text>
+        <rect x="251" y="220" width="34" height="32" rx="7" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="268" y="242" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="306" y="241" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">1 &lt; 5 &gt; 2 → 山 ✓</text>
+
+        <!-- ▼ まとめ -->
+        <rect x="140" y="272" width="260" height="40" rx="10" fill="rgba(0,143,106,.1)" stroke="var(--green)" stroke-width="1.5"/>
+        <text x="270" y="297" text-anchor="middle" font-size="15" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">山は2つ → 答えは 2</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 チェックの回数は「個数 − 2」</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>6個の数列なら窓は4回（6 − 2）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>1回ごとに「山かどうか」だけを判定する</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>山だった回数が、そのまま答えになる</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 他の入力例でも同じ手順</div>
+        <ul class="box-list">
+          <li>「1 1 1 2 1」→ 窓は3回、山は1つ</li>
+          <li>「7 3 9 8 10 3 1 5 5 4」→ 窓は8回、山は2つ</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ ここで間違えやすい</div>
+        <ul class="box-list">
+          <li>5回目まで回すと、存在しない7個目を見てしまう</li>
+          <li>問題名につられて「山の高さ」を出力してしまう</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

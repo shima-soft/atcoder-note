@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">POINT 01</span>
+    <h2 class="slide-title">Claudeを「有能なエンジニア」として扱う</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>「一緒に手を動かすアシスタント」ではなく「仕事を丸ごと任せられる優秀な部下」として接する</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <!-- SVG図 -->
+      <div class="diagram-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#d96018"></path>
+            </marker>
+            <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#008f6a"></path>
+            </marker>
+            <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#c9162e"></path>
+            </marker>
+          </defs>
+
+          <!-- NG パターン (上段) -->
+          <rect x="10" y="14" width="570" height="148" rx="12" fill="rgba(201,22,46,.04)" stroke="#c9162e" stroke-width="1.2" stroke-dasharray="4,3"></rect>
+          <rect x="22" y="26" width="78" height="20" rx="10" fill="#c9162e"></rect>
+          <text x="61" y="40" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">❌ ペア作業型</text>
+
+          <!-- NG: 人 → 質問 → AI → 断片 → 人 → 質問 ... ループ -->
+          <!-- box: 人 -->
+          <rect x="30" y="60" width="72" height="44" rx="10" fill="#fff4ec" stroke="#d96018" stroke-width="1.4"></rect>
+          <text x="66" y="83" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018">👤 担当者</text>
+          <text x="66" y="98" text-anchor="middle" font-size="9" fill="#5e6a8a">都度確認</text>
+
+          <line x1="102" y1="82" x2="148" y2="82" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR)"></line>
+          <text x="125" y="76" text-anchor="middle" font-size="8.5" fill="#c9162e">「次は？」</text>
+
+          <!-- box: Claude -->
+          <rect x="149" y="60" width="72" height="44" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"></rect>
+          <text x="185" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="185" y="95" text-anchor="middle" font-size="9" fill="#5e6a8a">部分的に返す</text>
+
+          <line x1="221" y1="82" x2="264" y2="82" stroke="#5e6a8a" stroke-width="1.4" marker-end="url(#arrowR)"></line>
+          <text x="243" y="76" text-anchor="middle" font-size="8.5" fill="#5e6a8a">断片回答</text>
+
+          <!-- box: 人2 -->
+          <rect x="265" y="60" width="72" height="44" rx="10" fill="#fff4ec" stroke="#d96018" stroke-width="1.4"></rect>
+          <text x="301" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018">👤 担当者</text>
+          <text x="301" y="95" text-anchor="middle" font-size="9" fill="#5e6a8a">またレビュー</text>
+
+          <line x1="337" y1="82" x2="380" y2="82" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR)"></line>
+          <text x="359" y="76" text-anchor="middle" font-size="8.5" fill="#c9162e">「次は？」</text>
+
+          <!-- box: Claude2 -->
+          <rect x="381" y="60" width="72" height="44" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"></rect>
+          <text x="417" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="417" y="95" text-anchor="middle" font-size="9" fill="#5e6a8a">断片的に…</text>
+
+          <!-- 省略 -->
+          <text x="490" y="86" text-anchor="middle" font-size="16" fill="#c9162e">…</text>
+          <text x="295" y="141.3" text-anchor="middle" font-size="12" fill="#c9162e">やりとりが増えるほどコンテキストが増え、コストと時間が増大</text>
+
+          <!-- OK パターン (下段) -->
+          <rect x="10" y="180" width="570" height="160" rx="12" fill="rgba(0,143,106,.04)" stroke="#008f6a" stroke-width="1.2"></rect>
+          <rect x="22" y="192" width="94" height="20" rx="10" fill="#008f6a"></rect>
+          <text x="69" y="206" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">✅ エンジニア型</text>
+
+          <!-- OK: 人 → 包括的な仕様 → Claude(自律) → 完成品 → 人(レビューのみ) -->
+          <rect x="30" y="218" width="96" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="78" y="240" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">👤 担当者</text>
+          <text x="78" y="254" text-anchor="middle" font-size="8.5" fill="#5e6a8a">最初に全要件を</text>
+          <text x="78" y="265" text-anchor="middle" font-size="8.5" fill="#5e6a8a">一括指定</text>
+
+          <line x1="126" y1="244" x2="179.5" y2="244" stroke="#008f6a" stroke-width="2" marker-end="url(#arrowG)"></line>
+          <text x="153.3" y="235.3" text-anchor="middle" font-size="8.5" fill="#008f6a" font-weight="600">包括的な仕様</text>
+
+          <rect x="183" y="212" width="200" height="64" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="283" y="237" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">Claude（自律実行）</text>
+          <text x="283" y="253" text-anchor="middle" font-size="8.5" fill="#5e6a8a">計画 → 実行 → 自己チェック</text>
+          <text x="283" y="267" text-anchor="middle" font-size="8.5" fill="#5e6a8a">→ 完成まで走り切る</text>
+
+          <line x1="383" y1="244" x2="431.5" y2="244" stroke="#008f6a" stroke-width="2" marker-end="url(#arrowG)"></line>
+          <text x="407.7" y="235.3" text-anchor="middle" font-size="8.5" fill="#008f6a" font-weight="600">完成品</text>
+
+          <rect x="435" y="218" width="120" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="495" y="240" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">👤 担当者</text>
+          <text x="495" y="254" text-anchor="middle" font-size="8.5" fill="#5e6a8a">最終レビュー</text>
+          <text x="495" y="265" text-anchor="middle" font-size="8.5" fill="#5e6a8a">のみでOK</text>
+
+          <text x="295" y="319.9" text-anchor="middle" font-size="12" fill="#008f6a">やりとりを最小化 → コスト・時間・品質すべてが改善</text>
+        </svg>
+      </div>
+
+      <!-- 右カラム -->
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">💼 実務シナリオ: 月次レポート作成</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--orange)">旧</span>
+            <p>「次は何のグラフを作ればいい？」と都度Claudeに確認しながら進める</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--green)">新</span>
+            <p>「6月売上CSVを使い、前月比グラフ付きA4 2ページで。競合比較は除く」と最初に全部伝える</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 最初に伝えるべきこと</div>
+          <ul class="box-list">
+            <li>タスクの全体像と最終ゴール</li>
+            <li>成功の基準（どうなれば完成か）</li>
+            <li>やらなくていいこと（除外事項）</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 失敗パターン</div>
+          <ul class="box-list">
+            <li>「いい感じに」「適当に」などの曖昧表現</li>
+            <li>途中で仕様を小出しに変更する</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

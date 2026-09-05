@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>同じ成果を、より安く</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">COST</span>
+    <h2 class="slide-title">同じ成果を、より安く</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>最上位モデルに近い成績を、数分の1の費用で出せることが最大の武器</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="380" viewBox="0 0 620 380" role="img" aria-label="Kimi K3のコスト効率比較">
+        <!--
+          カードA x=14 y=18 w=592 h=170 (18..188)
+          カードB x=14 y=200 w=592 h=170 (200..370)
+          バー起点 x=180 / 値テキストは x=496 固定 text-anchor=start で縦揃え
+        -->
+        <rect x="14" y="18" width="592" height="170" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="44" font-size="14" font-weight="900" fill="#1a1d2e">① コーディング課題1件あたりの費用（相対）</text>
+
+        <text x="34" y="85" font-size="12" fill="#5e6a8a">Claude Fable 5</text>
+        <rect x="180" y="64" width="300" height="34" rx="6" fill="#dde2ec"/>
+        <text x="496" y="85" font-size="13" font-weight="900" fill="#5e6a8a">100</text>
+
+        <text x="34" y="129" font-size="12" fill="#1a1d2e">Kimi K3</text>
+        <rect x="180" y="108" width="114" height="34" rx="6" fill="#7a3bce"/>
+        <text x="496" y="129" font-size="13" font-weight="900" fill="#7a3bce">38</text>
+
+        <text x="34" y="170" font-size="11" fill="#5e6a8a">スコア差はわずか4.0ポイント（最高設定どうしの比較）</text>
+
+        <rect x="14" y="200" width="592" height="170" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="226" font-size="14" font-weight="900" fill="#1a1d2e">② ネット調査1件あたりの費用（BrowseComp）</text>
+
+        <text x="34" y="265" font-size="12" fill="#5e6a8a">Claude 系モデル</text>
+        <rect x="180" y="246" width="300" height="28" rx="6" fill="#dde2ec"/>
+        <text x="496" y="265" font-size="13" font-weight="900" fill="#5e6a8a">約10倍</text>
+
+        <text x="34" y="299" font-size="12" fill="#5e6a8a">GPT-5.6 Sol</text>
+        <rect x="180" y="280" width="61" height="28" rx="6" fill="#bfa0e8"/>
+        <text x="496" y="299" font-size="13" font-weight="900" fill="#5e6a8a">約2倍</text>
+
+        <text x="34" y="333" font-size="12" fill="#1a1d2e">Kimi K3</text>
+        <rect x="180" y="314" width="30" height="28" rx="6" fill="#7a3bce"/>
+        <text x="496" y="333" font-size="13" font-weight="900" fill="#7a3bce">$2.03</text>
+
+        <text x="34" y="362" font-size="11" fill="#5e6a8a">Kimi K3 は最高スコア91.2%を1件あたり約2.03ドルで達成</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">費用対効果の読み方</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>最高得点のモデルに近い成績を、数分の1の費用で出せる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>「考える深さ」を1段下げると、さらに安く運用できる</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">向いている使い方</div>
+        <ul class="box-list">
+          <li>数をこなす定型業務（情報収集・整理・下書き作成）</li>
+          <li>同じモデルを複数の事業者から選べ、価格を比較しやすい</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">注意点</div>
+        <ul class="box-list">
+          <li>最高精度が求められる場面では上位の有料モデルが有利</li>
+          <li>この価格はAPI利用の場合。自社設置の費用は別に試算する</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

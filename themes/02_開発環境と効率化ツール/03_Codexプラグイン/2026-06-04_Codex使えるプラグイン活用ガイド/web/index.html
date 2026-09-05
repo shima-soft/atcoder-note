@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codexで使えるプラグイン活用ガイド | Web版</title>
+<style>
+:root {
+  --bg:#f9fafb; --surface:#eff1f7; --card:#fff; --border:#dde2ec; --text:#1a1d2e; --muted:#5e6a8a;
+  --blue:#1a96c0; --green:#008f6a; --orange:#d96018; --purple:#7a3bce; --header-h:52px; --sidebar-w:220px;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.7; }
+.site-header { position:fixed; top:0; left:0; right:0; height:var(--header-h); background:var(--card); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 1.5rem; gap:1rem; z-index:10; }
+.header-ep { background:linear-gradient(135deg,#2ab8e0,#1a96c0); color:#fff; font-size:.68rem; font-weight:700; padding:.15rem .55rem; border-radius:99px; }
+.header-title { font-size:.95rem; font-weight:900; }
+.header-sub { font-size:.78rem; color:var(--muted); margin-left:auto; }
+.header-link { font-size:.78rem; color:var(--blue); text-decoration:none; padding:.2rem .6rem; border:1px solid var(--blue); border-radius:6px; white-space:nowrap; }
+.page-layout { display:flex; margin-top:var(--header-h); min-height:calc(100vh - var(--header-h)); }
+.sidebar { width:var(--sidebar-w); flex-shrink:0; position:sticky; top:var(--header-h); height:calc(100vh - var(--header-h)); overflow-y:auto; padding:1.2rem 0; border-right:1px solid var(--border); background:var(--card); }
+.nav-section-label { font-size:.65rem; font-weight:700; color:var(--muted); padding:.5rem 1rem .2rem; letter-spacing:.06em; text-transform:uppercase; }
+.nav-item { display:block; padding:.4rem 1rem; font-size:.8rem; color:var(--muted); text-decoration:none; border-left:3px solid transparent; line-height:1.4; }
+.nav-item:hover, .nav-item.active { background:var(--surface); color:var(--blue); border-left-color:var(--blue); font-weight:700; }
+.main-content { flex:1; max-width:860px; padding:2rem 2.5rem; margin:0 auto; }
+section { margin-bottom:3.2rem; scroll-margin-top:calc(var(--header-h) + 16px); }
+.section-label { display:inline-block; padding:.15rem .6rem; border-radius:99px; font-size:.68rem; font-weight:700; margin-bottom:.5rem; }
+.section-title { font-size:1.6rem; font-weight:900; margin-bottom:.4rem; line-height:1.25; }
+.section-sub { font-size:.9rem; color:var(--muted); margin-bottom:1.2rem; }
+.hitokoto-web { display:flex; align-items:center; gap:.6rem; border-left:3px solid var(--blue); padding-left:.8rem; margin-bottom:1.2rem; }
+.hitokoto-web .badge { font-size:.65rem; font-weight:700; color:#fff; background:var(--blue); padding:.1rem .45rem; border-radius:99px; white-space:nowrap; }
+.hitokoto-web p { font-size:.92rem; font-weight:700; }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin-bottom:1rem; }
+.cards.cols2 { grid-template-columns:repeat(2,1fr); }
+.card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.8rem 1rem; }
+.num { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; color:#fff; background:linear-gradient(135deg,#2ab8e0,#1a96c0); font-size:.72rem; font-weight:900; margin-bottom:.35rem; }
+.card h3 { font-size:.9rem; font-weight:900; margin-bottom:.25rem; }
+.card p, .card li { font-size:.82rem; color:var(--muted); line-height:1.6; }
+.card ul { padding-left:1rem; }
+.source-box { background:#eaf7fc; border:1px solid rgba(26,150,192,.2); border-radius:12px; padding:.8rem 1rem; font-size:.84rem; }
+.source-box a { color:var(--blue); }
+.glossary { display:grid; grid-template-columns:repeat(2,1fr); gap:.65rem; }
+.term { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:.65rem .8rem; }
+.term strong { font-size:.86rem; }
+.term span { font-size:.7rem; color:var(--muted); margin-left:.4rem; }
+.term p { font-size:.78rem; color:var(--muted); line-height:1.55; margin-top:.1rem; }
+@media (max-width:800px) {
+  .sidebar { display:none; }
+  .main-content { padding:1.2rem 1rem; }
+  .cards, .cards.cols2, .glossary { grid-template-columns:1fr; }
+  .header-sub { display:none; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-ep">Codex</span>
+  <span class="header-title">使えるプラグイン活用ガイド</span>
+  <span class="header-sub">目的から選ぶ、実践編</span>
+  <a class="header-link" href="flowchart.html">選択フロー</a>
+</header>
+<div class="page-layout">
+  <nav class="sidebar">
+    <div class="nav-section-label">目次</div>
+    <a class="nav-item" href="#map">選び方</a>
+    <a class="nav-item" href="#browser">Browser</a>
+    <a class="nav-item" href="#artifacts">資料系</a>
+    <a class="nav-item" href="#connectors">外部サービス</a>
+    <a class="nav-item" href="#security-sites">Security / Sites</a>
+    <a class="nav-item" href="#prompt">依頼テンプレート</a>
+    <a class="nav-item" href="#glossary">用語解説</a>
+  </nav>
+  <main class="main-content">
+    <section id="map">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">MAP</span>
+      <h1 class="section-title">まずは「成果物・確認・接続・公開」で選ぶ</h1>
+      <p class="section-sub">プラグイン名ではなく、やりたい仕事の種類から選ぶと迷いません。</p>
+      <div class="cards">
+        <div class="card"><span class="num">文</span><h3>Documents</h3><p>報告書、提案書、マニュアル、赤入れ。</p></div>
+        <div class="card"><span class="num" style="background:var(--green)">表</span><h3>Spreadsheets</h3><p>Excel、CSV、集計、グラフ、分析。</p></div>
+        <div class="card"><span class="num" style="background:var(--orange)">図</span><h3>Presentations</h3><p>PowerPoint、研修資料、営業提案。</p></div>
+        <div class="card"><span class="num" style="background:var(--purple)">見</span><h3>Browser</h3><p>Web画面の表示確認、クリック、スクリーンショット。</p></div>
+        <div class="card"><span class="num" style="background:var(--green)">外</span><h3>Gmail / Drive / Slack</h3><p>メール、資料、チャットを使った要約や下書き。</p></div>
+        <div class="card"><span class="num" style="background:var(--orange)">守</span><h3>Security / Sites</h3><p>コードの安全確認、Webサイトの保存・公開。</p></div>
+      </div>
+    </section>
+    <section id="browser">
+      <span class="section-label" style="background:rgba(122,59,206,.12);color:var(--purple)">BROWSER</span>
+      <h2 class="section-title">Browserは「画面で確かめる」担当</h2>
+      <div class="hitokoto-web" style="border-color:var(--purple)"><span class="badge" style="background:var(--purple)">一言で</span><p>Webアプリやローカル画面を開き、操作して、見た目と挙動を確認します。</p></div>
+      <div class="cards cols2">
+        <div class="card"><h3>向いている依頼</h3><ul><li>localhostを開いて確認して</li><li>このページの表示崩れを見て</li><li>スマホ幅で文字切れを見て</li></ul></div>
+        <div class="card"><h3>注意</h3><ul><li>ブラウザ接続や権限で失敗することがある</li><li>送信や削除など影響のある操作は確認が必要</li></ul></div>
+      </div>
+    </section>
+    <section id="artifacts">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">ARTIFACTS</span>
+      <h2 class="section-title">資料系プラグインは「成果物にする」担当</h2>
+      <div class="cards">
+        <div class="card"><span class="num">Doc</span><h3>Documents</h3><p>文章を納品物にする。報告書、マニュアル、レビューコメント。</p></div>
+        <div class="card"><span class="num" style="background:var(--orange)">PPT</span><h3>Presentations</h3><p>話す資料にする。提案、研修、社内説明会。</p></div>
+        <div class="card"><span class="num" style="background:var(--green)">XLS</span><h3>Spreadsheets</h3><p>数字を整理する。Excel、CSV、グラフ、数式。</p></div>
+      </div>
+    </section>
+    <section id="connectors">
+      <span class="section-label" style="background:rgba(0,143,106,.12);color:var(--green)">CONNECTORS</span>
+      <h2 class="section-title">Gmail・Drive・Slackは「外部情報を使う」担当</h2>
+      <div class="cards cols2">
+        <div class="card"><h3>頼み方の例</h3><ul><li>今日の未読メールのうち、取引先だけ要約して</li><li>Driveの最新資料から会議用の要点を抜き出して</li><li>Slackの昨日分だけまとめて</li></ul></div>
+        <div class="card"><h3>確認すること</h3><ul><li>どのアカウントで認証しているか</li><li>どのフォルダやチャンネルを読ませるか</li><li>読ませてよい情報なのか</li></ul></div>
+      </div>
+    </section>
+    <section id="security-sites">
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">SECURITY & SITES</span>
+      <h2 class="section-title">SecurityとSitesは「守る・公開する」担当</h2>
+      <div class="cards cols2">
+        <div class="card"><span class="num" style="background:var(--orange)">守</span><h3>Codex Security</h3><p>認可されたコードの脆弱性レビュー。差分スキャンや発見事項の修正に使います。</p></div>
+        <div class="card"><span class="num" style="background:var(--purple)">公</span><h3>Sites</h3><p>Webサイトやアプリを保存・公開。公開URLは本番公開として扱います。</p></div>
+      </div>
+    </section>
+    <section id="prompt">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">CHOICE</span>
+      <h2 class="section-title">迷ったら「成果物」と「データ源」を先に言う</h2>
+      <div class="cards cols2">
+        <div class="card"><h3>資料作成</h3><p>目的: 営業会議用の10枚スライドを作る<br>素材: このCSVと議事録<br>使ってほしいもの: PresentationsとSpreadsheets<br>確認: 表とタイトルの整合性</p></div>
+        <div class="card"><h3>画面確認</h3><p>目的: ローカルWeb画面の表示確認<br>素材: localhost:8181<br>使ってほしいもの: Browser<br>確認: 文字切れ、ボタン動作、スマホ幅</p></div>
+      </div>
+      <div class="source-box">参考: <a href="https://developers.openai.com/codex/plugins" target="_blank">OpenAI Codex Manual / Plugins</a>、<a href="https://developers.openai.com/codex/security/plugin" target="_blank">Codex Security plugin</a>、<a href="https://developers.openai.com/codex/sites" target="_blank">Sites</a>（2026年6月4日確認）</div>
+    </section>
+    <section id="glossary">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+      <h2 class="section-title">用語解説</h2>
+      <div class="glossary">
+        <div class="term"><strong>Browser</strong><span>ブラウザー</span><p>Webページを開き、操作や表示確認を行うプラグイン。</p></div>
+        <div class="term"><strong>Documents</strong><span>ドキュメンツ</span><p>Word文書やGoogle Docs向け成果物を作るプラグイン。</p></div>
+        <div class="term"><strong>Presentations</strong><span>プレゼンテーションズ</span><p>PowerPointなどのスライド資料を作るプラグイン。</p></div>
+        <div class="term"><strong>Spreadsheets</strong><span>スプレッドシーツ</span><p>Excel、CSV、表計算、グラフを扱うプラグイン。</p></div>
+        <div class="term"><strong>Sites</strong><span>サイツ</span><p>Webサイトやアプリを保存・公開するプラグイン。</p></div>
+        <div class="term"><strong>Diff scan</strong><span>ディフ・スキャン</span><p>変更差分を対象にしたセキュリティ確認。</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(item => item.classList.toggle('active', item.getAttribute('href') === '#' + entry.target.id));
+    }
+  });
+}, { rootMargin:'-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

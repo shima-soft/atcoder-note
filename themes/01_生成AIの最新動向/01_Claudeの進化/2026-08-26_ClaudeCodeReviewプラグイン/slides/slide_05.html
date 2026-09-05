@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">AGENT 2</span>
+    <h2 class="slide-title">バグ検出エージェント</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>論理エラー・NULL参照・リソースリークなど、実行時に問題になりそうな箇所を拾う</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左（コード変更・脇役）: x=20 w=200 (right=220)
+          右（バグ検出・主役）  : x=248 w=232 (right=480)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">変更されたコードからバグの兆候を探す</text>
+
+          <!-- 左: コード変更（脇役） -->
+          <text x="120" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">変更されたコード</text>
+          <rect x="20" y="76" width="200" height="56" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="120" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">+ getUser(id) を追加</text>
+          <rect x="20" y="144" width="200" height="56" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="120" y="176" text-anchor="middle" font-size="12" fill="#5e6a8a">+ result = parse(json)</text>
+          <rect x="20" y="212" width="200" height="56" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="120" y="244" text-anchor="middle" font-size="12" fill="#5e6a8a">- 旧関数を削除</text>
+
+          <polygon points="226,171 238,179 226,187" fill="#5e6a8a"/>
+
+          <!-- 右: バグ検出結果（主役） -->
+          <rect x="248" y="76" width="232" height="230" rx="12" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="364" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">検出されたバグの兆候</text>
+
+          <rect x="264" y="124" width="200" height="50" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="278" y="146" font-size="12" fill="#c9162e">⚠ NULL チェックなし</text>
+          <text x="278" y="164" font-size="11" fill="#5e6a8a">getUser() の戻り値が null の場合</text>
+
+          <rect x="264" y="184" width="200" height="50" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="278" y="206" font-size="12" fill="#c9162e">⚠ エラーハンドリング未設定</text>
+          <text x="278" y="224" font-size="11" fill="#5e6a8a">parse(json) が例外を投げる可能性</text>
+
+          <rect x="264" y="244" width="210" height="50" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="278" y="266" font-size="12" fill="#c9162e">⚠ 削除関数への参照残存</text>
+          <text x="278" y="284" font-size="11" fill="#5e6a8a">旧関数呼び出し箇所が残る可能性</text>
+
+          <!-- 信頼度バッジ -->
+          <rect x="248" y="328" width="232" height="44" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="364" y="355" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">信頼度スコア: 92 / 100 → 投稿対象</text>
+
+          <!-- 下部説明 -->
+          <text x="250" y="400" text-anchor="middle" font-size="12" fill="#5e6a8a">GitHub のコード diff を直接読み、バグのパターンを照合する</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 事務・営業に置き換えると</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>エクセルの数式で「参照先が消えている」といった問題を検出</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>見積書で「単価×数量」の数式が壊れていないかを自動チェック</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>問題箇所と修正方法の提案がセットで表示される</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 強み</div>
+          <ul class="box-list">
+            <li>人間が見落としがちな「エッジケース」を体系的に探索</li>
+            <li>過去のバグパターンを学習済み</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>ビジネスロジックの正しさは保証しない（あくまで技術的バグ）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

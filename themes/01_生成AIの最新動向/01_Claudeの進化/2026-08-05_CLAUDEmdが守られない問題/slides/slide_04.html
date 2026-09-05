@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">TOOL 1</span>
+    <h2 class="slide-title">描かせて、測る</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>画面を出さない Chrome にスライドを本当に描かせ、文字の位置を 1px 単位で読み取る</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          box[i].x = 26 + i * 116  (boxWidth=100, gap=16, 送り幅=116)
+          x     = 26, 142, 258, 374   center = 76, 192, 308, 424   right = 126, 242, 358, 474
+          青ゾーン: box1-2 → x = 142-10 = 132, right = 358+10 = 368, w = 236
+          viewBox: 0 0 500 314
+        -->
+        <svg viewBox="0 0 500 314" width="600" height="377" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">svg_check.py がやっていること</text>
+
+          <!-- ツールが担当する範囲（主役ゾーン） -->
+          <rect x="132" y="58" width="236" height="176" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2"/>
+          <text x="250" y="222" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a96c0">← ツールが自動で行う部分 →</text>
+
+          <!-- 1: 人が書く -->
+          <circle cx="76" cy="78" r="11" fill="#5e6a8a"/>
+          <text x="76" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">1</text>
+          <rect x="26" y="100" width="100" height="90" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="76" y="141" text-anchor="middle" font-size="12" fill="#5e6a8a">スライドを</text>
+          <text x="76" y="158" text-anchor="middle" font-size="12" fill="#5e6a8a">HTMLで書く</text>
+
+          <polygon points="128,139 128,151 140,145" fill="#c8cede"/>
+
+          <!-- 2: 実際に描画 -->
+          <circle cx="192" cy="78" r="11" fill="#1a96c0"/>
+          <text x="192" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">2</text>
+          <rect x="142" y="100" width="100" height="90" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="192" y="141" text-anchor="middle" font-size="12" fill="#1a1d2e">Chrome で</text>
+          <text x="192" y="158" text-anchor="middle" font-size="12" fill="#1a1d2e">実際に描画</text>
+
+          <polygon points="244,139 244,151 256,145" fill="#1a96c0"/>
+
+          <!-- 3: 実測 -->
+          <circle cx="308" cy="78" r="11" fill="#1a96c0"/>
+          <text x="308" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">3</text>
+          <rect x="258" y="100" width="100" height="90" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="308" y="141" text-anchor="middle" font-size="12" fill="#1a1d2e">文字の位置を</text>
+          <text x="308" y="158" text-anchor="middle" font-size="12" fill="#1a1d2e">実測する</text>
+
+          <polygon points="360,139 360,151 372,145" fill="#c8cede"/>
+
+          <!-- 4: 出力 -->
+          <circle cx="424" cy="78" r="11" fill="#5e6a8a"/>
+          <text x="424" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">4</text>
+          <rect x="374" y="100" width="100" height="90" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="424" y="141" text-anchor="middle" font-size="12" fill="#5e6a8a">はみ出しを</text>
+          <text x="424" y="158" text-anchor="middle" font-size="12" fill="#5e6a8a">一覧で出す</text>
+
+          <!-- 実際の出力例 -->
+          <rect x="50" y="250" width="400" height="52" rx="8" fill="#fdf2f3" stroke="#c9162e" stroke-width="1"/>
+          <text x="250" y="271" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">[ERROR] text-overflow-x: '📥 Subscribe'</text>
+          <text x="250" y="289" text-anchor="middle" font-size="11" fill="#c9162e">実測幅=56px, 容器幅=60px → 左右2pxはみ出し</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🔍 このツールが見ている7項目</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>文字が枠から左右・上下にはみ出していないか</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>中央揃えのはずの文字が、枠の中心とずれていないか</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>箱同士が重なっていないか、用紙の外に出ていないか</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ ここが効いた</div>
+          <ul class="box-list">
+            <li>Claude が自分で実行して、自分の出力を確かめられる</li>
+            <li>人が見つけるより早く、抜けもない</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>フォントが違うと測定値も変わる。同じ環境で測ること</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

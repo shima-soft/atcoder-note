@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .5rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .65rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .35rem;
+}
+.prob-card p {
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.prob-card p strong { color: var(--orange); font-weight: 900; }
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.meta-card ul li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .1rem .5rem;
+  font-size: .8rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+  display: inline-block;
+}
+.sample-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.grid-wrap {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+.grid-box {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: .9rem;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .4rem .7rem;
+}
+.grid-box .hash { color: var(--orange); font-weight: 900; }
+.answer-box {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  justify-content: center;
+}
+.answer-box .ans-label {
+  font-size: .72rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.answer-box .ans-val {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--green);
+}
+.answer-box .ans-note {
+  font-size: .72rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">ABC455 B — Spiral Galaxy</h2>
+  </div>
+  <div class="slide-body">
+
+    <!-- 問題文 -->
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p><strong>H行W列</strong>のグリッドが与えられます。各マスは白（<strong>.</strong>）か黒（<strong>#</strong>）で塗られています。
+         行 h1〜h2・列 w1〜w2 で決まる長方形の中が「<strong>点対称</strong>」になっている組み合わせ（h1, h2, w1, w2）の個数を答えてください。</p>
+    </div>
+
+    <!-- 制約 + 入力形式 -->
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約</h4>
+        <ul>
+          <li>1 ≤ H, W ≤ 10</li>
+          <li>1 ≤ h1 ≤ h2 ≤ H</li>
+          <li>1 ≤ w1 ≤ w2 ≤ W</li>
+          <li>各マスは <code>.</code> または <code>#</code></li>
+        </ul>
+        <p class="hint">→ グリッドが最大10×10と小さい！全組み合わせを試せる</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力形式</h4>
+        <code>H W</code><br>
+        <code style="margin-top:.3rem;display:inline-block">S₁<br>S₂<br>…</code>
+        <p class="hint" style="margin-top:.4rem">1行目: H と W（空白区切り）</p>
+        <p class="hint">2行目以降: H 行分の文字列（長さ W）</p>
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="sample-row">
+      <div class="sample-card">
+        <h4>📊 入力例 1（3×2 グリッド）</h4>
+        <div class="grid-wrap">
+          <div class="grid-box">
+            <span class="hash">.</span><span class="hash" style="color:var(--text)">#</span><br>
+            <span style="color:var(--orange);font-weight:900">#</span>.<br>
+            <span style="color:var(--orange);font-weight:900">#</span><span style="color:var(--orange);font-weight:900">#</span>
+          </div>
+          <div class="answer-box">
+            <span class="ans-label">出力</span>
+            <span class="ans-val">10</span>
+            <span class="ans-note">6つの1×1単独マス<br>＋点対称な長方形4つ</span>
+          </div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <h4>📊 入力例 2（4×5 グリッド）</h4>
+        <div class="grid-wrap">
+          <div class="grid-box" style="font-size:.78rem">
+            .#.#.<br>
+            ####.<br>
+            ##..#<br>
+            ....#
+          </div>
+          <div class="answer-box">
+            <span class="ans-label">出力</span>
+            <span class="ans-val">54</span>
+            <span class="ans-note">4×5＝20の<br>1×1単独マス含む</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

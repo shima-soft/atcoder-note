@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>AIの返信はなぜ一文字ずつしか出せないのか</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">背景</span>
+    <h2 class="slide-title">AIの返信は、なぜ一文字ずつしか出せないのか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>今のAIは「1つ書いては、次を考え直す」を繰り返しているため、長い回答ほど時間がかかる</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="自己回帰方式は1トークンずつ計算を繰り返す">
+        <!--
+          row[i].y = 30 + i*95 (i=0..3), h=70
+          token box: w=42,h=42, gap=10, 送り幅=52
+          box[i].x = 40 + i*52
+          矢印: x=310, row間
+        -->
+        <text x="34" y="20" font-size="13" font-weight="900" fill="#5e6a8a">自己回帰（Autoregressive）方式</text>
+
+        <!-- Step1 -->
+        <rect x="20" y="28" width="580" height="70" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="40" y="49" width="42" height="42" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="61" y="75" text-anchor="middle" font-size="16" font-weight="900" fill="#ffffff">1</text>
+        <text x="500" y="59" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">Step 1</text>
+        <text x="500" y="78" text-anchor="middle" font-size="11" fill="#5e6a8a">計算1回 → 1語</text>
+
+        <path d="M310 98 L310 118" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="310,124 305,114 315,114" fill="#5e6a8a"/>
+
+        <!-- Step2 -->
+        <rect x="20" y="123" width="580" height="70" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="40" y="144" width="42" height="42" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="61" y="170" text-anchor="middle" font-size="16" font-weight="900" fill="#7a3bce">1</text>
+        <rect x="92" y="144" width="42" height="42" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="113" y="170" text-anchor="middle" font-size="16" font-weight="900" fill="#ffffff">2</text>
+        <text x="500" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">Step 2</text>
+        <text x="500" y="173" text-anchor="middle" font-size="11" fill="#5e6a8a">計算1回 → 1語</text>
+
+        <path d="M310 193 L310 213" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="310,219 305,209 315,209" fill="#5e6a8a"/>
+
+        <!-- Step3 -->
+        <rect x="20" y="218" width="580" height="70" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="40" y="239" width="42" height="42" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="61" y="265" text-anchor="middle" font-size="16" font-weight="900" fill="#7a3bce">1</text>
+        <rect x="92" y="239" width="42" height="42" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="113" y="265" text-anchor="middle" font-size="16" font-weight="900" fill="#7a3bce">2</text>
+        <rect x="144" y="239" width="42" height="42" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="165" y="265" text-anchor="middle" font-size="16" font-weight="900" fill="#ffffff">3</text>
+        <text x="500" y="249" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">Step 3</text>
+        <text x="500" y="268" text-anchor="middle" font-size="11" fill="#5e6a8a">計算1回 → 1語</text>
+
+        <path d="M310 288 L310 308" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="310,314 305,304 315,304" fill="#5e6a8a"/>
+
+        <!-- Step4 -->
+        <rect x="20" y="313" width="580" height="70" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="40" y="334" width="42" height="42" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="61" y="360" text-anchor="middle" font-size="16" font-weight="900" fill="#7a3bce">1</text>
+        <rect x="92" y="334" width="42" height="42" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="113" y="360" text-anchor="middle" font-size="16" font-weight="900" fill="#7a3bce">2</text>
+        <rect x="144" y="334" width="42" height="42" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="165" y="360" text-anchor="middle" font-size="16" font-weight="900" fill="#7a3bce">3</text>
+        <rect x="196" y="334" width="42" height="42" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="217" y="360" text-anchor="middle" font-size="16" font-weight="900" fill="#ffffff">4</text>
+        <text x="500" y="344" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">Step 4</text>
+        <text x="500" y="363" text-anchor="middle" font-size="11" fill="#5e6a8a">計算1回 → 1語</text>
+
+        <text x="310" y="410" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">4語出すのに、計算を4回くり返す必要がある</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>秘書が手紙を一文字書くたび、次の一文字を考え直している</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>4文字の返信でも、考え直しが4回発生する</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>1語ずつ確認するので、答えの質は高い</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">課題</div>
+        <ul class="box-list">
+          <li>長い回答ほど待ち時間が比例して伸びる</li>
+          <li>GPUの並列処理能力を活かしきれない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

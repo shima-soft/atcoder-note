@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方</span>
+    <h2 class="slide-title">2つの質問、それぞれ何を確認する？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">気づき</span>
+      <p>「違う」＝重複なし、「全種類」＝抜けなし —— この2つは別の条件</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: SVG図 -->
+    <div class="diagram-box">
+      <!--
+        サンプル2: N=4, M=2, F=[1,2,1,2]
+        人ボックス boxes: 4個 width=52, gap=10, start_x=44
+          box[0]: x=44, cx=70
+          box[1]: x=106, cx=132
+          box[2]: x=168, cx=194 ← 重複(服1)
+          box[3]: x=230, cx=256
+        Q1ボックス: x=20, w=270
+        Q2ボックス: x=310, w=270
+        右端=310+270=580 < viewBox幅600 ✓
+      -->
+      <svg viewBox="0 0 600 370" font-family="'Noto Sans JP',sans-serif" overflow="visible">
+
+        <!-- サンプルラベル -->
+        <text x="300" y="20" font-size="11" fill="#5e6a8a" text-anchor="middle">サンプル2: N=4, M=2, F=[1, 2, 1, 2]</text>
+
+        <!-- 人1 (服1) -->
+        <rect x="44" y="32" width="52" height="52" rx="10"
+              fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2"/>
+        <text x="70" y="55" font-size="10" fill="#d96018" text-anchor="middle" font-weight="700">服</text>
+        <text x="70" y="74" font-size="18" fill="#d96018" text-anchor="middle" font-weight="900">1</text>
+        <text x="70" y="100" font-size="11" fill="#5e6a8a" text-anchor="middle">人1</text>
+
+        <!-- 人2 (服2) -->
+        <rect x="106" y="32" width="52" height="52" rx="10"
+              fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="2"/>
+        <text x="132" y="55" font-size="10" fill="#1a96c0" text-anchor="middle" font-weight="700">服</text>
+        <text x="132" y="74" font-size="18" fill="#1a96c0" text-anchor="middle" font-weight="900">2</text>
+        <text x="132" y="100" font-size="11" fill="#5e6a8a" text-anchor="middle">人2</text>
+
+        <!-- 人3 (服1 - 重複！) -->
+        <rect x="168" y="32" width="52" height="52" rx="10"
+              fill="rgba(201,22,46,.1)" stroke="#c9162e" stroke-width="2.5" stroke-dasharray="5 3"/>
+        <text x="194" y="55" font-size="10" fill="#c9162e" text-anchor="middle" font-weight="700">服</text>
+        <text x="194" y="74" font-size="18" fill="#c9162e" text-anchor="middle" font-weight="900">1</text>
+        <text x="194" y="100" font-size="11" fill="#5e6a8a" text-anchor="middle">人3</text>
+
+        <!-- 人4 (服2) -->
+        <rect x="230" y="32" width="52" height="52" rx="10"
+              fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="2"/>
+        <text x="256" y="55" font-size="10" fill="#1a96c0" text-anchor="middle" font-weight="700">服</text>
+        <text x="256" y="74" font-size="18" fill="#1a96c0" text-anchor="middle" font-weight="900">2</text>
+        <text x="256" y="100" font-size="11" fill="#5e6a8a" text-anchor="middle">人4</text>
+
+        <!-- 重複ラベル (人1と人3に矢印) -->
+        <line x1="70" y1="107" x2="70" y2="125" stroke="#c9162e" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="194" y1="107" x2="194" y2="125" stroke="#c9162e" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="70" y1="125" x2="194" y2="125" stroke="#c9162e" stroke-width="1.5"/>
+        <!-- 重複テキスト: "服1が2人に重複" = 8全角 * font-size=11 = 88px + 20 → rect幅108 -->
+        <rect x="74" y="128" width="116" height="18" rx="9" fill="#c9162e"/>
+        <text x="132" y="141" font-size="10" fill="white" text-anchor="middle" font-weight="700">服1が2人に重複！</text>
+
+        <!-- ── Q1 ボックス ── -->
+        <rect x="20" y="165" width="265" height="118" rx="10" fill="white" stroke="#dde2ec" stroke-width="1"/>
+        <rect x="20" y="165" width="265" height="5" rx="10" fill="#c9162e"/>
+        <!-- Q1タイトル: "Q1: 全員バラバラな服？" = 11全角相当 * 12 = 132px, box内容幅245 ✓ -->
+        <text x="152" y="192" font-size="12" fill="#1a1d2e" text-anchor="middle" font-weight="700">Q1: 全員バラバラな服？</text>
+        <!-- 説明: "服1を着た人が2人いる" = 11全角 * 11 = 121px ✓ -->
+        <text x="152" y="214" font-size="11" fill="#5e6a8a" text-anchor="middle">服1を着た人が2人いる</text>
+        <!-- 判定: "→ 重複あり" = 6全角 * 11 = 66px ✓ -->
+        <text x="152" y="233" font-size="11" fill="#5e6a8a" text-anchor="middle">→ 重複あり</text>
+        <rect x="102" y="244" width="100" height="26" rx="13" fill="#c9162e"/>
+        <text x="152" y="262" font-size="13" fill="white" text-anchor="middle" font-weight="900">No ✗</text>
+
+        <!-- ── Q2 ボックス ── -->
+        <rect x="315" y="165" width="265" height="118" rx="10" fill="white" stroke="#dde2ec" stroke-width="1"/>
+        <rect x="315" y="165" width="265" height="5" rx="10" fill="#008f6a"/>
+        <!-- Q2タイトル: "Q2: 全M種類の服がある？" = 12全角相当 * 12 = 144px, box内容幅245 ✓ -->
+        <text x="447" y="192" font-size="12" fill="#1a1d2e" text-anchor="middle" font-weight="700">Q2: 全M種類の服がある？</text>
+        <!-- 説明: "服1と服2、どちらも誰かが着用" = 13全角相当 * 11 = 143px ✓ -->
+        <text x="447" y="214" font-size="11" fill="#5e6a8a" text-anchor="middle">服1も服2も誰かが着ている</text>
+        <!-- 判定: "→ M=2種類をカバー" = 9全角相当 * 11 = 99px ✓ -->
+        <text x="447" y="233" font-size="11" fill="#5e6a8a" text-anchor="middle">M=2種類をすべてカバー</text>
+        <rect x="397" y="244" width="100" height="26" rx="13" fill="#008f6a"/>
+        <text x="447" y="262" font-size="13" fill="white" text-anchor="middle" font-weight="900">Yes ✓</text>
+
+        <!-- まとめ矢印 -->
+        <text x="300" y="315" font-size="12" fill="#1a1d2e" text-anchor="middle" font-weight="700">Q1・Q2は独立した別々の条件</text>
+        <text x="300" y="335" font-size="11" fill="#5e6a8a" text-anchor="middle">N=M のときだけ両方Yesになりやすい（ちょうど1対1の対応）</text>
+        <text x="300" y="355" font-size="11" fill="#5e6a8a" text-anchor="middle">N＜M ならQ1=Yes でも Q2=No になりえる</text>
+      </svg>
+    </div>
+
+    <!-- 右: 情報列 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">💼 仕事で例えると…</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">Q1</span>
+          <p>5人の社員が「別々の担当顧客を持っているか？」<br>
+          <span style="font-size:.76rem;color:var(--muted)">1人の顧客を2人で担当していたら「重複あり」</span></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">Q2</span>
+          <p>全部門に最低1人のスタッフがいるか？<br>
+          <span style="font-size:.76rem;color:var(--muted)">1つでも空き部門があれば「カバー不足」</span></p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title">✅ Q1が Yes になる条件</div>
+        <ul class="box-list">
+          <li>リスト内に同じ値が1つもない</li>
+          <li>要素数そのまま = 重複除去後も同じ個数</li>
+          <li>例: [1,2,4] → 3人3種類 → Yes</li>
+        </ul>
+      </div>
+
+      <div class="ok-box" style="border-left-color:var(--blue)">
+        <div class="box-title">✅ Q2が Yes になる条件</div>
+        <ul class="box-list">
+          <li>1〜Mの全番号が最低1回は登場する</li>
+          <li>ユニーク種類数 = M（抜けがない）</li>
+          <li>例: [1,2,1,2] M=2 → {1,2}=2種類 → Yes</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title">⚠️ 混同しやすい落とし穴</div>
+        <ul class="box-list">
+          <li>Q1とQ2を同じ条件と勘違い → 独立して判断する</li>
+          <li>N=M でも両方 Yes とは限らない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

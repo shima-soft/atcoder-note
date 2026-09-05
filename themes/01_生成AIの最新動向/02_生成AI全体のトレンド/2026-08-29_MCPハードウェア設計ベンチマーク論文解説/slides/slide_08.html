@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>比較表 7モデル詳細</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">比較表</span>
+    <h2 class="slide-title">7モデルを4指標で徹底比較 — 空振り対応まで差がくっきり</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>「やるべきことをやる」は上位拮抗、「やらなくていい時に止まる」で明暗が分かれる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">モデル（ローカル4bit）</th>
+            <th style="width:14%">平均ECC ↑</th>
+            <th style="width:14%">余計EVCR ↓</th>
+            <th style="width:14%">失敗TFR ↓</th>
+            <th style="width:14%">断る力NCA ↑</th>
+            <th style="width:24%">一言メモ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Gemma 4 31B</b></td>
+            <td style="color:#7a3bce;font-weight:900">0.990</td>
+            <td>0.015</td>
+            <td>0.011</td>
+            <td style="color:#008f6a;font-weight:700">0.80</td>
+            <td><span class="pattern-badge" style="background:#f4efff;color:#7a3bce">ほぼ完璧・空振りも強い</span></td>
+          </tr>
+          <tr>
+            <td>Gemma 4 26B</td>
+            <td style="font-weight:700">0.958</td>
+            <td>0.021</td>
+            <td>0.061</td>
+            <td>0.40</td>
+            <td>31Bに迫るコスパ</td>
+          </tr>
+          <tr>
+            <td>GPT-OSS 20B</td>
+            <td style="font-weight:700">0.951</td>
+            <td style="color:#c9162e">0.073</td>
+            <td>0.049</td>
+            <td style="color:#c9162e">0.25</td>
+            <td>余計な手出し多め・断るの苦手</td>
+          </tr>
+          <tr>
+            <td>Qwen 3.5 27B</td>
+            <td>0.880</td>
+            <td>0.036</td>
+            <td>0.048</td>
+            <td style="color:#008f6a;font-weight:700">0.70</td>
+            <td>断る力は2位</td>
+          </tr>
+          <tr>
+            <td>Qwen 3.6 27B</td>
+            <td>0.858</td>
+            <td style="color:#c9162e">0.086</td>
+            <td>0.065</td>
+            <td>0.45</td>
+            <td>余計な操作が多め</td>
+          </tr>
+          <tr>
+            <td>Gemma 4 E4B</td>
+            <td>0.811</td>
+            <td>0.023</td>
+            <td>0.058</td>
+            <td>0.65</td>
+            <td>軽いのに健闘</td>
+          </tr>
+          <tr>
+            <td><b>Llama 3.1 8B</b></td>
+            <td style="color:#c9162e;font-weight:900">0.554</td>
+            <td>0.064</td>
+            <td style="color:#c9162e;font-weight:900">0.353</td>
+            <td style="color:#c9162e;font-weight:900">0.00</td>
+            <td><span class="pattern-badge" style="background:#fdecee;color:#c9162e">3割は失敗・断れない</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="display:flex;gap:.6rem;margin-top:.6rem">
+        <div style="flex:1;background:#ffffff;border:1px solid #dde2ec;border-radius:10px;padding:.5rem .7rem">
+          <div style="font-size:.76rem;font-weight:900;color:#1a1d2e">Noise（別ツール混在）の影響</div>
+          <div style="font-size:.76rem;color:#5e6a8a;margin-top:.2rem">ECCはほぼ変わらず、<b style="color:#c9162e">EVCRだけが上昇</b>。例 Hard-Noiseで Gemma26B 0.00→0.16, Llama 0.12→0.22。迷子で“誤爆”が増える。</div>
+        </div>
+        <div style="flex:1;background:#f4efff;border:1px solid #c9b3ec;border-radius:10px;padding:.5rem .7rem">
+          <div style="font-size:.76rem;font-weight:900;color:#7a3bce">見るべきポイント</div>
+          <div style="font-size:.76rem;color:#1a1d2e;margin-top:.2rem">ECCが高くても EVCR/NCAが悪いと「やりすぎる部下」。事務の自動化なら止まる勇気も必須。</div>
+        </div>
+      </div>
+      <p style="font-size:.68rem;color:#5e6a8a;margin-top:.4rem">※ ECC/EVCR/TFRは6分野平均のベスト設定値。NCAはErrorsの空振り20問での値。Runnable: Ollama 4bit・デフォルト温度（Llamaのみ0.8）。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

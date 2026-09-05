@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC472 D - Bomber Mad 解説</title>
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: .8rem 1rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: .7rem 1rem;
+  font-size: .72rem;
+  line-height: 1.48;
+  overflow: hidden;
+}
+.info-col { gap: .5rem; }
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .45rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .2rem;
+}
+.line-explain p {
+  font-size: .78rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .74rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード①</span>
+    <h2 class="slide-title">準備：爆弾のある行・列（20行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>row[ ]・col[ ] を先に作り、距離表 dist を −1 で初期化する</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- 左カラム: コードブロック -->
+    <div class="diagram-box">
+      <div class="code-label">PYTHON（前半）</div>
+      <pre><code class="language-python">import sys
+input = sys.stdin.readline
+from collections import deque
+
+H, W, K = map(int, input().split())
+S = []
+for _ in range(H):
+    S.append(input())
+
+row = [False] * H
+col = [False] * W
+for i in range(H):
+    for j in range(W):
+        if S[i][j] == '#':
+            row[i] = True
+            col[j] = True
+
+dist = []
+for _ in range(H):
+    dist.append([-1] * W)</code></pre>
+    </div>
+
+    <!-- 右カラム: 行ごとの解説 -->
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜3行目 — 準備</h4>
+        <p><code>input = sys.stdin.readline</code> は大量入力を速くする定番のおまじない。H は最大50万行になることもあるため入れておく。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>10〜16行目 — 爆弾のある行・列を記録</h4>
+        <p>全マスを見て、<code>#</code> なら<strong>その行と列に印</strong>をつける。<code>row[i]</code> ＝「行 i に爆弾があるか」、<code>col[j]</code> ＝「列 j に爆弾があるか」。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>18〜20行目 — 距離表の初期化</h4>
+        <p><code>dist[i][j]</code> に「最寄り安全マスまでの距離」を書き込んでいく。<strong>−1 は「まだ調べていない」</strong>の意味。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 前計算のおかげで</div>
+        <ul class="box-list">
+          <li>「(i,j) は安全か？」が次スライドで <strong>not row[i] and not col[j]</strong> の1発判定になる</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

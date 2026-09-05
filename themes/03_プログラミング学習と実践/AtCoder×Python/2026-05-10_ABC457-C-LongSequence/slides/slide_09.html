@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">計算量</span>
+    <h2 class="slide-title">計算量と時間内での実行可能性</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">C問題</span>
+      <p>定番の二分探索パターンで制約を確認する癖をつけよう</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div style="display:flex;gap:1.2rem;flex:1;overflow:hidden;">
+      <div style="flex:1;display:flex;flex-direction:column;gap:.5rem;">
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--orange);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;">⏱️ 計算量分析</div>
+          <div style="font-size:.82rem;color:var(--text);line-height:1.6;">
+            <div style="margin-bottom:.3rem;"><strong>入力処理:</strong> O(Σ L_i) = O(2×10⁵)</div>
+            <div style="margin-bottom:.3rem;"><strong>累積和構築:</strong> O(N) = O(2×10⁵)</div>
+            <div><strong>二分探索:</strong> O(log N) = O(18)</div>
+          </div>
+        </div>
+
+        <div style="background:rgba(0,143,106,.08);border:1px solid var(--green);border-radius:14px;padding:.8rem 1rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--green);margin-bottom:.4rem;">✅ 全体計算量</div>
+          <div style="font-size:.88rem;color:var(--text);font-weight:700;margin-bottom:.3rem;">O(N log N + Σ L_i)</div>
+          <div style="font-size:.76rem;color:var(--muted);margin-bottom:.4rem;">最悪: 2×10⁵ × 18 + 2×10⁵ ≈ 360万 操作</div>
+          <div style="font-size:.75rem;background:rgba(0,143,106,.15);padding:.4rem;border-radius:6px;">
+            Python でも <strong>0.1〜0.5秒</strong>で十分終了
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--orange);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;">🎯 このパターンの応用先</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:.2rem;font-size:.82rem;">
+            <li style="padding-left:.7rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--muted);">•</span>
+              範囲クエリ全般（区間検索）
+            </li>
+            <li style="padding-left:.7rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--muted);">•</span>
+              累積和 + 二分探索は AtCoder 定番
+            </li>
+            <li style="padding-left:.7rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--muted);">•</span>
+              モジュロを使った「繰り返し内の位置」計算
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;gap:.5rem;">
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--orange);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;">📊 制約との照合</div>
+          <table style="width:100%;font-size:.75rem;border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:.3rem .4rem;font-weight:700;background:#f5f6fa;">N</td>
+              <td style="padding:.3rem .4rem;background:#f5f6fa;">≤ 2×10⁵</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:.3rem .4rem;">Σ L_i</td>
+              <td style="padding:.3rem .4rem;">≤ 2×10⁵</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:.3rem .4rem;font-weight:700;background:#f5f6fa;">C_i</td>
+              <td style="padding:.3rem .4rem;background:#f5f6fa;">≤ 10⁹</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:.3rem .4rem;">K</td>
+              <td style="padding:.3rem .4rem;">≤ Σ(L_i × C_i)</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background:rgba(217,96,24,.08);border:1px solid var(--orange);border-radius:14px;padding:.8rem 1rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--orange);margin-bottom:.4rem;">💡 このパターンが機能する理由</div>
+          <div style="font-size:.75rem;color:var(--text);line-height:1.6;">
+            <div style="margin-bottom:.3rem;"><strong>元データは小さい:</strong> Σ L_i ≤ 2×10⁵</div>
+            <div style="margin-bottom:.3rem;"><strong>繰り返し数が大きい:</strong> C_i ≤ 10⁹</div>
+            <div style="margin-bottom:.3rem;"><strong>→ B 全体を構築できない</strong></div>
+            <div><strong>→ でも累積和なら O(N) で OK</strong></div>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--orange);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;">🧠 学べる思考</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:.2rem;font-size:.82rem;">
+            <li style="padding-left:.7rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--muted);">•</span>
+              「素朴で通らない」→ 制約から理由を推測
+            </li>
+            <li style="padding-left:.7rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--muted);">•</span>
+              「事前計算の活用」の大切さ
+            </li>
+            <li style="padding-left:.7rem;position:relative;">
+              <span style="position:absolute;left:0;color:var(--muted);">•</span>
+              「シンプルな実装 = 間違いが少ない」
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><style>.code-card code{font-size:.72rem;line-height:1.4}</style></head><body><div class="slide"><div class="slide-header"><span class="label" style="background:var(--g-orange);color:#fff">コード②</span><h2 class="slide-title">二分探索 + 貪欲判定（16行）</h2><p class="slide-sub">mid を固定するたび、右端順に1回走査する</p></div><div class="code-layout slide-body"><div class="code-card"><pre><code class="language-python">ok = 0
+ng = 10**9 + 1
+
+while ng - ok > 1:
+    mid = (ok + ng) // 2
+    selected_count = 0
+    last_right = -10**18
+
+    for left, right in cloths:
+        if left - last_right >= mid:
+            selected_count += 1
+            last_right = right
+
+    if selected_count >= K:
+        ok = mid
+    else:
+        ng = mid</code></pre></div><div class="code-notes"><div class="biz-example"><div class="biz-title">核心はこの2変数</div><div class="biz-step"><span class="snum" style="background:var(--green)">K</span><p>必要な布の枚数</p></div><div class="biz-step"><span class="snum" style="background:var(--orange);font-size:.55rem;width:auto;padding:0 .35rem">last_right</span><p>最後に選んだ布の右端</p></div></div><div class="ok-box"><div class="box-title">布を選ぶ条件と更新</div><ul class="box-list"><li>前の布との距離 <code>left - last_right</code> が、候補の距離 <code>mid</code> 以上なら選ぶ</li><li>選んだ布の右端を保存：<code>last_right = right</code></li></ul></div><div class="note-box"><div class="box-title">最初の1枚</div><ul class="box-list"><li>last_right を十分小さくし、必ず選べるようにする</li></ul></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll())</script></body></html>

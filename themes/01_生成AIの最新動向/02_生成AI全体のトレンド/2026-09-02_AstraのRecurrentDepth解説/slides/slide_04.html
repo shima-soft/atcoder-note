@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>AIを賢くする3本目の道</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">位置づけ</span>
+    <h2 class="slide-title">AIを賢くする「3本目の道」</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>大きくする・書き出させる、に続く3本目 — 同じ層に何周もくぐらせて、深く考えさせる</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="AIを賢くする3つの方法。3本目のRecurrent Depthだけを紫で強調">
+        <defs>
+          <marker id="ar-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a3bce"/>
+          </marker>
+        </defs>
+
+        <!-- ① モデルを大きくする（脇役・グレー） -->
+        <rect x="20" y="30" width="580" height="100" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="38" y="64" font-size="14" font-weight="900" fill="#5e6a8a">① モデルを大きくする</text>
+        <text x="38" y="86" font-size="11.5" fill="#5e6a8a">層と重みを積み増す</text>
+        <text x="38" y="106" font-size="11.5" fill="#5e6a8a">学習にも運用にもお金がかかる</text>
+        <text x="465" y="42" text-anchor="middle" font-size="10" fill="#5e6a8a">層を積み増す</text>
+        <rect x="380" y="46" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="58" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="70" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="82" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="94" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="106" width="170" height="9" fill="#c9cfdd"/>
+
+        <!-- ② Chain of Thought（脇役・グレー） -->
+        <rect x="20" y="142" width="580" height="100" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="38" y="170" font-size="14" font-weight="900" fill="#5e6a8a">② Chain of Thought</text>
+        <text x="38" y="192" font-size="11.5" fill="#5e6a8a">考えを言葉で書き出させる</text>
+        <text x="38" y="212" font-size="11.5" fill="#5e6a8a">長いほど時間もお金もかかる</text>
+        <text x="456" y="168" text-anchor="middle" font-size="10" fill="#5e6a8a">画面に見える考え</text>
+        <rect x="356" y="176" width="200" height="24" rx="6" fill="#e5e8ef"/>
+        <text x="456" y="192" text-anchor="middle" font-size="11" fill="#1a1d2e">まず…だから…つまり…</text>
+        <text x="456" y="216" text-anchor="middle" font-size="10.5" fill="#5e6a8a">書き出した分だけ課金・待ち時間</text>
+
+        <!-- ③ Recurrent Depth（主役・紫） -->
+        <rect x="20" y="254" width="580" height="152" rx="14" fill="#f4efff" stroke="#7a3bce" stroke-width="2.5"/>
+        <text x="38" y="282" font-size="14.5" font-weight="900" fill="#1a1d2e">③ Recurrent Depth（周回する）</text>
+        <text x="38" y="304" font-size="11.5" fill="#5e6a8a">同じ層のかたまりに何周もくぐらせる</text>
+        <text x="38" y="324" font-size="11.5" fill="#5e6a8a">考えは言葉にならず内部の数字のまま</text>
+
+        <rect x="300" y="290" width="110" height="52" rx="10" fill="#7a3bce"/>
+        <text x="355" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">中核ブロック</text>
+        <text x="355" y="328" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">（同じ層）</text>
+        <path d="M 405 344 C 428 362, 428 376, 398 376 L 312 376 C 282 376, 282 362, 305 344"
+              fill="none" stroke="#7a3bce" stroke-width="2.5" marker-end="url(#ar-p)"/>
+        <text x="355" y="394" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">この1周を「周回」と呼ぶ</text>
+
+        <rect x="440" y="294" width="150" height="44" rx="8" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="515" y="312" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">重みは増やさず</text>
+        <text x="515" y="328" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">計算量だけ増やす</text>
+
+        <!-- 凡例 -->
+        <text x="310" y="422" text-anchor="middle" font-size="11" fill="#5e6a8a">紫＝今回の主役／グレー＝比較のための従来手法</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>①は担当者を増やして人海戦術で解く</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>②は考えを全部ホワイトボードに書き出す</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>③は同じ担当者が黙って何度も読み返す</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 3本目のうれしさ</div>
+        <ul class="box-list">
+          <li>覚える重みが増えないので機材が軽くて済む</li>
+          <li>難しい問題だけ周回を増やせる</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 引き換えになるもの</div>
+        <ul class="box-list">
+          <li>黙って考えるぶん、途中経過が読めない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

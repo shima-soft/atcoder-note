@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 B - 入力例1を手で追う</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">手を動かす</span>
+    <h2 class="slide-title">入力例1の7マスを塗りつぶしてみる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実演</span>
+      <p>3人の見張り範囲を重ねて、最後まで塗られなかったマスを数える</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          cell[i].x = 98 + i*62  (cellWidth=56, gap=6)
+          centers = 126,188,250,312,374,436,498
+          範囲バー: マス2→cell0-2(98,w=180) / マス6→cell4-6(346,w=180) / マス7→cell5-6(408,w=118)
+          入力例1: M=7, D=1, S=".G...GG"
+        -->
+
+        <!-- マス番号 -->
+        <text x="14"  y="32" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス番号</text>
+        <text x="126" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="188" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="250" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="312" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="374" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="436" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+        <text x="498" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7</text>
+
+        <!-- 1段目: 配置 S -->
+        <text x="14" y="69" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">配置S</text>
+        <rect x="98"  y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="126" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="160" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="188" y="69" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="222" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="250" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="284" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="346" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="408" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="436" y="69" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="470" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="498" y="69" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <!-- 2〜4段目: 各ガードマンの見張り範囲 -->
+        <text x="14" y="112" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス2の範囲</text>
+        <rect x="98" y="94" width="180" height="26" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="188" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス1〜3</text>
+
+        <text x="14" y="146" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス6の範囲</text>
+        <rect x="346" y="128" width="180" height="26" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="436" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス5〜7</text>
+
+        <text x="14" y="180" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス7の範囲</text>
+        <rect x="408" y="162" width="118" height="26" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="467" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス6〜7</text>
+
+        <!-- 5段目: 監視されているか -->
+        <text x="14" y="226" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">監視は？</text>
+        <rect x="98"  y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="126" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="160" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="188" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="222" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="250" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="284" y="200" width="56" height="44" rx="9" fill="rgba(201,22,46,.1)" stroke="var(--red)" stroke-width="2.5"/>
+        <text x="312" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">✗</text>
+        <rect x="346" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="408" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="436" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="470" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="498" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+
+        <!-- 答え -->
+        <rect x="110" y="262" width="320" height="48" rx="10" fill="rgba(201,22,46,.08)" stroke="var(--red)" stroke-width="1.5"/>
+        <text x="270" y="281" text-anchor="middle" font-size="13" font-weight="700" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">監視されていないのは マス4 だけ</text>
+        <text x="270" y="303" text-anchor="middle" font-size="15" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">答えは 1</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 誰の受け持ちにもならない店を探す手順</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>ガードマンごとに見張り範囲を書き出す</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>すべての範囲を重ねて、廊下を塗りつぶす</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>塗られずに残ったマスの数が答え</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 他の入力例でも同じ手順</div>
+        <ul class="box-list">
+          <li>「......」D=5 → ガードマンが0人なので6マス</li>
+          <li>「....G...GG.....G.....」D=2 → 残るのは6マス</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ ここで間違えやすい</div>
+        <ul class="box-list">
+          <li>マス7の範囲は右にはみ出すが、存在しない分は無視</li>
+          <li>「監視された数」ではなく「されていない数」を答える</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

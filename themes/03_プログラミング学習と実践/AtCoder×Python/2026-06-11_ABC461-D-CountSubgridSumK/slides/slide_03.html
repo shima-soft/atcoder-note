@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.body-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: .7rem; flex: 1; overflow: hidden;
+}
+.section-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .7rem .9rem;
+  display: flex; flex-direction: column; gap: .35rem; overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem; font-weight: 700; color: var(--blue);
+  text-transform: uppercase; letter-spacing: .06em;
+  padding-bottom: .3rem; border-bottom: 1px solid var(--border);
+}
+.sec-title { font-size: .82rem; font-weight: 900; color: var(--text); }
+.sec-body { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+.viz-box {
+  display: flex; flex-direction: column; gap: .3rem; align-items: center;
+  background: var(--surface); border-radius: 10px; padding: .4rem;
+}
+.viz-label {
+  font-size: .72rem; font-weight: 700; color: var(--muted);
+}
+.grid-viz { display: flex; flex-direction: column; gap: 2px; align-items: center; }
+.grid-row { display: flex; gap: 2px; }
+.grid-cell {
+  width: 24px; height: 24px; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 700;
+}
+.grid-cell.bg-surface { background: var(--surface); color: var(--text); }
+.grid-cell.one { background: var(--orange); color: #fff; }
+.grid-cell.fixed { outline: 2px solid var(--blue); outline-offset: 1px; }
+.arrow-sym { color: var(--muted); font-size: 1.2rem; font-weight: 700; }
+.alg-step {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .35rem .5rem; background: var(--card);
+  border: 1px solid var(--border); border-radius: 8px; font-size: .78rem;
+}
+.alg-num {
+  min-width: 22px; height: 22px; border-radius: 50%;
+  background: var(--g-blue); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700; flex-shrink: 0;
+}
+.hint-box {
+  background: rgba(26,150,192,.06); border: 1px solid rgba(26,150,192,.2);
+  border-radius: 10px; padding: .4rem .6rem;
+  font-size: .76rem; color: var(--text); line-height: 1.6; margin-top: auto;
+}
+.code-block {
+  background: #1a1d2e; color: #e8e8e8; border-radius: 8px;
+  padding: .5rem .7rem; font-family: 'Consolas', monospace;
+  font-size: .7rem; line-height: 1.55; overflow: hidden;
+  margin-top: .2rem;
+}
+.code-block .cm { color: #6a7a9a; }
+.code-block .kw { color: #c792ea; }
+.code-block .fn { color: #82aaff; }
+.code-block .str { color: #c3e88d; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">解法ステップ 1</span>
+    <h2 class="slide-title">上下を固定して 1 次元の問題に落とす</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">アイデア</span>
+      <p>「どの行範囲 × どの列範囲」→ まず行範囲を固定する</p>
+    </div>
+  </div>
+  <div class="body-grid slide-body">
+    <div class="section-card">
+      <div class="sec-label">Step 1</div>
+      <div class="sec-title">上辺 u と下辺 d を固定</div>
+      <div class="sec-body">
+        長方形の行範囲 (u〜d) を全探索する。<br>
+        組み合わせ数は <strong>O(H²)</strong>  ≈ 125,250 通り（H=500）。
+      </div>
+      <div class="viz-box">
+        <div class="viz-label">行範囲を固定（青枠）</div>
+        <div class="grid-viz">
+          <div class="grid-row">
+            <span class="grid-cell one">1</span>
+            <span class="grid-cell bg-surface">0</span>
+            <span class="grid-cell bg-surface">0</span>
+            <span class="grid-cell one">1</span>
+          </div>
+          <div class="grid-row">
+            <span class="grid-cell one fixed">1</span>
+            <span class="grid-cell one fixed">1</span>
+            <span class="grid-cell bg-surface fixed">0</span>
+            <span class="grid-cell one fixed">1</span>
+          </div>
+          <div class="grid-row">
+            <span class="grid-cell bg-surface">0</span>
+            <span class="grid-cell bg-surface">1</span>
+            <span class="grid-cell one">1</span>
+            <span class="grid-cell bg-surface">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="hint-box">
+        💡 上辺 u=2, 下辺 d=2（1行のみ）の例。<br>
+        この範囲の列ごとの和 = [1, 1, 0, 1]
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="sec-label">Step 2</div>
+      <div class="sec-title">列方向の累積和 B を計算</div>
+      <div class="sec-body">
+        固定した行範囲について、列 j の和を A[j] とする。<br>
+        B[j] = A[0] + A[1] + ... + A[j-1]（B[0]=0）
+      </div>
+      <div class="viz-box" style="flex-direction:row;gap:.6rem;">
+        <div>
+          <div class="viz-label">A（列ごとの和）</div>
+          <div style="display:flex;gap:2px;margin-top:.15rem;">
+            <span class="grid-cell one" style="width:32px">1</span>
+            <span class="grid-cell one" style="width:32px">1</span>
+            <span class="grid-cell bg-surface" style="width:32px">0</span>
+            <span class="grid-cell one" style="width:32px">1</span>
+          </div>
+        </div>
+        <span class="arrow-sym">→</span>
+        <div>
+          <div class="viz-label">B（累積和）</div>
+          <div style="display:flex;gap:2px;margin-top:.15rem;">
+            <span class="grid-cell bg-surface" style="width:32px">0</span>
+            <span class="grid-cell one" style="width:32px">1</span>
+            <span class="grid-cell one" style="width:32px">2</span>
+            <span class="grid-cell one" style="width:32px">2</span>
+            <span class="grid-cell one" style="width:32px">3</span>
+          </div>
+        </div>
+      </div>
+      <div class="hint-box">
+        💡 B[r] − B[l] = 列 l+1 〜 r の総和。<br>
+        → 1次元配列上の「総和 K の区間」を数える問題に！
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="sec-label">Step 3</div>
+      <div class="sec-title">問題の変換</div>
+      <div class="sec-body">
+        元の問題は次のように言い換えられる：
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.5rem .7rem;font-size:.8rem;line-height:1.6;margin:.2rem 0;">
+        <strong>各 (u,d) について：</strong><br>
+        B[r] − B[l] = K となる<br>
+        (l, r) の組の個数を数えよ<br>
+        <span style="color:var(--muted);">ただし 0 ≤ l < r ≤ W</span>
+      </div>
+      <div class="alg-step" style="margin-top:.15rem;">
+        <span class="alg-num">✓</span>
+        <span>A[j] ≥ 0 なので B は<strong>単調非減少</strong><br>
+        → 尺取り法（2ポインタ）が使える！</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

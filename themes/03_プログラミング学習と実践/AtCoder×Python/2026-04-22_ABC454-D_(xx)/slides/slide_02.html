@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .7rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title {
+  font-size: .82rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.sec-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.op-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .3rem .5rem;
+  background: var(--surface);
+  border-radius: 8px;
+  font-size: .78rem;
+  margin-bottom: .25rem;
+}
+.op-num {
+  min-width: 20px; height: 20px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.code-inline {
+  font-family: 'Consolas', monospace;
+  background: rgba(217,96,24,.08);
+  color: var(--orange);
+  padding: .05rem .3rem;
+  border-radius: 4px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.arrow-sym {
+  color: var(--muted);
+  font-size: .9rem;
+}
+.constraint-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .78rem;
+  color: var(--text);
+}
+.constraint-row:last-child { border-bottom: none; }
+.cvar {
+  font-family: 'Consolas', monospace;
+  font-weight: 700;
+  color: var(--orange);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+.io-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .28rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .76rem;
+}
+.io-row:last-child { border-bottom: none; }
+.io-str {
+  font-family: 'Consolas', monospace;
+  color: var(--text);
+  font-weight: 700;
+  min-width: 90px;
+}
+.ans-yes { color: var(--green); font-weight: 900; }
+.ans-no  { color: var(--red);   font-weight: 900; }
+.hint-box {
+  background: rgba(217,96,24,.06);
+  border: 1px solid rgba(217,96,24,.2);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+  font-size: .76rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">括弧の付け外しで文字列を変形できるか？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>隣り合う2つの x を囲む括弧だけ付け外しできる。AをBに変形できるか判定する</p>
+    </div>
+  </div>
+
+  <div class="body-grid slide-body">
+    <!-- 問題文 -->
+    <div class="section-card">
+      <div class="sec-label" style="font-size: 16px;">問題文（噛み砕き版）</div>
+      <div class="sec-title" style="font-size: 16px;">操作可能な2種類の変換</div>
+      <div class="sec-body" style="font-size: 16px;">
+        文字列 A と B が与えられる。<br>
+        使える文字は <span class="code-inline">(</span>・<span class="code-inline">x</span>・<span class="code-inline">)</span> の3種類だけ。
+      </div>
+      <div class="op-row" style="font-size: 16px;">
+        <span class="op-num">1</span>
+        <span class="code-inline">(xx)</span>
+        <span class="arrow-sym">→</span>
+        <span class="code-inline">xx</span>
+        <span style="color:var(--muted);font-size:.72rem;">括弧を外す</span>
+      </div>
+      <div class="op-row">
+        <span class="op-num">2</span>
+        <span class="code-inline" style="transform: translate(0px, -1.1px);">xx</span>
+        <span class="arrow-sym">→</span>
+        <span class="code-inline">(xx)</span>
+        <span style="color:var(--muted);font-size:.72rem;">括弧を付ける</span>
+      </div>
+      <div class="hint-box">
+        操作は何度でも・どの順でも使える。<br>
+        A を B に変形できる？ → <strong>Yes / No</strong> で答える
+      </div>
+    </div>
+
+    <!-- 制約 -->
+    <div class="section-card">
+      <div class="sec-label" style="font-size: 16px;">制約</div>
+      <div class="sec-title" style="font-size: 16px;">変数の意味と範囲</div>
+      <div style="margin-top:.2rem;">
+        <div class="constraint-row">
+          <span class="cvar">T</span>
+          <span>テストケース数（≤ 3×10⁵）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">|A|, |B|</span>
+          <span>各文字列の長さ（≥ 1）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">Σ(|A|+|B|)</span>
+          <span>全ての文字列長の合計（≤ 2×10⁶）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">使える文字</span>
+          <span><code style="font-size:.76rem;">(</code>・<code style="font-size:.76rem;">x</code>・<code style="font-size:.76rem;">)</code> のみ</span>
+        </div>
+      </div>
+      <div class="hint-box" style="margin-top:.3rem;">
+        💡 合計文字数 ≤ 200万。<br>
+        1文字あたり O(1) の処理が必要。
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="section-card">
+      <div class="sec-label" style="font-size: 16px;">入出力例（抜粋）</div>
+      <div class="sec-title" style="font-size: 16px;">サンプルで確認</div>
+      <div class="io-row">
+        <span class="io-str">(xx)x</span>
+        <span class="arrow-sym" style="transform: translate(-30.8px, 0px);">→</span>
+        <span class="io-str">x(xx)</span>
+        <span class="ans-yes">Yes</span>
+      </div>
+      <div class="io-row">
+        <span class="io-str">(x)x</span>
+        <span class="arrow-sym" style="transform: translate(-30.8px, 0px);">→</span>
+        <span class="io-str">(xx)</span>
+        <span class="ans-no">No</span>
+      </div>
+      <div class="io-row">
+        <span class="io-str">)x()x(</span>
+        <span class="arrow-sym" style="transform: translate(-30.8px, -2.2px);">→</span>
+        <span class="io-str">)x()x(</span>
+        <span class="ans-yes">Yes</span>
+      </div>
+      <div class="io-row">
+        <span class="io-str">x</span>
+        <span class="arrow-sym" style="transform: translate(-31.9px, 1.1px);">→</span>
+        <span class="io-str">(x)</span>
+        <span class="ans-no">No</span>
+      </div>
+      <div class="hint-box" style="margin-top:.3rem;font-size:.74rem;">
+        例1: <span class="code-inline">(xx)x</span> → <span class="code-inline">xxx</span> → <span class="code-inline">x(xx)</span><br>
+        例2: x の間に <code>)</code> があるので操作できない
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

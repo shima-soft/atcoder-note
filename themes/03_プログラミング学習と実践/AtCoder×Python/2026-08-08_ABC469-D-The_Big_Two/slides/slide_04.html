@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC469 D: The Big Two - アルゴリズム解説1</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">アルゴリズム解説</span>
+      <h2 class="slide-title">条件を「集合」で捉え直す</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>「誰とペアならOKか」を集合の和で考える</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <p style="text-align: center; font-weight: 900; margin: 0;">
+          条件の言い換え<br>
+          <span style="font-size: 1.2rem; color: var(--muted);">
+            $\{x, y\}$ が良い $\iff P_x \cup P_y = \{1, \dots, M\}$
+          </span>
+        </p>
+      </div>
+      <div class="info-col">
+        <div>
+          <h4>なぜこの形にするのか</h4>
+          <p style="font-size: 0.85rem;">
+            「ある試合でどちらもいない」を「集合の和が全試合をカバーしている」と言い換えることで、<br>
+            各プレイヤーが「どの試合の決勝に出たか」という情報（集合 $P_x$）に注目できるようになります。
+          </p>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 集合の性質を使う</div>
+          <ul class="box-list">
+            <li>集合 $P_x$ のサイズ $|P_x|$ を先に計算する</li>
+            <li>和集合のサイズは $|P_x| + |P_y| - |P_x \cap P_y|$ である</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️  pitfalls</div>
+          <ul class="box-list">
+            <li>単に $|P_x| + |P_y| \ge M$ とだけ判定すると、重なっている試合（交差）を無視してしまう</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">サンプルで追う</span>
+    <h2 class="slide-title">前ページの手順を、入力例1（N=3, K=8）に当てて動かす</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>小さい値から順に試し、表が − の枝を飛ばすと出力例1の1・2行目が出てくる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: DFSの木 SVG -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 290">
+        <text x="280" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">Step1: 位置1（idx=1, rem=8）→ v=0,1,2,… を小さい順に試す</text>
+
+        <!-- Row1: v=0..8 -->
+        <g text-anchor="middle" font-family="Consolas,monospace">
+          <rect x="15" y="28" width="48" height="34" rx="6" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+          <text x="39" y="42" font-size="10" font-weight="700" fill="#1a1d2e">v=0</text>
+          <text x="39" y="55" font-size="9" font-weight="700" fill="#008f6a">続行 ✓</text>
+
+          <rect x="73" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="97" y="49" font-size="10" fill="#a9b0c3">v=1</text>
+
+          <rect x="131" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="155" y="49" font-size="10" fill="#a9b0c3">v=2</text>
+
+          <rect x="189" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="213" y="49" font-size="10" fill="#a9b0c3">v=3</text>
+
+          <rect x="247" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="271" y="49" font-size="10" fill="#a9b0c3">v=4</text>
+
+          <rect x="305" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="329" y="49" font-size="10" fill="#a9b0c3">v=5</text>
+
+          <rect x="363" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="387" y="49" font-size="10" fill="#a9b0c3">v=6</text>
+
+          <rect x="421" y="28" width="48" height="34" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="445" y="42" font-size="10" font-weight="700" fill="#c9162e">v=7</text>
+          <text x="445" y="55" font-size="9" font-weight="700" fill="#c9162e">✕skip</text>
+
+          <rect x="479" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="503" y="49" font-size="10" fill="#a9b0c3">v=8</text>
+        </g>
+        <text x="280" y="78" text-anchor="middle" font-size="10" fill="#5e6a8a">v=7 だけ残りが 1 になり、重み 2・3 では作れないのでスキップ（他の枝は省略し v=0 を追う）</text>
+
+        <!-- 矢印: v=0 → Step2 -->
+        <path d="M 39 62 L 39 80 L 280 80 L 280 104" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao5)"/>
+
+        <text x="280" y="95" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">Step2: 位置2（残り8）→ この先は重み3だけ。残りが3の倍数の枝だけ進める</text>
+
+        <!-- Row2: v=0..4 (idx=2) -->
+        <g font-family="Consolas,monospace">
+          <rect x="75" y="108" width="70" height="40" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="110" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=0 → r=8</text>
+          <text x="110" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#c9162e">✕ 不可</text>
+
+          <rect x="160" y="108" width="70" height="40" rx="6" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+          <text x="195" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=1 → r=6</text>
+          <text x="195" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#008f6a">○ 続行</text>
+
+          <rect x="245" y="108" width="70" height="40" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="280" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=2 → r=4</text>
+          <text x="280" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#c9162e">✕ 不可</text>
+
+          <rect x="330" y="108" width="70" height="40" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="365" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=3 → r=2</text>
+          <text x="365" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#c9162e">✕ 不可</text>
+
+          <rect x="415" y="108" width="70" height="40" rx="6" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+          <text x="450" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=4 → r=0</text>
+          <text x="450" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#008f6a">○ 続行</text>
+        </g>
+
+        <text x="280" y="178" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">Step3: 位置3＝最後（idx=3）→ 割り算で確定して1行出力</text>
+
+        <!-- 矢印: v=1,v=4 → Step3 -->
+        <path d="M 195 148 L 195 190" stroke="#008f6a" stroke-width="1.5" fill="none" marker-end="url(#ag5)"/>
+        <path d="M 450 148 L 450 190" stroke="#008f6a" stroke-width="1.5" fill="none" marker-end="url(#ag5)"/>
+
+        <!-- Row3: 出力 -->
+        <g font-family="Consolas,monospace" text-anchor="middle">
+          <rect x="140" y="192" width="110" height="42" rx="8" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2.5"/>
+          <text x="195" y="210" font-size="10" fill="#1a1d2e">A3 = 6÷3 = 2</text>
+          <text x="195" y="224" font-size="11" font-weight="700" fill="#008f6a">→ 出力: 0 1 2</text>
+
+          <rect x="395" y="192" width="110" height="42" rx="8" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2.5"/>
+          <text x="450" y="210" font-size="10" fill="#1a1d2e">A3 = 0÷3 = 0</text>
+          <text x="450" y="224" font-size="11" font-weight="700" fill="#008f6a">→ 出力: 0 4 0</text>
+        </g>
+
+        <text x="15" y="252" font-size="11" font-weight="700" fill="#1a1d2e">こうして (0,1,2) と (0,4,0) が求まる — 出力例1の1・2行目と一致</text>
+        <text x="15" y="270" font-size="10" fill="#c9162e">✕ の3つは残りが 8・4・2 で3の倍数ではないため（重み3だけでは3の倍数しか作れない）</text>
+
+        <defs>
+          <marker id="ao5" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#d96018"/>
+          </marker>
+          <marker id="ag5" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#008f6a"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 探索の流れ（N=3, K=8）</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>idx=1, rem=8 で v=0 を選ぶ（一番小さい値から試す）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>位置2では、残りが3の倍数になる v=1（残り6）と v=4（残り0）だけ先に進む</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>idx=3（最後）で rem÷3 が確定値になり、そのまま1行出力</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ v=7 を切り捨てられる理由</div>
+        <ul class="box-list">
+          <li>残りは 1。重み 2 と 3 はどちらも 1 より大きいので、足しても 1 にならない</li>
+          <li>表を1回引くだけで切れる。位置2・位置3を実際に探索する必要はない</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 辞書順になる理由</div>
+        <ul class="box-list">
+          <li>各位置でvを0から順に試すため、最初に完成する数列は必ず「一番小さい選択」からできたもの</li>
+          <li>Pythonのfor文をそのまま使うだけで自然に辞書順が実現する</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

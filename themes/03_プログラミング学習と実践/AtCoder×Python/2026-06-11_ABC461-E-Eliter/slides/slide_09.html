@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wrap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .8rem;
+  flex: 1;
+  overflow: hidden;
+}
+.wrap-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.wc-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--g-orange);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 900;
+  flex-shrink: 0;
+}
+.wc-title {
+  font-size: .95rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.wc-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.65;
+  flex: 1;
+}
+.wc-tag {
+  display: inline-block;
+  background: rgba(217,96,24,.1);
+  color: var(--orange);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .12rem .5rem;
+  border-radius: 99px;
+  width: fit-content;
+}
+.pattern-box {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+  border-radius: 12px;
+  padding: .6rem .9rem;
+}
+.pb-label { font-size: .68rem; font-weight: 700; color: var(--blue); margin-bottom: .3rem; }
+.pb-flow {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-wrap: wrap;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.pb-arrow { color: var(--muted); font-size: 1rem; }
+.pb-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .2rem .6rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">まとめ</span>
+    <h2 class="slide-title">解法パターンの整理</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「上書きは最後の時刻だけ持つ」「総数は増減で更新」「時刻の集計は BIT」— 3 点セットで覚えよう</p>
+    </div>
+  </div>
+
+  <div class="slide-body" style="flex-direction:column;gap:.7rem;">
+    <!-- 3カード -->
+    <div class="wrap-grid">
+      <div class="wrap-card">
+        <div class="wc-num">1</div>
+        <div class="wc-title">後勝ちの整理</div>
+        <div class="wc-body">
+          行の黒と列の白が重なったら、<br>
+          <strong>後に塗った方が勝つ</strong>。<br><br>
+          だからマスを覚える必要はなく、<br>
+          行・列の「最後に塗られた時刻」<br>
+          （row_time / col_time）だけ持てばよい。<br>
+          メモリは O(N) で済む。
+        </div>
+        <span class="wc-tag">時刻の比較</span>
+      </div>
+
+      <div class="wrap-card">
+        <div class="wc-num">2</div>
+        <div class="wc-title">総数は増減だけ更新</div>
+        <div class="wc-body">
+          毎回数え直すと O(N) × Q 回で破綻。<br><br>
+          行を黒に: <strong>+（N − 今の黒マス数）</strong><br>
+          列を白に: <strong>−（今の黒マス数）</strong><br><br>
+          変化した 1 行・1 列の差分だけを<br>
+          合計に反映する。
+        </div>
+        <span class="wc-tag">差分更新</span>
+      </div>
+
+      <div class="wrap-card">
+        <div class="wc-num">3</div>
+        <div class="wc-title">時刻の集計は BIT</div>
+        <div class="wc-body">
+          「時刻◯より前／後に塗られた本数」を<br>
+          <strong>O(log Q)</strong> で数える集計表。<br><br>
+          足す・引く・累計の 3 操作だけで、<br>
+          全体 O(Q log Q) ≈ 540 万回。<br>
+          Q = 3×10⁵ でも Python で間に合う。
+        </div>
+        <span class="wc-tag">BIT（Fenwick Tree）</span>
+      </div>
+    </div>
+
+    <!-- 解法フロー -->
+    <div class="pattern-box">
+      <div class="pb-label">🔁 今日の解法パターン（上書き系クエリの定石）</div>
+      <div class="pb-flow">
+        <span class="pb-step">グリッドは作らない</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">行・列の最後の時刻だけ記録</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">総数は増減だけ更新</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">時刻の集計は BIT</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step" style="border-color:var(--orange);color:var(--orange);">O(Q log Q) で完答</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

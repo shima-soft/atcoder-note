@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .7rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: .06em;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title {
+  font-size: .82rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.sec-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.ci {
+  font-family: 'Consolas', monospace;
+  background: rgba(217,96,24,.08);
+  color: var(--orange);
+  padding: .05rem .3rem;
+  border-radius: 4px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.constraint-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .28rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .78rem;
+  color: var(--text);
+}
+.constraint-row:last-child { border-bottom: none; }
+.cvar {
+  font-family: 'Consolas', monospace;
+  font-weight: 700;
+  color: var(--orange);
+  min-width: 42px;
+  flex-shrink: 0;
+}
+.hint-box {
+  background: rgba(217,96,24,.06);
+  border: 1px solid rgba(217,96,24,.2);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+  font-size: .74rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin-top: auto;
+}
+.io-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .74rem;
+  margin-top: .2rem;
+}
+.io-table th {
+  background: var(--surface);
+  padding: .22rem .35rem;
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+}
+.io-table td {
+  padding: .26rem .35rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Consolas', monospace;
+  vertical-align: middle;
+}
+.io-table tr:last-child td { border-bottom: none; }
+.io-note {
+  font-size: .7rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-top: .35rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">同じ数字を2枚ずつ捨てて、残ったカードの合計を答える</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「もう捨てられなくなるまで」続けるので、途中の捨てる順番は自由に決めてよい</p>
+    </div>
+  </div>
+
+  <div class="body-grid slide-body">
+    <!-- 問題文 -->
+    <div class="section-card">
+      <div class="sec-label">問題文（噛み砕き版）</div>
+      <div class="sec-title">求めるもの</div>
+      <div class="sec-body">
+        高橋くんは <span class="ci">N</span> 枚のカードを持っている。<br>
+        <span class="ci">i</span> 番目のカードには整数 <span class="ci">A_i</span> が書かれている。<br><br>
+        <strong>同じ整数が書かれた2枚</strong>を選んで捨てる、
+        という操作を<strong>できなくなるまで</strong>繰り返す。<br><br>
+        最後に残ったカードに書かれた整数の
+        <strong>合計</strong>を出力する。
+      </div>
+      <div class="hint-box">
+        💡 タイトルの Old Maid は「ババ抜き」のこと。手札のペアを捨てていくあの遊びと同じルール
+      </div>
+    </div>
+
+    <!-- 制約 -->
+    <div class="section-card">
+      <div class="sec-label">制約</div>
+      <div class="sec-title">変数の意味と範囲</div>
+      <div style="margin-top:.1rem;">
+        <div class="constraint-row">
+          <span class="cvar">N</span>
+          <span>カードの枚数（1 以上 100 以下）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">A_i</span>
+          <span>カードに書かれた整数（1 以上 100 以下）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">型</span>
+          <span>入力される値はすべて整数</span>
+        </div>
+      </div>
+      <div class="hint-box">
+        ⚠️ <strong>数字は 1〜100 の 100 種類しかない</strong>。種類が有限なので「種類ごとに枚数を数える」作戦が素直に使える
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="section-card">
+      <div class="sec-label">入出力例</div>
+      <div class="sec-title">サンプルで確認</div>
+      <table class="io-table">
+        <tr>
+          <th>例</th><th>入力（カード）</th><th>出力</th>
+        </tr>
+        <tr>
+          <td>1</td><td>2 7 1 8 2 8 1 8</td><td>15</td>
+        </tr>
+        <tr>
+          <td>2</td><td>1 2 3 4 5</td><td>15</td>
+        </tr>
+        <tr>
+          <td>3</td><td>58 97 74 16 97 74 …（15枚）</td><td>297</td>
+        </tr>
+      </table>
+      <div class="io-note">
+        <strong>例1:</strong> 2 が2枚、1 が2枚、8 が3枚、7 が1枚。2 と 1 は消え、8 は1枚だけ残る。残るのは 7 と 8 で合計 15。<br><br>
+        <strong>例2:</strong> 全部ばらばらの数字なので1枚も捨てられない。5枚全部が残って 1+2+3+4+5 = 15。<br><br>
+        <strong>例3:</strong> 枚数が奇数なのは 32・43・51・74・97 の5種類。足すと 297 になる。<br><br>
+        3例に共通するのは「枚数が奇数の数字だけを1回ずつ足す」という同じ手順。
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

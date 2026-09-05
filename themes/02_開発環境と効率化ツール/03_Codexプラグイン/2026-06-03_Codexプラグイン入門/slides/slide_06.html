@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card-grid .card { min-height:150px; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">PERMISSION</span>
+    <h2 class="slide-title">共有と権限は「3層」で見る</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>入れたら何でも自由、ではなく、Codex側・外部サービス側・組織側のルールが効きます</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">1</span>
+        <div class="card-title">Codex側の承認</div>
+        <p class="card-desc">プラグインを入れても、通常の承認設定やサンドボックスの考え方は続きます。作業の実行前に確認が出る場面があります。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-green)">2</span>
+        <div class="card-title">外部アプリ側の認証</div>
+        <p class="card-desc">GmailやDriveなどを使う場合、サービス側のログインや許可が必要です。データ共有はそのサービスの規約にも従います。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-orange)">3</span>
+        <div class="card-title">組織ポリシー</div>
+        <p class="card-desc">ワークスペースの管理者設定によって、共有や利用が制限されることがあります。チーム導入ではここを先に確認します。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">4</span>
+        <div class="card-title">共有の方法</div>
+        <p class="card-desc">チームやリポジトリ向けにはマーケットプレイス、選んだ相手にはワークスペース共有という形で配れます。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-orange)">5</span>
+        <div class="card-title">止め方を知る</div>
+        <p class="card-desc">不要になったらアンインストールできます。入れたまま止めたい場合は設定で無効化して再起動する考え方があります。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-green)">6</span>
+        <div class="card-title">導入前チェック</div>
+        <p class="card-desc">何のデータを読むか、誰が使うか、失敗時に誰が直すか。便利さの前に運用の責任範囲を決めます。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

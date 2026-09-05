@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC473 D「Coefficient Stair」解説 — AtCoder×Python</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --g-orange: linear-gradient(135deg, #e8873a, #d96018);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+header {
+  height: 52px;
+  position: fixed; inset: 0 0 auto;
+  z-index: 5;
+  background: #1a1d2e; color: #fff;
+  display: flex; align-items: center;
+  padding: 0 1.2rem;
+  font-weight: 800;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+header span { color: #e8873a; margin-right: .6rem; }
+.header-home {
+  font-size: .74rem; font-weight: 700;
+  color: #7a3bce; text-decoration: none;
+  margin-right: .7rem; white-space: nowrap;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 820px);
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 52px auto 0;
+  padding: 0 1rem;
+}
+.side {
+  position: sticky; top: 52px;
+  height: calc(100vh - 52px);
+  padding: 1.5rem 0;
+  overflow: auto;
+}
+.side a {
+  display: block;
+  padding: .4rem .75rem;
+  color: var(--muted); text-decoration: none;
+  border-left: 3px solid transparent;
+  font-size: .84rem;
+}
+.side a.active {
+  color: var(--orange);
+  border-left-color: var(--orange);
+  background: rgba(217,96,24,.07);
+  font-weight: 800;
+}
+main { padding: 2rem 0 4rem; }
+section { scroll-margin-top: 70px; margin-bottom: 2.4rem; }
+.hero {
+  background: linear-gradient(135deg, #fff7ed, #fff);
+  border: 1px solid #f3d5bd;
+  border-radius: 18px;
+  padding: 2.2rem;
+}
+.eyebrow {
+  display: inline-block;
+  background: var(--orange); color: #fff;
+  border-radius: 99px;
+  padding: .12rem .65rem;
+  font-size: .76rem; font-weight: 800;
+}
+h1 { font-size: 2.1rem; line-height: 1.25; margin: .65rem 0 .45rem; }
+h2 { font-size: 1.45rem; margin: 0 0 .8rem; border-left: 5px solid var(--orange); padding-left: .7rem; }
+h3 { font-size: 1rem; margin: .2rem 0; }
+.lead { font-size: 1.05rem; color: var(--muted); }
+.card, .check {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  margin: .65rem 0;
+}
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+.step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+.num {
+  display: inline-grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--orange); color: #fff; font-weight: 900;
+}
+.ok { border-left: 4px solid var(--green); }
+.ng { border-left: 4px solid var(--red); }
+.info { border-left: 4px solid var(--blue); }
+code { font-family: Consolas, monospace; }
+.mk {
+  font-family: Consolas, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 .25rem;
+  color: var(--orange);
+  font-weight: 700;
+}
+.sample-box {
+  background: #f0f4f8;
+  padding: .6rem .8rem;
+  border-radius: 8px;
+  font-family: Consolas, monospace;
+  font-size: .85rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+/* ▼ スライドから同期したSVG図（sync_web_svg.py 対応） */
+.fig-wrap { width: 100%; margin: .8rem 0 1rem; }
+.fig {
+  width: 100%; height: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .6rem;
+}
+.fig svg { display: block; }
+.ac-code-block { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 1rem 0; }
+.ac-code-header {
+  display: flex; align-items: center; gap: .6rem;
+  background: var(--surface);
+  padding: .45rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename { font-family: Consolas, monospace; font-size: .82rem; color: var(--muted); flex: 1; }
+.ac-badge { font-size: .72rem; color: var(--green); font-weight: 700; }
+.copy-btn {
+  font-size: .76rem; font-weight: 700;
+  padding: .3rem .7rem; border-radius: 6px;
+  border: 1px solid var(--orange); color: var(--orange);
+  background: transparent; cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: 1rem; overflow: auto; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; }
+.complexity { width: 100%; border-collapse: collapse; }
+.complexity th, .complexity td { text-align: left; padding: .55rem; border-bottom: 1px solid var(--border); }
+details { border-top: 1px solid var(--border); padding: .55rem 0; }
+summary { cursor: pointer; font-weight: 700; }
+.glossary { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.term { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: .8rem; }
+.term strong { display: block; }
+.term small { color: var(--muted); }
+.term a { font-size: .74rem; color: var(--blue); word-break: break-all; }
+footer { color: var(--muted); font-size: .8rem; margin-top: 2rem; }
+@media(max-width:800px){
+  .layout { display: block; width: 100%; max-width: 100%; padding: 0 .75rem; }
+  .side { display: none; }
+  main { padding-top: 1rem; }
+  .grid, .steps, .glossary { grid-template-columns: 1fr; }
+  h1 { font-size: 1.7rem; }
+  .hero { padding: 1.3rem; max-width: 100%; overflow: hidden; }
+  .ac-badge { display: none; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header><a class="header-home" href="../../../../../index.html">← 一覧</a><span>AtCoder×Python</span>ABC473 D — Coefficient Stair</header>
+
+<div class="layout">
+<nav class="side">
+  <a href="#overview">概要</a>
+  <a href="#problem">問題を読み解く</a>
+  <a href="#hand">手を動かす</a>
+  <a href="#failure">素朴なやり方の限界</a>
+  <a href="#insight">気づき</a>
+  <a href="#dp">手順にする</a>
+  <a href="#walkthrough">サンプルで追う</a>
+  <a href="#code">AC想定コード</a>
+  <a href="#complexity">計算量</a>
+  <a href="#practice">やってみる</a>
+  <a href="#summary">まとめ</a>
+  <a href="#glossary">用語解説</a>
+</nav>
+
+<main>
+
+<section id="overview" class="hero">
+  <span class="eyebrow">ABC473 D / 400点 / 茶色 ★★☆</span>
+  <h1>Coefficient Stair</h1>
+  <p class="lead">重み付き和 <span class="mk">Σ i×A_i = K</span> をちょうど満たす非負整数列を、辞書順で小さい方からすべて出力する。<strong>到達可能性DP</strong>で無駄な枝を先に切り、<strong>DFS</strong>で辞書順のまま列挙します。</p>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><h3>小さい順に試す</h3><p>各位置でvを0から試すだけで辞書順のまま解ける</p></div>
+    <div class="step"><span class="num">2</span><h3>行き止まりを先読み</h3><p>「残りが作れるか」を先にDPの表にしておく</p></div>
+    <div class="step"><span class="num">3</span><h3>枝刈りDFS</h3><p>作れない枝はその場で切り捨て、出力数に見合う速さで列挙</p></div>
+  </div>
+</section>
+
+<section id="problem">
+  <h2>問題を読み解く</h2>
+  <div class="card"><p>非負整数からなる長さ<span class="mk">N</span>の数列 <span class="mk">A=(A_1, ..., A_N)</span> を考える。位置<span class="mk">i</span>に「重みi」を掛けて全部足すと、ちょうど<span class="mk">K</span>になるものを<strong>辞書順で小さいほうからすべて出力</strong>する。</p></div>
+  <div class="grid">
+    <div class="card info"><h3>制約が示すこと</h3><p><span class="mk">1≤N≤10</span>、<span class="mk">1≤K≤2×10⁵</span>。条件を満たす数列は3×10⁵個以下であることが保証されている。Nが最大10というかなりの小ささが「全探索してよい」という出題者からのメッセージ。</p></div>
+    <div class="card ok"><h3>入力例1（N=3, K=8）</h3><div class="sample-box">3 8</div><p>(0,1,2) は 0×1+1×2+2×3=0+2+6=8 で条件を満たす。これより辞書順で小さい数列はないので1行目。全部で<strong>10個</strong>の数列が条件を満たす。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：入力例2（N=1, K=200000）の答えは？</summary><p><span class="mk">200000</span> の1行だけ。N=1のときは A_1=K しかありえないので、答えは常に1個だけになる。</p></details></div>
+</section>
+
+<section id="hand">
+  <h2>数列 (0, 1, 2) を、手で計算して確かめる</h2>
+  <p>この問題の条件は、言葉だけだと分かりにくいので、まず実際の数字で1回解いてみます。N = 3、K = 8 のとき、数列 (0, 1, 2) が条件を満たすかどうかを手で確かめます。やることは「1番目の値に 1 を掛け、2番目の値に 2 を掛け、3番目の値に 3 を掛けて、全部足す」だけです。この掛ける数のことを、この記事では<strong>重み</strong>と呼びます（問題名の Coefficient がこれにあたります）。</p>
+  <div class="fig-wrap" style="aspect-ratio:560/388"><div class="fig" data-slide="03"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          列 col[j].x = 130 + j*140 (w=120, gap=20)  → 130, 270, 410 (right=530)
+          行 位置 y=44 / 重み y=88 / 値 y=132 / 掛け算 y=176 （いずれも h=36）
+        -->
+        <text x="280" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">入力例1: N = 3, K = 8 のとき、(0, 1, 2) を確かめる</text>
+
+        <!-- 行ラベル -->
+        <g font-size="12" fill="#5e6a8a">
+          <text x="16" y="67">位置</text>
+          <text x="16" y="111">重み</text>
+          <text x="16" y="155">値</text>
+          <text x="16" y="199">重み × 値</text>
+        </g>
+
+        <!-- 位置の行 -->
+        <rect x="130" y="44" width="120" height="36" rx="7" fill="#eff1f7" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="68" text-anchor="middle" font-size="15" font-weight="700" fill="#5e6a8a">1番目</text>
+        <rect x="270" y="44" width="120" height="36" rx="7" fill="#eff1f7" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="330" y="68" text-anchor="middle" font-size="15" font-weight="700" fill="#5e6a8a">2番目</text>
+        <rect x="410" y="44" width="120" height="36" rx="7" fill="#eff1f7" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="470" y="68" text-anchor="middle" font-size="15" font-weight="700" fill="#5e6a8a">3番目</text>
+
+        <!-- 重みの行（主役・オレンジ） -->
+        <rect x="130" y="88" width="120" height="36" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2"/>
+        <text x="190" y="112" text-anchor="middle" font-size="16" font-weight="900" fill="#d96018">1</text>
+        <rect x="270" y="88" width="120" height="36" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2"/>
+        <text x="330" y="112" text-anchor="middle" font-size="16" font-weight="900" fill="#d96018">2</text>
+        <rect x="410" y="88" width="120" height="36" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2"/>
+        <text x="470" y="112" text-anchor="middle" font-size="16" font-weight="900" fill="#d96018">3</text>
+
+        <!-- 値の行 -->
+        <rect x="130" y="132" width="120" height="36" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="156" text-anchor="middle" font-size="16" font-weight="900" fill="#1a1d2e">0</text>
+        <rect x="270" y="132" width="120" height="36" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="330" y="156" text-anchor="middle" font-size="16" font-weight="900" fill="#1a1d2e">1</text>
+        <rect x="410" y="132" width="120" height="36" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="470" y="156" text-anchor="middle" font-size="16" font-weight="900" fill="#1a1d2e">2</text>
+
+        <!-- 掛け算の行 -->
+        <rect x="130" y="176" width="120" height="36" rx="7" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="190" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#008f6a">1 × 0 = 0</text>
+        <rect x="270" y="176" width="120" height="36" rx="7" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="330" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#008f6a">2 × 1 = 2</text>
+        <rect x="410" y="176" width="120" height="36" rx="7" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="470" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#008f6a">3 × 2 = 6</text>
+
+        <!-- 合計（条件を満たす） -->
+        <rect x="130" y="228" width="400" height="46" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="330" y="257" text-anchor="middle" font-size="16" font-weight="900" fill="#008f6a">合計 0 + 2 + 6 = 8 → K と一致 ✓</text>
+
+        <!-- 満たさない例 -->
+        <rect x="130" y="286" width="400" height="42" rx="10" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.3)" stroke-width="1.5"/>
+        <text x="330" y="312" text-anchor="middle" font-size="14" fill="#c9162e">(1, 1, 1) なら 1 + 2 + 3 = 6 ≠ 8 → 条件を満たさない</text>
+
+        <!-- まとめバー -->
+        <rect x="16" y="342" width="528" height="38" rx="8" fill="rgba(217,96,24,.06)" stroke="rgba(217,96,24,.25)" stroke-width="1"/>
+        <text x="280" y="366" text-anchor="middle" font-size="13" font-weight="700" fill="#d96018">条件は「重み × 値」を全部足すとちょうど K、それだけ</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>分かったこと</h3><p>1×0 + 2×1 + 3×2 = 0 + 2 + 6 = <strong>8</strong>。K と一致するので (0, 1, 2) は条件を満たします。これが出力例1の1行目です。探すのは「重み × 値」の合計がちょうど K になる並び、それだけです。</p></div>
+    <div class="card ng"><h3>ここが大変</h3><p>条件を満たす数列は1つではありません。<strong>全部を辞書順で出す</strong>必要があります。N = 3, K = 8 という小さな例でも答えは10行あり、手で全部探すのは現実的ではありません。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：(1, 1, 1) は条件を満たす？</summary><p>1×1 + 2×1 + 3×1 = 1 + 2 + 3 = <strong>6</strong>。K = 8 と一致しないので、条件を満たしません。</p></details></div>
+</section>
+
+<section id="failure">
+  <h2>総当たりでは、候補のほとんどが最後に外れる</h2>
+  <p>N ≤ 10 だからと何も考えずに全探索すると、行き止まりの枝を大量に踏むことになります。位置1から順に 0〜K を総当たりし、最後の位置で割り切れるかだけを確認する方式では、組み合わせ数が最大 (2×10⁵)⁹ 通りにも達します。一方で条件を満たす数列は最大 3×10⁵ 個。候補のほとんどは答えになりません。</p>
+  <div class="fig-wrap" style="aspect-ratio:560/300"><div class="fig" data-slide="04"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300">
+        <text x="280" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">❌ 素朴な多重ループ（A1〜A9を決めてから最後に検算）</text>
+
+        <!-- 位置1 -->
+        <rect x="15" y="36" width="110" height="40" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="70" y="53" text-anchor="middle" font-size="10" fill="#5e6a8a">位置1</text>
+        <text x="70" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">A1: 0〜K</text>
+
+        <path d="M 125 56 L 133 56" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao3)"/>
+
+        <!-- 位置2 -->
+        <rect x="135" y="36" width="110" height="40" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="53" text-anchor="middle" font-size="10" fill="#5e6a8a">位置2</text>
+        <text x="190" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">A2: 0〜K/2</text>
+
+        <path d="M 245 56 L 253 56" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao3)"/>
+
+        <!-- ... -->
+        <text x="275" y="62" text-anchor="middle" font-size="18" fill="#5e6a8a">・・・</text>
+
+        <path d="M 295 56 L 303 56" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao3)"/>
+
+        <!-- 位置9 -->
+        <rect x="305" y="36" width="110" height="40" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="360" y="53" text-anchor="middle" font-size="10" fill="#5e6a8a">位置9</text>
+        <text x="360" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">A9: 0〜?</text>
+
+        <path d="M 415 56 L 423 56" stroke="#c9162e" stroke-width="1.5" fill="none" marker-end="url(#ar3)"/>
+
+        <!-- 検算 -->
+        <rect x="425" y="36" width="120" height="40" rx="8" fill="rgba(201,22,46,.07)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="485" y="53" text-anchor="middle" font-size="10" font-weight="700" fill="#c9162e">最後に検算</text>
+        <text x="485" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">A10は割り切れる?</text>
+
+        <!-- 区切り線 -->
+        <line x1="15" y1="96" x2="545" y2="96" stroke="#dde2ec" stroke-width="1"/>
+
+        <!-- 候補数と答え数の比較（棒の長さでは表せない桁差なので、数字を並べる） -->
+        <text x="280" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">調べる候補の数と、実際の答えの数を比べてみる</text>
+
+        <rect x="15" y="134" width="258" height="86" rx="10" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.35)" stroke-width="1.5"/>
+        <text x="144" y="166" text-anchor="middle" font-size="12" fill="#c9162e">調べる候補（N = 10 のとき最大）</text>
+        <text x="144" y="201" text-anchor="middle" font-size="20" font-weight="900" fill="#c9162e">(2×10⁵)⁹ 通り</text>
+
+        <rect x="287" y="134" width="258" height="86" rx="10" fill="rgba(0,143,106,.06)" stroke="rgba(0,143,106,.35)" stroke-width="1.5"/>
+        <text x="416" y="166" text-anchor="middle" font-size="12" fill="#008f6a">条件を満たす数列（保証された上限）</text>
+        <text x="416" y="201" text-anchor="middle" font-size="20" font-weight="900" fill="#008f6a">3×10⁵ 個以下</text>
+
+        <text x="280" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#c9162e">桁がまるで違う — 候補のほとんどは答えにならない</text>
+
+        <defs>
+          <marker id="ao3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#d96018"/>
+          </marker>
+          <marker id="ar3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#c9162e"/>
+          </marker>
+        </defs>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ng"><h3>何が無駄なのか</h3><p>条件を満たす数列は最大でも 3×10⁵ 個だけなのに、「作れない」候補まで律儀に最後の位置まで進めてしまう。外れだと分かるのが遅すぎる。</p></div>
+    <div class="card ok"><h3>制約が教えてくれること</h3><p>N ≤ 10 は「全探索してよい」の合図。ただし枝の刈り方が要る。K ≤ 2×10⁵ なので、残りの値ごとに表を持てる大きさに収まる。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：何が一番無駄なのか？</summary><p>「作れない」と最後まで進んで初めて分かる点。手前で分かれば、その先を一切探索せずに済む。</p></details></div>
+</section>
+
+<section id="insight">
+  <h2>「残りをこの先の重みで作れるか」が先に分かればいい</h2>
+  <p>総当たりの無駄は、行き止まりだと分かるのが最後だという点にありました。では、途中で分かるようにするには何が要るでしょうか。位置を1つ決めた時点で「残りをこの先の重みだけで作れるか」が分かれば、作れない枝はその場で打ち切れます。</p>
+  <div class="fig-wrap" style="aspect-ratio:560/388"><div class="fig" data-slide="05"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          パネル① y=32..108 / パネル② y=120..230 / パネル③ y=242..318 / 結論バー y=332..376
+          金額チップ chip[i].x = 60 + i*52 (w=44, gap=8)
+        -->
+        <text x="280" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">N = 3, K = 8 で、1番目に 7 を置いた場面</text>
+
+        <!-- ① 残りを求める -->
+        <rect x="20" y="32" width="520" height="76" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="40" y="58" font-size="13" fill="#5e6a8a">① 1番目に 7 を置く → 使った分は 重み1 × 7 = 7</text>
+        <text x="40" y="84" font-size="15" font-weight="700" fill="#1a1d2e">残り = 8 − 7 = 1</text>
+
+        <!-- ② 残りを作れるか -->
+        <rect x="20" y="120" width="520" height="110" rx="10" fill="rgba(217,96,24,.05)" stroke="rgba(217,96,24,.3)" stroke-width="1.5"/>
+        <text x="40" y="140" font-size="13" font-weight="700" fill="#d96018">② 残り 1 を、この先の重み 2 と 3 だけで作れるか？</text>
+
+        <rect x="60"  y="156" width="44" height="30" rx="6" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="82"  y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">0</text>
+        <rect x="112" y="156" width="44" height="30" rx="6" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="134" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">2</text>
+        <rect x="164" y="156" width="44" height="30" rx="6" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="186" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">3</text>
+        <rect x="216" y="156" width="44" height="30" rx="6" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="238" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">4</text>
+        <rect x="268" y="156" width="44" height="30" rx="6" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="290" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">5</text>
+        <rect x="320" y="156" width="44" height="30" rx="6" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="342" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">6</text>
+        <text x="378" y="176" font-size="12" fill="#5e6a8a">… 2 と 3 で作れる数</text>
+
+        <text x="40" y="212" font-size="13" font-weight="700" fill="#c9162e">1 は作れない（2 も 3 も 1 より大きいので、足しても 1 にならない）</text>
+
+        <!-- ③ 打ち切る -->
+        <rect x="20" y="242" width="520" height="76" rx="10" fill="rgba(201,22,46,.05)" stroke="rgba(201,22,46,.3)" stroke-width="1.5"/>
+        <text x="40" y="268" font-size="13" font-weight="700" fill="#c9162e">③ 作れない → 2番目・3番目を調べる前に、この枝を打ち切る</text>
+        <text x="40" y="294" font-size="12" fill="#5e6a8a">調べずに済むのは、2番目と3番目の値の全組み合わせ</text>
+
+        <!-- 結論バー -->
+        <rect x="20" y="332" width="520" height="44" rx="8" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="280" y="359" text-anchor="middle" font-size="14" font-weight="900" fill="#008f6a">先に「残りを作れるか」が分かれば、無駄な枝を丸ごと消せる</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>何がうれしいか</h3><p>1番目に 7 を置くと残りは 1。この先で使えるのは重み 2 と 3 だけなので、1 は作れません。2番目・3番目を調べる前にこの枝を丸ごと捨てられます。最後まで進んでから外れるのではなく、その場で切れるのが違いです。</p></div>
+    <div class="card ng"><h3>まだ足りないこと</h3><p>「作れるか」を毎回その場で計算し直すと、結局そこが遅くなります。先に<strong>表</strong>にしておく必要があります。それが次の節の reach です。</p></div>
+  </div>
+  <div class="card"><h3>💼 仕事で例えると</h3><p>今月あと使える経費枠がちょうど1万円残っているとします。これから申請できるのが2万円と3万円の品だけなら、枠はどうやっても使い切れません。それが先に分かっていれば、以降の申請を検討する手間がまるごと省けます。</p></div>
+  <div class="check"><details><summary>セルフチェック：1番目に 6 を置いたら、その枝は進める？</summary><p>残りは 8 − 6 = 2。重み 2 を1回使えばちょうど 2 になるので<strong>進めます</strong>（2番目に 1、3番目に 0）。</p></details></div>
+</section>
+
+<section id="dp">
+  <h2>reach の表を先に作っておく</h2>
+  <p>「作れるか」を毎回その場で計算し直すと遅くなるので、先に表にしておきます。reach[idx][rem] は「重み idx 以降だけで、残り rem をちょうど作れるか」を ○ と − で持つ表です。reach[idx] は1つ大きい reach[idx+1] をコピーしてから、rem を idx, idx+1, … と増やしながら ○ を伝播させて作ります。</p>
+  <div class="fig-wrap" style="aspect-ratio:560/310"><div class="fig" data-slide="06"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 310">
+        <text x="280" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">reach[idx][rem] 早見表（例: N=3, K=8）</text>
+        <text x="50" y="45" text-anchor="middle" font-size="9" fill="#5e6a8a">idx＼rem</text>
+
+        <!-- ヘッダー: rem 0〜8 -->
+        <text x="115" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">0</text>
+        <text x="165" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">1</text>
+        <text x="215" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">2</text>
+        <text x="265" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">3</text>
+        <text x="315" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">4</text>
+        <text x="365" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">5</text>
+        <text x="415" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">6</text>
+        <text x="465" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">7</text>
+        <text x="515" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">8</text>
+
+        <!-- 行ラベル -->
+        <text x="50" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">reach[4]</text>
+        <text x="50" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">reach[3]</text>
+        <text x="50" y="171" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">reach[2]</text>
+        <text x="50" y="209" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a" font-family="Consolas,monospace">reach[1]</text>
+
+        <!-- row idx=4: T F F F F F F F F -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="74" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="115" y="96" fill="#008f6a">○</text>
+          <rect x="142" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="165" y="96" fill="#a9b0c3">−</text>
+          <rect x="192" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="215" y="96" fill="#a9b0c3">−</text>
+          <rect x="242" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="265" y="96" fill="#a9b0c3">−</text>
+          <rect x="292" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="315" y="96" fill="#a9b0c3">−</text>
+          <rect x="342" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="365" y="96" fill="#a9b0c3">−</text>
+          <rect x="392" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="415" y="96" fill="#a9b0c3">−</text>
+          <rect x="442" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="465" y="96" fill="#a9b0c3">−</text>
+          <rect x="492" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="515" y="96" fill="#a9b0c3">−</text>
+        </g>
+
+        <!-- row idx=3: T F F T F F T F F -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="112" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="115" y="134" fill="#008f6a">○</text>
+          <rect x="142" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="165" y="134" fill="#a9b0c3">−</text>
+          <rect x="192" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="215" y="134" fill="#a9b0c3">−</text>
+          <rect x="242" y="112" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="265" y="134" fill="#008f6a">○</text>
+          <rect x="292" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="315" y="134" fill="#a9b0c3">−</text>
+          <rect x="342" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="365" y="134" fill="#a9b0c3">−</text>
+          <rect x="392" y="112" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="415" y="134" fill="#008f6a">○</text>
+          <rect x="442" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="465" y="134" fill="#a9b0c3">−</text>
+          <rect x="492" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="515" y="134" fill="#a9b0c3">−</text>
+        </g>
+
+        <!-- row idx=2: T F T T T T T T T -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="115" y="172" fill="#008f6a">○</text>
+          <rect x="142" y="150" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="165" y="172" fill="#a9b0c3">−</text>
+          <rect x="192" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="215" y="172" fill="#008f6a">○</text>
+          <rect x="242" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="265" y="172" fill="#008f6a">○</text>
+          <rect x="292" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="315" y="172" fill="#008f6a">○</text>
+          <rect x="342" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="365" y="172" fill="#008f6a">○</text>
+          <rect x="392" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="415" y="172" fill="#008f6a">○</text>
+          <rect x="442" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="465" y="172" fill="#008f6a">○</text>
+          <rect x="492" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="515" y="172" fill="#008f6a">○</text>
+        </g>
+
+        <!-- row idx=1: all T -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="115" y="210" fill="#d96018">○</text>
+          <rect x="142" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="165" y="210" fill="#d96018">○</text>
+          <rect x="192" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="215" y="210" fill="#d96018">○</text>
+          <rect x="242" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="265" y="210" fill="#d96018">○</text>
+          <rect x="292" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="315" y="210" fill="#d96018">○</text>
+          <rect x="342" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="365" y="210" fill="#d96018">○</text>
+          <rect x="392" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="415" y="210" fill="#d96018">○</text>
+          <rect x="442" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="465" y="210" fill="#d96018">○</text>
+          <rect x="492" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="515" y="210" fill="#d96018">○</text>
+        </g>
+
+        <!-- 凡例・補足 -->
+        <text x="15" y="245" font-size="11" fill="#5e6a8a">○ = 作れる　− = 作れない</text>
+        <text x="15" y="266" font-size="11" fill="#1a1d2e" font-weight="700">reach[1]は全部○ → 重み1があれば必ずKを作れる</text>
+        <text x="15" y="287" font-size="11" fill="#5e6a8a">reach[idx] は reach[idx+1] をコピーし、idx分を足せる○を伝播させて作る</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>仕事で例えると</h3><p>今月あと自由に使える経費枠がrem円残っているとき、「今後使える単価（idx円, idx+1円, …）だけでrem円ちょうど使い切れるか」を先に一覧化しておくイメージ。</p></div>
+    <div class="card ok"><h3>DFSでの使い方</h3><p>位置idxでA_idx=vを仮決めしたら、残り r=rem−idx×v が reach[idx+1][r] なら先に進む。○の候補だけを辿るので、行き止まりの探索が消える。</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：なぜ reach[1] は全部○になる？</summary><p>重み1があれば、A_1=rem に決めるだけでどんな値も作れてしまうから。coefficientに1が含まれる問題は必ずこうなる。</p></details></div>
+</section>
+
+<section id="walkthrough">
+  <h2>前ページの手順を、入力例1（N=3, K=8）に当てて動かす</h2>
+  <p>小さい値から順に試し、reach表で作れない枝を即スキップすると出力例1の1・2行目が求まる。</p>
+  <div class="fig-wrap" style="aspect-ratio:560/290"><div class="fig" data-slide="07"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 290">
+        <text x="280" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">Step1: 位置1（idx=1, rem=8）→ v=0,1,2,… を小さい順に試す</text>
+
+        <!-- Row1: v=0..8 -->
+        <g text-anchor="middle" font-family="Consolas,monospace">
+          <rect x="15" y="28" width="48" height="34" rx="6" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+          <text x="39" y="42" font-size="10" font-weight="700" fill="#1a1d2e">v=0</text>
+          <text x="39" y="55" font-size="9" font-weight="700" fill="#008f6a">続行 ✓</text>
+
+          <rect x="73" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="97" y="49" font-size="10" fill="#a9b0c3">v=1</text>
+
+          <rect x="131" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="155" y="49" font-size="10" fill="#a9b0c3">v=2</text>
+
+          <rect x="189" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="213" y="49" font-size="10" fill="#a9b0c3">v=3</text>
+
+          <rect x="247" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="271" y="49" font-size="10" fill="#a9b0c3">v=4</text>
+
+          <rect x="305" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="329" y="49" font-size="10" fill="#a9b0c3">v=5</text>
+
+          <rect x="363" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="387" y="49" font-size="10" fill="#a9b0c3">v=6</text>
+
+          <rect x="421" y="28" width="48" height="34" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="445" y="42" font-size="10" font-weight="700" fill="#c9162e">v=7</text>
+          <text x="445" y="55" font-size="9" font-weight="700" fill="#c9162e">✕skip</text>
+
+          <rect x="479" y="28" width="48" height="34" rx="6" fill="#fff" stroke="#dde2ec"/>
+          <text x="503" y="49" font-size="10" fill="#a9b0c3">v=8</text>
+        </g>
+        <text x="280" y="78" text-anchor="middle" font-size="10" fill="#5e6a8a">v=7 だけ残りが 1 になり、重み 2・3 では作れないのでスキップ（他の枝は省略し v=0 を追う）</text>
+
+        <!-- 矢印: v=0 → Step2 -->
+        <path d="M 39 62 L 39 80 L 280 80 L 280 104" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao5)"/>
+
+        <text x="280" y="95" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">Step2: 位置2（残り8）→ この先は重み3だけ。残りが3の倍数の枝だけ進める</text>
+
+        <!-- Row2: v=0..4 (idx=2) -->
+        <g font-family="Consolas,monospace">
+          <rect x="75" y="108" width="70" height="40" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="110" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=0 → r=8</text>
+          <text x="110" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#c9162e">✕ 不可</text>
+
+          <rect x="160" y="108" width="70" height="40" rx="6" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+          <text x="195" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=1 → r=6</text>
+          <text x="195" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#008f6a">○ 続行</text>
+
+          <rect x="245" y="108" width="70" height="40" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="280" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=2 → r=4</text>
+          <text x="280" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#c9162e">✕ 不可</text>
+
+          <rect x="330" y="108" width="70" height="40" rx="6" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="365" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=3 → r=2</text>
+          <text x="365" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#c9162e">✕ 不可</text>
+
+          <rect x="415" y="108" width="70" height="40" rx="6" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+          <text x="450" y="125" text-anchor="middle" font-size="10" fill="#1a1d2e">v=4 → r=0</text>
+          <text x="450" y="138" text-anchor="middle" font-size="9" font-weight="700" fill="#008f6a">○ 続行</text>
+        </g>
+
+        <text x="280" y="178" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">Step3: 位置3＝最後（idx=3）→ 割り算で確定して1行出力</text>
+
+        <!-- 矢印: v=1,v=4 → Step3 -->
+        <path d="M 195 148 L 195 190" stroke="#008f6a" stroke-width="1.5" fill="none" marker-end="url(#ag5)"/>
+        <path d="M 450 148 L 450 190" stroke="#008f6a" stroke-width="1.5" fill="none" marker-end="url(#ag5)"/>
+
+        <!-- Row3: 出力 -->
+        <g font-family="Consolas,monospace" text-anchor="middle">
+          <rect x="140" y="192" width="110" height="42" rx="8" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2.5"/>
+          <text x="195" y="210" font-size="10" fill="#1a1d2e">A3 = 6÷3 = 2</text>
+          <text x="195" y="224" font-size="11" font-weight="700" fill="#008f6a">→ 出力: 0 1 2</text>
+
+          <rect x="395" y="192" width="110" height="42" rx="8" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2.5"/>
+          <text x="450" y="210" font-size="10" fill="#1a1d2e">A3 = 0÷3 = 0</text>
+          <text x="450" y="224" font-size="11" font-weight="700" fill="#008f6a">→ 出力: 0 4 0</text>
+        </g>
+
+        <text x="15" y="252" font-size="11" font-weight="700" fill="#1a1d2e">こうして (0,1,2) と (0,4,0) が求まる — 出力例1の1・2行目と一致</text>
+        <text x="15" y="270" font-size="10" fill="#c9162e">✕ の3つは残りが 8・4・2 で3の倍数ではないため（重み3だけでは3の倍数しか作れない）</text>
+
+        <defs>
+          <marker id="ao5" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#d96018"/>
+          </marker>
+          <marker id="ag5" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#008f6a"/>
+          </marker>
+        </defs>
+      </svg></div></div>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><p>idx=1, rem=8 で v=0 を選ぶ（一番小さい値から試す）</p></div>
+    <div class="step"><span class="num">2</span><p>idx=2, rem=8 で v=0,2,3 は reach[3]が✕なのでスキップ、v=1,4だけ先に進む</p></div>
+    <div class="step"><span class="num">3</span><p>idx=3（最後）で rem÷3 が確定値になり、そのまま1行出力</p></div>
+  </div>
+  <div class="check"><details><summary>セルフチェック：v=7 が試されないのはなぜ？</summary><p>reach[2][1] = − （重み2,3だけでは1を作れない）とチェックだけで分かるので、実際に深く探索する必要がない。</p></details></div>
+</section>
+
+<section id="code">
+  <h2>AC想定コード</h2>
+  <p>公式サンプル3件で出力が一致することを確認済みです。スライドのコード①・②をつなげたものが丸ごと1ファイルになります。1行ずつ<code>print()</code>すると出力3×10⁵行では遅くなるため、文字列をリストに貯めて最後に1回で出力する形にしています。</p>
+  <div class="ac-code-block">
+    <div class="ac-code-header">
+      <span class="ac-filename">abc473d.py</span>
+      <span class="ac-badge">✅ 公式サンプル確認済み</span>
+      <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+    </div>
+<pre><code class="language-python">import sys
+input = sys.stdin.readline
+
+N, K = map(int, input().split())
+
+reach = [[False] * (K + 1) for _ in range(N + 2)]
+reach[N + 1][0] = True
+for idx in range(N, 0, -1):
+    reach[idx] = reach[idx + 1][:]
+    for r in range(idx, K + 1):
+        if reach[idx][r - idx]:
+            reach[idx][r] = True
+
+A = [0] * N
+out = []
+
+def dfs(idx, rem):
+    if idx == N:
+        A[idx - 1] = rem // idx
+        out.append(' '.join(map(str, A)))
+        return
+    for v in range(rem // idx + 1):
+        r = rem - idx * v
+        if reach[idx + 1][r]:
+            A[idx - 1] = v
+            dfs(idx + 1, r)
+
+dfs(1, K)
+print('\n'.join(out))</code></pre>
+  </div>
+  <div class="check"><details><summary>セルフチェック：なぜ1行ずつ print しないの？</summary><p>出力は最大3×10⁵行。<code>print()</code>を毎回呼ぶと処理コストが積み重なり遅くなります。文字列をリストoutに貯めて<code>'\n'.join(out)</code>で1回にまとめて出力すると大幅に速くなります（N=10, K=64相当の296,320行の出力で計測したところ、1行ずつprintだと約13秒、まとめて出力だと0.6秒でした）。</p></details></div>
+</section>
+
+<section id="complexity">
+  <h2>計算量</h2>
+  <table class="complexity">
+    <tr><th>項目</th><th>規模</th></tr>
+    <tr><td>reach表の構築</td><td>O(N×K)</td></tr>
+    <tr><td>DFSによる列挙・出力</td><td>出力数に応じて変動（最大3×10⁵行）</td></tr>
+    <tr><td>全体の目安</td><td><strong>O(N×K)</strong> ≈ 最大200万回のループ</td></tr>
+  </table>
+  <p>N≤10, K≤2×10⁵ なので O(N×K) は最大でも約2×10⁶回。これはO(N)型がPythonで間に合う目安（N≤10⁷）にも収まる規模で、余裕を持って間に合います。</p>
+</section>
+
+<section id="practice">
+  <h2>小さい入力で、自分で全部書き出してみる</h2>
+  <p>ここまでの手順を、小さい入力に当ててみます。N = 2 なら手で足ります。<strong>答えを見る前に、まず自分で書き出してみてください。</strong>手で全部並べてみると、DFS が小さい値から試すだけで辞書順になる理由が腑に落ちます。</p>
+  <div class="fig-wrap" style="aspect-ratio:560/388"><div class="fig" data-slide="10"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          出題パネル y=48..134 / 手順パネル y=150..258 / 解答欄 y=274..368
+          答えは書かない（想起練習のため）
+        -->
+        <text x="280" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">問題: N = 2, K = 5 のとき、条件を満たす数列を辞書順に全部</text>
+
+        <!-- 条件のおさらい -->
+        <rect x="40" y="48" width="480" height="86" rx="12" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="280" y="76" text-anchor="middle" font-size="13" fill="#5e6a8a">重みは 1番目が 1、2番目が 2</text>
+        <text x="280" y="110" text-anchor="middle" font-size="18" font-weight="900" fill="#d96018">1 × A₁ ＋ 2 × A₂ = 5</text>
+
+        <!-- 手順のリマインダ -->
+        <rect x="40" y="150" width="480" height="108" rx="12" fill="rgba(26,150,192,.05)" stroke="rgba(26,150,192,.3)" stroke-width="1.5"/>
+        <text x="60" y="171" font-size="13" font-weight="700" fill="#1a96c0">思い出す手順</text>
+        <text x="60" y="197" font-size="13" fill="#1a1d2e">① 2番目の値 A₂ を 0 から順に試す</text>
+        <text x="60" y="223" font-size="13" fill="#1a1d2e">② 残り 5 − 2 × A₂ が 1番目の値 A₁ になる</text>
+        <text x="60" y="247" font-size="13" fill="#1a1d2e">③ A₁ が 0 以上の整数なら、その組が答えの1行</text>
+
+        <!-- 解答欄（空欄） -->
+        <text x="280" y="292" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">答えは何行になる？</text>
+        <rect x="110" y="304" width="110" height="52" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="165" y="337" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">? ?</text>
+        <rect x="225" y="304" width="110" height="52" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="280" y="337" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">? ?</text>
+        <rect x="340" y="304" width="110" height="52" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="395" y="337" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">? ?</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>詰まったときのヒント</h3><p>2番目の値 A₂ を 0 から順に試します。A₂ = 0 なら A₁ = 5、A₂ = 1 なら A₁ = 3 …と埋まっていきます。残りがマイナスになったら打ち切り。</p></div>
+    <div class="card ng"><h3>引っかかりやすいところ</h3><p>並べる順は<strong>辞書順</strong>で、1番目の値が小さいものから先に出します。0 も使ってよい値なので、忘れると1行足りなくなります。</p></div>
+  </div>
+  <div class="check"><details><summary>答えを見る（先に自分で解いてから開いてください）</summary><p>答えは3行です。<span class="mk">1 2</span>（1×1+2×2 = 5）、<span class="mk">3 1</span>（1×3+2×1 = 5）、<span class="mk">5 0</span>（1×5+2×0 = 5）。辞書順なので 1番目の値が小さい順に並びます。</p></details></div>
+</section>
+
+<section id="summary">
+  <h2>まとめ</h2>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><p>N≤10 は「全探索してよい」の合図。制約の桁数にまず注目する</p></div>
+    <div class="step"><span class="num">2</span><p>「残りが作れるか」を reach[idx][rem] として先にDPで判定しておく</p></div>
+    <div class="step"><span class="num">3</span><p>各位置で候補を0から順に試すDFSは、特別な工夫なしに辞書順になる</p></div>
+  </div>
+  <p>「小さい制約に気づく→到達可能性を先にDP→DFSで辞書順に枝刈り列挙」は、全列挙系の問題で繰り返し使えるパターンです。</p>
+</section>
+
+<section id="glossary">
+  <h2>用語解説</h2>
+  <div class="glossary">
+    <div class="term"><strong>深さ優先探索<small>ふかさゆうせんたんさく / DFS</small></strong><small>1つの枝を行き止まりまで先に進めてから次の枝に戻る探索方法。本問では位置ごとに値を決める処理をこの順番で行う。</small><br><a href="https://ja.wikipedia.org/wiki/深さ優先探索" target="_blank">Wikipedia: 深さ優先探索 🔗</a></div>
+    <div class="term"><strong>動的計画法<small>どうてきけいかくほう / DP</small></strong><small>同じ計算を繰り返さないよう、途中結果を表に記録しながら解く手法。本問では reach[idx][rem] の表がこれにあたる。</small><br><a href="https://ja.wikipedia.org/wiki/動的計画法" target="_blank">Wikipedia: 動的計画法 🔗</a></div>
+    <div class="term"><strong>枝刈り<small>えだきり / pruning</small></strong><small>探索の途中で「この先は答えにならない」と分かった枝を、最後まで進めずに切り捨てる工夫。</small><br><a href="https://ja.wikipedia.org/wiki/バックトラック" target="_blank">Wikipedia: バックトラック 🔗</a></div>
+    <div class="term"><strong>辞書式順序<small>じしょしきじゅんじょ / lexicographic order</small></strong><small>辞書の単語の並び方のように、先頭の要素から順に比較して大小を決める順序。</small><br><a href="https://ja.wikipedia.org/wiki/辞書式順序" target="_blank">Wikipedia: 辞書式順序 🔗</a></div>
+    <div class="term"><strong>sys.stdin.readline<small>シス・スタンダードイン・リードライン</small></strong><small>Pythonで高速に標準入力を読み込む方法。<code>input()</code>より速く、出力行数が多い本問のような問題で有効。</small><br><a href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python公式ドキュメント 🔗</a></div>
+    <div class="term"><strong>str.join()<small>ストリング・ジョイン</small></strong><small>リストの要素を指定した区切り文字でつなげて1つの文字列にするメソッド。大量の行を1回でまとめて出力するのに使う。</small><br><a href="https://docs.python.org/ja/3/library/stdtypes.html#str.join" target="_blank">Python公式ドキュメント 🔗</a></div>
+  </div>
+</section>
+
+<footer>出典: <a href="https://atcoder.jp/contests/abc473/tasks/abc473_d">AtCoder ABC473 D — Coefficient Stair</a>。問題文は平易に言い換えています。</footer>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+const links = [...document.querySelectorAll('.side a')];
+const sections = [...document.querySelectorAll('main section')];
+const ob = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+}), { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => ob.observe(s));
+</script>
+</body>
+</html>

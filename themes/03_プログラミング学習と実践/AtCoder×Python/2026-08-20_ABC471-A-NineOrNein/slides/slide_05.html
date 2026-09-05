@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.term-link    {
+  font-size: .65rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .25rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">標準入力</span>
+          <span class="term-reading">ひょうじゅんにゅうりょく</span>
+        </div>
+        <p class="term-desc">キーボードからプログラムにデータを送る仕組み。AtCoderの問題では、テストケースがここから自動で流し込まれる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">input()</span>
+          <span class="term-reading">インプット</span>
+        </div>
+        <p class="term-desc">標準入力から1行を文字列として読み込む Python の組み込み関数。AtCoderでは毎回使う基本の命令。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python ドキュメント: input 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">リストの各要素に同じ変換を適用する関数。「全員を一括で整数に変換」するイメージ。<code style="font-size:.72rem;color:var(--orange)">map(int, ...)</code> はよく使う定型文。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python ドキュメント: map 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">int()</span>
+          <span class="term-reading">イント</span>
+        </div>
+        <p class="term-desc">文字列 "16" を整数 16 に変換する関数。input() が返すのは文字列なので、計算前に必ず変換が必要。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#int" target="_blank">Python ドキュメント: int 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">剰余演算子 %</span>
+          <span class="term-reading">じょうよえんざんし</span>
+        </div>
+        <p class="term-desc">割り算の余りを求める記号。<code style="font-size:.72rem;color:var(--orange)">a % b == 0</code> は「aがbで割り切れる」という判定によく使う。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/reference/expressions.html#binary-arithmetic-operations" target="_blank">Python ドキュメント: 算術演算 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">整数除算 //</span>
+          <span class="term-reading">せいすうじょざん</span>
+        </div>
+        <p class="term-desc">割り算の商を、小数点以下を切り捨てた整数で求める記号。<code style="font-size:.72rem;color:var(--orange)">9 // 2</code> は 4 になる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/reference/expressions.html#binary-arithmetic-operations" target="_blank">Python ドキュメント: 算術演算 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">条件分岐</span>
+          <span class="term-reading">じょうけんぶんき</span>
+        </div>
+        <p class="term-desc">条件（True/False）に応じて処理を切り替える仕組み。Pythonでは <code style="font-size:.72rem;color:var(--orange)">if / else</code> で書く。日常でいう「もし〜なら〜、そうでなければ〜」。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングプラットフォーム。世界中のプログラマーが参加するコンテストを毎週開催。初心者向けの ABC が入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

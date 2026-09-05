@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 07 - 用語解説</title>
+  <link rel="stylesheet" href="common.css">
+</head>
+<body class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body" style="padding: 1rem 2.8rem;">
+    <div class="glossary-grid three-col">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Prefill</span>
+          <span class="term-reading">プリフィル</span>
+        </div>
+        <p class="term-desc">モデルが推論を開始する前に、プロンプトや履歴を処理する段階。キャッシュの対象となる。</p>
+        <a class="term-link" href="https://anthropic.com/news/prefilling" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Decode</span>
+          <span class="term-reading">デコード</span>
+        </div>
+        <p class="term-desc">モデルが1トークンずつ順次生成する段階。計算負荷が高く、入力よりコストが高い。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Prompt Caching</span>
+          <span class="term-reading">プロンプトキャッシュ</span>
+        </div>
+        <p class="term-desc">共通の入力（システム指示等）を再計算せず再利用する技術。コストを劇的に抑える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Subagent</span>
+          <span class="term-reading">サブエージェント</span>
+        </div>
+        <p class="term-desc">メインの会話とは別のコンテキストで動作する補助AI。複雑な調査やログ解析に使用。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">/compact</span>
+          <span class="term-reading">コンパクト</span>
+        </div>
+        <p class="term-desc">長い会話を要約し、コンテキストを整理するためのコマンド。コストと精度のバランスをとる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">/rewind</span>
+          <span class="term-reading">リワインド</span>
+        </div>
+        <p class="term-desc">直近の操作だけを無効化し、それ以前のキャッシュを維持するコマンド。</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

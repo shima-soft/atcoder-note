@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パターン選択フローチャート｜マルチエージェント連携パターン入門</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f9fafb;
+    --surface: #eff1f7;
+    --card: #ffffff;
+    --border: #dde2ec;
+    --text: #1a1d2e;
+    --muted: #5e6a8a;
+    --orange: #d96018;
+    --green: #008f6a;
+    --blue: #1a96c0;
+    --purple: #7a3bce;
+    --pink: #cc0a6a;
+  }
+
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ヘッダー */
+  .site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    gap: 1rem;
+    z-index: 100;
+  }
+  .header-back {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .82rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .header-back:hover { color: var(--text); }
+  .header-title {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .header-badge {
+    margin-left: auto;
+    font-size: .72rem;
+    background: rgba(26,150,192,.12);
+    color: var(--blue);
+    padding: .2rem .6rem;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+
+  /* メインラッパー */
+  main {
+    margin-top: 52px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .page-head {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+  }
+  .page-head h1 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: .5rem;
+  }
+  .page-head p {
+    font-size: .9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* フローチャートコンテナ */
+  .flow-wrap {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  /* ステップカード */
+  .step-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .step-card.active {
+    border-color: var(--blue);
+    box-shadow: 0 4px 16px rgba(26,150,192,.15);
+  }
+  .step-card.answered {
+    opacity: .55;
+    pointer-events: none;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 900;
+    margin-bottom: .75rem;
+  }
+  .active .step-num {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .step-q {
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+  .choice-btn {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 1rem;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--text);
+    transition: background .15s, border-color .15s, transform .1s;
+    text-align: left;
+  }
+  .choice-btn:hover {
+    background: rgba(26,150,192,.08);
+    border-color: var(--blue);
+    transform: translateX(3px);
+  }
+  .choice-btn .choice-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-weight: 900;
+    color: var(--muted);
+    transition: background .15s, color .15s;
+  }
+  .choice-btn:hover .choice-icon {
+    background: var(--blue);
+    color: #fff;
+  }
+  .choice-sub {
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-top: .1rem;
+  }
+
+  /* 結果カード */
+  .result-card {
+    display: none;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+  .result-card.show {
+    display: block;
+    animation: fadeIn .3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-header {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .result-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #fff;
+  }
+  .result-label {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: .25rem;
+  }
+  .result-name {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--text);
+  }
+  .result-reading {
+    font-size: .8rem;
+    color: var(--muted);
+    margin-top: .15rem;
+  }
+
+  .result-body {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .result-desc {
+    font-size: .9rem;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .result-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+  }
+  .meta-box {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: .75rem 1rem;
+  }
+  .meta-label {
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: .3rem;
+    display: block;
+  }
+  .meta-content {
+    font-size: .83rem;
+    color: var(--text);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .result-cta {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+  }
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .6rem 1.1rem;
+    border-radius: 8px;
+    font-size: .82rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity .15s;
+  }
+  .cta-link:hover { opacity: .8; }
+  .cta-link.primary {
+    background: var(--blue);
+    color: #fff;
+  }
+  .cta-link.secondary {
+    background: var(--surface);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+  }
+
+  /* リセットボタン */
+  .reset-wrap {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .reset-btn {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: .55rem 1.2rem;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .reset-btn:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  /* 選択済み表示 */
+  .answered-label {
+    font-size: .8rem;
+    color: var(--muted);
+    margin-top: .5rem;
+    display: none;
+  }
+  .step-card.answered .answered-label { display: block; }
+
+  /* 進捗バー */
+  .progress-wrap {
+    max-width: 680px;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  .progress-bar-bg {
+    height: 4px;
+    background: var(--surface);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--blue);
+    border-radius: 2px;
+    transition: width .3s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-size: .75rem;
+    color: var(--muted);
+    margin-top: .4rem;
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .result-meta { grid-template-columns: 1fr; }
+    .result-name { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <a href="index.html" class="header-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 4L6 8L10 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    記事に戻る
+  </a>
+  <span class="header-title">パターン選択フローチャート</span>
+  <span class="header-badge">インタラクティブ</span>
+</header>
+
+<main>
+  <div class="page-head">
+    <h1>どのパターンを使う？</h1>
+    <p>3つの質問に答えるだけで、あなたのタスクに最適なマルチエージェントパターンがわかります。</p>
+  </div>
+
+  <!-- 進捗バー -->
+  <div class="progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">0 / 3 回答済み</div>
+  </div>
+
+  <div class="flow-wrap">
+
+    <!-- 質問1 -->
+    <div class="step-card active" id="step1">
+      <div class="step-num">1</div>
+      <div class="step-q">各タスクは互いに独立していますか？</div>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.9rem;line-height:1.6">
+        前のタスクの結果を次のタスクが参照しない場合は「YES」。複数のタスクが1つの文脈・目標を共有している場合は「NO」。
+      </p>
+      <div class="choices">
+        <button class="choice-btn" onclick="answer(1,'yes')">
+          <div class="choice-icon">A</div>
+          <div>
+            <div>YES — タスクは独立している</div>
+            <div class="choice-sub">例: 100サービスを並列移行する、複数ファイルを並行処理する</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="answer(1,'no')">
+          <div class="choice-icon">B</div>
+          <div>
+            <div>NO — タスクは連携している</div>
+            <div class="choice-sub">例: レポート生成、複合的な調査・分析、段階的な処理</div>
+          </div>
+        </button>
+      </div>
+      <div class="answered-label" id="answered1"></div>
+    </div>
+
+    <!-- 質問2 (YES分岐) -->
+    <div class="step-card" id="step2yes" style="display:none">
+      <div class="step-num">2</div>
+      <div class="step-q">出力の品質検証が必要ですか？</div>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.9rem;line-height:1.6">
+        生成した内容を別のAIがチェックし、基準を満たすまで再生成するループが必要な場合は「YES」。
+      </p>
+      <div class="choices">
+        <button class="choice-btn" onclick="answer(2,'yes')">
+          <div class="choice-icon">A</div>
+          <div>
+            <div>YES — 品質検証ループが必要</div>
+            <div class="choice-sub">例: メール返信のNG文言チェック、コード生成の自動テスト</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="answer(2,'no')">
+          <div class="choice-icon">B</div>
+          <div>
+            <div>NO — 並列処理のスループット重視</div>
+            <div class="choice-sub">例: 大量の文書処理、マイグレーション、一括変換</div>
+          </div>
+        </button>
+      </div>
+      <div class="answered-label" id="answered2yes"></div>
+    </div>
+
+    <!-- 質問2 (NO分岐) -->
+    <div class="step-card" id="step2no" style="display:none">
+      <div class="step-num">2</div>
+      <div class="step-q">処理の手順が事前に予測できますか？</div>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.9rem;line-height:1.6">
+        「このタスクをA→B→Cの順でやれば完了する」と事前に定義できる場合は「YES」。
+        実行しながら次の手順が動的に変わる場合は「NO」。
+      </p>
+      <div class="choices">
+        <button class="choice-btn" onclick="answer(2b,'yes')">
+          <div class="choice-icon">A</div>
+          <div>
+            <div>YES — 手順が事前に定義できる</div>
+            <div class="choice-sub">例: コードレビュー（セキュリティ→テスト→スタイル）</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="answer(2b,'no')">
+          <div class="choice-icon">B</div>
+          <div>
+            <div>NO — 手順が動的・状況依存</div>
+            <div class="choice-sub">例: セキュリティ監視、リアルタイム調査・協調タスク</div>
+          </div>
+        </button>
+      </div>
+      <div class="answered-label" id="answered2no"></div>
+    </div>
+
+    <!-- 質問3 (NO→NO分岐) -->
+    <div class="step-card" id="step3" style="display:none">
+      <div class="step-num">3</div>
+      <div class="step-q">イベント駆動の連携が必要ですか？</div>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.9rem;line-height:1.6">
+        「何かが起きたとき、それを購読しているAIが自動的に反応する」という仕組みが必要な場合は「YES」。
+        全AIがリアルタイムに情報を共有・参照しながら協力する場合は「NO」。
+      </p>
+      <div class="choices">
+        <button class="choice-btn" onclick="answer(3,'yes')">
+          <div class="choice-icon">A</div>
+          <div>
+            <div>YES — イベント駆動・Pub/Sub構造</div>
+            <div class="choice-sub">例: 異常検知トリガー、アラート連携、システム監視</div>
+          </div>
+        </button>
+        <button class="choice-btn" onclick="answer(3,'no')">
+          <div class="choice-icon">B</div>
+          <div>
+            <div>NO — 共有知識ベースで協調</div>
+            <div class="choice-sub">例: 市場調査、複数視点からの分析統合、知識ベース構築</div>
+          </div>
+        </button>
+      </div>
+      <div class="answered-label" id="answered3"></div>
+    </div>
+
+    <!-- 結果: Generator-Verifier -->
+    <div class="result-card" id="result-gv">
+      <div class="result-header" style="background:rgba(217,96,24,.06);border-bottom:1px solid rgba(217,96,24,.15)">
+        <div class="result-icon" style="background:linear-gradient(135deg,#d96018,#f59842)">GV</div>
+        <div>
+          <div class="result-label" style="color:var(--orange)">PATTERN 01</div>
+          <div class="result-name">Generator-Verifier</div>
+          <div class="result-reading">ジェネレーター・ベリファイアー</div>
+        </div>
+      </div>
+      <div class="result-body">
+        <p class="result-desc">
+          「作る係AI」と「チェックする係AI」の2体制。Generator AIが出力を生成し、
+          Verifier AIが基準に照らして検証します。NGなら修正指示を出してループ、
+          OKなら最終出力として送出します。
+        </p>
+        <div class="result-meta">
+          <div class="meta-box">
+            <span class="meta-label">💪 強み</span>
+            <div class="meta-content">品質保証・自動ダブルチェック</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">⚠️ 注意点</span>
+            <div class="meta-content">検証基準を明確に定義 / ループ上限を設定</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">✅ 向いているタスク</span>
+            <div class="meta-content">メール返信・コード生成・ファクトチェック</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">🚀 始め方</span>
+            <div class="meta-content">まずこれから始める。最もシンプルで効果を実感しやすい</div>
+          </div>
+        </div>
+        <div class="result-cta">
+          <a href="index.html#pattern01" class="cta-link primary">詳しく読む →</a>
+          <button class="cta-link secondary" onclick="resetFlow()">別のパターンを選ぶ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結果: Agent Teams -->
+    <div class="result-card" id="result-at">
+      <div class="result-header" style="background:rgba(0,143,106,.06);border-bottom:1px solid rgba(0,143,106,.15)">
+        <div class="result-icon" style="background:linear-gradient(135deg,#008f6a,#00c48c)">AT</div>
+        <div>
+          <div class="result-label" style="color:var(--green)">PATTERN 03</div>
+          <div class="result-name">Agent Teams</div>
+          <div class="result-reading">エージェント・チームズ</div>
+        </div>
+      </div>
+      <div class="result-body">
+        <p class="result-desc">
+          共有タスクキューから各Worker AIが自律的にタスクを取り出して並列処理します。
+          指揮者はいません。完了したWorkerは自動的に次のタスクを取り出すため、
+          大量の独立したタスクを高速に処理できます。
+        </p>
+        <div class="result-meta">
+          <div class="meta-box">
+            <span class="meta-label">💪 強み</span>
+            <div class="meta-content">大規模並列処理・スループット最大化</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">⚠️ 注意点</span>
+            <div class="meta-content">タスクを独立した単位に分割することが前提</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">✅ 向いているタスク</span>
+            <div class="meta-content">一括移行・大量文書処理・バッチ変換</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">📌 規模感</span>
+            <div class="meta-content">タスク数が多いほど効果が大きい</div>
+          </div>
+        </div>
+        <div class="result-cta">
+          <a href="index.html#pattern03" class="cta-link primary" style="background:var(--green)">詳しく読む →</a>
+          <button class="cta-link secondary" onclick="resetFlow()">別のパターンを選ぶ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結果: Orchestrator-Subagent -->
+    <div class="result-card" id="result-os">
+      <div class="result-header" style="background:rgba(26,150,192,.06);border-bottom:1px solid rgba(26,150,192,.15)">
+        <div class="result-icon" style="background:linear-gradient(135deg,#1a96c0,#2ec4f5)">OS</div>
+        <div>
+          <div class="result-label" style="color:var(--blue)">PATTERN 02</div>
+          <div class="result-name">Orchestrator-Subagent</div>
+          <div class="result-reading">オーケストレーター・サブエージェント</div>
+        </div>
+      </div>
+      <div class="result-body">
+        <p class="result-desc">
+          指揮者（Orchestrator）AIがタスクを分解・割り振り、専門のSubagent AIが実行。
+          各Subagentの結果をOrchestratorが統合して最終成果物を生成します。
+          事前に手順が定義できる複雑なタスクに最適です。
+        </p>
+        <div class="result-meta">
+          <div class="meta-box">
+            <span class="meta-label">💪 強み</span>
+            <div class="meta-content">タスク分解・専門化・品質の高い統合</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">⚠️ 注意点</span>
+            <div class="meta-content">Orchestratorがボトルネックになりやすい</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">✅ 向いているタスク</span>
+            <div class="meta-content">コードレビュー・複合的な分析・レポート生成</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">🔑 成功の鍵</span>
+            <div class="meta-content">タスク分解の設計と各Subagentへの明確な指示</div>
+          </div>
+        </div>
+        <div class="result-cta">
+          <a href="index.html#pattern02" class="cta-link primary">詳しく読む →</a>
+          <button class="cta-link secondary" onclick="resetFlow()">別のパターンを選ぶ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結果: Message Bus -->
+    <div class="result-card" id="result-mb">
+      <div class="result-header" style="background:rgba(122,59,206,.06);border-bottom:1px solid rgba(122,59,206,.15)">
+        <div class="result-icon" style="background:linear-gradient(135deg,#7a3bce,#a86df0)">MB</div>
+        <div>
+          <div class="result-label" style="color:var(--purple)">PATTERN 04</div>
+          <div class="result-name">Message Bus</div>
+          <div class="result-reading">メッセージバス</div>
+        </div>
+      </div>
+      <div class="result-body">
+        <p class="result-desc">
+          中央の「掲示板（Bus）」にAIがイベントを投稿（Publish）し、
+          関心を持つAIが自動的に反応（Subscribe）します。AI同士が直接つながらない
+          「疎結合」設計のため、新しいAIの追加・削除が容易です。
+        </p>
+        <div class="result-meta">
+          <div class="meta-box">
+            <span class="meta-label">💪 強み</span>
+            <div class="meta-content">疎結合・拡張性・リアクティブな連携</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">⚠️ 注意点</span>
+            <div class="meta-content">サイレント障害・循環連鎖のデバッグが複雑</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">✅ 向いているタスク</span>
+            <div class="meta-content">セキュリティ監視・アラート通知・イベント連携</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">🔑 設計のポイント</span>
+            <div class="meta-content">イベントのログ記録と循環依存チェックを必ず実装</div>
+          </div>
+        </div>
+        <div class="result-cta">
+          <a href="index.html#pattern04" class="cta-link primary" style="background:var(--purple)">詳しく読む →</a>
+          <button class="cta-link secondary" onclick="resetFlow()">別のパターンを選ぶ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 結果: Shared State -->
+    <div class="result-card" id="result-ss">
+      <div class="result-header" style="background:rgba(204,10,106,.06);border-bottom:1px solid rgba(204,10,106,.15)">
+        <div class="result-icon" style="background:linear-gradient(135deg,#cc0a6a,#f03d9a)">SS</div>
+        <div>
+          <div class="result-label" style="color:var(--pink)">PATTERN 05</div>
+          <div class="result-name">Shared State</div>
+          <div class="result-reading">シェアード・ステート</div>
+        </div>
+      </div>
+      <div class="result-body">
+        <p class="result-desc">
+          全AIが共有の「ノート（State Store）」に読み書きしながら協調します。
+          指揮者も指令もなく、各AIが自律的に情報を書き込み・参照することで
+          知識を積み上げていきます。単一障害点がなく堅牢です。
+        </p>
+        <div class="result-meta">
+          <div class="meta-box">
+            <span class="meta-label">💪 強み</span>
+            <div class="meta-content">単一障害点なし・リアルタイム情報共有</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">⚠️ 注意点</span>
+            <div class="meta-content">終了条件を明確に設計しないと無限ループ</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">✅ 向いているタスク</span>
+            <div class="meta-content">市場調査・マルチ視点分析・知識ベース構築</div>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">🔑 必須設計</span>
+            <div class="meta-content">終了フラグ・書き込み上限・整合性チェック</div>
+          </div>
+        </div>
+        <div class="result-cta">
+          <a href="index.html#pattern05" class="cta-link primary" style="background:var(--pink)">詳しく読む →</a>
+          <button class="cta-link secondary" onclick="resetFlow()">別のパターンを選ぶ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- リセット -->
+    <div class="reset-wrap" id="resetWrap" style="display:none">
+      <button class="reset-btn" onclick="resetFlow()">↺ 最初からやり直す</button>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  // 状態管理
+  const state = {
+    q1: null,  // 'yes' | 'no'
+    q2: null,  // 'yes' | 'no'  (q1='yes' の場合)
+    q2b: null, // 'yes' | 'no'  (q1='no' の場合)
+    q3: null,  // 'yes' | 'no'  (q1='no', q2b='no' の場合)
+    progress: 0
+  };
+
+  function updateProgress(n) {
+    state.progress = n;
+    const pct = Math.round((n / 3) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = n + ' / 3 回答済み';
+  }
+
+  function answer(qid, val) {
+    if (qid === '2b') {
+      // 質問2B (q1=no 分岐)
+      state.q2b = val;
+      const card = document.getElementById('step2no');
+      card.classList.add('answered');
+      document.getElementById('answered2no').textContent = '回答: ' + (val === 'yes' ? 'YES — 手順が事前に定義できる' : 'NO — 手順が動的');
+      updateProgress(2);
+
+      if (val === 'yes') {
+        // → Orchestrator-Subagent
+        showResult('result-os');
+      } else {
+        // → 質問3へ
+        const step3 = document.getElementById('step3');
+        step3.style.display = 'block';
+        step3.classList.add('active');
+        step3.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    if (qid === 1) {
+      state.q1 = val;
+      const card = document.getElementById('step1');
+      card.classList.add('answered');
+      document.getElementById('answered1').textContent = '回答: ' + (val === 'yes' ? 'YES — タスクは独立' : 'NO — タスクは連携');
+      updateProgress(1);
+
+      if (val === 'yes') {
+        const s2 = document.getElementById('step2yes');
+        s2.style.display = 'block';
+        s2.classList.add('active');
+        s2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        const s2 = document.getElementById('step2no');
+        s2.style.display = 'block';
+        s2.classList.add('active');
+        s2.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    if (qid === 2) {
+      state.q2 = val;
+      const card = document.getElementById('step2yes');
+      card.classList.add('answered');
+      document.getElementById('answered2yes').textContent = '回答: ' + (val === 'yes' ? 'YES — 品質検証ループが必要' : 'NO — スループット重視');
+      updateProgress(2);
+
+      if (val === 'yes') {
+        showResult('result-gv');
+      } else {
+        showResult('result-at');
+      }
+      return;
+    }
+
+    if (qid === 3) {
+      state.q3 = val;
+      const card = document.getElementById('step3');
+      card.classList.add('answered');
+      document.getElementById('answered3').textContent = '回答: ' + (val === 'yes' ? 'YES — イベント駆動' : 'NO — 共有知識ベース');
+      updateProgress(3);
+
+      if (val === 'yes') {
+        showResult('result-mb');
+      } else {
+        showResult('result-ss');
+      }
+      return;
+    }
+  }
+
+  // answer(2b,'yes') → 文字列 '2b' として渡す必要があるが
+  // onclick="answer(2b,'yes')" は変数 2b を参照しようとするので修正
+  // → 全ての呼び出しを文字列に統一する
+
+  function showResult(id) {
+    const r = document.getElementById(id);
+    r.classList.add('show');
+    document.getElementById('resetWrap').style.display = 'block';
+    setTimeout(() => r.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+  }
+
+  function resetFlow() {
+    // 状態リセット
+    Object.assign(state, { q1: null, q2: null, q2b: null, q3: null, progress: 0 });
+    updateProgress(0);
+
+    // ステップカードリセット
+    ['step1','step2yes','step2no','step3'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('answered','active');
+      el.style.display = id === 'step1' ? 'block' : 'none';
+    });
+    document.getElementById('step1').classList.add('active');
+
+    // 回答ラベルクリア
+    ['answered1','answered2yes','answered2no','answered3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '';
+    });
+
+    // 結果カード非表示
+    ['result-gv','result-at','result-os','result-mb','result-ss'].forEach(id => {
+      document.getElementById(id).classList.remove('show');
+    });
+
+    // リセットボタン非表示
+    document.getElementById('resetWrap').style.display = 'none';
+
+    // トップへ
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+<!-- onclick の文字列修正: 2b を文字列として渡す -->
+<script>
+  // step2no の choice-btn の onclick を修正
+  document.addEventListener('DOMContentLoaded', () => {
+    const step2no = document.getElementById('step2no');
+    const btns = step2no.querySelectorAll('.choice-btn');
+    btns[0].onclick = () => answer('2b', 'yes');
+    btns[1].onclick = () => answer('2b', 'no');
+  });
+</script>
+
+</body>
+</html>

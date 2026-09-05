@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 A - つまずきポイント</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">つまずきポイント</span>
+    <h2 class="slide-title">「同じ数」は山にならない</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">注意</span>
+      <p>条件は「より小さい・より大きい」— 等しいときは条件を満たさない</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          box[i].x = 40 + i*62  (boxWidth=52, gap=10)
+          3つのボックス中心 = 66, 128, 190
+          パネル1: y=16..156 / パネル2: y=174..314
+        -->
+
+        <!-- ▼ NG パネル -->
+        <rect x="16" y="16" width="508" height="140" rx="12" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.25)" stroke-width="1.5"/>
+        <text x="36" y="42" font-size="14" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">❌ 同じ数が並んでも山にはならない</text>
+
+        <rect x="40" y="64" width="52" height="52" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="66" y="98" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="102" y="64" width="52" height="52" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="128" y="98" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="164" y="64" width="52" height="52" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="98" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="128" y="136" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例2の先頭3つ</text>
+
+        <text x="240" y="86" font-size="14" font-weight="700" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">1 &lt; 1 は成り立たない</text>
+        <text x="240" y="112" font-size="13" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">「以下」ではなく「より小さい」</text>
+
+        <!-- ▼ OK パネル -->
+        <rect x="16" y="174" width="508" height="140" rx="12" fill="rgba(0,143,106,.07)" stroke="rgba(0,143,106,.28)" stroke-width="1.5"/>
+        <text x="36" y="200" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">⭕ 真ん中だけが大きいときに山になる</text>
+
+        <rect x="40" y="222" width="52" height="52" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="66" y="256" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="102" y="222" width="52" height="52" rx="9" fill="#ffffff" stroke="var(--green)" stroke-width="2.5"/>
+        <text x="128" y="256" text-anchor="middle" font-size="24" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">2</text>
+        <rect x="164" y="222" width="52" height="52" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="256" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="128" y="294" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例2の3〜5つ目</text>
+
+        <text x="240" y="244" font-size="14" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">1 &lt; 2 かつ 2 &gt; 1</text>
+        <text x="240" y="270" font-size="13" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">ここで山を1つカウントする</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 「前日と同じ売上」はピークとは呼べない</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>問題の条件に「等しい場合」は含まれていない</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>同じ数が続く所は、左右どちらの条件も満たさない</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>迷ったら入力例2「1 1 1 2 1」で答え合わせ</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 調べる回数</div>
+        <ul class="box-list">
+          <li>真ん中になれるのは2番目〜N-1番目だけ</li>
+          <li>窓をずらす回数はちょうど N-2 回</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ よくあるミス</div>
+        <ul class="box-list">
+          <li>条件を「以下・以上」で書いてしまう</li>
+          <li>最後まで回して、存在しない7個目を見にいく</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

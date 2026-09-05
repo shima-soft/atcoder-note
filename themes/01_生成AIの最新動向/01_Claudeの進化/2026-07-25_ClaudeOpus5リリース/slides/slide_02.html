@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.ov-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  position: relative;
+  overflow: hidden;
+}
+.ov-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  border-radius: 14px 0 0 14px;
+}
+.ov-card.c-cost::before   { background: var(--blue); }
+.ov-card.c-verify::before { background: var(--green); }
+.ov-card.c-agent::before  { background: var(--purple); }
+.ov-card.c-safe::before   { background: var(--orange); }
+.ov-icon { font-size: 1.5rem; line-height: 1; }
+.ov-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.ov-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  width: fit-content;
+}
+.c-cost   .ov-badge { background: rgba(26,150,192,.12); color: var(--blue); }
+.c-verify .ov-badge { background: rgba(0,143,106,.12);  color: var(--green); }
+.c-agent  .ov-badge { background: rgba(122,59,206,.12); color: var(--purple); }
+.c-safe   .ov-badge { background: rgba(217,96,24,.12);  color: var(--orange); }
+.ov-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+.ov-highlight { font-size: .78rem; font-weight: 700; margin-top: .1rem; }
+.c-cost   .ov-highlight { color: var(--blue); }
+.c-verify .ov-highlight { color: var(--green); }
+.c-agent  .ov-highlight { color: var(--purple); }
+.c-safe   .ov-highlight { color: var(--orange); }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">OVERVIEW</span>
+    <h2 class="slide-title">Opus 5 — 4つの進化領域</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>賢さ・粘り強さ・仕事の完遂力・安全性が同時に向上。それでも料金は Opus 4.8 と同じ</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="overview-grid">
+      <div class="ov-card c-cost">
+        <span class="ov-icon">💰</span>
+        <span class="ov-badge">コストパフォーマンス</span>
+        <div class="ov-title">最上位モデルに迫る賢さを半額で</div>
+        <div class="ov-desc">同社の最上位モデル Fable 5 とほぼ同じ成績を、1タスクあたり半分のコストで達成。「考える深さ」も5段階で調整できる</div>
+        <div class="ov-highlight">CursorBench 3.2 で Fable 5 との差 0.5% 以内</div>
+      </div>
+      <div class="ov-card c-verify">
+        <span class="ov-icon">🔍</span>
+        <span class="ov-badge">自己検証</span>
+        <div class="ov-title">自分で答え合わせをして直す</div>
+        <div class="ov-desc">できたつもりで終わらせず、自分の成果物を点検して間違いを見つけ、直してから提出する働き方に変わった</div>
+        <div class="ov-highlight">ARC-AGI 3（初見の問題を解く力）で2位の3倍</div>
+      </div>
+      <div class="ov-card c-agent">
+        <span class="ov-icon">🤖</span>
+        <span class="ov-badge">業務の完遂力</span>
+        <div class="ov-title">実務のタスクを最後までやり切る</div>
+        <div class="ov-desc">「調べて・判断して・関係者に共有する」といった複数工程の仕事を、途中で止まらずに終わらせられる</div>
+        <div class="ov-highlight">Zapier の業務ベンチマークで合格率 100%</div>
+      </div>
+      <div class="ov-card c-safe">
+        <span class="ov-icon">🛡️</span>
+        <span class="ov-badge">安全性・アライメント</span>
+        <div class="ov-title">Anthropic 史上もっとも「筋の通った」モデル</div>
+        <div class="ov-desc">ウソをつく・だまされて悪用される・取り返しのつかない操作をする、といった振る舞いが歴代で最も少ない</div>
+        <div class="ov-highlight">不適切な振る舞いのスコア 2.3（自社最低値）</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

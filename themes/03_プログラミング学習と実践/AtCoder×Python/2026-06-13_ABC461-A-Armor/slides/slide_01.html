@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.title-slide {
+  width: 1280px; height: 720px;
+  display: flex; flex-direction: row;
+  overflow: hidden;
+}
+.panel-dark {
+  width: 38%;
+  background: #1a1d2e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2.2rem 2.4rem;
+  position: relative;
+  overflow: hidden;
+}
+.panel-dark::before {
+  content: '';
+  position: absolute; top: -100px; left: -80px;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(217,96,24,.25) 0%, transparent 65%);
+  pointer-events: none;
+}
+.panel-dark::after {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(26,150,192,.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+.ep-badge {
+  display: inline-block;
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  letter-spacing: .1em;
+  margin-bottom: .9rem;
+  width: fit-content;
+}
+.main-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: .5rem;
+}
+.main-title .prob-num {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--orange);
+  display: block;
+  line-height: 1.0;
+  margin-top: .2rem;
+  letter-spacing: .05em;
+}
+.main-sub {
+  font-size: .84rem;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 1.4rem;
+}
+.algo-badge {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: .28rem .6rem;
+  width: fit-content;
+  margin-top: .3rem;
+}
+.algo-badge .big-text {
+  font-size: .82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  line-height: 1;
+}
+.algo-badge .algo-label {
+  font-size: .65rem;
+  color: rgba(255,255,255,.35);
+  line-height: 1.4;
+}
+.panel-light {
+  flex: 1;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 2.8rem 1.8rem;
+}
+.point-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bottom-info {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.source-badge {
+  display: inline-block;
+  background: rgba(217,96,24,.1);
+  color: var(--orange);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  margin-bottom: .5rem;
+  width: fit-content;
+}
+.diff-badge {
+  display: inline-block;
+  background: rgba(94,106,138,.12);
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  width: fit-content;
+  border: 1px solid rgba(94,106,138,.25);
+}
+.right-heading {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.point-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+.point-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.pnum {
+  min-width: 22px; height: 22px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  flex-shrink: 0; margin-top: .05rem;
+}
+.credit {
+  font-size: .68rem;
+  color: var(--muted);
+  opacity: .7;
+}
+.credit a { color: inherit; text-decoration: none; }
+.credit a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="title-slide">
+  <div class="panel-dark">
+    <span class="ep-badge">AtCoder×Pythonシリーズ</span>
+    <div class="main-title">
+      ABC461<br>A問題
+      <span class="prob-num">Armor</span>
+    </div>
+    <div class="main-sub">大小比較をマスターしよう</div>
+    <div class="algo-badge">
+      <span class="big-text">条件分岐</span>
+      <span class="algo-label">比較演算子 / if-else</span>
+    </div>
+  </div>
+  <div class="panel-light">
+    <div class="point-section">
+      <span class="source-badge">📖 AtCoder ABC461 解説</span>
+      <div class="right-heading">Today's Points</div>
+      <ul class="point-list">
+        <li>
+          <span class="pnum">1</span>
+          問題名「Armor（防具）」がヒント — 攻撃力Aが防御力D以下なら防具は有効
+        </li>
+        <li>
+          <span class="pnum">2</span>
+          「<=（以下）」の比較演算子で条件をシンプルに判定できる
+        </li>
+        <li>
+          <span class="pnum">3</span>
+          Python 5行の if/else で正解にたどり着ける
+        </li>
+      </ul>
+    </div>
+    <div class="bottom-info">
+      <span class="diff-badge">ABC-A 難易度: 灰色 ★☆☆</span>
+      <p class="credit">出典: <a href="https://atcoder.jp/contests/abc461/tasks/abc461_a" target="_blank">atcoder.jp/contests/abc461/tasks/abc461_a</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>SkillSmithの全体像 二つのステージで鍛える</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">全体像</span>
+    <h2 class="slide-title">SkillSmithの全体像 — 二つのステージで鍛える</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>オフラインで鍛えてオンラインで使う。クラウドのベテランが作り、現場の若手の失敗で磨く — 本番は端末だけで完結</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="SkillSmithの二段階フロー オフライン学習とオンライン実行">
+        <!-- フェーズラベル -->
+        <text x="34" y="22" font-size="11" font-weight="900" fill="#5e6a8a">オフライン学習フェーズ（クラウド-ローカル協調）</text>
+        <rect x="18" y="26" width="590" height="260" rx="14" fill="#f9fafb" stroke="#dde2ec"/>
+
+        <!-- Stage1 -->
+        <rect x="34" y="44" width="270" height="118" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="169" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">ステージ1: Skill Creation</text>
+        <text x="169" y="76" text-anchor="middle" font-size="10" fill="#5e6a8a">クラウドAgentが代表タスクを探索</text>
+        <!-- steps inside -->
+        <rect x="46" y="84" width="246" height="26" rx="8" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="169" y="101" text-anchor="middle" font-size="11" fill="#1a1d2e">① Explore &amp; Reflect → レポート化</text>
+        <rect x="46" y="116" width="246" height="26" rx="8" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="169" y="133" text-anchor="middle" font-size="11" fill="#1a1d2e">② Cluster / Distill / Merge → Skill 0</text>
+        <text x="169" y="153" text-anchor="middle" font-size="10" fill="#7a3bce">100件超を要約・上限Lmaxで収める</text>
+
+        <!-- arrow between stages -->
+        <polygon points="318,100 328,100 328,95 338,104 328,113 328,108 318,108" fill="#5e6a8a"/>
+
+        <!-- Stage2 -->
+        <rect x="344" y="44" width="250" height="208" rx="12" fill="#eff7f4" stroke="#008f6a" stroke-width="2"/>
+        <text x="469" y="62" text-anchor="middle" font-size="12" font-weight="900" fill="#008f6a">ステージ2: Skill Evolution</text>
+        <text x="469" y="76" text-anchor="middle" font-size="10" fill="#5e6a8a">ローカルAgentの失敗で鍛え直す</text>
+        <!-- loop -->
+        <rect x="358" y="84" width="222" height="26" rx="8" fill="#ffffff" stroke="#8ec9b8"/>
+        <text x="469" y="101" text-anchor="middle" font-size="11" fill="#1a1d2e">③ Execute &amp; Compress → 失敗報告</text>
+        <rect x="358" y="116" width="222" height="26" rx="8" fill="#ffffff" stroke="#8ec9b8"/>
+        <text x="469" y="133" text-anchor="middle" font-size="11" fill="#1a1d2e">④ Cluster / Analyze / Merge → Skill i</text>
+        <!-- iteration arrow -->
+        <path d="M 580 152 L 580 172 C 580 186, 568 198, 552 198 L 368 198 C 352 198, 340 186, 340 172 L 340 162" stroke="#008f6a" stroke-width="1.8" fill="none" stroke-dasharray="5 3"/>
+        <polygon points="340,152 335,162 345,162" fill="#008f6a"/>
+        <text x="469" y="168" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">最良のSkillを保存 → 次の周回へ</text>
+        <text x="469" y="182" text-anchor="middle" font-size="10" fill="#5e6a8a">R回くり返し（論文は5回）</text>
+        <rect x="368" y="190" width="202" height="30" rx="8" fill="#008f6a" stroke="#008f6a"/>
+        <text x="469" y="205" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">Skill Library に蓄積</text>
+        <text x="469" y="216" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)">長さ上限Lmaxで膨張を防ぐ</text>
+
+        <!-- Online phase -->
+        <text x="34" y="304" font-size="11" font-weight="900" fill="#5e6a8a">オンライン実行フェーズ（本番・端末だけで完結）</text>
+        <rect x="18" y="310" width="590" height="88" rx="14" fill="#ffffff" stroke="#1a1d2e" stroke-width="1.6"/>
+        <!-- frozen agent + skill -->
+        <rect x="34" y="326" width="170" height="54" rx="10" fill="#eff1f7" stroke="#b9c0d4"/>
+        <text x="119" y="346" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">凍結ローカルAgent</text>
+        <text x="119" y="362" text-anchor="middle" font-size="11" fill="#1a1d2e">Qwen3.6-27Bなど</text>
+        <text x="119" y="374" text-anchor="middle" font-size="10" fill="#5e6a8a">中身は更新しない</text>
+
+        <text x="214" y="355" text-anchor="middle" font-size="18" fill="#7a3bce">＋</text>
+
+        <rect x="230" y="326" width="170" height="54" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="315" y="346" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">完成したSkill</text>
+        <text x="315" y="362" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.85)">SKILL.md＋別冊</text>
+        <text x="315" y="374" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.7)">逐次開示で読み込む</text>
+
+        <polygon points="410,353 430,353 430,348 440,357 430,366 430,361 410,361" fill="#1a1d2e"/>
+
+        <rect x="444" y="326" width="150" height="54" rx="10" fill="#1a1d2e" stroke="#1a1d2e"/>
+        <text x="519" y="346" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">タスク実行</text>
+        <text x="519" y="362" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.85)">クラウド呼び出しゼロ</text>
+        <text x="519" y="374" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.7)">情報は端末内に留まる</text>
+
+        <text x="310" y="418" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">オフラインで鍛え、オンラインは軽く — 月次の代表タスクでSkillを育て、日々の実行はローカルで完結</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>ベテランが研修で初期マニュアルを書く</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>若手が現場で失敗→同じ穴を集めて1回で赤入れ</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>完成版を全員に配る。本番は各自で完結</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ ポイント</div>
+        <ul class="box-list">
+          <li>Skillは自然言語の“最適化対象”、クラウドが最適化役</li>
+          <li>最良版だけをデプロイ（成功率で選抜）</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 制約</div>
+        <ul class="box-list">
+          <li>長さ上限Lmax（表紙400行・別冊250行）で膨張を防ぐ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.body-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: .7rem; flex: 1; overflow: hidden;
+}
+.section-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .7rem .9rem;
+  display: flex; flex-direction: column; gap: .35rem; overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem; font-weight: 700; color: var(--orange);
+  text-transform: uppercase; letter-spacing: .06em;
+  padding-bottom: .3rem; border-bottom: 1px solid var(--border);
+}
+.sec-title { font-size: .82rem; font-weight: 900; color: var(--text); }
+.sec-body { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+.grid-viz {
+  display: flex; flex-direction: column; gap: 2px; align-items: center; margin: .3rem 0;
+}
+.grid-row { display: flex; gap: 2px; }
+.grid-cell {
+  width: 28px; height: 28px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 700; background: var(--surface); color: var(--text);
+}
+.grid-cell.one { background: var(--orange); color: #fff; }
+.constraint-row {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .25rem 0; border-bottom: 1px solid var(--border);
+  font-size: .78rem; color: var(--text);
+}
+.constraint-row:last-child { border-bottom: none; }
+.cvar {
+  font-family: 'Consolas', monospace; font-weight: 700;
+  color: var(--orange); min-width: 60px; flex-shrink: 0;
+}
+.hint-box {
+  background: rgba(217,96,24,.06); border: 1px solid rgba(217,96,24,.2);
+  border-radius: 10px; padding: .4rem .6rem;
+  font-size: .76rem; color: var(--text); line-height: 1.6; margin-top: auto;
+}
+.io-table { width: 100%; border-collapse: collapse; font-size: .76rem; margin-top: .2rem; }
+.io-table th {
+  background: var(--surface); padding: .25rem .4rem; font-size: .68rem;
+  font-weight: 700; color: var(--muted); border-bottom: 2px solid var(--border); text-align: left;
+}
+.io-table td {
+  padding: .3rem .4rem; border-bottom: 1px solid var(--border);
+  font-family: 'Consolas', monospace; vertical-align: middle;
+}
+.io-table tr:last-child td { border-bottom: none; }
+.ans { font-weight: 900; color: var(--orange); }
+.io-note { font-size: .72rem; color: var(--muted); line-height: 1.5; margin-top: .3rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">H×W の 0/1 グリッド — 総和 K の長方形はいくつ？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>(r₁,c₁,r₂,c₂) の四つ組を全探索すると O(H²W²) で間に合わない</p>
+    </div>
+  </div>
+  <div class="body-grid slide-body">
+    <div class="section-card">
+      <div class="sec-label">問題文</div>
+      <div class="sec-title">長方形領域の総和が K</div>
+      <div class="sec-body">
+        H×W のグリッドの各セルは 0 または 1。<br>
+        以下の条件を満たす (r₁,c₁,r₂,c₂) の個数を求めよ：
+      </div>
+      <div class="grid-viz">
+        <div class="grid-row">
+          <div class="grid-cell one">1</div>
+          <div class="grid-cell">0</div>
+          <div class="grid-cell">0</div>
+          <div class="grid-cell one">1</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell one">1</div>
+          <div class="grid-cell one">1</div>
+          <div class="grid-cell">0</div>
+          <div class="grid-cell one">1</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell">0</div>
+          <div class="grid-cell one">1</div>
+          <div class="grid-cell one">1</div>
+          <div class="grid-cell">0</div>
+        </div>
+      </div>
+      <div class="hint-box">
+        💡 長方形の選び方 = 左上 (r₁,c₁) と右下 (r₂,c₂) を選ぶ。<br>
+        全探索 O(H²W²) ≈ 625億 は無理！
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="sec-label">制約</div>
+      <div class="sec-title">変数の意味と範囲</div>
+      <div style="margin-top:.15rem;">
+        <div class="constraint-row">
+          <span class="cvar">H,W</span>
+          <span>グリッドのサイズ（≤ 500）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">K</span>
+          <span>目標総和（0 〜 HW）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">Sᵢ</span>
+          <span>'0' / '1' からなる長さ W の文字列</span>
+        </div>
+      </div>
+      <div class="hint-box">
+        ⚠️ H,W ≤ 500 → H²W ≤ 1.25×10⁸<br>
+        Python でも 4 秒なら O(H²W) が通る範囲。
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="sec-label">サンプル</div>
+      <div class="sec-title">入力例 1 で確認</div>
+      <table class="io-table">
+        <tr><th>H</th><th>W</th><th>K</th><th>grid</th><th>答え</th></tr>
+        <tr><td>3</td><td>4</td><td>3</td><td>上図</td><td class="ans">8</td></tr>
+      </table>
+      <div class="io-note">
+        <strong>該当する長方形:</strong><br>
+        (1,1)-(2,2), (1,1)-(2,3), (1,2)-(2,4),<br>
+        (1,2)-(3,3), (1,3)-(3,4), (2,1)-(2,4),<br>
+        (2,1)-(3,2), (2,2)-(3,3) → 計 8 個 ✅
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

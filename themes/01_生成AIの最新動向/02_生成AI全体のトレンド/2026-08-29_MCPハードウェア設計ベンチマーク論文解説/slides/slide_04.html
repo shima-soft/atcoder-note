@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>MCPサーバの中身</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">MCPサーバ</span>
+    <h2 class="slide-title">MCPサーバ — 14の道具で“本物の設計ツール”を再現</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>MCPは「AIとアプリをつなぐ共通コンセント」。本研究はその裏側で実際の設計ツールの動きをそっくり再現している</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="14のMCPツール構成">
+        <!-- 上部: AIエージェントとMCP -->
+        <rect x="160" y="12" width="300" height="48" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="310" y="32" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">AIエージェント（ローカルLLM）</text>
+        <text x="310" y="48" text-anchor="middle" font-size="11" fill="#ffffff">Gemma / Qwen / Llama など7モデル</text>
+        <path d="M310 60 L310 78" stroke="#7a3bce" stroke-width="2.5" fill="none"/>
+        <polygon points="310,84 305,74 315,74" fill="#7a3bce"/>
+        <rect x="210" y="84" width="200" height="28" rx="8" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="310" y="102" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">MCPで会話 → ツール呼び出し</text>
+
+        <!-- ツール群 3グループ -->
+        <text x="34" y="138" font-size="11" font-weight="900" fill="#5e6a8a">Adder系（作る・追加する）7つ</text>
+        <rect x="20" y="146" width="188" height="174" rx="12" fill="#ffffff" stroke="#7a3bce" stroke-width="2"/>
+        <rect x="32" y="158" width="164" height="28" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="114" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">create_component</text>
+        <text x="114" y="192" text-anchor="middle" font-size="10" fill="#5e6a8a">部品を新規作成（VLNV指定）</text>
+        <rect x="32" y="196" width="164" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="114" y="214" text-anchor="middle" font-size="11" fill="#1a1d2e">add_signal_port</text>
+        <rect x="32" y="230" width="164" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="114" y="248" text-anchor="middle" font-size="11" fill="#1a1d2e">add_transactional_port</text>
+        <rect x="32" y="264" width="164" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="114" y="282" text-anchor="middle" font-size="11" fill="#1a1d2e">add_subcomponent 他4つ</text>
+
+        <text x="232" y="138" font-size="11" font-weight="900" fill="#5e6a8a">Getter系（見る・調べる）3つ</text>
+        <rect x="224" y="146" width="172" height="174" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="236" y="158" width="148" height="28" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="310" y="177" text-anchor="middle" font-size="11" fill="#1a1d2e">get_component_details</text>
+        <rect x="236" y="192" width="148" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="210" text-anchor="middle" font-size="11" fill="#1a1d2e">get_element</text>
+        <rect x="236" y="226" width="148" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="244" text-anchor="middle" font-size="11" fill="#1a1d2e">list_components</text>
+        <text x="310" y="270" text-anchor="middle" font-size="11" fill="#5e6a8a">状態を確認して</text>
+        <text x="310" y="286" text-anchor="middle" font-size="11" fill="#5e6a8a">次の一手を決める</text>
+        <text x="310" y="304" text-anchor="middle" font-size="10" fill="#7a3bce">履歴問題で重要に</text>
+
+        <text x="420" y="138" font-size="11" font-weight="900" fill="#5e6a8a">Other系（保存・削除）4つ</text>
+        <rect x="412" y="146" width="188" height="174" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="424" y="158" width="164" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="506" y="177" text-anchor="middle" font-size="11" fill="#1a1d2e">save / load_component</text>
+        <rect x="424" y="192" width="164" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="506" y="210" text-anchor="middle" font-size="11" fill="#1a1d2e">delete_element 他</text>
+        <text x="506" y="238" text-anchor="middle" font-size="11" fill="#5e6a8a">依存関係を守りつつ</text>
+        <text x="506" y="254" text-anchor="middle" font-size="11" fill="#5e6a8a">永続状態を更新</text>
+
+        <!-- 下部: 状態 -->
+        <rect x="20" y="336" width="580" height="74" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="310" y="362" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">ポイント：後から呼ぶ処理は、前の処理の結果に依存する</text>
+        <text x="310" y="384" text-anchor="middle" font-size="11" fill="#5e6a8a">例：ポートを作る前に配線しようとするとサーバが即失敗（TFR）を返す</text>
+        <text x="310" y="402" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">→ 単なる文章生成ではなく「状態を持ったツール操作」のベンチマーク</text>
+
+        <text x="34" y="424" font-size="10" fill="#5e6a8a">■紫＝今の主役（追加系）　■グレー＝状態確認　■薄紫＝MCPのやり取り</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">MCPをたとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>AIが「Excelを操作して」と言うと、MCPが裏でAPIを叩く通訳役</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>今回はExcelの代わりに“半導体設計ツール”を再現したMCP</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>VLNV = 部品の住所（ベンダ:ライブラリ:名前:版）</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ なぜ再現サーバを使う？</div>
+        <ul class="box-list">
+          <li>本物の設計ツールには機密が入る → 動作だけを再現して安全に実験</li>
+          <li>14ツールの依存ロジックは現場エンジニアと一緒に定義</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">補足</div>
+        <ul class="box-list">
+          <li>ローカルLLMは Ollama で4bit量子化して省メモリ化</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.ov-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .4rem;
+  position: relative;
+  overflow: hidden;
+}
+.ov-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  border-radius: 14px 0 0 14px;
+  background: var(--muted);
+}
+.ov-head { display: flex; align-items: center; gap: .5rem; }
+.ov-icon { font-size: 1.35rem; line-height: 1; }
+.ov-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.ov-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  width: fit-content;
+  background: rgba(94,106,138,.12);
+  color: var(--muted);
+}
+.ov-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+.ov-highlight { font-size: .78rem; font-weight: 700; color: var(--red); margin-top: .1rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">SYMPTOM</span>
+    <h2 class="slide-title">31本作って、毎回同じ手直しをしていた</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>禁止事項をどれだけ書き足しても、同じ4つの直しが毎回発生した</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">🔤</span>
+          <span class="ov-title">文字が枠からはみ出す</span>
+        </div>
+        <span class="ov-badge">図の中で起きる</span>
+        <div class="ov-desc">図の文字は、枠を超えても自動で切れたり折り返したりしない。日本語は英数字のおよそ2倍の幅を取るので、幅の見積もりを外しやすい</div>
+        <div class="ov-highlight">2px のはみ出しは、目で見て気づけない</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">📐</span>
+          <span class="ov-title">中身が画面から溢れる</span>
+        </div>
+        <span class="ov-badge">スライド全体で起きる</span>
+        <div class="ov-desc">スライドは 1280×720 の固定サイズ。Web ページと違ってスクロールできないため、はみ出した分はそのまま消える</div>
+        <div class="ov-highlight">下端が切れていても、上半分だけ見れば正常に見える</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">🔁</span>
+          <span class="ov-title">Web 公開版だけ古くなる</span>
+        </div>
+        <span class="ov-badge">同じ図を2か所に置いている</span>
+        <div class="ov-desc">スライドの図を直したのに、同じ図を載せた公開ページ側を直し忘れる。あるいは手で写す途中で内容が変わる</div>
+        <div class="ov-highlight">どちらが最新かが分からなくなる</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">📝</span>
+          <span class="ov-title">ルールを足すほど増える</span>
+        </div>
+        <span class="ov-badge">指示書の側で起きる</span>
+        <div class="ov-desc">同じ指摘をするたび CLAUDE.md に禁止事項を書き足した。項目は15個まで伸びたが、同じ指摘は減らなかった</div>
+        <div class="ov-highlight">読ませる量が増えるほど、1項目あたりの効き目は薄まる</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

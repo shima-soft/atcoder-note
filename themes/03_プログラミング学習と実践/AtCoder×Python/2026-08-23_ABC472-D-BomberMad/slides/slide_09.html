@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC472 D - Bomber Mad 解説</title>
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.left-col {
+  flex: 0 0 52%;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  overflow: hidden;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: .7rem 1rem;
+  font-size: .78rem;
+  line-height: 1.5;
+  overflow: hidden;
+}
+.complex {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .9rem;
+  flex: 1;
+  overflow: hidden;
+}
+.complex h3 { font-size: .82rem; margin-bottom: .2rem; }
+.big-o { font-size: 1.3rem; font-weight: 900; color: var(--orange); margin: .15rem 0 .25rem; }
+.calc { font-size: .76rem; color: var(--muted); line-height: 1.55; }
+.info-col { gap: .5rem; }
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .45rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .2rem;
+}
+.line-explain p {
+  font-size: .78rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .74rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード③ / 計算量</span>
+    <h2 class="slide-title">K以内のマスを数えて完成（7行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>dist が 0〜K の空マスを数えるだけ。全体 O(HW) で余裕</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+
+    <!-- 左カラム: コード＋計算量 -->
+    <div class="left-col">
+      <div class="code-label">PYTHON（後半）</div>
+      <pre><code class="language-python">ans = 0
+for i in range(H):
+    for j in range(W):
+        if S[i][j] == '.':
+            if dist[i][j] != -1 and dist[i][j] <= K:
+                ans += 1
+print(ans)</code></pre>
+
+      <div class="complex">
+        <h3>全体の計算量</h3>
+        <div class="big-o">O(HW)</div>
+        <p class="calc">前計算 O(HW) ＋ BFS O(HW) ＋ 集計 O(HW)。<br>H×W ≤ 5×10<sup>5</sup>。O(N) 型は Python でも N ≤ 10<sup>7</sup> 程度までOKなので、<strong>余裕を持って間に合う</strong>。</p>
+      </div>
+    </div>
+
+    <!-- 右カラム: 解説 -->
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>3〜6行目 — 条件を満たすマスを数える</h4>
+        <p>全マスをもう一周し、<strong>空マス</strong>かつ<strong>距離が 0〜K</strong>（安全マス自身の距離0も含む）ならカウント。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>K=0 のときは？</h4>
+        <p>条件は「dist = 0」＝そのマス自身が安全。入力例2のように、<strong>爆弾がなければ全マスが答え</strong>になる。</p>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ やりがちなバグ</div>
+        <ul class="box-list">
+          <li><code>dist[i][j] != -1</code> を忘れると危険</li>
+          <li>どこからも届かない空マスは −1 のまま。<strong>−1 ≤ K は真</strong>なので誤って数えてしまう</li>
+        </ul>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 安全マスが1個もない入力</div>
+        <ul class="box-list">
+          <li>BFSが1回も走らず ans = 0 のまま。特別扱いは不要</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マルチエージェント連携パターン入門 | ep01 Web版</title>
+<style>
+/* ===== CSS変数（ライトモード固定） ===== */
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --header-h: 52px;
+  --sidebar-w: 220px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ===== ヘッダー ===== */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.header-ep {
+  background: linear-gradient(135deg, #e8873a, #d96018);
+  color: #fff; font-size: .68rem; font-weight: 700;
+  padding: .15rem .55rem; border-radius: 99px; letter-spacing: .08em;
+}
+.header-title {
+  font-size: .95rem; font-weight: 900; color: var(--text);
+}
+.header-sub {
+  font-size: .78rem; color: var(--muted); margin-left: auto;
+}
+.header-fc-link {
+  font-size: .78rem; color: var(--blue); text-decoration: none;
+  padding: .2rem .6rem; border: 1px solid var(--blue);
+  border-radius: 6px; white-space: nowrap;
+}
+.header-fc-link:hover { background: rgba(26,150,192,.08); }
+
+/* ===== レイアウト ===== */
+.page-layout {
+  display: flex;
+  margin-top: var(--header-h);
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ===== サイドバー ===== */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 1.2rem 0;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.nav-section-label {
+  font-size: .65rem; font-weight: 700; color: var(--muted);
+  padding: .5rem 1rem .2rem; letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.nav-item {
+  display: block; padding: .4rem 1rem;
+  font-size: .8rem; color: var(--muted);
+  text-decoration: none; border-left: 3px solid transparent;
+  transition: all .15s; line-height: 1.4;
+}
+.nav-item:hover { color: var(--text); background: var(--surface); }
+.nav-item.active { color: var(--text); background: var(--surface); font-weight: 700; }
+.nav-item[data-color="orange"].active { border-left-color: var(--orange); color: var(--orange); }
+.nav-item[data-color="blue"].active   { border-left-color: var(--blue);   color: var(--blue); }
+.nav-item[data-color="green"].active  { border-left-color: var(--green);  color: var(--green); }
+.nav-item[data-color="purple"].active { border-left-color: var(--purple); color: var(--purple); }
+.nav-item[data-color="pink"].active   { border-left-color: var(--pink);   color: var(--pink); }
+.nav-item[data-color="neutral"].active { border-left-color: var(--blue);  color: var(--blue); }
+
+/* ===== メインコンテンツ ===== */
+.main-content {
+  flex: 1;
+  max-width: 820px;
+  padding: 2rem 2.5rem;
+  margin: 0 auto;
+}
+
+/* ===== セクション共通 ===== */
+section { margin-bottom: 3.5rem; scroll-margin-top: calc(var(--header-h) + 16px); }
+
+.section-label {
+  display: inline-block; padding: .15rem .6rem;
+  border-radius: 99px; font-size: .68rem; font-weight: 700;
+  letter-spacing: .04em; margin-bottom: .5rem;
+}
+.section-title {
+  font-size: 1.6rem; font-weight: 900; color: var(--text);
+  margin-bottom: .4rem; line-height: 1.25;
+}
+.section-sub {
+  font-size: .9rem; color: var(--muted); margin-bottom: 1.2rem;
+}
+.hitokoto-web {
+  display: flex; align-items: center; gap: .6rem;
+  border-left: 3px solid; padding-left: .8rem;
+  margin-bottom: 1.5rem;
+}
+.hitokoto-web .badge {
+  font-size: .65rem; font-weight: 700; color: #fff;
+  padding: .1rem .45rem; border-radius: 99px; white-space: nowrap;
+}
+.hitokoto-web p { font-size: .92rem; font-weight: 700; color: var(--text); }
+
+/* ===== SVGラッパー ===== */
+.svg-wrap {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 1.2rem; padding: .6rem;
+}
+.svg-wrap svg { width: 100%; height: auto; display: block; }
+
+/* ===== 2カラムコンテンツ ===== */
+.detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin-bottom: 1rem;
+}
+.detail-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: .8rem 1rem;
+}
+.detail-card.ok { border-left: 3px solid var(--green); }
+.detail-card.ng { border-left: 3px solid var(--red); }
+.detail-card.biz { border-left: 3px solid var(--muted); }
+.detail-title {
+  font-size: .78rem; font-weight: 700; margin-bottom: .4rem; color: var(--text);
+}
+.detail-list {
+  list-style: none; display: flex; flex-direction: column; gap: .2rem;
+}
+.detail-list li {
+  font-size: .82rem; color: var(--text); padding-left: .7rem; position: relative;
+}
+.detail-list li::before { content: '•'; position: absolute; left: 0; color: var(--muted); }
+.biz-steps { display: flex; flex-direction: column; gap: .3rem; }
+.biz-step-row { display: flex; align-items: flex-start; gap: .5rem; }
+.step-num {
+  min-width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.biz-step-row p { font-size: .82rem; color: var(--text); }
+
+/* ===== テーブル ===== */
+.web-table {
+  width: 100%; border-collapse: collapse; font-size: .82rem;
+  margin-bottom: 1rem;
+}
+.web-table th {
+  background: var(--surface); padding: .5rem .75rem;
+  font-weight: 700; color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left; font-size: .75rem; white-space: nowrap;
+}
+.web-table td {
+  padding: .5rem .75rem; border-bottom: 1px solid var(--border);
+  color: var(--text); line-height: 1.55; vertical-align: top;
+}
+.web-table tr:hover td { background: rgba(239,241,247,.4); }
+.pbadge {
+  display: inline-block; padding: .1rem .5rem; border-radius: 99px;
+  font-size: .7rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 比較カード（概要） ===== */
+.overview-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: 1.2rem;
+}
+.ov-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: .7rem .9rem;
+  display: flex; align-items: flex-start; gap: .5rem;
+}
+.ov-num {
+  min-width: 24px; height: 24px; border-radius: 50%;
+  background: linear-gradient(135deg, #2ab8e0, #1a96c0);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700; flex-shrink: 0;
+}
+.ov-title { font-size: .82rem; font-weight: 700; color: var(--text); }
+.ov-desc  { font-size: .75rem; color: var(--muted); }
+
+/* ===== アクションカード ===== */
+.action-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .9rem; margin-bottom: 1rem; }
+.ac-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: .8rem 1rem;
+}
+.ac-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  font-size: .82rem; font-weight: 900; color: #fff; margin-bottom: .4rem;
+}
+.ac-title { font-size: .88rem; font-weight: 900; color: var(--text); margin-bottom: .3rem; }
+.ac-desc  { font-size: .78rem; color: var(--muted); line-height: 1.6; }
+
+/* ===== まとめカード ===== */
+.sum-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .9rem; }
+.sum-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: .8rem 1rem;
+}
+.sum-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  font-size: .82rem; font-weight: 900; color: #fff; margin-bottom: .4rem;
+}
+.sum-title { font-size: .88rem; font-weight: 900; color: var(--text); margin-bottom: .3rem; }
+.sum-desc  { font-size: .78rem; color: var(--muted); line-height: 1.6; }
+
+/* ===== 用語解説グリッド ===== */
+.glossary-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: 1rem;
+}
+.term-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: .55rem .8rem;
+  display: flex; flex-direction: column; gap: .15rem;
+}
+.term-head { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.term-name    { font-size: .85rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .7rem; color: var(--muted); font-weight: 500; }
+.term-link    { font-size: .65rem; color: var(--blue); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.term-link:hover { text-decoration: underline; }
+.term-desc    { font-size: .74rem; color: var(--muted); line-height: 1.5; }
+
+/* ===== 理解度チェック ===== */
+.quiz-section { margin-top: 1.2rem; }
+.quiz-title { font-size: .78rem; font-weight: 700; color: var(--muted); margin-bottom: .5rem; }
+.quiz-item { margin-bottom: .4rem; }
+.quiz-q {
+  background: var(--surface); border-radius: 8px;
+  padding: .4rem .7rem; font-size: .82rem; color: var(--text);
+  cursor: pointer; user-select: none;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.quiz-q:hover { background: var(--border); }
+.quiz-a {
+  display: none; background: var(--card); border: 1px solid var(--border);
+  border-radius: 0 0 8px 8px; padding: .4rem .7rem;
+  font-size: .8rem; color: var(--muted); line-height: 1.6;
+}
+.quiz-a.open { display: block; }
+.quiz-arrow { transition: transform .2s; }
+.quiz-item.open .quiz-arrow { transform: rotate(180deg); }
+
+/* タイムスタンプ */
+.ts-badge {
+  display: inline-block; background: rgba(26,150,192,.1);
+  color: var(--blue); font-size: .68rem; font-weight: 700;
+  padding: .1rem .45rem; border-radius: 99px; margin-left: .5rem;
+}
+
+/* レスポンシブ */
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .main-content { padding: 1.2rem 1rem; }
+  .detail-grid, .overview-cards, .action-cards, .sum-cards, .glossary-grid { grid-template-columns: 1fr 1fr; }
+  .glossary-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .detail-grid, .overview-cards, .action-cards, .sum-cards { grid-template-columns: 1fr; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-ep">ep. 01</span>
+  <span class="header-title">マルチエージェント連携パターン入門</span>
+  <span class="header-sub">5つのパターンと使い分け</span>
+  <a class="header-fc-link" href="flowchart.html">🔀 パターン選択フロー</a>
+</header>
+
+<!-- ===== レイアウト ===== -->
+<div class="page-layout">
+
+  <!-- ===== サイドバー ===== -->
+  <nav class="sidebar" id="sidebar">
+    <div class="nav-section-label">概要</div>
+    <a href="#overview" class="nav-item" data-color="neutral">マルチエージェントとは？</a>
+    <a href="#guide"    class="nav-item" data-color="neutral">パターン選択の鉄則</a>
+
+    <div class="nav-section-label" style="margin-top:.5rem">5つのパターン</div>
+    <a href="#pattern01" class="nav-item" data-color="orange">①  Generator-Verifier</a>
+    <a href="#pattern02" class="nav-item" data-color="blue">②  Orchestrator-Subagent</a>
+    <a href="#pattern03" class="nav-item" data-color="green">③  Agent Teams</a>
+    <a href="#pattern04" class="nav-item" data-color="purple">④  Message Bus</a>
+    <a href="#pattern05" class="nav-item" data-color="pink">⑤  Shared State</a>
+
+    <div class="nav-section-label" style="margin-top:.5rem">まとめ</div>
+    <a href="#compare"   class="nav-item" data-color="neutral">5パターン比較表</a>
+    <a href="#flowchart" class="nav-item" data-color="neutral">選択フローチャート</a>
+    <a href="#action"    class="nav-item" data-color="neutral">明日からの3ステップ</a>
+    <a href="#summary"   class="nav-item" data-color="neutral">まとめ</a>
+    <a href="#glossary"  class="nav-item" data-color="neutral">用語解説</a>
+  </nav>
+
+  <!-- ===== メインコンテンツ ===== -->
+  <main class="main-content">
+
+    <!-- ===== #overview ===== -->
+    <section id="overview">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">INTRO</span>
+      <h1 class="section-title">マルチエージェントとは？</h1>
+      <p class="section-sub">AIが「チームを組んで」役割分担しながら複雑な仕事を片づける仕組み <span class="ts-badge">⏱ 0:00〜</span></p>
+      <div class="hitokoto-web" style="border-color:var(--blue)">
+        <span class="badge" style="background:var(--blue)">一言で</span>
+        <p>1体のAIではなく、専門の複数AIが協力することで、速くて正確な仕事が実現する</p>
+      </div>
+
+      <div class="overview-cards">
+        <div class="ov-card">
+          <span class="ov-num">1</span>
+          <div>
+            <div class="ov-title">複雑なタスクを分解できる</div>
+            <div class="ov-desc">長大・多工程の作業を細かなステップに分けて各AIが担当</div>
+          </div>
+        </div>
+        <div class="ov-card">
+          <span class="ov-num">2</span>
+          <div>
+            <div class="ov-title">並列処理で大幅な高速化</div>
+            <div class="ov-desc">互いに依存しない作業を同時進行し、単体AIより処理時間が激減</div>
+          </div>
+        </div>
+        <div class="ov-card">
+          <span class="ov-num">3</span>
+          <div>
+            <div class="ov-title">専門AIで品質向上</div>
+            <div class="ov-desc">生成・検証・調査など得意領域に集中させることで精度が上がる</div>
+          </div>
+        </div>
+        <div class="ov-card">
+          <span class="ov-num" style="background:linear-gradient(135deg,#e8873a,#d96018)">▶</span>
+          <div>
+            <div class="ov-title">今日のゴール</div>
+            <div class="ov-desc">5つのパターンを知り、場面に応じて使い分けられるようになる</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">💡 理解度チェック</div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">マルチエージェントが注目される3つの理由を答えてみてください。<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">①複雑なタスクの分解、②並列処理による高速化、③専門AIによる品質向上。単体AIでは難しい大規模・複雑な仕事をチームで実現できます。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #guide ===== -->
+    <section id="guide">
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">GUIDE</span>
+      <h2 class="section-title">パターン選択の3つの鉄則</h2>
+      <p class="section-sub">「洗練度」ではなく「目的適合性」でパターンを選ぶ <span class="ts-badge">⏱ 3:00〜</span></p>
+
+      <div class="action-cards">
+        <div class="ac-card">
+          <div class="ac-num" style="background:linear-gradient(135deg,#e8873a,#d96018)">1</div>
+          <div class="ac-title">シンプルから始める</div>
+          <div class="ac-desc">最も単純なパターンを選び、課題が見えてから複雑な構成に移行する。最初から凝った設計は不要。</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-num" style="background:linear-gradient(135deg,#2ab8e0,#1a96c0)">2</div>
+          <div class="ac-title">観察してから進化させる</div>
+          <div class="ac-desc">実際の失敗・ボトルネックを観察し、必要になったときだけ構成をアップグレードする。</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-num" style="background:linear-gradient(135deg,#18b87a,#008f6a)">3</div>
+          <div class="ac-title">洗練度で選ばない</div>
+          <div class="ac-desc">複雑なパターンは「より良い」わけではない。目的・コスト・チームの理解度に合った選択が最善。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #pattern01 ===== -->
+    <section id="pattern01">
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">PATTERN 01</span>
+      <h2 class="section-title">Generator-Verifier</h2>
+      <p class="section-sub">「作る係AI」と「チェックする係AI」の2人1組 <span class="ts-badge">⏱ 4:30〜</span></p>
+      <div class="hitokoto-web" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>生成と検証を分離することで品質保証ループを自動化する</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo3zt4lq_1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff3eb" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffeadb" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffd6b8" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4lq_1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4lq_1" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d69566" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4lr_2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4lr_2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4lr_2" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4lr_3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#effaf7" stop-opacity="1"></stop><stop offset="46%" stop-color="#e3f7f1" stop-opacity="1"></stop><stop offset="100%" stop-color="#c8efe3" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4lr_3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4lr_3" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#7dc0ab" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4lr_4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#effaf7" stop-opacity="1"></stop><stop offset="46%" stop-color="#e3f7f1" stop-opacity="1"></stop><stop offset="100%" stop-color="#c8efe3" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4lr_4" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4lr_4" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#7dc0ab" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4ls_5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e96c21" stop-opacity="1"></stop><stop offset="46%" stop-color="#da6017" stop-opacity="1"></stop><stop offset="100%" stop-color="#c75815" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4ls_5" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4ls_5" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#6e4227" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4ls_6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#66759b" stop-opacity="1"></stop><stop offset="46%" stop-color="#5d698b" stop-opacity="1"></stop><stop offset="100%" stop-color="#55607f" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4ls_6" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4ls_6" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#3a4152" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4ls_7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00a97d" stop-opacity="1"></stop><stop offset="46%" stop-color="#008f6a" stop-opacity="1"></stop><stop offset="100%" stop-color="#007b5b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4ls_7" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4ls_7" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#0b2821" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4ls_8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00a97d" stop-opacity="1"></stop><stop offset="46%" stop-color="#008f6a" stop-opacity="1"></stop><stop offset="100%" stop-color="#007b5b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4ls_8" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4ls_8" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#0b2821" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4lt_9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4lt_9" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4lt_9" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zt4lt_a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e21631" stop-opacity="1"></stop><stop offset="46%" stop-color="#ca152d" stop-opacity="1"></stop><stop offset="100%" stop-color="#b71329" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zt4lt_a" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zt4lt_a" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#61222a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3ztgrz_b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff3eb" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffeadb" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffd6b8" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3ztgrz_b" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3ztgrz_b" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d69566" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3ztitj_c" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#effaf7" stop-opacity="1"></stop><stop offset="46%" stop-color="#e3f7f1" stop-opacity="1"></stop><stop offset="100%" stop-color="#c8efe3" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3ztitj_c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3ztitj_c" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#7dc0ab" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3ztp01_d" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#effaf7" stop-opacity="1"></stop><stop offset="46%" stop-color="#e3f7f1" stop-opacity="1"></stop><stop offset="100%" stop-color="#c8efe3" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3ztp01_d" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3ztp01_d" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#7dc0ab" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3ztyq9_e" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3ztyq9_e" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3ztyq9_e" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs>
+          <!-- 定義 -->
+          <defs>
+            <marker id="arrowO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#d96018"></path>
+            </marker>
+            <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#008f6a"></path>
+            </marker>
+            <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#c9162e"></path>
+            </marker>
+          </defs>
+
+          <!-- Generator ボックス -->
+          <g data-magic="1" data-magic-id="mo3ztgrz_b" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2230%22%20y%3D%2250%22%20width%3D%22185%22%20height%3D%2265%22%20rx%3D%2212%22%20fill%3D%22%23fff4ec%22%20stroke%3D%22%23d96018%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="30" y="50" width="185" height="65" rx="12" fill="url(#magic-grad-mo3ztgrz_b)" stroke="rgba(255,202,163,0.95)" stroke-width="1.5" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo3ztgrz_b)" ry="12"></rect><rect x="30" y="50" width="185" height="65" rx="12" fill="url(#magic-gloss-mo3ztgrz_b)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="30" y="50" width="185" height="65" rx="12" fill="none" stroke="rgba(255,208,174,0.06)" stroke-width="1.275" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="122" y="77" text-anchor="middle" font-size="14" font-weight="700" fill="#d96018">Generator</text>
+          <text x="122" y="98" text-anchor="middle" font-size="10.5" fill="#5e6a8a">生成担当 AI</text>
+
+          <!-- 中央: ドラフト -->
+          <g data-magic="1" data-magic-id="mo3ztyq9_e" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22220%22%20y%3D%22115%22%20width%3D%22150%22%20height%3D%2244%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.4%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="220" y="115" width="150" height="44" rx="10" fill="url(#magic-grad-mo3ztyq9_e)" stroke="rgba(210,208,208,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo3ztyq9_e)" ry="10"></rect><rect x="220" y="115" width="150" height="44" rx="10" fill="url(#magic-gloss-mo3ztyq9_e)" stroke="none" stroke-width="1.4" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="220" y="115" width="150" height="44" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="134" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">ドラフト出力</text>
+          <text x="295" y="151" text-anchor="middle" font-size="10" fill="#5e6a8a">（仮の生成物）</text>
+
+          <!-- Verifier ボックス -->
+          <g data-magic="1" data-magic-id="mo3ztitj_c" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22375%22%20y%3D%2250%22%20width%3D%22185%22%20height%3D%2265%22%20rx%3D%2212%22%20fill%3D%22%23e8f8f3%22%20stroke%3D%22%23008f6a%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="375" y="50" width="185" height="65" rx="12" fill="url(#magic-grad-mo3ztitj_c)" stroke="rgba(184,234,218,0.95)" stroke-width="1.5" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo3ztitj_c)" ry="12"></rect><rect x="375" y="50" width="185" height="65" rx="12" fill="url(#magic-gloss-mo3ztitj_c)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="375" y="50" width="185" height="65" rx="12" fill="none" stroke="rgba(193,237,222,0.06)" stroke-width="1.275" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="467" y="77" text-anchor="middle" font-size="14" font-weight="700" fill="#008f6a">Verifier</text>
+          <text x="467" y="98" text-anchor="middle" font-size="10.5" fill="#5e6a8a">検証担当 AI</text>
+
+          <!-- 完成品ボックス -->
+          <g data-magic="1" data-magic-id="mo3ztp01_d" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22407.5%22%20y%3D%22240%22%20width%3D%22120.8%22%20height%3D%2255%22%20rx%3D%2212%22%20fill%3D%22%23e8f8f3%22%20stroke%3D%22%23008f6a%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="407.5" y="240" width="120.8" height="55" rx="12" fill="url(#magic-grad-mo3ztp01_d)" stroke="rgba(184,234,218,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo3ztp01_d)" ry="12"></rect><rect x="407.5" y="240" width="120.8" height="55" rx="12" fill="url(#magic-gloss-mo3ztp01_d)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="407.5" y="240" width="120.8" height="55" rx="12" fill="none" stroke="rgba(193,237,222,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="467" y="264" text-anchor="middle" font-size="12.5" font-weight="700" fill="#008f6a">✅ 最終出力</text>
+          <text x="467" y="283" text-anchor="middle" font-size="10" fill="#5e6a8a">品質基準クリア</text>
+
+          <!-- 矢印: Generator → ドラフト -->
+          <line x1="215" y1="83" x2="250" y2="127" stroke="#d96018" stroke-width="1.8" marker-end="url(#arrowO)"></line>
+          <text x="257.2" y="106" text-anchor="middle" font-size="9.5" fill="#d96018" font-weight="600">生成</text>
+
+          <!-- 矢印: ドラフト → Verifier -->
+          <line x1="340" y1="127" x2="380" y2="90" stroke="#5e6a8a" stroke-width="1.6" marker-end="url(#arrowG)"></line>
+          <text x="337.8" y="106" text-anchor="middle" font-size="9.5" fill="#5e6a8a" font-weight="600">送付</text>
+
+          <!-- 矢印: Verifier → 完成品 (OK) -->
+          <line x1="467" y1="115" x2="467" y2="237" stroke="#008f6a" stroke-width="1.8" marker-end="url(#arrowG)"></line>
+          <rect x="490.3" y="196.9" width="38" height="18" rx="9" fill="#008f6a"></rect>
+          <text x="509.3" y="209.9" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">OK ✓</text>
+
+          <!-- NG フィードバックループ (Verifier → Generator) -->
+          <path d="M417.6,115.9 L418.5,218.6 L295,220 L215,220 L169.9,220.2 L169.9,119.9" fill="none" stroke="#c9162e" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arrowR)"></path>
+
+          <!-- NGラベル -->
+          <rect x="264" y="190.1" width="62" height="18" rx="9" fill="#c9162e"></rect>
+          <text x="295" y="203.1" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">NG 修正指示</text>
+
+          <!-- ループ説明テキスト -->
+          <text x="295" y="241.6" text-anchor="middle" font-size="9.5" fill="#5e6a8a">基準を満たすまで繰り返す</text>
+          <text x="295" y="255.6" text-anchor="middle" font-size="9" fill="#5e6a8a">（最大 N 回）</text>
+
+          <!-- ゾーン背景ラベル -->
+          <text x="121.3" y="36.2" text-anchor="middle" font-size="10" fill="#d96018" font-weight="600">① 生成フェーズ</text>
+          <text x="467.9" y="36.2" text-anchor="middle" font-size="10" fill="#008f6a" font-weight="600">② 検証フェーズ</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 実務例: カスタマーサポートメール</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:var(--orange)">1</span><p>Generator AIが返信メールを下書き</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--orange)">2</span><p>Verifier AIがナレッジベースと照合しNGワード検出</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--orange)">3</span><p>OKなら送信、NGなら修正ループ</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="detail-card ok" style="margin-bottom:.7rem">
+            <div class="detail-title">✅ 使えるシーン</div>
+            <ul class="detail-list">
+              <li>コード生成（書く＋テスト実行）</li>
+              <li>ファクトチェック・ルーブリック採点</li>
+            </ul>
+          </div>
+          <div class="detail-card ng">
+            <div class="detail-title">⚠️ 失敗パターン</div>
+            <ul class="detail-list">
+              <li>検証基準が曖昧 → チェックが機能しない</li>
+              <li>ループ上限なし → コスト爆発</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">💡 理解度チェック</div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">Generator-Verifierを機能させるために「必ず設定すること」は何ですか？<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">①明確な検証基準（Verifierが何をどう確認するかを定義する）と、②ループの上限回数（無限修正を防ぐ）の2つが必須です。</div>
+        </div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">このパターンが特に得意とする業務を1つ挙げてください。<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">コード生成（一方が書き、もう一方がテスト実行）が典型的な強みです。他にもファクトチェックやルーブリック採点が向いています。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #pattern02 ===== -->
+    <section id="pattern02">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">PATTERN 02</span>
+      <h2 class="section-title">Orchestrator-Subagent</h2>
+      <p class="section-sub">「司令塔AI」が全体を計画し、「部下AI」たちに専門仕事を割り振る階層型 <span class="ts-badge">⏱ 6:30〜</span></p>
+      <div class="hitokoto-web" style="border-color:var(--blue)">
+        <span class="badge" style="background:var(--blue)">一言で</span>
+        <p>指揮者AIがタスクを分解し、専門AIに委任して結果を統合する</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 355" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><path d="M115.4,228.9 L182.5,299.8" fill="none" stroke="#5e6a8a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBup)"></path><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo3zze08_f" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zze08_f" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zze08_f" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zze09_g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zze09_g" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zze09_g" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zze09_h" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zze09_h" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zze09_h" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zzi2g_i" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ebf6ff" stop-opacity="1"></stop><stop offset="46%" stop-color="#dbefff" stop-opacity="1"></stop><stop offset="100%" stop-color="#b8e0ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zzi2g_i" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zzi2g_i" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#66a5d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo3zzmu5_j" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1ba9d9" stop-opacity="1"></stop><stop offset="46%" stop-color="#1997c1" stop-opacity="1"></stop><stop offset="100%" stop-color="#1788af" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo3zzmu5_j" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo3zzmu5_j" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#224d5c" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo424u4j_1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ebf6ff" stop-opacity="1"></stop><stop offset="46%" stop-color="#dbefff" stop-opacity="1"></stop><stop offset="100%" stop-color="#b8e0ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo424u4j_1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo424u4j_1" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#66a5d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo424y7f_2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo424y7f_2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo424y7f_2" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo424y7f_3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo424y7f_3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo424y7f_3" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo424y7g_4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo424y7g_4" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo424y7g_4" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo4252bx_5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1ba9d9" stop-opacity="1"></stop><stop offset="46%" stop-color="#1997c1" stop-opacity="1"></stop><stop offset="100%" stop-color="#1788af" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo4252bx_5" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo4252bx_5" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#224d5c" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs>
+          <defs>
+            <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#1a96c0"></path>
+            </marker>
+            <marker id="arrowBup" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto-start-reverse">
+              <path d="M0,0 L0,6 L8,3 z" fill="#5e6a8a"></path>
+            </marker>
+          </defs>
+
+          <!-- Orchestrator ボックス -->
+          <g data-magic="1" data-magic-id="mo424u4j_1" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22165%22%20y%3D%2215%22%20width%3D%22260%22%20height%3D%2262%22%20rx%3D%2212%22%20fill%3D%22%23e6f4ff%22%20stroke%3D%22%231a96c0%22%20stroke-width%3D%222%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="165" y="15" width="260" height="62" rx="12" fill="url(#magic-grad-mo424u4j_1)" stroke="rgba(163,215,255,0.95)" stroke-width="1.4" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo424u4j_1)" ry="12"></rect><rect x="165" y="15" width="260" height="62" rx="12" fill="url(#magic-gloss-mo424u4j_1)" stroke="none" stroke-width="2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="165" y="15" width="260" height="62" rx="12" fill="none" stroke="rgba(174,220,255,0.06)" stroke-width="1.19" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="42" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">Orchestrator</text>
+          <text x="295" y="62" text-anchor="middle" font-size="10.5" fill="#5e6a8a">計画・委任・結果統合</text>
+
+          <!-- 3本の派遣矢印 -->
+          <!-- → Subagent 1 (左) -->
+          <path d="M225,77 L119,166.1" fill="none" stroke="#1a96c0" stroke-width="1.8" marker-end="url(#arrowB)"></path>
+          <!-- → Subagent 2 (中) -->
+          <line x1="295" y1="77" x2="295" y2="165.5" stroke="#1a96c0" stroke-width="1.8" marker-end="url(#arrowB)"></line>
+          <!-- → Subagent 3 (右) -->
+          <path d="M365,77 L479.3,168.5" fill="none" stroke="#1a96c0" stroke-width="1.8" marker-end="url(#arrowB)"></path>
+
+          <!-- 委任ラベル -->
+          <text x="170" y="148" text-anchor="middle" font-size="11" fill="#1a96c0" font-weight="600">委任</text>
+          <text x="322.2" y="148" text-anchor="middle" font-size="11" fill="#1a96c0" font-weight="600">委任</text>
+          <text x="420" y="148" text-anchor="middle" font-size="11" fill="#1a96c0" font-weight="600">委任</text>
+
+          <!-- Subagent 1: セキュリティチェック -->
+          <g data-magic="1" data-magic-id="mo424y7f_2" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2224.8%22%20y%3D%22170%22%20width%3D%22175%22%20height%3D%2260%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="24.8" y="170" width="175" height="60" rx="10" fill="url(#magic-grad-mo424y7f_2)" stroke="rgba(210,208,208,0.95)" stroke-width="1.4" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo424y7f_2)" ry="10"></rect><rect x="24.8" y="170" width="175" height="60" rx="10" fill="url(#magic-gloss-mo424y7f_2)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="24.8" y="170" width="175" height="60" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.19" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="111.8" y="189" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d2e">セキュリティ</text>
+          <text x="111.8" y="207" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d2e">チェック AI</text>
+          <text x="111.8" y="224" text-anchor="middle" font-size="9.5" fill="#5e6a8a">脆弱性・不正コード検出</text>
+
+          <!-- Subagent 2: テストカバレッジ -->
+          <g data-magic="1" data-magic-id="mo424y7f_3" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22207.8%22%20y%3D%22170%22%20width%3D%22175%22%20height%3D%2260%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="207.8" y="170" width="175" height="60" rx="10" fill="url(#magic-grad-mo424y7f_3)" stroke="rgba(210,208,208,0.95)" stroke-width="1.4" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo424y7f_3)" ry="10"></rect><rect x="207.8" y="170" width="175" height="60" rx="10" fill="url(#magic-gloss-mo424y7f_3)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="207.8" y="170" width="175" height="60" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.19" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="294.8" y="189" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d2e">テストカバレッジ</text>
+          <text x="294.8" y="207" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d2e">検証 AI</text>
+          <text x="294.8" y="224" text-anchor="middle" font-size="9.5" fill="#5e6a8a">テスト網羅率を計測</text>
+
+          <!-- Subagent 3: スタイル分析 -->
+          <g data-magic="1" data-magic-id="mo424y7g_4" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22390.8%22%20y%3D%22170%22%20width%3D%22175%22%20height%3D%2260%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="390.8" y="170" width="175" height="60" rx="10" fill="url(#magic-grad-mo424y7g_4)" stroke="rgba(210,208,208,0.95)" stroke-width="1.4" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo424y7g_4)" ry="10"></rect><rect x="390.8" y="170" width="175" height="60" rx="10" fill="url(#magic-gloss-mo424y7g_4)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="390.8" y="170" width="175" height="60" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.19" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="477.8" y="189" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d2e">スタイル</text>
+          <text x="477.8" y="207" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1d2e">分析 AI</text>
+          <text x="477.8" y="224" text-anchor="middle" font-size="9.5" fill="#5e6a8a">コーディング規約チェック</text>
+
+          <!-- 結果を返す矢印 (薄い) -->
+          
+          <path d="M295.5,231 L295,299.9" fill="none" stroke="#5e6a8a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBup)"></path>
+          <path d="M482.3,231.8 L404.1,299.9" fill="none" stroke="#5e6a8a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBup)"></path>
+
+          <!-- 統合ボックス -->
+          <g data-magic="1" data-magic-id="mo4252bx_5" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22165%22%20y%3D%22302.6%22%20width%3D%22260%22%20height%3D%2245.4%22%20rx%3D%2210%22%20fill%3D%22%231a96c0%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="165" y="302.6" width="260" height="45.4" rx="10" fill="url(#magic-grad-mo4252bx_5)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(20,115,147,0.95)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo4252bx_5)" ry="10"></rect><rect x="165" y="302.6" width="260" height="45.4" rx="10" fill="url(#magic-gloss-mo4252bx_5)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="165" y="302.6" width="260" height="45.4" rx="10" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(48,132,160,0.06)" stroke-width="0.85" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="322.2" text-anchor="middle" font-size="14" font-weight="700" fill="#fff"> Orchestrator</text><text x="294.1" y="338.6" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">📊結果を統合・レポート生成</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 実務例: コードレビューシステム</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:var(--blue)">1</span><p>Orchestratorがコードを3タスクに分解</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--blue)">2</span><p>セキュリティ・テスト・スタイルのAIが並列チェック</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--blue)">3</span><p>Orchestratorが結果を統合し総合レポート出力</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="detail-card ok" style="margin-bottom:.7rem">
+            <div class="detail-title">✅ 使えるシーン</div>
+            <ul class="detail-list">
+              <li>タスクを独立したサブ作業に分解できる場合</li>
+              <li>専門領域ごとに異なるAIを割り当てたい場合</li>
+            </ul>
+          </div>
+          <div class="detail-card ng">
+            <div class="detail-title">⚠️ 失敗パターン</div>
+            <ul class="detail-list">
+              <li>情報ボトルネック: 各AIの発見が他に届かない</li>
+              <li>Orchestratorが単一障害点になりうる</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">💡 理解度チェック</div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">Orchestratorパターンで発生しやすい「情報ボトルネック」とはどういう問題ですか？<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">セキュリティAIが発見した問題を、テストAIは知らないまま作業を進めてしまうような状態です。各Subagentの発見がOrchestrator経由でしか共有されないため、並列で動く他のAgentに伝わりません。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #pattern03 ===== -->
+    <section id="pattern03">
+      <span class="section-label" style="background:rgba(0,143,106,.12);color:var(--green)">PATTERN 03</span>
+      <h2 class="section-title">Agent Teams</h2>
+      <p class="section-sub">共有タスクキューからAIが自律的にタスクを取り出す並列処理型 <span class="ts-badge">⏱ 8:30〜</span></p>
+      <div class="hitokoto-web" style="border-color:var(--green)">
+        <span class="badge" style="background:var(--green)">一言で</span>
+        <p>指揮者なしで、複数のAIが共有キューから仕事を取り出して独立処理する</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo404ukd_k" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0f9f6" stop-opacity="1"></stop><stop offset="46%" stop-color="#e5f5ef" stop-opacity="1"></stop><stop offset="100%" stop-color="#ccebde" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo404ukd_k" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo404ukd_k" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#82bba4" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo404yew_l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo404yew_l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo404yew_l" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo404yex_m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo404yex_m" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo404yex_m" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo404yex_n" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo404yex_n" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo404yex_n" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo4056en_o" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00a97d" stop-opacity="1"></stop><stop offset="46%" stop-color="#008f6a" stop-opacity="1"></stop><stop offset="100%" stop-color="#007b5b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo4056en_o" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo4056en_o" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#0b2821" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo4056eo_p" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c27a00" stop-opacity="1"></stop><stop offset="46%" stop-color="#a86a00" stop-opacity="1"></stop><stop offset="100%" stop-color="#945d00" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo4056eo_p" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo4056eo_p" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#3c2c10" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo4056eo_q" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#edf0f5" stop-opacity="1"></stop><stop offset="46%" stop-color="#dde2ec" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0d7e5" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo4056eo_q" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo4056eo_q" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8997b4" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs>
+          <defs>
+            <marker id="arrowGn" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#008f6a"></path>
+            </marker>
+          </defs>
+
+          <!-- タスクキュー（上部） -->
+          <g data-magic="1" data-magic-id="mo404ukd_k" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2270%22%20y%3D%2215%22%20width%3D%22450%22%20height%3D%2258%22%20rx%3D%2212%22%20fill%3D%22%23e6f5ef%22%20stroke%3D%22%23008f6a%22%20stroke-width%3D%222%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="70" y="15" width="450" height="58" rx="12" fill="url(#magic-grad-mo404ukd_k)" stroke="rgba(189,229,213,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo404ukd_k)" ry="12"></rect><rect x="70" y="15" width="450" height="58" rx="12" fill="url(#magic-gloss-mo404ukd_k)" stroke="none" stroke-width="2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="70" y="15" width="450" height="58" rx="12" fill="none" stroke="rgba(197,232,218,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="38" text-anchor="middle" font-size="13" font-weight="700" fill="#008f6a">共有タスクキュー</text>
+          <text x="295" y="58" text-anchor="middle" font-size="10.5" fill="#5e6a8a">タスクA ・ タスクB ・ タスクC ・ タスクD ・ タスクE …</text>
+
+          <!-- キューからの取り出し矢印 -->
+          <line x1="115" y1="73" x2="115" y2="185" stroke="#008f6a" stroke-width="1.8" marker-end="url(#arrowGn)"></line>
+          <line x1="295" y1="73" x2="295" y2="185" stroke="#008f6a" stroke-width="1.8" marker-end="url(#arrowGn)"></line>
+          <line x1="475" y1="72.1" x2="475" y2="185" stroke="#008f6a" stroke-width="1.8" marker-end="url(#arrowGn)"></line>
+
+          <text x="77.3" y="137" text-anchor="middle" font-size="12" fill="#008f6a" font-weight="600">取り出す</text>
+          <text x="257.3" y="137" text-anchor="middle" font-size="12" fill="#008f6a" font-weight="600">取り出す</text>
+          <text x="441.5" y="137" text-anchor="middle" font-size="12" fill="#008f6a" font-weight="600">取り出す</text>
+
+          <!-- Worker 1 -->
+          <g data-magic="1" data-magic-id="mo404yew_l" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2225%22%20y%3D%22185%22%20width%3D%22180%22%20height%3D%2265%22%20rx%3D%2212%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="25" y="185" width="180" height="65" rx="12" fill="url(#magic-grad-mo404yew_l)" stroke="rgba(210,208,208,0.95)" stroke-width="1.5" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo404yew_l)" ry="12"></rect><rect x="25" y="185" width="180" height="65" rx="12" fill="url(#magic-gloss-mo404yew_l)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="25" y="185" width="180" height="65" rx="12" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.275" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="115" y="208" text-anchor="middle" font-size="11.5" font-weight="700" fill="#008f6a">Worker Agent 1</text>
+          <text x="115" y="226" text-anchor="middle" font-size="10" fill="#1a1d2e">サービスA のマイグレーション</text>
+          <text x="115" y="242" text-anchor="middle" font-size="9.5" fill="#5e6a8a">独自の依存関係・テスト付き</text>
+
+          <!-- Worker 2 -->
+          <g data-magic="1" data-magic-id="mo404yex_m" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22205%22%20y%3D%22185%22%20width%3D%22180%22%20height%3D%2265%22%20rx%3D%2212%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="205" y="185" width="180" height="65" rx="12" fill="url(#magic-grad-mo404yex_m)" stroke="rgba(210,208,208,0.95)" stroke-width="1.5" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo404yex_m)" ry="12"></rect><rect x="205" y="185" width="180" height="65" rx="12" fill="url(#magic-gloss-mo404yex_m)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="205" y="185" width="180" height="65" rx="12" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.275" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="208" text-anchor="middle" font-size="11.5" font-weight="700" fill="#008f6a">Worker Agent 2</text>
+          <text x="295" y="226" text-anchor="middle" font-size="10" fill="#1a1d2e">サービスB のマイグレーション</text>
+          <text x="295" y="242" text-anchor="middle" font-size="9.5" fill="#5e6a8a">独自の依存関係・テスト付き</text>
+
+          <!-- Worker 3 -->
+          <g data-magic="1" data-magic-id="mo404yex_n" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22385%22%20y%3D%22185%22%20width%3D%22180%22%20height%3D%2265%22%20rx%3D%2212%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="385" y="185" width="180" height="65" rx="12" fill="url(#magic-grad-mo404yex_n)" stroke="rgba(210,208,208,0.95)" stroke-width="1.5" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo404yex_n)" ry="12"></rect><rect x="385" y="185" width="180" height="65" rx="12" fill="url(#magic-gloss-mo404yex_n)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="385" y="185" width="180" height="65" rx="12" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.275" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="475" y="208" text-anchor="middle" font-size="11.5" font-weight="700" fill="#008f6a">Worker Agent 3</text>
+          <text x="475" y="226" text-anchor="middle" font-size="10" fill="#1a1d2e">サービスC のマイグレーション</text>
+          <text x="475" y="242" text-anchor="middle" font-size="9.5" fill="#5e6a8a">独自の依存関係・テスト付き</text>
+
+          <!-- 進捗・完了矢印 (下向き) -->
+          <line x1="115" y1="250" x2="115" y2="295" stroke="#5e6a8a" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrowGn)"></line>
+          <line x1="295" y1="250" x2="295" y2="295" stroke="#5e6a8a" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrowGn)"></line>
+          <line x1="475" y1="250" x2="475" y2="295" stroke="#5e6a8a" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrowGn)"></line>
+
+          <!-- 完了ステータスバー -->
+          <g data-magic="1" data-magic-id="mo4056en_o" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2225%22%20y%3D%22295%22%20width%3D%22180%22%20height%3D%2230%22%20rx%3D%228%22%20fill%3D%22%23008f6a%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="25" y="295" width="180" height="30" rx="8" fill="url(#magic-grad-mo4056en_o)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(0,92,68,0.95)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo4056en_o)" ry="8"></rect><rect x="25" y="295" width="180" height="30" rx="8" fill="url(#magic-gloss-mo4056en_o)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="25" y="295" width="180" height="30" rx="8" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(31,112,90,0.06)" stroke-width="0.85" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="115" y="315" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">✅ 完了・独立稼働</text>
+          <g data-magic="1" data-magic-id="mo4056eo_p" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22205%22%20y%3D%22295%22%20width%3D%22180%22%20height%3D%2230%22%20rx%3D%228%22%20fill%3D%22%23a86a00%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="205" y="295" width="180" height="30" rx="8" fill="url(#magic-grad-mo4056eo_p)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(117,74,0,0.95)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo4056eo_p)" ry="8"></rect><rect x="205" y="295" width="180" height="30" rx="8" fill="url(#magic-gloss-mo4056eo_p)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="205" y="295" width="180" height="30" rx="8" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(134,96,31,0.06)" stroke-width="0.85" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="315" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">⚙️ 処理中…</text>
+          <g data-magic="1" data-magic-id="mo4056eo_q" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22385%22%20y%3D%22295%22%20width%3D%22180%22%20height%3D%2230%22%20rx%3D%228%22%20fill%3D%22%23dde2ec%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="385" y="295" width="180" height="30" rx="8" fill="url(#magic-grad-mo4056eo_q)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(188,198,218,0.95)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo4056eo_q)" ry="8"></rect><rect x="385" y="295" width="180" height="30" rx="8" fill="url(#magic-gloss-mo4056eo_q)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="385" y="295" width="180" height="30" rx="8" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(196,205,222,0.06)" stroke-width="0.85" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="475" y="315" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a">⏳ 待機中</text>
+
+          <!-- 特徴テキスト -->
+          <text x="295" y="348" text-anchor="middle" font-size="12.5" fill="#5e6a8a">各 Worker は自律的に複数ステップを実行し、ドメイン知識を蓄積しながら改善</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 実務例: フレームワーク移行プロジェクト</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:var(--green)">1</span><p>「100サービスを移行」タスク群をキューに積む</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--green)">2</span><p>各WorkerがキューからPickUp → 独立して処理</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--green)">3</span><p>完了したWorkerは次のタスクを自動取得して続行</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="detail-card ok" style="margin-bottom:.7rem">
+            <div class="detail-title">✅ 使えるシーン</div>
+            <ul class="detail-list">
+              <li>互いに依存しない大量の均質タスクを一気に処理</li>
+              <li>長期運用で各AIが経験を積み改善が期待できる場合</li>
+            </ul>
+          </div>
+          <div class="detail-card ng">
+            <div class="detail-title">⚠️ 失敗パターン</div>
+            <ul class="detail-list">
+              <li>タスク分割ができていない → 複数AIが競合</li>
+              <li>中間結果の共有が必要な場合は別パターンが向く</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">💡 理解度チェック</div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">Agent Teamsパターンが最も力を発揮する「タスクの特徴」は何ですか？<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">互いに依存しない（独立した）大量の均質タスクが得意です。各WorkerがそれぞれのタスクをPickUpして並列処理できるため、大規模なバッチ処理や移行作業に最適です。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #pattern04 ===== -->
+    <section id="pattern04">
+      <span class="section-label" style="background:rgba(122,59,206,.12);color:var(--purple)">PATTERN 04</span>
+      <h2 class="section-title">Message Bus</h2>
+      <p class="section-sub">イベントを「掲示板」に投稿し、興味あるAIだけが反応するイベント駆動型 <span class="ts-badge">⏱ 10:30〜</span></p>
+      <div class="hitokoto-web" style="border-color:var(--purple)">
+        <span class="badge" style="background:var(--purple)">一言で</span>
+        <p>疎結合なPub/Sub設計で、AIの追加・変更が既存の配線に影響しない</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><g data-magic="1" data-magic-id="mo43qxns_1a" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22424.3%22%20y%3D%2221.1%22%20width%3D%22151.9%22%20height%3D%22263.6%22%20rx%3D%2210%22%20fill%3D%22%23f0e8ff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="424.3" y="21.1" width="151.9" height="263.6" rx="24.3" fill="url(#magic-grad-mo43qxns_1a)" stroke="rgba(195,163,255,0.95)" stroke-width="3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43qxns_1a)" ry="24.3"></rect><rect x="424.3" y="21.1" width="151.9" height="263.6" rx="10" fill="url(#magic-gloss-mo43qxns_1a)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="424.3" y="21.1" width="151.9" height="263.6" rx="10" fill="none" stroke="rgba(202,174,255,0.06)" stroke-width="2.55" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g><g data-magic="1" data-magic-id="mo427vlh_p" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20y%3D%2221.1%22%20width%3D%22139.5%22%20height%3D%22263.5%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20x%3D%2223.2%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect y="21.1" width="139.5" height="263.5" rx="22.3" fill="url(#magic-grad-mo427vlh_p)" stroke="rgba(210,208,208,0.95)" stroke-width="3" x="23.2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427vlh_p)" ry="22.3"></rect><rect y="21.1" width="139.5" height="263.5" rx="10" fill="url(#magic-gloss-mo427vlh_p)" stroke="none" stroke-width="1.5" x="23.2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect y="21.1" width="139.5" height="263.5" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="2.55" x="23.2" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo40faoe_r" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40faoe_r" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40faoe_r" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40faof_s" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40faof_s" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40faof_s" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40faof_t" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40faof_t" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40faof_t" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40fenj_u" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40fenj_u" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40fenj_u" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40fenj_v" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40fenj_v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40fenj_v" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40fenk_w" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40fenk_w" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40fenk_w" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40fjuu_x" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40fjuu_x" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40fjuu_x" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40flkj_y" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#884dd5" stop-opacity="1"></stop><stop offset="46%" stop-color="#7a3acf" stop-opacity="1"></stop><stop offset="100%" stop-color="#7030c5" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40flkj_y" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40flkj_y" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#523678" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo40fo2q_z" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#884dd5" stop-opacity="1"></stop><stop offset="46%" stop-color="#7a3acf" stop-opacity="1"></stop><stop offset="100%" stop-color="#7030c5" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo40fo2q_z" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo40fo2q_z" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#523678" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425cmz_6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425cmz_6" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425cmz_6" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425cn0_7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425cn0_7" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425cn0_7" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425cn0_8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425cn0_8" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425cn0_8" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425cn0_9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425cn0_9" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425cn0_9" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425cn1_a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#767eb0" stop-opacity="1"></stop><stop offset="46%" stop-color="#6770a5" stop-opacity="1"></stop><stop offset="100%" stop-color="#5c669b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425cn1_a" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425cn1_a" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#464c6a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425fsk_b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425fsk_b" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425fsk_b" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425fsk_c" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425fsk_c" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425fsk_c" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425fsl_d" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425fsl_d" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425fsl_d" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425fsl_e" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425fsl_e" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425fsl_e" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425fsl_f" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#884dd5" stop-opacity="1"></stop><stop offset="46%" stop-color="#7a3acf" stop-opacity="1"></stop><stop offset="100%" stop-color="#7030c5" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425fsl_f" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425fsl_f" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#523678" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo425jdp_g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo425jdp_g" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo425jdp_g" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo4268dq_h" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#cbb0ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo4268dq_h" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.1152"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo4268dq_h" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="3.2" stdDeviation="3.2" flood-color="#8d66d6" flood-opacity="0.2"></feDropShadow><feDropShadow dx="0" dy="0.8" stdDeviation="0.9" flood-color="#ffffff" flood-opacity="0.1"></feDropShadow></filter><linearGradient id="magic-grad-mo426e4l_i" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo426e4l_i" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.52"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.1872"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo426e4l_i" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.8" stdDeviation="2.1" flood-color="#8d66d6" flood-opacity="0.12"></feDropShadow><feDropShadow dx="0" dy="0.5" stdDeviation="0.6" flood-color="#ffffff" flood-opacity="0.12"></feDropShadow></filter><linearGradient id="magic-grad-mo426jdk_j" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#9a63ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo426jdk_j" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.16"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0576"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo426jdk_j" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="4.6" stdDeviation="5.1" flood-color="#6433bf" flood-opacity="0.3"></feDropShadow><feDropShadow dx="0" dy="1.2" stdDeviation="1.3" flood-color="#ffffff" flood-opacity="0.1"></feDropShadow></filter><linearGradient id="magic-grad-mo426s8c_k" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#cbb0ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo426s8c_k" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.1152"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo426s8c_k" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="3.2" stdDeviation="3.2" flood-color="#8d66d6" flood-opacity="0.2"></feDropShadow><feDropShadow dx="0" dy="0.8" stdDeviation="0.9" flood-color="#ffffff" flood-opacity="0.1"></feDropShadow></filter><linearGradient id="magic-grad-mo427mu2_l" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427mu2_l" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427mu2_l" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427mu2_m" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427mu2_m" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427mu2_m" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427mu3_n" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427mu3_n" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427mu3_n" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427mu3_o" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#884dd5" stop-opacity="1"></stop><stop offset="46%" stop-color="#7a3acf" stop-opacity="1"></stop><stop offset="100%" stop-color="#7030c5" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427mu3_o" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427mu3_o" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#523678" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427vlh_p" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427vlh_p" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427vlh_p" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427vlh_q" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427vlh_q" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427vlh_q" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427vli_r" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427vli_r" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427vli_r" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427vli_s" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427vli_s" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427vli_s" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo427vlj_t" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#767eb0" stop-opacity="1"></stop><stop offset="46%" stop-color="#6770a5" stop-opacity="1"></stop><stop offset="100%" stop-color="#5c669b" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo427vlj_t" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo427vlj_t" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#464c6a" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo428292_u" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo428292_u" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo428292_u" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43qxns_1a" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43qxns_1a" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43qxns_1a" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs>
+          <defs>
+            <marker id="arrowP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#7a3bce"></path>
+            </marker>
+            <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#6871a4"></path>
+            </marker>
+          </defs>
+
+          <!-- 中央: Message Bus / Router -->
+          <g data-magic="1" data-magic-id="mo428292_u" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22193.4%22%20y%3D%22124%22%20width%3D%22208.2%22%20height%3D%2276.3%22%20rx%3D%2214%22%20fill%3D%22%23f0e8ff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%222.2%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="193.4" y="124" width="208.2" height="76.3" rx="14" fill="url(#magic-grad-mo428292_u)" stroke="rgba(195,163,255,0.95)" stroke-width="1.7" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo428292_u)" ry="14"></rect><rect x="193.4" y="124" width="208.2" height="76.3" rx="14" fill="url(#magic-gloss-mo428292_u)" stroke="none" stroke-width="2.2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="193.4" y="124" width="208.2" height="76.3" rx="14" fill="none" stroke="rgba(202,174,255,0.06)" stroke-width="1.4449999999999998" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="151" text-anchor="middle" font-size="14" font-weight="700" fill="#7a3bce">Message Bus</text>
+          <text x="295" y="170" text-anchor="middle" font-size="10.5" fill="#5e6a8a">イベント受信 → トピックでルーティング</text>
+          <text x="295" y="184" text-anchor="middle" font-size="10" fill="#5e6a8a">（Router / Event Broker）</text>
+
+          <!-- Publisher 1 (上左): セキュリティアラート -->
+          <g data-magic="1" data-magic-id="mo427vlh_q" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20y%3D%2254.8%22%20width%3D%22110%22%20height%3D%2252%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20x%3D%2235%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect y="54.8" width="110" height="52" rx="10" fill="url(#magic-grad-mo427vlh_q)" stroke="rgba(210,208,208,0.95)" stroke-width="1.2" x="35" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427vlh_q)" ry="10"></rect><rect y="54.8" width="110" height="52" rx="10" fill="url(#magic-gloss-mo427vlh_q)" stroke="none" stroke-width="1.5" x="35" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect y="54.8" width="110" height="52" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.02" x="35" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="91" y="71.4" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">セキュリティ</text>
+          <text x="91" y="88.1" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">アラート AI</text>
+          <text x="91" y="101.9" text-anchor="middle" font-size="9" fill="#5e6a8a">不審アクセス検知</text>
+
+          <!-- Publisher 2 (上右): 不正ログイン -->
+          <g data-magic="1" data-magic-id="mo427vli_r" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2236%22%20y%3D%22133%22%20width%3D%22110%22%20height%3D%2252%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="36" y="133" width="110" height="52" rx="10" fill="url(#magic-grad-mo427vli_r)" stroke="rgba(210,208,208,0.95)" stroke-width="1.2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427vli_r)" ry="10"></rect><rect x="36" y="133" width="110" height="52" rx="10" fill="url(#magic-gloss-mo427vli_r)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="36" y="133" width="110" height="52" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.02" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90.9" y="147.7" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">不正ログイン</text>
+          <text x="91" y="164.8" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">検出 AI</text>
+          <text x="91" y="178.8" text-anchor="middle" font-size="9" fill="#5e6a8a">認証情報漏洩疑い</text>
+
+          <!-- Publisher 3 (下左): ネットワーク異常 -->
+          <g data-magic="1" data-magic-id="mo427vli_s" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2236%22%20y%3D%22214.8%22%20width%3D%22110%22%20height%3D%2252%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="36" y="214.8" width="110" height="52" rx="10" fill="url(#magic-grad-mo427vli_s)" stroke="rgba(210,208,208,0.95)" stroke-width="1.2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427vli_s)" ry="10"></rect><rect x="36" y="214.8" width="110" height="52" rx="10" fill="url(#magic-gloss-mo427vli_s)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="36" y="214.8" width="110" height="52" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.02" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90" y="231.2" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">ネットワーク</text>
+          <text x="91" y="246.9" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">異常検知 AI</text>
+          <text x="89.9" y="261" text-anchor="middle" font-size="9" fill="#5e6a8a">トラフィック急増</text>
+
+          <!-- Subscriber 1 (右上): ネットワーク調査 -->
+          <g data-magic="1" data-magic-id="mo427mu2_l" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22445.9%22%20y%3D%2254.8%22%20width%3D%22110%22%20height%3D%2252%22%20rx%3D%2210%22%20fill%3D%22%23f0e8ff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="445.9" y="54.8" width="110" height="52" rx="10" fill="url(#magic-grad-mo427mu2_l)" stroke="rgba(195,163,255,0.95)" stroke-width="1.2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427mu2_l)" ry="10"></rect><rect x="445.9" y="54.8" width="110" height="52" rx="10" fill="url(#magic-gloss-mo427mu2_l)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="445.9" y="54.8" width="110" height="52" rx="10" fill="none" stroke="rgba(202,174,255,0.06)" stroke-width="1.02" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="500.4" y="67.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">ネットワーク</text>
+          <text x="500.4" y="83.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">調査 AI</text>
+          <text x="499.5" y="98.1" text-anchor="middle" font-size="9" fill="#5e6a8a">ネット系イベント購読</text>
+
+          <!-- Subscriber 2 (右中): ID管理 -->
+          <g data-magic="1" data-magic-id="mo427mu2_m" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22445.3%22%20y%3D%22137.7%22%20width%3D%22110%22%20height%3D%2252%22%20rx%3D%2210%22%20fill%3D%22%23f0e8ff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="445.3" y="137.7" width="110" height="52" rx="10" fill="url(#magic-grad-mo427mu2_m)" stroke="rgba(195,163,255,0.95)" stroke-width="1.2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427mu2_m)" ry="10"></rect><rect x="445.3" y="137.7" width="110" height="52" rx="10" fill="url(#magic-gloss-mo427mu2_m)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="445.3" y="137.7" width="110" height="52" rx="10" fill="none" stroke="rgba(202,174,255,0.06)" stroke-width="1.02" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="499.8" y="154.3" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">ID</text>
+          <text x="499.8" y="170" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">管理AI</text>
+          <text x="500.3" y="182.4" text-anchor="middle" font-size="9" fill="#5e6a8a">認証系イベント購読</text>
+
+          <!-- Subscriber 3 (右下): インシデント対応 -->
+          <g data-magic="1" data-magic-id="mo427mu3_n" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22445.9%22%20y%3D%22214.8%22%20width%3D%22110%22%20height%3D%2252%22%20rx%3D%2210%22%20fill%3D%22%23f0e8ff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="445.9" y="214.8" width="110" height="52" rx="10" fill="url(#magic-grad-mo427mu3_n)" stroke="rgba(195,163,255,0.95)" stroke-width="1.2" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427mu3_n)" ry="10"></rect><rect x="445.9" y="214.8" width="110" height="52" rx="10" fill="url(#magic-gloss-mo427mu3_n)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="445.9" y="214.8" width="110" height="52" rx="10" fill="none" stroke="rgba(202,174,255,0.06)" stroke-width="1.02" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="499.6" y="230.8" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">インシデント</text>
+          <text x="505.3" y="246.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">対応 AI</text>
+          <text x="505.2" y="261" text-anchor="middle" font-size="9" fill="#5e6a8a">全イベント購読</text>
+
+          <!-- Publisher → Bus 矢印 -->
+          <line x1="147.2" y1="78.7" x2="194.3" y2="125.8" stroke="#6871a4" stroke-width="1.7" marker-end="url(#arrowG)"></line>
+          <line x1="145" y1="162.2" x2="192" y2="162.2" stroke="#6871a4" stroke-width="1.7" marker-end="url(#arrowG)"></line>
+          <line x1="147" y1="242.4" x2="194.3" y2="195.1" stroke="#6871a4" stroke-width="1.7" marker-end="url(#arrowG)"></line>
+
+          <!-- Bus → Subscriber 矢印 -->
+          <line x1="398" y1="127.6" x2="444.8" y2="80.8" stroke="#7a3bce" stroke-width="1.7" marker-end="url(#arrowP)"></line>
+          <line x1="400.9" y1="164.1" x2="442.6" y2="164.1" stroke="#7a3bce" stroke-width="1.7" marker-end="url(#arrowP)"></line>
+          <line x1="398.3" y1="196.5" x2="442.1" y2="240.3" stroke="#7a3bce" stroke-width="1.7" marker-end="url(#arrowP)"></line>
+
+          <!-- Publish / Subscribe ラベル -->
+          <g data-magic="1" data-magic-id="mo427vlj_t" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2260%22%20y%3D%2229.4%22%20width%3D%2260%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%236871a4%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="60" y="29.4" width="60" height="18" rx="9" fill="url(#magic-grad-mo427vlj_t)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(81,89,136,0.95)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427vlj_t)" ry="9"></rect><rect x="60" y="29.4" width="60" height="18" rx="9" fill="url(#magic-gloss-mo427vlj_t)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="60" y="29.4" width="60" height="18" rx="9" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(102,109,150,0.06)" stroke-width="0.85" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90" y="42.4" text-anchor="middle" font-size="8.5" font-weight="700" fill="#fff">📤 Publish</text>
+          <g data-magic="1" data-magic-id="mo427mu3_o" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22470.9%22%20y%3D%2226.6%22%20width%3D%2260%22%20height%3D%2218%22%20rx%3D%229%22%20fill%3D%22%237a3bce%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="470.9" y="26.6" width="60" height="18" rx="9" fill="url(#magic-grad-mo427mu3_o)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(98,42,172,0.95)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo427mu3_o)" ry="9"></rect><rect x="470.9" y="26.6" width="60" height="18" rx="9" fill="url(#magic-gloss-mo427mu3_o)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="470.9" y="26.6" width="60" height="18" rx="9" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(117,68,182,0.06)" stroke-width="0.85" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="500.8" y="39.2" text-anchor="middle" font-size="8.5" font-weight="700" fill="#fff">📥 Subscribe</text>
+
+          <!-- 説明テキスト (下) -->
+          <text x="295" y="330" text-anchor="middle" font-size="15" fill="#5e6a8a">各 AI は疎結合 — 新しいAIの追加・削除が既存の配線に影響しない</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 実務例: セキュリティ運用センター</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:var(--purple)">1</span><p>ネットワーク異常AIがイベントをBusにPublish</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--purple)">2</span><p>購読中の調査AIとインシデントAIが自動起動</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--purple)">3</span><p>新AIを追加しても既存AIへの影響ゼロ</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="detail-card ok" style="margin-bottom:.7rem">
+            <div class="detail-title">✅ 使えるシーン</div>
+            <ul class="detail-list">
+              <li>イベント発生をトリガーに複数AIを動かしたい場合</li>
+              <li>AIの追加・変更を頻繁に行う拡張性重視の構成</li>
+            </ul>
+          </div>
+          <div class="detail-card ng">
+            <div class="detail-title">⚠️ 失敗パターン</div>
+            <ul class="detail-list">
+              <li>サイレント障害: イベントが消えても誰も気づかない</li>
+              <li>連鎖的なイベント発火でデバッグが困難になる</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">💡 理解度チェック</div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">Message Busの「疎結合」とは何を意味していますか？<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">AI同士が直接つながっていないことを意味します。PublisherはどのSubscriberが見ているか知らなくてよく、新しいAIを追加する際に既存の接続を書き換える必要がありません。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #pattern05 ===== -->
+    <section id="pattern05">
+      <span class="section-label" style="background:rgba(204,10,106,.12);color:var(--pink)">PATTERN 05</span>
+      <h2 class="section-title">Shared State</h2>
+      <p class="section-sub">全AIが「共有ノート」に読み書きして中央管理なしで協力する <span class="ts-badge">⏱ 12:30〜</span></p>
+      <div class="hitokoto-web" style="border-color:var(--pink)">
+        <span class="badge" style="background:var(--pink)">一言で</span>
+        <p>共有ストアを通じたリアルタイム情報共有で、単一障害点のないAIチームを実現</p>
+      </div>
+
+      <div class="svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 355" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo42hy2x_v" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2x_v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2x_v" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2y_w" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2y_w" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2y_w" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2y_x" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffebf3" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffdbea" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffb8d4" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2y_x" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2y_x" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d66693" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2y_y" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2y_y" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2y_y" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2z_z" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffebf3" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffdbea" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffb8d4" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2z_z" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2z_z" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d66693" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs><line x1="409.3" y1="213.6" x2="449" y2="253.3" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+          <defs>
+            <marker id="arrowPk" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#cc0a6a"></path>
+            </marker>
+          </defs>
+
+          <!-- 中央: Shared State Store -->
+          <g data-magic="1" data-magic-id="mo42hy2z_z" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22179.4%22%20y%3D%22128%22%20width%3D%22235.1%22%20height%3D%2292.4%22%20rx%3D%2214%22%20fill%3D%22%23fff0f6%22%20stroke%3D%22%23cc0a6a%22%20stroke-width%3D%222.2%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="179.4" y="128" width="235.1" height="92.4" rx="14.8" fill="url(#magic-grad-mo42hy2z_z)" stroke="rgba(255,163,200,0.95)" stroke-width="2.1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2z_z)" ry="14.8"></rect><rect x="179.4" y="128" width="235.1" height="92.4" rx="14" fill="url(#magic-gloss-mo42hy2z_z)" stroke="none" stroke-width="2.2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="179.4" y="128" width="235.1" height="92.4" rx="14" fill="none" stroke="rgba(255,174,207,0.06)" stroke-width="1.785" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="157" text-anchor="middle" font-size="14" font-weight="700" fill="#cc0a6a">Shared State Store</text>
+          <text x="295" y="176" text-anchor="middle" font-size="10.5" fill="#5e6a8a">共有知識ベース（永続ストア）</text>
+          <text x="295" y="196" text-anchor="middle" font-size="9.5" fill="#5e6a8a">論文要約 / 業界動向 / 特許データ / 統合レポート…</text>
+
+          <!-- Agent 1: 文献調査 AI (左上) -->
+          <g data-magic="1" data-magic-id="mo42hy2x_v" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2215%22%20y%3D%2233.5%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="15" y="33.5" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2x_v)" stroke="rgba(210,208,208,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2x_v)" ry="10"></rect><rect x="15" y="33.5" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2x_v)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="15" y="33.5" width="150" height="55" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90" y="56.5" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">文献調査 AI</text>
+          <text x="90" y="74.5" text-anchor="middle" font-size="9.5" fill="#5e6a8a">論文・研究レポート収集</text>
+
+          <!-- Agent 2: 業界分析 AI (右上) -->
+          <g data-magic="1" data-magic-id="mo42hy2y_w" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22425%22%20y%3D%2233.5%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="425" y="33.5" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2y_w)" stroke="rgba(210,208,208,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2y_w)" ry="10"></rect><rect x="425" y="33.5" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2y_w)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="425" y="33.5" width="150" height="55" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="500" y="56.5" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">業界分析 AI</text>
+          <text x="500" y="74.5" text-anchor="middle" font-size="9.5" fill="#5e6a8a">市場・競合トレンド分析</text>
+
+          <!-- Agent 3: 特許調査 AI (左下) -->
+          <g data-magic="1" data-magic-id="mo42hy2y_y" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2215%22%20y%3D%22256%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="15" y="256" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2y_y)" stroke="rgba(210,208,208,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2y_y)" ry="10"></rect><rect x="15" y="256" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2y_y)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="15" y="256" width="150" height="55" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90" y="279" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">特許調査 AI</text>
+          <text x="90" y="297" text-anchor="middle" font-size="9.5" fill="#5e6a8a">特許・IP情報の収集</text>
+
+          <!-- Agent 4: 統合レポート AI (右下) -->
+          <g data-magic="1" data-magic-id="mo42hy2y_x" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22425%22%20y%3D%22256%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff0f6%22%20stroke%3D%22%23cc0a6a%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="425" y="256" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2y_x)" stroke="rgba(255,163,200,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2y_x)" ry="10"></rect><rect x="425" y="256" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2y_x)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="425" y="256" width="150" height="55" rx="10" fill="none" stroke="rgba(255,174,207,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="500" y="279" text-anchor="middle" font-size="11" font-weight="700" fill="#cc0a6a">統合レポート AI</text>
+          <text x="500" y="297" text-anchor="middle" font-size="9.5" fill="#5e6a8a">全情報をまとめて出力</text>
+
+          <!-- 双方向矢印: Agent 1 ↔ Store -->
+          
+          
+
+          <!-- 双方向矢印: Agent 2 ↔ Store -->
+          
+          
+
+          <!-- 双方向矢印: Agent 3 ↔ Store -->
+          <line x1="139.9" y1="256.4" x2="179.4" y2="216.9" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line><line x1="394.8" y1="128" x2="434" y2="88.8" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+          <line x1="188.1" y1="220.4" x2="153.8" y2="254.7" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line><line x1="452.9" y1="88.8" x2="413.3" y2="128.4" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+
+          <!-- 双方向矢印: Agent 4 ↔ Store -->
+          <line x1="153.8" y1="88" x2="191.8" y2="126" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+          <line x1="435.2" y1="255.6" x2="401.9" y2="222.3" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line><line x1="183" y1="132" x2="141.5" y2="90.5" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+
+          <!-- 読み書きラベル -->
+          <text x="132.7" y="119" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+          <text x="452.5" y="123.4" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+          <text x="135.6" y="234.9" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+          <text x="459.1" y="234.9" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+
+          <!-- 特徴テキスト -->
+          <text x="295" y="348" text-anchor="middle" font-size="14.5" fill="#5e6a8a">単一障害点がなく、どのAIがダウンしても他が引き続き稼働できる</text>
+        </svg>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-card biz">
+          <div class="detail-title">💼 実務例: 市場調査レポート自動生成</div>
+          <div class="biz-steps">
+            <div class="biz-step-row"><span class="step-num" style="background:var(--pink)">1</span><p>各調査AIが独立して情報収集しStoreに書き込み</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--pink)">2</span><p>他のAIの書き込みを参照しながら調査を深掘り</p></div>
+            <div class="biz-step-row"><span class="step-num" style="background:var(--pink)">3</span><p>統合レポートAIがStore全体を読み込み報告書生成</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="detail-card ok" style="margin-bottom:.7rem">
+            <div class="detail-title">✅ 使えるシーン</div>
+            <ul class="detail-list">
+              <li>各AIがリアルタイムに互いの発見を参照したい場合</li>
+              <li>高可用性が必要で単一障害点を排除したい構成</li>
+            </ul>
+          </div>
+          <div class="detail-card ng">
+            <div class="detail-title">⚠️ 失敗パターン</div>
+            <ul class="detail-list">
+              <li>終了条件がない → 無限ループ・コスト爆発</li>
+              <li>同じ調査の重複実行でコストが膨らむ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-section">
+        <div class="quiz-title">💡 理解度チェック</div>
+        <div class="quiz-item" onclick="toggleQuiz(this)">
+          <div class="quiz-q">Shared Stateパターンで「終了条件」の設計が重要な理由は？<span class="quiz-arrow">▼</span></div>
+          <div class="quiz-a">誰かが書き込むと他のAIが反応して書き込み、さらに別のAIが反応…という連鎖が起きやすいからです。「N件書いたら終了」「フラグが立ったら終了」など明確な終了条件がないと無限ループになります。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #compare ===== -->
+    <section id="compare">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">COMPARE</span>
+      <h2 class="section-title">5パターン 比較表</h2>
+      <p class="section-sub">連携方式・強み・限界・最適用途を一覧で確認 <span class="ts-badge">⏱ 14:00〜</span></p>
+
+      <div style="overflow-x:auto">
+        <table class="web-table">
+          <thead>
+            <tr>
+              <th>パターン</th>
+              <th>連携方式</th>
+              <th>強み</th>
+              <th>主な限界</th>
+              <th>最適な用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pbadge" style="background:rgba(217,96,24,.15);color:var(--orange)">Generator-Verifier</span></td>
+              <td>生成 → 検証 → ループ</td>
+              <td>品質保証・精度向上</td>
+              <td>検証基準が必要・ループ上限必須</td>
+              <td>コード生成＋テスト、ファクトチェック</td>
+            </tr>
+            <tr>
+              <td><span class="pbadge" style="background:rgba(26,150,192,.15);color:var(--blue)">Orchestrator-Subagent</span></td>
+              <td>階層的な委任・統合</td>
+              <td>タスク分解・専門化</td>
+              <td>情報ボトルネック・単一障害点</td>
+              <td>コードレビュー、複雑な分析</td>
+            </tr>
+            <tr>
+              <td><span class="pbadge" style="background:rgba(0,143,106,.15);color:var(--green)">Agent Teams</span></td>
+              <td>共有キューから自律取得</td>
+              <td>大規模並列処理</td>
+              <td>厳密なタスク分割が必要</td>
+              <td>大規模マイグレーション、一括変換</td>
+            </tr>
+            <tr>
+              <td><span class="pbadge" style="background:rgba(122,59,206,.15);color:var(--purple)">Message Bus</span></td>
+              <td>Pub/Sub イベント駆動</td>
+              <td>疎結合・拡張性</td>
+              <td>サイレント障害・デバッグ困難</td>
+              <td>セキュリティ監視、リアルタイム通知</td>
+            </tr>
+            <tr>
+              <td><span class="pbadge" style="background:rgba(204,10,106,.15);color:var(--pink)">Shared State</span></td>
+              <td>共有ストアの読み書き</td>
+              <td>単一障害点なし</td>
+              <td>重複作業・無限ループリスク</td>
+              <td>リサーチ統合、知識ベース構築</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== #flowchart ===== -->
+    <section id="flowchart">
+      <span class="section-label" style="background:rgba(168,106,0,.12);color:var(--yellow)">GUIDE</span>
+      <h2 class="section-title">パターン選択フローチャート</h2>
+      <p class="section-sub">3問に答えるだけで最適なパターンがわかる <span class="ts-badge">⏱ 14:30〜</span></p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:.8rem">
+        👉 インタラクティブ版はこちら:
+        <a href="flowchart.html" style="color:var(--blue);font-weight:700">フローチャートを開く</a>
+      </p>
+      <div class="svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 400" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo43nbj3_10" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22273f" stop-opacity="1"></stop><stop offset="46%" stop-color="#1a1d2e" stop-opacity="1"></stop><stop offset="100%" stop-color="#121521" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43nbj3_10" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43nbj3_10" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#060609" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43nocj_11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43nocj_11" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43nocj_11" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43nrv0_12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43nrv0_12" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43nrv0_12" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43nuzp_13" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ebf6ff" stop-opacity="1"></stop><stop offset="46%" stop-color="#dbefff" stop-opacity="1"></stop><stop offset="100%" stop-color="#b8e0ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43nuzp_13" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43nuzp_13" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#66a5d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43nyy1_14" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffebf3" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffdbea" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffb8d4" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43nyy1_14" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43nyy1_14" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d66693" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43nyy2_15" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43nyy2_15" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43nyy2_15" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43o2wq_16" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f2ebff" stop-opacity="1"></stop><stop offset="46%" stop-color="#e8dbff" stop-opacity="1"></stop><stop offset="100%" stop-color="#d0b8ff" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43o2wq_16" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43o2wq_16" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#8d66d6" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43o2wr_17" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff3eb" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffeadb" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffd6b8" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43o2wr_17" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43o2wr_17" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d69566" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43o7bh_18" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43o7bh_18" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43o7bh_18" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo43o7bh_19" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0f9f6" stop-opacity="1"></stop><stop offset="46%" stop-color="#e5f5ef" stop-opacity="1"></stop><stop offset="100%" stop-color="#ccebde" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo43o7bh_19" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo43o7bh_19" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#82bba4" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs>
+        <defs>
+          <marker id="fArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#5e6a8a"></path>
+          </marker>
+        </defs>
+
+        <!-- START ボックス -->
+        <g data-magic="1" data-magic-id="mo43nbj3_10" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22-4.1%22%20y%3D%2217.9%22%20width%3D%22220%22%20height%3D%2275.3%22%20rx%3D%2223%22%20fill%3D%22%231a1d2e%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="-4.1" y="17.9" width="220" height="75.3" rx="23" fill="url(#magic-grad-mo43nbj3_10)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke="rgba(8,8,13,0.95)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43nbj3_10)" ry="23"></rect><rect x="-4.1" y="17.9" width="220" height="75.3" rx="23" fill="url(#magic-gloss-mo43nbj3_10)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" stroke="none" opacity="0.2"></rect><rect x="-4.1" y="17.9" width="220" height="75.3" rx="23" fill="none" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke="rgba(38,38,42,0.06)" stroke-width="1.4449999999999998" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+        <text x="105.9" y="62.3" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">AIチームを設計したい 🚀</text>
+
+        <!-- START → Q1 -->
+        <line x1="217.4" y1="57.9" x2="303.8" y2="59.5" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+
+        <!-- Q1: ダイヤ -->
+        <g data-magic="1" data-magic-id="mo43nocj_11" data-magic-theme="flowchart-clean" data-magic-src="%3Cpolygon%20points%3D%22580%2C90%20710%2C140%20580%2C190%20450%2C140%22%20fill%3D%22%23fff%22%20stroke%3D%22%23a86a00%22%20stroke-width%3D%222%22%20transform%3D%22translate(-142%2C-81.8)%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Fpolygon%3E" class="magic-component"><polygon points="580,90 710,140 580,190 450,140" fill="url(#magic-grad-mo43nocj_11)" stroke="rgba(210,208,208,0.95)" stroke-width="2.3" transform="translate(-142,-81.8)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43nocj_11)"></polygon><polygon points="580,90 710,140 580,190 450,140" fill="url(#magic-gloss-mo43nocj_11)" stroke="none" stroke-width="2" transform="translate(-142,-81.8)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></polygon><polygon points="580,90 710,140 580,190 450,140" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.9549999999999998" transform="translate(-142,-81.8)" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></polygon></g>
+        <text x="438" y="53.2" text-anchor="middle" font-size="15" font-weight="700" fill="#a86a00">各タスクは互いに</text>
+        <text x="438.9" y="77.2" text-anchor="middle" font-size="15" font-weight="700" fill="#a86a00">独立している？</text>
+
+        <!-- Q1 YES → 右 (Q2) -->
+        <line x1="568" y1="58.2" x2="609.8" y2="58.2" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="600.6" y="50.4" text-anchor="middle" font-size="10" fill="#008f6a" font-weight="700">YES</text>
+
+        <!-- Q2: ダイヤ (右) -->
+        <g data-magic="1" data-magic-id="mo43o7bh_18" data-magic-theme="flowchart-clean" data-magic-src="%3Cpolygon%20points%3D%22940%2C100%201060%2C140%20940%2C180%20820%2C140%22%20fill%3D%22%23fff%22%20stroke%3D%22%23008f6a%22%20stroke-width%3D%222%22%20transform%3D%22translate(-208.1%2C-81.9)%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Fpolygon%3E" class="magic-component"><polygon points="940,100 1060,140 940,180 820,140" fill="url(#magic-grad-mo43o7bh_18)" stroke="rgba(210,208,208,0.95)" stroke-width="1.8" transform="translate(-208.1,-81.9)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43o7bh_18)"></polygon><polygon points="940,100 1060,140 940,180 820,140" fill="url(#magic-gloss-mo43o7bh_18)" stroke="none" stroke-width="2" transform="translate(-208.1,-81.9)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></polygon><polygon points="940,100 1060,140 940,180 820,140" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.53" transform="translate(-208.1,-81.9)" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></polygon></g>
+        <text x="731.9" y="52.1" text-anchor="middle" font-size="14" font-weight="700" fill="#008f6a">出力の検証が</text>
+        <text x="733.4" y="78.3" text-anchor="middle" font-size="14" font-weight="700" fill="#008f6a">必要？</text>
+
+        <!-- Q2 YES → Generator-Verifier (右上) -->
+        <line x1="853.7" y1="58.1" x2="907.7" y2="58.1" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        
+        <g data-magic="1" data-magic-id="mo43o2wr_17" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22912%22%20y%3D%2236.6%22%20width%3D%22175%22%20height%3D%2238%22%20rx%3D%2210%22%20fill%3D%22%23fff4ec%22%20stroke%3D%22%23d96018%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="912" y="36.6" width="175" height="38" rx="10" fill="url(#magic-grad-mo43o2wr_17)" stroke="rgba(255,202,163,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43o2wr_17)" ry="10"></rect><rect x="912" y="36.6" width="175" height="38" rx="10" fill="url(#magic-gloss-mo43o2wr_17)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="912" y="36.6" width="175" height="38" rx="10" fill="none" stroke="rgba(255,208,174,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+        <text x="998.7" y="59.6" text-anchor="middle" font-size="14" font-weight="700" fill="#d96018">Generator-Verifier</text>
+        
+
+        <!-- Q2 NO → Agent Teams (右下) -->
+        <line x1="732.3" y1="98.8" x2="732.3" y2="120" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="748" y="115.1" text-anchor="middle" font-size="9.5" fill="#c9162e" font-weight="700">NO</text>
+        <g data-magic="1" data-magic-id="mo43o7bh_19" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22645.9%22%20y%3D%22123.4%22%20width%3D%22175%22%20height%3D%2238%22%20rx%3D%2210%22%20fill%3D%22%23e6f5ef%22%20stroke%3D%22%23008f6a%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="645.9" y="123.4" width="175" height="38" rx="10" fill="url(#magic-grad-mo43o7bh_19)" stroke="rgba(189,229,213,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43o7bh_19)" ry="10"></rect><rect x="645.9" y="123.4" width="175" height="38" rx="10" fill="url(#magic-gloss-mo43o7bh_19)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="645.9" y="123.4" width="175" height="38" rx="10" fill="none" stroke="rgba(197,232,218,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+        <text x="733.8" y="147.7" text-anchor="middle" font-size="14" font-weight="700" fill="#008f6a">Agent Teams</text>
+
+        <!-- Q1 NO → 下 (Q3) -->
+        <line x1="438" y1="108.2" x2="438" y2="156.1" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="448.4" y="153.7" text-anchor="start" font-size="10" fill="#c9162e" font-weight="700">NO</text>
+
+        <!-- Q3: ダイヤ (中下) -->
+        <g data-magic="1" data-magic-id="mo43nrv0_12" data-magic-theme="flowchart-clean" data-magic-src="%3Cpolygon%20points%3D%22580%2C245%20710%2C290%20580%2C335%20450%2C290%22%20fill%3D%22%23fff%22%20stroke%3D%22%231a96c0%22%20stroke-width%3D%222%22%20transform%3D%22translate(-142%2C-83.7)%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Fpolygon%3E" class="magic-component"><polygon points="580,245 710,290 580,335 450,290" fill="url(#magic-grad-mo43nrv0_12)" stroke="rgba(210,208,208,0.95)" stroke-width="2" transform="translate(-142,-83.7)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43nrv0_12)"></polygon><polygon points="580,245 710,290 580,335 450,290" fill="url(#magic-gloss-mo43nrv0_12)" stroke="none" stroke-width="2" transform="translate(-142,-83.7)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></polygon><polygon points="580,245 710,290 580,335 450,290" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.7" transform="translate(-142,-83.7)" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></polygon></g>
+        <text x="438.2" y="199.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">手順が事前に</text>
+        <text x="437.6" y="222.5" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">予測できる？</text>
+
+        <!-- Q3 YES → 左 → Orchestrator -->
+        <line x1="438.7" y1="250.6" x2="438.7" y2="286" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="458.2" y="284.7" text-anchor="middle" font-size="9.5" fill="#008f6a" font-weight="700">YES</text>
+        <g data-magic="1" data-magic-id="mo43nuzp_13" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22350.8%22%20y%3D%22292%22%20width%3D%22175%22%20height%3D%2244%22%20rx%3D%2210%22%20fill%3D%22%23e6f4ff%22%20stroke%3D%22%231a96c0%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="350.8" y="292" width="175" height="44" rx="10" fill="url(#magic-grad-mo43nuzp_13)" stroke="rgba(163,215,255,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43nuzp_13)" ry="10"></rect><rect x="350.8" y="292" width="175" height="44" rx="10" fill="url(#magic-gloss-mo43nuzp_13)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="350.8" y="292" width="175" height="44" rx="10" fill="none" stroke="rgba(174,220,255,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+        <text x="437.7" y="320.2" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">Orchestrator-Subagent</text>
+        
+
+        <!-- Q3 NO → 右 (Q4) -->
+        <line x1="732.1" y1="243" x2="732.1" y2="286.9" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="749.3" y="284.5" text-anchor="middle" font-size="9.5" fill="#c9162e" font-weight="700">NO</text>
+
+        <!-- Q4: ダイヤ (右下) -->
+        <g data-magic="1" data-magic-id="mo43nyy2_15" data-magic-theme="flowchart-clean" data-magic-src="%3Cpolygon%20points%3D%22876%2C260%201000.5%2C298%20876%2C336%20751.6%2C298%22%20fill%3D%22%23fff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%222%22%20transform%3D%22translate(-143.2%2C-91.9)%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Fpolygon%3E" class="magic-component"><polygon points="876,260 1000.5,298 876,336 751.6,298" fill="url(#magic-grad-mo43nyy2_15)" stroke="rgba(210,208,208,0.95)" stroke-width="1.7" transform="translate(-143.2,-91.9)" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43nyy2_15)"></polygon><polygon points="876,260 1000.5,298 876,336 751.6,298" fill="url(#magic-gloss-mo43nyy2_15)" stroke="none" stroke-width="2" transform="translate(-143.2,-91.9)" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></polygon><polygon points="876,260 1000.5,298 876,336 751.6,298" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.4449999999999998" transform="translate(-143.2,-91.9)" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></polygon></g>
+        <text x="733.4" y="202.7" text-anchor="middle" font-size="14" font-weight="700" fill="#7a3bce">イベント駆動</text>
+        <text x="733.4" y="220.4" text-anchor="middle" font-size="14" font-weight="700" fill="#7a3bce">の要件あり？</text>
+
+        <!-- Q4 YES → Message Bus (上) -->
+        <line x1="856" y1="205.3" x2="908" y2="205.3" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="894.1" y="197.6" text-anchor="middle" font-size="9.5" fill="#008f6a" font-weight="700">YES</text><text x="896.7" y="50.2" text-anchor="middle" font-size="9.5" fill="#008f6a" font-weight="700">YES</text>
+        <g data-magic="1" data-magic-id="mo43o2wq_16" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22912%22%20y%3D%22187.2%22%20width%3D%22175%22%20height%3D%2238%22%20rx%3D%2210%22%20fill%3D%22%23f0e8ff%22%20stroke%3D%22%237a3bce%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="912" y="187.2" width="175" height="38" rx="10" fill="url(#magic-grad-mo43o2wq_16)" stroke="rgba(195,163,255,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43o2wq_16)" ry="10"></rect><rect x="912" y="187.2" width="175" height="38" rx="10" fill="url(#magic-gloss-mo43o2wq_16)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="912" y="187.2" width="175" height="38" rx="10" fill="none" stroke="rgba(202,174,255,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+        <!-- Message Bus下へ -->
+        <line x1="566.1" y1="205.3" x2="605.2" y2="205.3" stroke="#5e6a8a" stroke-width="1.7" marker-end="url(#fArrow)"></line>
+        <text x="999.1" y="211.4" text-anchor="middle" font-size="14" font-weight="700" fill="#7a3bce">Message Bus</text>
+
+        <!-- Q4 NO → Shared State (左下) -->
+        
+        <text x="597.9" y="193.9" text-anchor="middle" font-size="9.5" fill="#c9162e" font-weight="700">NO</text>
+        <g data-magic="1" data-magic-id="mo43nyy1_14" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22644.6%22%20y%3D%22292%22%20width%3D%22175%22%20height%3D%2238%22%20rx%3D%2210%22%20fill%3D%22%23fff0f6%22%20stroke%3D%22%23cc0a6a%22%20stroke-width%3D%221.8%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="644.6" y="292" width="175" height="38" rx="10" fill="url(#magic-grad-mo43nyy1_14)" stroke="rgba(255,163,200,0.95)" stroke-width="1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo43nyy1_14)" ry="10"></rect><rect x="644.6" y="292" width="175" height="38" rx="10" fill="url(#magic-gloss-mo43nyy1_14)" stroke="none" stroke-width="1.8" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="644.6" y="292" width="175" height="38" rx="10" fill="none" stroke="rgba(255,174,207,0.06)" stroke-width="0.85" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+        <text x="731.8" y="316.2" text-anchor="middle" font-size="14" font-weight="700" fill="#cc0a6a">Shared State</text>
+      </svg>
+      </div>
+    </section>
+
+    <!-- ===== #action ===== -->
+    <section id="action">
+      <span class="section-label" style="background:rgba(0,143,106,.12);color:var(--green)">ACTION</span>
+      <h2 class="section-title">明日から使える 3ステップ</h2>
+      <p class="section-sub">「最初はシンプルに、観察して、必要なときだけ複雑にする」 <span class="ts-badge">⏱ 15:00〜</span></p>
+
+      <div class="action-cards">
+        <div class="ac-card">
+          <div class="ac-num" style="background:linear-gradient(135deg,#e8873a,#d96018)">1</div>
+          <div class="ac-title">Generator-Verifier から始める</div>
+          <div class="ac-desc">「生成AI + 検証AI」の2体制からスタート。最も導入が簡単で効果を実感しやすい。</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-num" style="background:linear-gradient(135deg,#2ab8e0,#1a96c0)">2</div>
+          <div class="ac-title">課題とボトルネックを観察する</div>
+          <div class="ac-desc">遅さ・精度不足・コスト超過など「問題の種類」が次のパターンへの道しるべになる。</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-num" style="background:linear-gradient(135deg,#18b87a,#008f6a)">3</div>
+          <div class="ac-title">必要なときだけ複雑にする</div>
+          <div class="ac-desc">「カッコいいから」ではなく「この課題にはこのパターンが必要だ」という理由があるときだけ進化させる。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== #summary ===== -->
+    <section id="summary">
+      <span class="section-label" style="background:rgba(217,96,24,.12);color:var(--orange)">WRAP UP</span>
+      <h2 class="section-title">まとめ</h2>
+      <p class="section-sub">5つのパターンは「ツールボックス」— 目的に合わせて選ぶのが正解 <span class="ts-badge">⏱ 16:00〜</span></p>
+
+      <div class="sum-cards">
+        <div class="sum-card">
+          <div class="sum-num" style="background:linear-gradient(135deg,#e8873a,#d96018)">1</div>
+          <div class="sum-title">AIチームは「役割分担」で真価を発揮</div>
+          <div class="sum-desc">1体に任せるより専門AIが協力する方が速くて正確。マルチエージェントはその設計思想。</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-num" style="background:linear-gradient(135deg,#2ab8e0,#1a96c0)">2</div>
+          <div class="sum-title">最初はシンプル → 観察 → 進化</div>
+          <div class="sum-desc">パターンの複雑さは「良さ」ではない。Generator-Verifierから始め、必要に応じて進化させる。</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-num" style="background:linear-gradient(135deg,#18b87a,#008f6a)">3</div>
+          <div class="sum-title">5つのパターンを使い分けが鍵</div>
+          <div class="sum-desc">それぞれに得意な場面がある。フローチャートを参考に「自分のタスク」に合う一手を選ぼう。</div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.2rem;background:linear-gradient(135deg,#e8873a,#d96018);border-radius:12px;padding:.8rem 1.2rem;color:#fff;">
+        <strong style="font-size:.9rem">参考文献</strong><br>
+        <span style="font-size:.82rem;opacity:.9">「Multi-agent coordination patterns: Five approaches and when to use them」
+        Anthropic Blog · 2026年4月10日 · Cara Phillips, Eugene Yan, Jiri De Jonghe, Samuel Weller, Erik S.</span>
+      </div>
+    </section>
+
+    <!-- ===== #glossary ===== -->
+    <section id="glossary">
+      <span class="section-label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+      <h2 class="section-title">用語解説</h2>
+      <p class="section-sub">このシリーズで登場した用語の読み方と概要</p>
+
+      <div class="glossary-grid">
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Anthropic</span>
+            <span class="term-reading">アンソロピック</span>
+            <a class="term-link" href="https://anthropic.com" target="_blank">anthropic.com 🔗</a>
+          </div>
+          <p class="term-desc">Claudeを開発した米国のAI安全研究企業（2021年設立）。本記事の発行元。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Claude</span>
+            <span class="term-reading">クロード</span>
+            <a class="term-link" href="https://claude.ai" target="_blank">claude.ai 🔗</a>
+          </div>
+          <p class="term-desc">AnthropicのAIアシスタント。マルチエージェントシステムのベースAIとして活用できる。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">LLM</span>
+            <span class="term-reading">エル・エル・エム</span>
+          </div>
+          <p class="term-desc">Large Language Model（大規模言語モデル）。ChatGPT・Claudeなどの中核技術で文章を理解・生成するAI。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">マルチエージェント</span>
+            <span class="term-reading">Multi-Agent</span>
+          </div>
+          <p class="term-desc">複数のAIエージェントが役割分担しながら協力して目標を達成する設計手法。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Orchestrator</span>
+            <span class="term-reading">オーケストレーター</span>
+          </div>
+          <p class="term-desc">「指揮者」役のAI。タスク全体を計画し各Subagentに仕事を割り振って結果を統合する。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Subagent</span>
+            <span class="term-reading">サブエージェント</span>
+          </div>
+          <p class="term-desc">Orchestratorから委任を受けて特定の専門タスクをこなすAI。「部下」にあたる存在。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Generator</span>
+            <span class="term-reading">ジェネレーター</span>
+          </div>
+          <p class="term-desc">コンテンツ・コードなどを生成する担当AI。Verifierとペアで品質を高めるために使われる。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Verifier</span>
+            <span class="term-reading">ベリファイアー</span>
+          </div>
+          <p class="term-desc">Generatorの出力を基準に照らして検証するAI。「校正・品質チェック」担当にあたる。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Message Bus</span>
+            <span class="term-reading">メッセージバス</span>
+          </div>
+          <p class="term-desc">AIエージェント間のイベント・メッセージを仲介するルーター。掲示板に書いて他のAIが受け取るイメージ。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Pub/Sub</span>
+            <span class="term-reading">パブサブ</span>
+          </div>
+          <p class="term-desc">Publish（投稿）とSubscribe（購読）の仕組み。Message Busの基盤技術。SNSのフォロー機能に近い。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Agent Teams</span>
+            <span class="term-reading">エージェント・チームズ</span>
+          </div>
+          <p class="term-desc">共有タスクキューから複数のWorker AIが自律的にタスクを取り出し並列処理するパターン。指揮者不在で大規模処理に強い。</p>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">Shared State</span>
+            <span class="term-reading">シェアード・ステート</span>
+          </div>
+          <p class="term-desc">全AIが共有の「ノート（State Store）」に読み書きしながら協調するパターン。単一障害点がなくリアルタイム情報共有が可能。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// IntersectionObserver でアクティブナビ
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// クイズ開閉
+function toggleQuiz(el) {
+  el.classList.toggle('open');
+  const a = el.querySelector('.quiz-a');
+  a.classList.toggle('open');
+}
+</script>
+</body>
+</html>

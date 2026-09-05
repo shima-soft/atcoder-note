@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">つまずきポイント</span>
+    <h2 class="slide-title">番号と添字の1つのズレ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>問題文の「＋1」は数え方の違いを吸収する分。Python の添字に直すと消える</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- SVG: 番号と添字の対応図 -->
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          box[i].x = 26 + i*62  (w=54, gap=8)  → 26,88,150,212,274,336,398,460 (right=514)
+          box[i].center = 53 + i*62            → 53,115,177,239,301,363,425,487
+        -->
+
+        <text x="270" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">同じマスなのに、数え方が2通りある</text>
+
+        <!-- 上段: 問題文の数え方 -->
+        <text x="270" y="52" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">問題文の数え方 — 1 から数える</text>
+        <g font-size="13" font-weight="700" text-anchor="middle" font-family="'Noto Sans JP',sans-serif">
+          <text x="53" y="72" fill="#a9b0c3">1</text>
+          <text x="115" y="72" fill="#a9b0c3">2</text>
+          <text x="177" y="72" fill="#a9b0c3">3</text>
+          <text x="239" y="72" fill="#a9b0c3">4</text>
+          <text x="301" y="72" fill="#d96018">5</text>
+          <text x="363" y="72" fill="#d96018">6</text>
+          <text x="425" y="72" fill="#d96018">7</text>
+          <text x="487" y="72" fill="#d96018">8</text>
+        </g>
+
+        <!-- マス（後半だけ主役） -->
+        <g>
+          <rect x="26" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="88" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="150" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="212" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="274" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="336" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="398" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="460" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="19" font-weight="900" text-anchor="middle" font-family="'Noto Sans JP',sans-serif">
+          <text x="53" y="115" fill="#a9b0c3">1</text>
+          <text x="115" y="115" fill="#a9b0c3">3</text>
+          <text x="177" y="115" fill="#a9b0c3">7</text>
+          <text x="239" y="115" fill="#a9b0c3">8</text>
+          <text x="301" y="115" fill="#d96018">4</text>
+          <text x="363" y="115" fill="#d96018">2</text>
+          <text x="425" y="115" fill="#d96018">5</text>
+          <text x="487" y="115" fill="#d96018">6</text>
+        </g>
+
+        <!-- 下段: Python の添字 -->
+        <g font-size="13" font-weight="700" text-anchor="middle" font-family="'Noto Sans JP',sans-serif">
+          <text x="53" y="154" fill="#a9b0c3">0</text>
+          <text x="115" y="154" fill="#a9b0c3">1</text>
+          <text x="177" y="154" fill="#a9b0c3">2</text>
+          <text x="239" y="154" fill="#a9b0c3">3</text>
+          <text x="301" y="154" fill="#d96018">4</text>
+          <text x="363" y="154" fill="#d96018">5</text>
+          <text x="425" y="154" fill="#d96018">6</text>
+          <text x="487" y="154" fill="#d96018">7</text>
+        </g>
+        <text x="270" y="176" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">Python の添字 — 0 から数える</text>
+
+        <!-- 後半の先頭を指す吹き出し -->
+        <polygon points="294,192 308,192 301,183" fill="#d96018"/>
+        <rect x="196" y="192" width="210" height="32" rx="8" fill="rgba(217,96,24,.08)" stroke="#d96018" stroke-width="1.5"/>
+        <text x="301" y="213" text-anchor="middle" font-size="13" font-weight="900" fill="#d96018" font-family="'Noto Sans JP',sans-serif">後半の先頭 = a[n // 2]</text>
+
+        <!-- ❌ パネル -->
+        <rect x="25" y="232" width="236" height="96" rx="10" fill="rgba(201,22,46,.05)" stroke="rgba(201,22,46,.25)" stroke-width="1"/>
+        <text x="41" y="254" font-size="12" font-weight="700" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">❌ よくある間違い</text>
+        <text x="41" y="278" font-size="13" font-weight="700" fill="#5e6a8a" font-family="Consolas,monospace">a[n // 2 + 1:]</text>
+        <text x="41" y="300" font-size="11" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">6番目から足してしまう</text>
+        <text x="41" y="318" font-size="11" font-weight="700" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">→ 答えが 13 になる</text>
+
+        <!-- ✅ パネル -->
+        <rect x="279" y="232" width="236" height="96" rx="10" fill="rgba(0,143,106,.05)" stroke="rgba(0,143,106,.25)" stroke-width="1"/>
+        <text x="295" y="254" font-size="12" font-weight="700" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">✅ 正しい書き方</text>
+        <text x="295" y="278" font-size="13" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">a[n // 2:]</text>
+        <text x="295" y="300" font-size="11" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">5番目から足す</text>
+        <text x="295" y="318" font-size="11" font-weight="700" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">→ 答えは 17</text>
+      </svg>
+    </div>
+
+    <!-- 右カラム: 説明 -->
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 名簿の「行番号」で考える</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>人が数えるときは「1番目・2番目…」と<strong>1 から</strong></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>Python のリストは<strong>0 から</strong>数える決まり</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>だから「5番目」は <strong>a[4]</strong> — 1つ小さい数になる</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 覚え方はこれだけ</div>
+        <ul class="box-list">
+          <li>問題文の「◯番目」→ Python では <strong>◯ − 1</strong></li>
+          <li>「N ÷ 2 ＋ 1 番目」→ <strong>n // 2</strong> 番の添字</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ 1つずれる典型ミス</div>
+        <ul class="box-list">
+          <li>＋1 をそのまま書いて 1個足りなくなる</li>
+          <li>入力例1で 17 ではなく 13 が出る</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

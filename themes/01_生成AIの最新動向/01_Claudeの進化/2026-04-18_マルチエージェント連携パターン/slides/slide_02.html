@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.intro-layout {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+.intro-left {
+  flex: 0 0 46%;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.intro-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.analogy-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  flex: 1;
+}
+.analogy-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .6rem;
+  letter-spacing: .05em;
+}
+.compare-row {
+  display: flex;
+  gap: .6rem;
+  margin-bottom: .5rem;
+}
+.compare-item {
+  flex: 1;
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.compare-item.before {
+  background: rgba(201,22,46,.06);
+  border: 1px solid rgba(201,22,46,.2);
+}
+.compare-item.after {
+  background: rgba(0,143,106,.06);
+  border: 1px solid rgba(0,143,106,.2);
+}
+.compare-badge {
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+  width: fit-content;
+}
+.compare-item.before .compare-badge { background: rgba(201,22,46,.15); color: var(--red); }
+.compare-item.after  .compare-badge { background: rgba(0,143,106,.15); color: var(--green); }
+.compare-main {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.compare-desc {
+  font-size: .75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.def-box {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+  border-radius: 14px;
+  padding: .7rem 1rem;
+}
+.def-text {
+  font-size: .84rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+.def-text strong { color: var(--blue); font-weight: 700; }
+
+.reason-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .6rem .9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  flex: 1;
+}
+.reason-num {
+  min-width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--g-blue);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.reason-body {}
+.reason-title {
+  font-size: .8rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .15rem;
+}
+.reason-desc {
+  font-size: .75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">INTRO</span>
+    <h2 class="slide-title">マルチエージェントとは？</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>AIが「チームを組んで」役割分担しながら複雑な仕事を片づける仕組み</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="intro-layout">
+      <div class="intro-left">
+        <div class="analogy-box">
+          <div class="analogy-title">💼 会社の仕事で例えると…</div>
+          <div class="compare-row">
+            <div class="compare-item before">
+              <span class="compare-badge">❌ 1人体制</span>
+              <div class="compare-main">AI 1体にすべてお願い</div>
+              <div class="compare-desc">企画・執筆・校正・配信を1人でこなすと品質低下・処理遅延が発生しやすい</div>
+            </div>
+            <div class="compare-item after">
+              <span class="compare-badge">✅ チーム体制</span>
+              <div class="compare-main">専門AIが役割分担</div>
+              <div class="compare-desc">企画AI・執筆AI・校正AIが並列作業<br>→ 速くて正確な仕上がり</div>
+            </div>
+          </div>
+          <div class="def-box">
+            <div class="def-text">
+              <strong>マルチエージェント連携</strong>とは、複数のAIが
+              それぞれの役割を持ち、互いに情報をやりとりしながら
+              1つの目標に向かって協力する設計パターンです。
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="intro-right">
+        <div style="font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.1rem;letter-spacing:.05em">なぜ今、注目されているのか</div>
+        <div class="reason-card">
+          <span class="reason-num">1</span>
+          <div class="reason-body">
+            <div class="reason-title">複雑なタスクを分解できる</div>
+            <div class="reason-desc">1体のAIには難しい長大・多工程の作業を、小さなステップに分けて各AIが担当</div>
+          </div>
+        </div>
+        <div class="reason-card">
+          <span class="reason-num">2</span>
+          <div class="reason-body">
+            <div class="reason-title">並列処理で大幅な高速化</div>
+            <div class="reason-desc">互いに依存しない作業は同時進行できるため、単体AIと比べて処理時間が激減</div>
+          </div>
+        </div>
+        <div class="reason-card">
+          <span class="reason-num">3</span>
+          <div class="reason-body">
+            <div class="reason-title">専門AIで品質向上</div>
+            <div class="reason-desc">生成・検証・調査など、それぞれの得意領域に集中させることで精度が上がる</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

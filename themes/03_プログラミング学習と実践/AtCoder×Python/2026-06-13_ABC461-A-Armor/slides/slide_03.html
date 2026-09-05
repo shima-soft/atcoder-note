@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: flex-start;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方</span>
+    <h2 class="slide-title">「A ≤ D」かどうか1つを確かめる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>≤（以下）は「小さいか等しい」— 不等式1つで判定完了</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!-- Number tiles: A at x=18, D at x=276 -->
+        <!-- box centers: A=66, D=324 -->
+        <!-- gap between boxes = 162 -->
+
+        <!-- Shield icon zone (top) -->
+        <rect x="135" y="8" width="270" height="44" rx="10" fill="rgba(217,96,24,.07)" stroke="rgba(217,96,24,.2)" stroke-width="1"/>
+        <text x="270" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">🛡️ Armor — 防具の耐久チェック</text>
+
+        <!-- Number tiles -->
+        <rect x="18" y="72" width="96" height="96" rx="14" fill="white" stroke="#dde2ec" stroke-width="2"/>
+        <text x="66" y="136" text-anchor="middle" font-size="46" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">10</text>
+
+        <rect x="276" y="72" width="96" height="96" rx="14" fill="white" stroke="#dde2ec" stroke-width="2"/>
+        <text x="324" y="136" text-anchor="middle" font-size="46" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">20</text>
+
+        <!-- Variable labels below tiles -->
+        <text x="66" y="190" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">A（攻撃力）</text>
+        <text x="324" y="190" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">D（防御力）</text>
+
+        <!-- Comparison operator area -->
+        <rect x="126" y="100" width="138" height="40" rx="8" fill="rgba(0,143,106,.1)" stroke="rgba(0,143,106,.3)" stroke-width="1.5"/>
+        <text x="195" y="126" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">≤ ?</text>
+
+        <!-- Arrow down to result -->
+        <line x1="195" y1="210" x2="195" y2="248" stroke="#5e6a8a" stroke-width="2"/>
+        <polygon points="188,245 202,245 195,256" fill="#5e6a8a"/>
+
+        <!-- Result box -->
+        <rect x="70" y="258" width="250" height="58" rx="12" fill="rgba(0,143,106,.1)" stroke="var(--green)" stroke-width="2"/>
+        <text x="195" y="280" text-anchor="middle" font-size="12" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">入力例 10 20:</text>
+        <text x="195" y="302" text-anchor="middle" font-size="17" fill="var(--green)" font-weight="900" font-family="'Noto Sans JP',sans-serif">10 ≤ 20 → Yes ✓</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 ゲームの防具チェックで考える</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>敵の攻撃力 A が、防具の防御力 D 以下か確認する</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>A ≤ D なら「防具が耐えられる」→ <strong>Yes</strong></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>A &gt; D なら「防具が壊れる」→ <strong>No</strong></p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ Yesになる条件</div>
+        <ul class="box-list">
+          <li>A ≤ D（AがD以下）</li>
+          <li>等しい場合（A = D）も含む</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ Noになる例</div>
+        <ul class="box-list">
+          <li>20 10 → A=20 &gt; D=10 なので No</li>
+          <li>100 1 → A=100 &gt; D=1 なので No</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

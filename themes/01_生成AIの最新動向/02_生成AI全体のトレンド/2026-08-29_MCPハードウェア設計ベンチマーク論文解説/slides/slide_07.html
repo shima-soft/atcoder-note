@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>結果① 最強は99%成功</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">結果① 性能</span>
+    <h2 class="slide-title">最強モデルは99%成功 — でも難しい課題で差が開く</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>簡単な一手は誰でもできる。HistoryやCrossの「記憶と総合力」で、地力の差が47〜82%も開く</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="モデル別ECCとタスク難易度による差">
+        <text x="34" y="22" font-size="11" font-weight="900" fill="#5e6a8a">ベスト設定での平均ECC（6分野平均）※ベスト設定での観測値</text>
+        <!-- バーチャート背景 -->
+        <rect x="20" y="30" width="580" height="208" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <!-- バー群: x固定 120で縦積み? 横バーの方が良い -->
+        <!-- 横バー: y = 48 + i*26, 高さ18, 幅 = ECC*300 -->
+        <!-- Gemma31B 0.990 -->
+        <text x="30" y="62" font-size="11" font-weight="700" fill="#1a1d2e">Gemma 4 31B</text>
+        <rect x="120" y="50" width="297" height="18" rx="5" fill="#7a3bce"/>
+        <text x="430" y="63" font-size="11" font-weight="700" fill="#7a3bce">0.990</text>
+
+        <text x="30" y="88" font-size="11" fill="#1a1d2e">Gemma 4 26B</text>
+        <rect x="120" y="76" width="287" height="18" rx="5" fill="#9a5ce8"/>
+        <text x="430" y="89" font-size="11" fill="#5e6a8a">0.958</text>
+
+        <text x="30" y="114" font-size="11" fill="#1a1d2e">GPT-OSS 20B</text>
+        <rect x="120" y="102" width="285" height="18" rx="5" fill="#9a5ce8"/>
+        <text x="430" y="115" font-size="11" fill="#5e6a8a">0.951</text>
+
+        <text x="30" y="140" font-size="11" fill="#1a1d2e">Qwen3.5 27B</text>
+        <rect x="120" y="128" width="264" height="18" rx="5" fill="#c9b3ec"/>
+        <text x="430" y="141" font-size="11" fill="#5e6a8a">0.880</text>
+
+        <text x="30" y="166" font-size="11" fill="#1a1d2e">Qwen3.6 27B</text>
+        <rect x="120" y="154" width="257" height="18" rx="5" fill="#c9b3ec"/>
+        <text x="430" y="167" font-size="11" fill="#5e6a8a">0.858</text>
+
+        <text x="30" y="192" font-size="11" fill="#1a1d2e">Gemma 4 E4B</text>
+        <rect x="120" y="180" width="243" height="18" rx="5" fill="#dde2ec"/>
+        <text x="430" y="193" font-size="11" fill="#5e6a8a">0.811</text>
+
+        <text x="30" y="218" font-size="11" font-weight="700" fill="#c9162e">Llama 3.1 8B</text>
+        <rect x="120" y="206" width="166" height="18" rx="5" fill="#c9162e"/>
+        <text x="430" y="219" font-size="11" font-weight="700" fill="#c9162e">0.554</text>
+
+        <text x="120" y="236" font-size="10" fill="#5e6a8a">0</text>
+        <text x="420" y="236" font-size="10" fill="#5e6a8a">1.0（完璧）</text>
+
+        <!-- 下段: 差が開く例 -->
+        <rect x="20" y="250" width="580" height="160" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="276" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">タスクが難しくなると“地力の差”が露わになる</text>
+        <!-- 2カラム比較 -->
+        <rect x="40" y="288" width="260" height="96" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="170" y="308" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">同じGemma 4でも</text>
+        <text x="170" y="328" text-anchor="middle" font-size="11" fill="#5e6a8a">Easy〜Hard 5課題は 0.66差以内</text>
+        <text x="170" y="346" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">Crossで 0.517 vs 0.972 ＝47%差</text>
+        <text x="170" y="366" text-anchor="middle" font-size="10" fill="#5e6a8a">E4B（小） vs 31B（大）</text>
+
+        <rect x="320" y="288" width="260" height="96" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="450" y="308" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">同じLlama 8Bでも</text>
+        <text x="450" y="328" text-anchor="middle" font-size="11" fill="#5e6a8a">独立タスク 平均0.753</text>
+        <text x="450" y="346" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">History/Cross 平均0.139 ＝82%下落</text>
+        <text x="450" y="366" text-anchor="middle" font-size="10" fill="#5e6a8a">記憶が必要な問題で急失速</text>
+
+        <text x="310" y="402" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">→ モデル選びは「難しい仕事」で決めるべき</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">ビジネスでたとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>簡単な定型入力は新人でもベテランでも大差なし</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>「先週の見積を思い出して同じ条件で作って」が急に難しくなる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>総合課題でベテランは耐えるが、新人は途端にミス連発</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 良いニュース</div>
+        <ul class="box-list">
+          <li>最強ローカルモデルなら“ほぼ完璧”まで行ける — クラウド不要</li>
+          <li>小さいGemma E4Bでも簡単な作業なら31Bの9割の性能</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 落とし穴</div>
+        <ul class="box-list">
+          <li>平均値だけ見ると危険 — Crossの数字を必ず確認</li>
+          <li>最良設定での数字なので、何も考えずに使うと大きく下がる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

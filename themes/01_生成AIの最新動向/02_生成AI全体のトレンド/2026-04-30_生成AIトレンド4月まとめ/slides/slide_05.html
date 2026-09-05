@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">GOOGLE ★★</span>
+    <h2 class="slide-title">Gemini 2.5 Pro GA — 100万トークン正式版</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>「本の丸ごと分析」が現実的な業務ツールになった — Google AI Studio も全面刷新</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+
+      <!-- SVG diagram -->
+      <div class="diagram-box">
+        <svg viewBox="0 0 600 390" xmlns="http://www.w3.org/2000/svg"
+             font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif" width="100%" height="100%">
+
+          <!-- Header bar -->
+          <rect width="600" height="42" fill="#d96018" rx="10"/>
+          <rect y="32" width="600" height="10" fill="#d96018"/>
+          <text x="300" y="27" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">2026年4月22日 GA — Google DeepMind</text>
+
+          <!-- Context window comparison (proportional log-like visualization) -->
+          <!-- Title -->
+          <text x="16" y="68" fill="#1a1d2e" font-size="11" font-weight="700">📊 コンテキストウィンドウ比較（主要モデル）</text>
+
+          <!--
+            Bars (max bar width = 450px for 1M tokens)
+            Scale: 1px ≈ 2,222 tokens
+            Gemini 2.5 Pro: 1,000K → 450px
+            Claude Opus 4.7: 200K → 90px
+            o4-mini: 128K → 58px
+            Llama 4 Maverick: 128K → 58px
+            y positions: 90, 135, 180, 225
+          -->
+          <!-- Label column (x=14, width=140) -->
+          <text x="14" y="104" fill="#1a1d2e" font-size="10" font-weight="700">Gemini 2.5 Pro</text>
+          <text x="14" y="149" fill="#1a1d2e" font-size="10" font-weight="700">Claude Opus 4.7</text>
+          <text x="14" y="194" fill="#1a1d2e" font-size="10" font-weight="700">o4-mini</text>
+          <text x="14" y="239" fill="#1a1d2e" font-size="10" font-weight="700">Llama 4 Maverick</text>
+
+          <!-- Bar track bg -->
+          <rect x="160" y="84" width="380" height="26" fill="#eff1f7" rx="4"/>
+          <rect x="160" y="129" width="380" height="26" fill="#eff1f7" rx="4"/>
+          <rect x="160" y="174" width="380" height="26" fill="#eff1f7" rx="4"/>
+          <rect x="160" y="219" width="380" height="26" fill="#eff1f7" rx="4"/>
+
+          <!-- Gemini 2.5 Pro bar (full, 380px = 1M) -->
+          <rect x="160" y="84" width="380" height="26" fill="#d96018" rx="4"/>
+          <text x="548" y="101" fill="#d96018" font-size="10" font-weight="700" text-anchor="start">1M</text>
+
+          <!-- Claude Opus 4.7 bar (200K = 76px) -->
+          <rect x="160" y="129" width="76" height="26" fill="#1a96c0" rx="4"/>
+          <text x="242" y="146" fill="#1a96c0" font-size="10" font-weight="700" text-anchor="start">200K</text>
+
+          <!-- o4-mini bar (128K ≈ 49px) -->
+          <rect x="160" y="174" width="49" height="26" fill="#10a37f" rx="4"/>
+          <text x="215" y="191" fill="#10a37f" font-size="10" font-weight="700" text-anchor="start">128K</text>
+
+          <!-- Llama 4 Maverick bar (128K ≈ 49px) -->
+          <rect x="160" y="219" width="49" height="26" fill="#1877f2" rx="4"/>
+          <text x="215" y="236" fill="#1877f2" font-size="10" font-weight="700" text-anchor="start">128K</text>
+
+          <!-- Highlight: what 1M tokens means -->
+          <rect x="12" y="260" width="576" height="56" fill="rgba(217,96,24,.07)" rx="10" stroke="rgba(217,96,24,.2)"/>
+          <text x="300" y="280" text-anchor="middle" fill="#d96018" font-size="11" font-weight="700">100万トークンで処理できる情報量のイメージ</text>
+          <text x="60" y="298" fill="#5e6a8a" font-size="10">📄 A4文書 約750ページ</text>
+          <text x="230" y="298" fill="#5e6a8a" font-size="10">📧 メール 約30,000通</text>
+          <text x="400" y="298" fill="#5e6a8a" font-size="10">📊 CSVデータ 大量行</text>
+
+          <!-- GA features -->
+          <rect x="12" y="328" width="576" height="52" fill="#fff" rx="10" stroke="#dde2ec"/>
+          <text x="300" y="347" text-anchor="middle" fill="#1a1d2e" font-size="11" font-weight="700">Gemini 2.5 Pro GA の追加機能</text>
+          <text x="40" y="368" fill="#5e6a8a" font-size="9">✅ Google AI Studio 全面リニューアル（UI刷新・新ツール追加）</text>
+          <text x="310" y="368" fill="#5e6a8a" font-size="9">✅ Workspace AI（Docs/Sheets/Meet）との統合強化</text>
+        </svg>
+      </div>
+
+      <!-- Info column -->
+      <div class="info-col">
+        <div class="biz-example" style="border-left:3px solid var(--orange)">
+          <div class="biz-title">💼 活用シナリオ（長文書類・大量データ処理）</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">1</span>
+            <p>100ページ超の法令文書・規約を丸ごと貼り付けて「要点10点」を抽出</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">2</span>
+            <p>Google Docs の会議録を月単位でまとめてアクション一覧を自動生成</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">3</span>
+            <p>Sheets のデータを AI Studio 経由で分析しビジネスレポートを自動作成</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 使えるシーン</div>
+          <ul class="box-list">
+            <li>大量の過去メール・社内文書を一括で分析・整理</li>
+            <li>Google Workspace ユーザーが既存ツール内でAI活用したい場合</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>100万トークンフルに使うほど処理時間・APIコストが増大</li>
+            <li>Google Workspace 連携は一部プランのみ利用可能</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card { padding: .7rem .8rem; justify-content: center; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Pull Request</span>
+          <span class="term-reading">プルリクエスト</span>
+        </div>
+        <p class="term-desc">コードの変更をチームに提案する仕組み。「この変更を入れていいか見てください」の申請。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Code Review</span>
+          <span class="term-reading">コードレビュー</span>
+        </div>
+        <p class="term-desc">他人が書いたコードを確認し、問題や改善点を指摘する作業。品質管理の要。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">CLAUDE.md</span>
+          <span class="term-reading">クロード エムディー</span>
+        </div>
+        <p class="term-desc">プロジェクトのルールを書いたファイル。AIがコードを書くときのガイドラインになる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">GitHub</span>
+          <span class="term-reading">ギットハブ</span>
+        </div>
+        <p class="term-desc">世界で最も広く使われているコード管理サービス。PRやレビューの履歴もここで管理する。</p>
+        <a class="term-link" href="https://github.com" target="_blank">github.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">SHA ハッシュ</span>
+          <span class="term-reading">エスエイチエー ハッシュ</span>
+        </div>
+        <p class="term-desc">コードの変更ごとに自動で振られる一意の識別子。過去の変更を正確に参照するための住所。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">偽陽性</span>
+          <span class="term-reading">ぎようせい</span>
+        </div>
+        <p class="term-desc">「問題がありそう」と判定されたが、実際には問題ではないもの。ツールの信頼度を下げる要因。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ドラフトPR</span>
+          <span class="term-reading">ドラフト プルリクエスト</span>
+        </div>
+        <p class="term-desc">まだ完成していない変更の仮レビュー用に作るPR。完成前にレビューされないようにする仕組み。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Dependabot</span>
+          <span class="term-reading">ディペンダボット</span>
+        </div>
+        <p class="term-desc">GitHubの自動ツール。ライブラリの更新が必要になると自動でPRを作成する。</p>
+        <a class="term-link" href="https://github.com/dependabot" target="_blank">github.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">エージェント</span>
+          <span class="term-reading">エージェント</span>
+        </div>
+        <p class="term-desc">特定のタスクを持つAI。今回のプラグインでは5つのエージェントがそれぞれ得意分野を担当する。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

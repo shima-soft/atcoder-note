@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">TROUBLE 1</span>
+    <h2 class="slide-title">「いい感じに」が通じない</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>頼み方は同じなのに、余白も文字の大きさも毎回変わる。決めごとを言葉にしていませんでした</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          BEFORE行: y=48 h=64 → bottom=112
+            指示box x=30 w=100 → right=130
+            結果box[i].x = 160 + i*78 (w=70, gap=8) → 160,238,316 / right=386
+          AFTER行: y=150 h=64 → bottom=214
+            上box x=30 y=150 w=100 h=28 / 下box x=30 y=186 w=100 h=28
+            結果box x=160 y=150 w=226 h=64 → right=386
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="620" height="310" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <defs>
+            <marker id="arg" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#9aa3bd"/>
+            </marker>
+            <marker id="arp" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#cc0a6a"/>
+            </marker>
+          </defs>
+
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">同じ頼み方でも結果が変わる</text>
+
+          <!-- BEFORE -->
+          <text x="30" y="40" text-anchor="start" font-size="10" font-weight="700" fill="#c9162e">BEFORE ─ 会話だけで頼む</text>
+          <rect x="30" y="48" width="100" height="64" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="80" y="84" text-anchor="middle" font-size="10" fill="#5e6a8a">会話で頼む</text>
+          <line x1="134" y1="80" x2="152" y2="80" stroke="#9aa3bd" stroke-width="1.5" marker-end="url(#arg)"/>
+
+          <rect x="160" y="48" width="70" height="64" rx="8" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <text x="195" y="76" text-anchor="middle" font-size="9.5" fill="#5e6a8a">1回目</text>
+          <text x="195" y="92" text-anchor="middle" font-size="9.5" font-weight="700" fill="#c9162e">余白 大</text>
+
+          <rect x="238" y="48" width="70" height="64" rx="8" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <text x="273" y="76" text-anchor="middle" font-size="9.5" fill="#5e6a8a">2回目</text>
+          <text x="273" y="92" text-anchor="middle" font-size="9.5" font-weight="700" fill="#c9162e">余白 小</text>
+
+          <rect x="316" y="48" width="70" height="64" rx="8" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <text x="351" y="76" text-anchor="middle" font-size="9.5" fill="#5e6a8a">3回目</text>
+          <text x="351" y="92" text-anchor="middle" font-size="9.5" font-weight="700" fill="#c9162e">文字 小</text>
+
+          <!-- AFTER -->
+          <text x="30" y="142" text-anchor="start" font-size="10" font-weight="700" fill="#cc0a6a">AFTER ─ 決めごとを書いてから頼む</text>
+          <rect x="30" y="150" width="100" height="28" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="80" y="168" text-anchor="middle" font-size="9.5" fill="#5e6a8a">会話で頼む</text>
+          <rect x="30" y="186" width="100" height="28" rx="8" fill="rgba(204,10,106,.10)" stroke="#cc0a6a" stroke-width="2"/>
+          <text x="80" y="204" text-anchor="middle" font-size="9.5" font-weight="700" fill="#cc0a6a">ルールのファイル</text>
+          <line x1="134" y1="182" x2="152" y2="182" stroke="#cc0a6a" stroke-width="1.5" marker-end="url(#arp)"/>
+
+          <rect x="160" y="150" width="226" height="64" rx="10" fill="rgba(204,10,106,.10)" stroke="#cc0a6a" stroke-width="2.5"/>
+          <text x="273" y="187" text-anchor="middle" font-size="12" font-weight="700" fill="#cc0a6a">毎回おなじ形で返ってくる</text>
+
+          <text x="250" y="238" text-anchor="middle" font-size="9" fill="#5e6a8a">決めごと＝文字サイズ・画面の大きさ・色の使い分け</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 実際に書き出した決めごと（CLAUDE.md）</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">1</span>
+            <p>文字の基準サイズは 19.2px 固定。勝手に変えない</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">2</span>
+            <p>画面は 1280×720 固定。図もこの中に収める</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">3</span>
+            <p>使う色と、その色が何を意味するかを先に決める</p>
+          </div>
+        </div>
+        <div class="ok-box" style="border-left-color:var(--pink)">
+          <div class="box-title">✅ 書き出したら変わったこと</div>
+          <ul class="box-list">
+            <li>同じ頼み方で、同じ形が返るようになった</li>
+            <li>直してほしい点を、毎回説明せずに済む</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ ただし</div>
+          <ul class="box-list">
+            <li>書いていないことは、やはりバラつきます</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

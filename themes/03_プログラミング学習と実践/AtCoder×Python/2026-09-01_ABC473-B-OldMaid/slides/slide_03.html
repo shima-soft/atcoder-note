@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">手を動かす</span>
+    <h2 class="slide-title">入力例1の8枚を、実際に捨ててみる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>同じ数字の2枚を3回捨てると手札は2枚になり、合計は 15 になる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 実際にペアを捨てていく過程 -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          card w=40 / 送り幅=46 / 各行は中央揃え
+          row0(8枚) x=99..421 / row1(6枚) x=145..375 / row2(4枚) x=191..329 / row3(2枚) x=237..283
+          rowLabelY[i] = 38 + i*70 / rowCardY[i] = 46 + i*70
+        -->
+        <text x="280" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">入力例1: 2 7 1 8 2 8 1 8 の8枚から始める</text>
+
+        <!-- === 行0: はじめの8枚（2 が2枚） === -->
+        <text x="280" y="38" text-anchor="middle" font-size="12" fill="#5e6a8a">はじめの8枚 — 同じ数字の 2 が2枚ある</text>
+        <rect x="99"  y="46" width="40" height="44" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="119" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#d96018">2</text>
+        <rect x="145" y="46" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="165" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">7</text>
+        <rect x="191" y="46" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="211" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">1</text>
+        <rect x="237" y="46" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="257" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+        <rect x="283" y="46" width="40" height="44" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="303" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#d96018">2</text>
+        <rect x="329" y="46" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="349" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+        <rect x="375" y="46" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="395" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">1</text>
+        <rect x="421" y="46" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="441" y="75" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+
+        <!-- === 行1: 2 を捨てた6枚（1 が2枚） === -->
+        <text x="280" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">2 を2枚捨てた — 次は 1 が2枚</text>
+        <rect x="145" y="116" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="165" y="145" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">7</text>
+        <rect x="191" y="116" width="40" height="44" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="211" y="145" text-anchor="middle" font-size="17" font-weight="700" fill="#d96018">1</text>
+        <rect x="237" y="116" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="257" y="145" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+        <rect x="283" y="116" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="303" y="145" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+        <rect x="329" y="116" width="40" height="44" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="349" y="145" text-anchor="middle" font-size="17" font-weight="700" fill="#d96018">1</text>
+        <rect x="375" y="116" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="395" y="145" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+
+        <!-- === 行2: 1 を捨てた4枚（8 が2枚） === -->
+        <text x="280" y="178" text-anchor="middle" font-size="12" fill="#5e6a8a">1 を2枚捨てた — 次は 8 が2枚</text>
+        <rect x="191" y="186" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="211" y="215" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">7</text>
+        <rect x="237" y="186" width="40" height="44" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="257" y="215" text-anchor="middle" font-size="17" font-weight="700" fill="#d96018">8</text>
+        <rect x="283" y="186" width="40" height="44" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="303" y="215" text-anchor="middle" font-size="17" font-weight="700" fill="#d96018">8</text>
+        <rect x="329" y="186" width="40" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="349" y="215" text-anchor="middle" font-size="17" font-weight="700" fill="#5e6a8a">8</text>
+
+        <!-- === 行3: 8 を捨てた2枚（もう捨てられない） === -->
+        <text x="280" y="248" text-anchor="middle" font-size="12" fill="#5e6a8a">8 を2枚捨てた — もう同じ数字の2枚がない</text>
+        <rect x="237" y="256" width="40" height="44" rx="7" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2.5"/>
+        <text x="257" y="285" text-anchor="middle" font-size="17" font-weight="700" fill="#008f6a">7</text>
+        <rect x="283" y="256" width="40" height="44" rx="7" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2.5"/>
+        <text x="303" y="285" text-anchor="middle" font-size="17" font-weight="700" fill="#008f6a">8</text>
+
+        <!-- 凡例 -->
+        <rect x="140" y="310" width="12" height="12" rx="3" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2"/>
+        <text x="158" y="320" font-size="11" fill="#5e6a8a">次に捨てる2枚</text>
+        <rect x="290" y="310" width="12" height="12" rx="3" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2"/>
+        <text x="308" y="320" font-size="11" fill="#5e6a8a">最後に残るカード</text>
+
+        <!-- 答え -->
+        <rect x="150" y="330" width="260" height="50" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="280" y="363" text-anchor="middle" font-size="20" font-weight="900" fill="#008f6a">答え 7 + 8 = 15</text>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+
+      <div class="predict">
+        <span class="predict-badge">🤔 予想してみる</span>
+        <p>捨てられるだけ捨てたあと、手札は何枚残りそうですか？</p>
+      </div>
+
+      <div class="biz-example">
+        <div class="biz-title">✋ いま手でやったこと</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>手札から<strong>同じ数字の2枚</strong>を探す</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>見つけたら<strong>2枚とも捨てる</strong></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>見つからなくなるまで①に戻る</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 答え合わせ</div>
+        <ul class="box-list">
+          <li>残った 7 と 8 を足して <strong>15</strong> — 出力例1と一致</li>
+          <li>3回の操作で8枚のうち6枚が消えた</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ ここが気になる</div>
+        <ul class="box-list">
+          <li>先に 8 から捨てたら答えは変わる？ → <strong>変わらない</strong>（次のスライドで確かめる）</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

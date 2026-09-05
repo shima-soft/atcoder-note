@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">NEW MODEL</span>
+    <h2 class="slide-title">Gemini 3.1 Flash TTS — 30種の音声</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>Google の最新 AI がテキストを人間らしい音声に変換。従来より自然で表情豊かな読み上げを実現</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!-- TTS フロー図 -->
+        <svg viewBox="0 0 640 300" width="640" height="300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gOrange3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e8873a"/>
+              <stop offset="100%" stop-color="#d96018"/>
+            </linearGradient>
+            <marker id="arr3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <polygon points="0,0 8,3 0,6" fill="#d96018"/>
+            </marker>
+          </defs>
+
+          <!-- ステップ1: テキスト入力 -->
+          <rect x="15" y="100" width="160" height="100" rx="12" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <text x="95" y="132" text-anchor="middle" font-size="11" fill="#5e6a8a" font-weight="700" font-family="sans-serif">テキスト入力</text>
+          <rect x="30" y="143" width="130" height="22" rx="6" fill="#eff1f7"/>
+          <!-- rect幅130: "今日の会議では" = 8全角 → 88+20=108 < 130 ✓ -->
+          <text x="95" y="158" text-anchor="middle" font-size="9" fill="#5e6a8a" font-family="sans-serif">「今日の会議では…」</text>
+          <rect x="30" y="168" width="130" height="22" rx="6" fill="#eff1f7"/>
+          <!-- "「[pause] 重要です」" = 9全角 → 99+20=119 < 130 ✓ -->
+          <text x="95" y="183" text-anchor="middle" font-size="9" fill="#5e6a8a" font-family="sans-serif">「[pause] 重要です」</text>
+
+          <!-- 矢印1 -->
+          <line x1="178" y1="150" x2="214" y2="150" stroke="#d96018" stroke-width="2" marker-end="url(#arr3)"/>
+
+          <!-- ステップ2: Gemini 3.1 Flash TTS -->
+          <rect x="220" y="85" width="200" height="130" rx="14" fill="url(#gOrange3)"/>
+          <text x="320" y="128" text-anchor="middle" font-size="13" fill="#fff" font-weight="900" font-family="sans-serif">Gemini 3.1</text>
+          <text x="320" y="147" text-anchor="middle" font-size="13" fill="#fff" font-weight="900" font-family="sans-serif">Flash TTS</text>
+          <!-- "AI 音声合成モデル" = 9文字 → 99+20=119 < 200 ✓ -->
+          <text x="320" y="168" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.8)" font-family="sans-serif">AI 音声合成モデル</text>
+          <rect x="245" y="178" width="150" height="24" rx="8" fill="rgba(255,255,255,.15)"/>
+          <!-- "自然言語で指示可能" = 9文字 → 99+20=119 < 150 ✓ -->
+          <text x="320" y="194" text-anchor="middle" font-size="9" fill="#fff" font-family="sans-serif">自然言語で指示可能</text>
+
+          <!-- 矢印2 -->
+          <line x1="422" y1="150" x2="458" y2="150" stroke="#d96018" stroke-width="2" marker-end="url(#arr3)"/>
+
+          <!-- ステップ3: 音声出力 -->
+          <rect x="465" y="75" width="160" height="150" rx="12" fill="rgba(217,96,24,.08)" stroke="#d96018" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="545" y="113" text-anchor="middle" font-size="26" font-family="sans-serif">🔊</text>
+          <rect x="482" y="122" width="126" height="28" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1"/>
+          <!-- "30種の音声オプション" = 10文字 → 110+20=130 > 126px 境界！ font-size=10: 100+20=120 < 126 ✓ -->
+          <text x="545" y="141" text-anchor="middle" font-size="10" fill="#d96018" font-weight="900" font-family="sans-serif">30種の音声オプション</text>
+          <!-- "24言語対応" = 6文字 → 66+20=86 < 126 ✓ -->
+          <text x="545" y="170" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="sans-serif">24言語 対応</text>
+          <!-- "自然な会話トーン" = 8文字 → 88+20=108 < 126 ✓ -->
+          <text x="545" y="188" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="sans-serif">自然な会話トーン</text>
+          <!-- "高い表現力" = 6文字 → 66+20=86 < 126 ✓ -->
+          <text x="545" y="206" text-anchor="middle" font-size="10" fill="#5e6a8a" font-family="sans-serif">高い表現力</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 Gemini 3.1 Flash TTS とは</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">1</span>
+            <p>Google が2026年4月に公開した最新の AI 音声合成モデル</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">2</span>
+            <p>TTS = Text-To-Speech（テキスト読み上げ）の略</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">3</span>
+            <p>従来モデルより感情・抑揚・ポーズ表現が格段に向上</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 30種の「会話型」音声の特徴</div>
+          <ul class="box-list">
+            <li>明るい・落ち着いた・親しみやすいなど個性が異なる</li>
+            <li>ロボット感がなく、人間らしい抑揚を持つ</li>
+            <li>感情指示に自然に反応してトーンが変わる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 従来の TTS との違い</div>
+          <ul class="box-list">
+            <li>旧モデル: 単調で棒読みに聞こえることが多かった</li>
+            <li>新モデル: 感情・間・効果音を自然言語で制御できる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

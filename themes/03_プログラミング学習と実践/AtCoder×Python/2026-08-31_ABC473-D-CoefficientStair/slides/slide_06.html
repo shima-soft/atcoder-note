@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">手順にする</span>
+    <h2 class="slide-title">reach の表を先に作っておく</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>reach[idx][rem] は「重み idx 以降だけで rem をちょうど作れるか」を ○ と − で持つ表</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: reach表 SVG -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 310">
+        <text x="280" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">reach[idx][rem] 早見表（例: N=3, K=8）</text>
+        <text x="50" y="45" text-anchor="middle" font-size="9" fill="#5e6a8a">idx＼rem</text>
+
+        <!-- ヘッダー: rem 0〜8 -->
+        <text x="115" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">0</text>
+        <text x="165" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">1</text>
+        <text x="215" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">2</text>
+        <text x="265" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">3</text>
+        <text x="315" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">4</text>
+        <text x="365" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">5</text>
+        <text x="415" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">6</text>
+        <text x="465" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">7</text>
+        <text x="515" y="60" text-anchor="middle" font-size="11" fill="#5e6a8a">8</text>
+
+        <!-- 行ラベル -->
+        <text x="50" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">reach[4]</text>
+        <text x="50" y="133" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">reach[3]</text>
+        <text x="50" y="171" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">reach[2]</text>
+        <text x="50" y="209" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a" font-family="Consolas,monospace">reach[1]</text>
+
+        <!-- row idx=4: T F F F F F F F F -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="74" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="115" y="96" fill="#008f6a">○</text>
+          <rect x="142" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="165" y="96" fill="#a9b0c3">−</text>
+          <rect x="192" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="215" y="96" fill="#a9b0c3">−</text>
+          <rect x="242" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="265" y="96" fill="#a9b0c3">−</text>
+          <rect x="292" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="315" y="96" fill="#a9b0c3">−</text>
+          <rect x="342" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="365" y="96" fill="#a9b0c3">−</text>
+          <rect x="392" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="415" y="96" fill="#a9b0c3">−</text>
+          <rect x="442" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="465" y="96" fill="#a9b0c3">−</text>
+          <rect x="492" y="74" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="515" y="96" fill="#a9b0c3">−</text>
+        </g>
+
+        <!-- row idx=3: T F F T F F T F F -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="112" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="115" y="134" fill="#008f6a">○</text>
+          <rect x="142" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="165" y="134" fill="#a9b0c3">−</text>
+          <rect x="192" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="215" y="134" fill="#a9b0c3">−</text>
+          <rect x="242" y="112" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="265" y="134" fill="#008f6a">○</text>
+          <rect x="292" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="315" y="134" fill="#a9b0c3">−</text>
+          <rect x="342" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="365" y="134" fill="#a9b0c3">−</text>
+          <rect x="392" y="112" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="415" y="134" fill="#008f6a">○</text>
+          <rect x="442" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="465" y="134" fill="#a9b0c3">−</text>
+          <rect x="492" y="112" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="515" y="134" fill="#a9b0c3">−</text>
+        </g>
+
+        <!-- row idx=2: T F T T T T T T T -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="115" y="172" fill="#008f6a">○</text>
+          <rect x="142" y="150" width="46" height="34" rx="5" fill="#fff" stroke="#dde2ec"/>
+          <text x="165" y="172" fill="#a9b0c3">−</text>
+          <rect x="192" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="215" y="172" fill="#008f6a">○</text>
+          <rect x="242" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="265" y="172" fill="#008f6a">○</text>
+          <rect x="292" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="315" y="172" fill="#008f6a">○</text>
+          <rect x="342" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="365" y="172" fill="#008f6a">○</text>
+          <rect x="392" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="415" y="172" fill="#008f6a">○</text>
+          <rect x="442" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="465" y="172" fill="#008f6a">○</text>
+          <rect x="492" y="150" width="46" height="34" rx="5" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="515" y="172" fill="#008f6a">○</text>
+        </g>
+
+        <!-- row idx=1: all T -->
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="92" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="115" y="210" fill="#d96018">○</text>
+          <rect x="142" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="165" y="210" fill="#d96018">○</text>
+          <rect x="192" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="215" y="210" fill="#d96018">○</text>
+          <rect x="242" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="265" y="210" fill="#d96018">○</text>
+          <rect x="292" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="315" y="210" fill="#d96018">○</text>
+          <rect x="342" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="365" y="210" fill="#d96018">○</text>
+          <rect x="392" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="415" y="210" fill="#d96018">○</text>
+          <rect x="442" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="465" y="210" fill="#d96018">○</text>
+          <rect x="492" y="188" width="46" height="34" rx="5" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="515" y="210" fill="#d96018">○</text>
+        </g>
+
+        <!-- 凡例・補足 -->
+        <text x="15" y="245" font-size="11" fill="#5e6a8a">○ = 作れる　− = 作れない</text>
+        <text x="15" y="266" font-size="11" fill="#1a1d2e" font-weight="700">reach[1]は全部○ → 重み1があれば必ずKを作れる</text>
+        <text x="15" y="287" font-size="11" fill="#5e6a8a">reach[idx] は reach[idx+1] をコピーし、idx分を足せる○を伝播させて作る</text>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">📖 記号の読み方</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><strong>reach</strong> は「届く」。<strong>idx</strong> は位置の番号、<strong>rem</strong> は残り</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>reach[idx][rem] =「重み idx 以降だけで、残り rem をちょうど作れるか」</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>答えは ○（作れる）か −（作れない）の2通りだけ</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ reachの作り方（idxを大きい方から小さい方へ）</div>
+        <ul class="box-list">
+          <li>reach[N+1][0] = ○（何も使わずrem=0だけ作れる）</li>
+          <li>reach[idx] は reach[idx+1] をコピーしてから、remを idx, idx+1, … と増やしながら伝播</li>
+          <li>reach[idx][r-idx] が○なら reach[idx][r] も○にする（idxは何回でも使ってよい）</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ DFSでの使い方</div>
+        <ul class="box-list">
+          <li>位置idxでA_idx=vを仮決めしたら、残り r=rem−idx×v が reach[idx+1][r] なら先に進む</li>
+          <li>○の候補だけを辿るので、行き止まりの探索が消える</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

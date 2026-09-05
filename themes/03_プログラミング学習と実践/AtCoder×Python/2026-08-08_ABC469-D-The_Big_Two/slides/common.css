@@ -1,0 +1,268 @@
+/* 共通スタイル */
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --g-orange: #d96018;
+  --g-green: #008f6a;
+  --g-purple: #7a3bce;
+  --g-blue: #1a96c0;
+  --g-yellow: #a86a00;
+}
+
+html {
+  font-size: 19.2px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: sans-serif;
+}
+
+.slide {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.slide.surface {
+  background-color: var(--surface);
+}
+
+.slide-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.label {
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+  font-weight: 700;
+  font-size: 0.72rem;
+}
+
+.slide-title {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.slide-sub {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.hitokoto {
+  border: 2px solid var(--orange);
+  border-radius: 10px;
+  padding: 0.8rem 1.2rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.hitokoto .badge {
+  background: var(--orange);
+  color: #fff;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.hitokoto p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* 2カラムパターン */
+.pattern-cols {
+  display: flex;
+  gap: 2rem;
+  height: 100%;
+}
+
+.diagram-box {
+  flex: 0 0 52%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ok-box, .ng-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.box-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.box-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.84rem;
+}
+
+/* タイトルスライド A型 */
+.panel-light {
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 2.8rem 1.8rem;
+}
+
+.point-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.source-badge {
+  font-size: 0.88rem;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+}
+
+.right-heading {
+  font-size: 1.9rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+}
+
+.point-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.point-list li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.pnum {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 22px;
+  font-size: 0.76rem;
+  margin-right: 0.5rem;
+}
+
+.bottom-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: auto;
+}
+
+.credit {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* コードスタイル */
+pre code.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 0.85rem;
+}
+
+/* 用語解説 G型 */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.term-name {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.term-reading {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.term-link {
+  font-size: 0.65rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.term-link:hover {
+  text-decoration: underline;
+}
+
+.term-desc {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.5;
+}

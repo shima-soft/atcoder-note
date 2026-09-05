@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card-grid { gap: .7rem; }
+.card-ex {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .45rem .6rem;
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.card-ex b { color: var(--text); font-weight: 700; }
+.card { padding: .9rem 1rem; gap: .45rem; justify-content: center; }
+.card-head { display: flex; align-items: center; gap: .5rem; }
+.card-icon { font-size: 1.35rem; margin-bottom: 0; }
+.card-title { font-size: .92rem; line-height: 1.3; }
+.card-tag {
+  display: inline-block;
+  width: fit-content;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  background: rgba(94,106,138,.12);
+  color: var(--muted);
+}
+.card-note {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.5;
+  margin-top: .15rem;
+  padding-top: .4rem;
+  border-top: 1px dashed var(--border);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">STEP 3 — 取りこぼし防止</span>
+    <h2 class="slide-title">こぼれ落ちを拾う、3つの小さな仕組み</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>大きな自動化より、「気づけなかったこと」を知らせる小さな担当をいくつも置く</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🗓</span>
+          <span class="card-title">来なかった商談・<br>止まったやり取りを知らせる</span>
+        </div>
+        <span class="card-tag">メールとカレンダーを見張る</span>
+        <div class="card-desc">約束の時間に相手が来なかった、返信が途中で途絶えた。営業なら誰もが経験する取りこぼしを、Claude が見つけて知らせる</div>
+        <div class="card-ex"><b>たとえば</b><br>15時の商談に相手が現れない。気づかないまま数日が過ぎる代わりに、その日のうちに再調整の連絡ができる</div>
+        <div class="card-note">気づくのが早いほど、追いかけが間に合う</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">📇</span>
+          <span class="card-title">新しい見込み客への<br>初回連絡を下書きする</span>
+        </div>
+        <span class="card-tag">顧客管理システムとつなぐ</span>
+        <div class="card-desc">顧客管理システムを見て新規の問い合わせを拾い、相手に合わせた最初の一通を用意する。1日のうちに何度も動く</div>
+        <div class="card-ex"><b>たとえば</b><br>朝いちで届いた資料請求に、昼前には相手の事業に触れた一通目を送れる。翌日返信との差は大きい</div>
+        <div class="card-note">見込み客を待たせない</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">📋</span>
+          <span class="card-title">案件の進み具合を<br>最新の状態に保つ</span>
+        </div>
+        <span class="card-tag">更新案を根拠つきで提案</span>
+        <div class="card-desc">社内の「どうなったら次の段階か」の決めごとを読み、実際のメールや商談記録と突き合わせる。「値段の話に入ったので次の段階では」と証拠つきで提案し、承認を待つ</div>
+        <div class="card-ex"><b>たとえば</b><br>見積もりを送ったのに段階が「初回接触」のまま。台帳と現実のずれを、月末の棚卸しを待たずに埋められる</div>
+        <div class="card-note">断ると理由を覚え、同じ提案を繰り返さない</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">失敗アプローチ</span>
+    <h2 class="slide-title">なぜ「操作を 1 回ずつシミュレート」はダメなのか？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>K が最大 10¹⁸。「何回ループするか」ではなく「答えがいくつか」を直接求める発想が必要</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: SVG -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 410">
+        <!-- ===== 上半分: K回シミュレーション ===== -->
+        <text x="280" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">❌ アプローチ①: K 回ループのシミュレーション</text>
+
+        <!-- 初期状態 -->
+        <rect x="15" y="36" width="100" height="36" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="65" y="50" text-anchor="middle" font-size="10" fill="#5e6a8a">初期</text>
+        <text x="65" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">[1, 2, 3]</text>
+
+        <!-- 矢印 step1 -->
+        <path d="M 115 54 L 145 54" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+        <text x="130" y="46" text-anchor="middle" font-size="9" fill="#d96018">step 1</text>
+
+        <!-- step1後 -->
+        <rect x="145" y="36" width="100" height="36" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="195" y="50" text-anchor="middle" font-size="10" fill="#5e6a8a">i=1 選択</text>
+        <text x="195" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">[2, 2, 3]</text>
+
+        <!-- 矢印 step2 -->
+        <path d="M 245 54 L 275 54" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+        <text x="260" y="46" text-anchor="middle" font-size="9" fill="#d96018">step 2</text>
+
+        <!-- step2後 -->
+        <rect x="275" y="36" width="100" height="36" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="325" y="50" text-anchor="middle" font-size="10" fill="#5e6a8a">i=2 選択</text>
+        <text x="325" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">[2, 4, 3]</text>
+
+        <!-- 省略 -->
+        <text x="398" y="58" text-anchor="middle" font-size="18" fill="#5e6a8a">・・・</text>
+
+        <!-- K番目 (TLE) -->
+        <rect x="420" y="36" width="125" height="36" rx="8" fill="rgba(201,22,46,.07)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="483" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#c9162e">K = 10¹⁸ ステップ</text>
+        <text x="483" y="64" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">⚡ TLE !</text>
+
+        <!-- 注釈バー -->
+        <rect x="15" y="84" width="530" height="26" rx="6" fill="rgba(201,22,46,.05)" stroke="rgba(201,22,46,.2)" stroke-width="1"/>
+        <text x="280" y="101" text-anchor="middle" font-size="11" fill="#c9162e">毎秒 10⁹ 回実行できたとしても、K = 10¹⁸ 回の完了には約 317 年かかる</text>
+
+        <!-- 区切り線 -->
+        <line x1="15" y1="126" x2="545" y2="126" stroke="#dde2ec" stroke-width="1"/>
+
+        <!-- ===== 下半分: 目標値の全探索 ===== -->
+        <text x="280" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">❌ アプローチ②: 答え m の候補を全て試す</text>
+
+        <!-- m=1 box -->
+        <rect x="30" y="162" width="72" height="50" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="66" y="180" text-anchor="middle" font-size="11" fill="#5e6a8a">m = 1</text>
+        <text x="66" y="202" text-anchor="middle" font-size="10" fill="#008f6a">ops=0 ✅</text>
+
+        <!-- m=2 box -->
+        <rect x="115" y="162" width="72" height="50" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="151" y="180" text-anchor="middle" font-size="11" fill="#5e6a8a">m = 2</text>
+        <text x="151" y="202" text-anchor="middle" font-size="10" fill="#008f6a">ops=1 ✅</text>
+
+        <!-- m=3 box (answer) -->
+        <rect x="200" y="162" width="72" height="50" rx="8" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="236" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">m = 3 ★</text>
+        <text x="236" y="202" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">ops=3 ✅</text>
+
+        <!-- m=4 box -->
+        <rect x="285" y="162" width="72" height="50" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="321" y="180" text-anchor="middle" font-size="11" fill="#5e6a8a">m = 4</text>
+        <text x="321" y="202" text-anchor="middle" font-size="10" fill="#c9162e">ops=5 ❌</text>
+
+        <!-- 省略 -->
+        <text x="393" y="194" text-anchor="middle" font-size="18" fill="#5e6a8a">・・・</text>
+
+        <!-- m=10^18 box -->
+        <rect x="415" y="162" width="130" height="50" rx="8" fill="rgba(201,22,46,.05)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="480" y="180" text-anchor="middle" font-size="10" font-weight="700" fill="#c9162e">m = 10¹⁸</text>
+        <text x="480" y="202" text-anchor="middle" font-size="10" fill="#c9162e">ops = 巨大 ❌</text>
+
+        <!-- 注釈 -->
+        <rect x="15" y="226" width="530" height="26" rx="6" fill="rgba(201,22,46,.05)" stroke="rgba(201,22,46,.2)" stroke-width="1"/>
+        <text x="280" y="243" text-anchor="middle" font-size="11" fill="#c9162e">m の候補が 1〜10¹⁸（最大 10¹⁸ 通り）→ 全部試すのは不可能</text>
+
+        <!-- 区切り線 -->
+        <line x1="15" y1="268" x2="545" y2="268" stroke="#dde2ec" stroke-width="1"/>
+
+        <!-- ===== 発想転換ヒント ===== -->
+        <text x="280" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">💡 気づき：候補の数を減らせないか？</text>
+
+        <!-- 単調性の図 -->
+        <!-- m増加 → ops増加 (単調) -->
+        <rect x="30" y="305" width="500" height="80" rx="10" fill="rgba(26,150,192,.05)" stroke="rgba(26,150,192,.25)" stroke-width="1"/>
+        <text x="53" y="328" font-size="12" fill="#1a96c0" font-weight="700">単調性</text>
+        <text x="53" y="348" font-size="11" fill="#5e6a8a">m が大きいほど必要な操作回数も増える</text>
+        <text x="53" y="368" font-size="11" fill="#5e6a8a">→「できる/できない」の境界 <tspan font-weight="700" fill="#d96018">1つ</tspan> だけ見つければよい！→ <tspan font-weight="700" fill="#1a96c0">二分探索</tspan></text>
+
+        <!-- 矢印マーカー -->
+        <defs>
+          <marker id="ao" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#d96018"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="ng-box">
+        <div class="box-title">❌ NG: K 回ループでシミュレート</div>
+        <ul class="box-list">
+          <li>毎ステップ最小値の要素を増やしても、K ≤ 10¹⁸ 回は回せない</li>
+          <li>計算量 O(K) = O(10¹⁸) → 実質不可能</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">❌ NG: 答えの候補 m を全探索</div>
+        <ul class="box-list">
+          <li>m は 1 から最大 10¹⁸ まで → 全候補を試せない</li>
+          <li>計算量 O(V × N) = O(10¹⁸ × 2×10⁵) → 論外</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">💡 発想転換：単調性を使う</div>
+        <ul class="box-list">
+          <li>m が小さければ必要操作数 ≤ K（達成可能）</li>
+          <li>m が大きければ必要操作数 &gt; K（不可能）</li>
+          <li>この <strong>単調性</strong> があれば二分探索が使える！</li>
+          <li>探索回数は log₂(10¹⁸) ≈ <strong>60 回</strong> だけ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

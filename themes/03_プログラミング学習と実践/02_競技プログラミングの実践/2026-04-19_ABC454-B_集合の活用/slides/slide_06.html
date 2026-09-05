@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-link    { font-size: .65rem; color: var(--blue); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.term-link:hover { text-decoration: underline; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">集合（Set）</span>
+          <span class="term-reading">シュウゴウ（セット）</span>
+        </div>
+        <p class="term-desc">重複する要素を持たないデータ構造。Pythonでは <code>set()</code> で作成。[1,1,2] → {1,2} のように自動で重複を取り除く。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">単射（Injection）</span>
+          <span class="term-reading">タンシャ / インジェクション</span>
+        </div>
+        <p class="term-desc">「異なる入力は必ず異なる出力になる」性質。今回のQ1「全員が異なる服を着ている」に相当する数学用語。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">全射（Surjection）</span>
+          <span class="term-reading">ゼンシャ / サージェクション</span>
+        </div>
+        <p class="term-desc">「出力のすべての値が、少なくとも1つの入力から得られる」性質。今回のQ2「全種類の服が着られている」に対応する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">O記法（計算量）</span>
+          <span class="term-reading">オーきほう</span>
+        </div>
+        <p class="term-desc">アルゴリズムの処理量を表す記法。O(N) は「データが2倍になると処理も2倍」。O(N²) は「2倍→4倍」と急増する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+        <p class="term-desc">日本最大の競技プログラミングサイト。ABC（AtCoder Beginner Contest）は毎週開催され、A〜F問題の6問構成。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ABC（Beginner Contest）</span>
+          <span class="term-reading">エービーシー</span>
+        </div>
+        <p class="term-desc">AtCoder が毎週土曜に開催するコンテスト。A問題が最も簡単（灰色〜）、B問題は基本的なアルゴリズムが問われる入門問題。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

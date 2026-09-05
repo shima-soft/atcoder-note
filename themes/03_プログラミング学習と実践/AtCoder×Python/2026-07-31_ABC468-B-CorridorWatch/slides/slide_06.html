@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 B - Python 13行で完成</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem 1.2rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: .9rem 1.1rem;
+  font-size: .78rem;
+  line-height: 1.7;
+  overflow: hidden;
+}
+.info-col {
+  gap: .5rem;
+}
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .55rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .25rem;
+}
+.line-explain p {
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .76rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">Python 13行で完成</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>「マスごとに全ガードマンを確認する」を、そのまま二重ループに書く</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <div class="code-label">PYTHON</div>
+      <pre><code class="language-python">M, D = map(int, input().split())
+S = input()
+
+count = 0
+for x in range(M):
+    watched = False
+    for i in range(M):
+        if S[i] == "G" and abs(x - i) &lt;= D:
+            watched = True
+    if watched == False:
+        count += 1
+
+print(count)</code></pre>
+    </div>
+
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜2行目 — 入力の受け取り</h4>
+        <p>1行目でマスの数 M と距離 D を整数として読み込み、
+           2行目で配置の文字列 S を受け取る。
+           <code>S[i]</code> で i 番目の1文字を取り出せる。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>5〜6行目 — 調べたいマスを1つ選ぶ</h4>
+        <p>Python は 0 から数えるので <code>x = 0</code> がマス1。
+           <code>watched</code>（見られているか）を False にしておく —
+           これが「フラグ」の役割をする。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>7〜9行目 — 全ガードマンとの距離を確認</h4>
+        <p><code>S[i] == "G"</code> でガードマンを見つけ、
+           <code>abs(x - i) &lt;= D</code> なら見張られている。番号を0から数えても
+           差は変わらないのでそのまま使える。1人でも見つかれば True にする。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>10〜13行目 — 残ったマスを数える</h4>
+        <p>最後まで False のままだったマスだけ <code>count</code> を1増やし、
+           全部調べ終えたら出力する。</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

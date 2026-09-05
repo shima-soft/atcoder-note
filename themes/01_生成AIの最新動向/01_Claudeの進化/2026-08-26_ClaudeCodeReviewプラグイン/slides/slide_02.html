@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wide-diagram {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .5rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">PROBLEM</span>
+    <h2 class="slide-title">コードレビューは時間がかかる上、見落としがある</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>人の目だけに頼ると、同じミスを繰り返すか、逆に細かすぎる指摘が増える</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="wide-diagram">
+      <!--
+        BEFORE box[i].x = 52 + i * 155  (boxWidth=140, gap=15, 送り幅=155) → 52,207,362,517,672 / right=812
+        AFTER  2 box: x=52 w=390 (right=442) / x=472 w=340 (right=812)
+        viewBox: 0 0 860 430
+      -->
+      <svg viewBox="0 0 860 430" width="1000" height="500" font-family="'Noto Sans JP','Meiryo',sans-serif">
+        <text x="430" y="32" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">レビューにかかる時間と、見落としの問題</text>
+
+        <!-- BEFORE: 従来のレビュー（脇役・グレー） -->
+        <text x="52" y="68" font-size="13" font-weight="700" fill="#5e6a8a">BEFORE 人が1件ずつ確認</text>
+        <rect x="52" y="80" width="140" height="72" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="122" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">PRを読む</text>
+        <text x="122" y="128" text-anchor="middle" font-size="12" fill="#5e6a8a">（平均30分〜）</text>
+        <rect x="207" y="80" width="140" height="72" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="277" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">コメントを書く</text>
+        <text x="277" y="128" text-anchor="middle" font-size="12" fill="#5e6a8a">（1件5〜15分）</text>
+        <rect x="362" y="80" width="140" height="72" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="432" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">サイクルを回す</text>
+        <text x="432" y="128" text-anchor="middle" font-size="12" fill="#5e6a8a">（修正→再レビュー）</text>
+        <rect x="517" y="80" width="140" height="72" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="587" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">指摘に漏れがある</text>
+        <text x="587" y="128" text-anchor="middle" font-size="12" fill="#5e6a8a">（疲労で見落とす）</text>
+        <rect x="672" y="80" width="140" height="72" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="742" y="108" text-anchor="middle" font-size="12" fill="#5e6a8a">熟練者に依存</text>
+        <text x="742" y="128" text-anchor="middle" font-size="12" fill="#5e6a8a">（属人的になる）</text>
+        <text x="430" y="178" text-anchor="middle" font-size="14" font-weight="700" fill="#c9162e">PR 1件あたり平均 1〜2時間。毎回同じミスも見落とす</text>
+
+        <text x="430" y="216" text-anchor="middle" font-size="17" fill="#5e6a8a">▼</text>
+
+        <!-- AFTER: AIレビュー（主役・青） -->
+        <text x="52" y="256" font-size="13" font-weight="700" fill="#1a96c0">AFTER 5つのAIが同時に審査</text>
+        <rect x="52" y="268" width="390" height="88" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="247" y="298" text-anchor="middle" font-size="14.5" font-weight="700" fill="#1a96c0">5つの専門エージェントが並行動作</text>
+        <text x="247" y="322" text-anchor="middle" font-size="13" fill="#1a96c0">バグ・規約・セキュリティ・履歴・コメントを同時にチェック</text>
+        <polygon points="450,298 466,306 450,314" fill="#1a96c0"/>
+        <rect x="472" y="268" width="340" height="88" rx="10" fill="#ffffff" stroke="#1a96c0" stroke-width="1.2"/>
+        <text x="642" y="298" text-anchor="middle" font-size="14.5" fill="#1a1d2e">信頼度スコアで選別し</text>
+        <text x="642" y="322" text-anchor="middle" font-size="14.5" fill="#1a1d2e">GitHub に直接コメント</text>
+
+        <!-- 凡例 -->
+        <rect x="52" y="388" width="14" height="14" rx="3" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="72" y="400" font-size="12" fill="#5e6a8a">AIが自動で行う</text>
+        <rect x="210" y="388" width="14" height="14" rx="3" fill="#ffffff" stroke="#1a96c0" stroke-width="1.2"/>
+        <text x="230" y="400" font-size="12" fill="#5e6a8a">人が最後に確認</text>
+        <rect x="360" y="388" width="14" height="14" rx="3" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="380" y="400" font-size="12" fill="#5e6a8a">従来の手作業</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.code-layout {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+.code-left {
+  flex: 0 0 56%;
+  background: #1e2235;
+  border-radius: 14px;
+  padding: .7rem .9rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .5rem;
+}
+.code-lang {
+  background: rgba(217,96,24,.25);
+  color: #e8873a;
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .5rem;
+  border-radius: 6px;
+}
+.code-file {
+  font-size: .68rem;
+  color: rgba(255,255,255,.4);
+}
+.code-body {
+  flex: 1;
+  overflow: hidden;
+}
+pre {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: .78rem;
+  line-height: 1.65;
+  color: #c9d1e8;
+  margin: 0;
+}
+.kw  { color: #c792ea; }  /* keyword */
+.fn  { color: #82aaff; }  /* function */
+.cm  { color: #546e7a; font-style: italic; }  /* comment */
+.st  { color: #c3e88d; }  /* string */
+.nm  { color: #f78c6c; }  /* number/var */
+.op  { color: #89ddff; }  /* operator */
+
+.code-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.complexity-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .65rem .9rem;
+}
+.complexity-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .4rem;
+}
+.c-row {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  margin-bottom: .3rem;
+}
+.c-badge {
+  min-width: 22px; height: 22px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.c-text {
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.c-text strong { color: var(--orange); }
+.c-text em { color: var(--green); font-style: normal; }
+
+.point-box {
+  background: rgba(0,143,106,.06);
+  border: 1px solid rgba(0,143,106,.25);
+  border-radius: 14px;
+  padding: .6rem .9rem;
+}
+.point-title { font-size: .72rem; font-weight: 700; color: var(--green); margin-bottom: .35rem; }
+.point-row { font-size: .82rem; color: var(--text); line-height: 1.6; margin-bottom: .15rem; }
+.point-row em { color: var(--orange); font-style: normal; font-weight: 700; }
+
+.summary-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .9rem;
+  margin-top: auto;
+}
+.summary-title { font-size: .72rem; font-weight: 700; color: var(--muted); margin-bottom: .3rem; }
+.summary-row {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .8rem;
+  color: var(--text);
+  margin-bottom: .15rem;
+}
+.summary-row .tag {
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">CODE &amp; COMPLEXITY</span>
+    <h2 class="slide-title">コード全体と計算量</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">まとめ</span>
+      <p>隣接リスト + BFS で O(N+M)。30万データも一瞬で処理できる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="code-layout">
+      <div class="code-left">
+        <div class="code-header">
+          <span class="code-lang">Python</span>
+          <span class="code-file">abc454_c.py</span>
+        </div>
+        <div class="code-body">
+<pre><span class="kw">from</span> collections <span class="kw">import</span> deque
+
+<span class="kw">def</span> <span class="fn">solve</span>():
+    N, M = <span class="fn">map</span>(<span class="fn">int</span>, <span class="fn">input</span>().<span class="fn">split</span>())
+
+    <span class="cm"># 隣接リスト: graph[A] = [B1, B2, ...]</span>
+    graph = [[] <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(N <span class="op">+</span> <span class="nm">1</span>)]
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(M):
+        a, b = <span class="fn">map</span>(<span class="fn">int</span>, <span class="fn">input</span>().<span class="fn">split</span>())
+        graph[a].<span class="fn">append</span>(b)
+
+    <span class="cm"># BFS 開始 (ノード1 から)</span>
+    visited = [<span class="kw">False</span>] <span class="op">*</span> (N <span class="op">+</span> <span class="nm">1</span>)
+    visited[<span class="nm">1</span>] = <span class="kw">True</span>
+    queue = <span class="fn">deque</span>([<span class="nm">1</span>])
+    count = <span class="nm">1</span>          <span class="cm"># アイテム1は最初から保持</span>
+
+    <span class="kw">while</span> queue:
+        v = queue.<span class="fn">popleft</span>()
+        <span class="kw">for</span> u <span class="kw">in</span> graph[v]:
+            <span class="kw">if not</span> visited[u]:
+                visited[u] = <span class="kw">True</span>
+                queue.<span class="fn">append</span>(u)
+                count <span class="op">+=</span> <span class="nm">1</span>
+
+    <span class="fn">print</span>(count)
+
+<span class="fn">solve</span>()</pre>
+        </div>
+      </div>
+      <div class="code-right">
+        <div class="complexity-box">
+          <div class="complexity-title">⏱ 計算量の内訳</div>
+          <div class="c-row">
+            <span class="c-badge">①</span>
+            <span class="c-text"><strong>グラフ構築</strong>: O(M) — M 本の辺を1回ずつリストへ追加</span>
+          </div>
+          <div class="c-row">
+            <span class="c-badge">②</span>
+            <span class="c-text"><strong>BFS 探索</strong>: O(N+M) — 各ノード・各辺をそれぞれ最大1回処理</span>
+          </div>
+          <div class="c-row">
+            <span class="c-badge" style="width: 30px; height: 22px; font-size: 13px;">合計</span>
+            <span class="c-text"><em>O(N+M)</em> — N=M=30万でも 約60万回の処理のみ ✅</span>
+          </div>
+        </div>
+        <div class="point-box">
+          <div class="point-title">✅ コードの3つのポイント</div>
+          <div class="point-row">① <em>隣接リスト</em>で辺を管理 → 各ノードの隣接を O(1) で列挙</div>
+          <div class="point-row">② <em>visited 配列</em>で同じノードを2度以上処理しない</div>
+          <div class="point-row">③ <em>deque の popleft()</em> で先頭取り出し O(1) を保証</div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-title">🗺 問題解法まとめ</div>
+          <div class="summary-row">
+            <span class="tag">読替</span>
+            交換ルール → 有向グラフの辺（A→B）
+          </div>
+          <div class="summary-row">
+            <span class="tag">構築</span>
+            graph[a].append(b) で隣接リスト作成
+          </div>
+          <div class="summary-row">
+            <span class="tag">探索</span>
+            ノード1から BFS → 到達ノード数を計上
+          </div>
+          <div class="summary-row">
+            <span class="tag">出力</span>
+            count（訪問済みノード数）を print
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

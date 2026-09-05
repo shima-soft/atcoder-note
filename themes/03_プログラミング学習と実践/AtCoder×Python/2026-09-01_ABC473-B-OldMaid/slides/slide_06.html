@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">つまずきポイント</span>
+    <h2 class="slide-title">3枚あっても、足すのは「8」を1回だけ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>足すのは箱の中身（枚数）ではなく、箱の番号（数字そのもの）を1回だけ</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 間違いと正解を並べる -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          パネル ❌ y=34..174 / ✅ y=190..330 / 注意バー y=344..380
+          カード x=60,116,172 (w=48, 送り幅=56)
+        -->
+        <text x="280" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">入力例1で 8 は3枚。この3枚をどう扱うか</text>
+
+        <!-- === ❌ 間違い === -->
+        <rect x="20" y="34" width="520" height="140" rx="12" fill="rgba(201,22,46,.05)" stroke="rgba(201,22,46,.3)" stroke-width="1.5"/>
+        <text x="40" y="62" font-size="14" font-weight="700" fill="#c9162e">❌ 3枚あるから 8 を3回足してしまう</text>
+
+        <rect x="60"  y="70" width="48" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="84"  y="99" text-anchor="middle" font-size="17" font-weight="700" fill="#a9b0c3">8</text>
+        <rect x="116" y="70" width="48" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="140" y="99" text-anchor="middle" font-size="17" font-weight="700" fill="#a9b0c3">8</text>
+        <rect x="172" y="70" width="48" height="44" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="196" y="99" text-anchor="middle" font-size="17" font-weight="700" fill="#a9b0c3">8</text>
+
+        <text x="248" y="98"  font-size="16" font-weight="700" fill="#c9162e">8 + 8 + 8 = 24</text>
+        <text x="248" y="120" font-size="14" fill="#c9162e">→ 答えが 7 + 24 = 31 になる</text>
+
+        <text x="40" y="156" font-size="12" fill="#c9162e">理由: 3枚のうち2枚はペアで消える。手札に残るのは1枚だけ</text>
+
+        <!-- === ✅ 正しい === -->
+        <rect x="20" y="190" width="520" height="140" rx="12" fill="rgba(0,143,106,.05)" stroke="rgba(0,143,106,.3)" stroke-width="1.5"/>
+        <text x="40" y="218" font-size="14" font-weight="700" fill="#008f6a">✅ 2枚は消えて、残るのは1枚だけ</text>
+
+        <rect x="60"  y="226" width="48" height="44" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="84"  y="255" text-anchor="middle" font-size="17" font-weight="700" fill="#a9b0c3">8</text>
+        <rect x="116" y="226" width="48" height="44" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="140" y="255" text-anchor="middle" font-size="17" font-weight="700" fill="#a9b0c3">8</text>
+        <rect x="172" y="226" width="48" height="44" rx="7" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2.5"/>
+        <text x="196" y="255" text-anchor="middle" font-size="17" font-weight="700" fill="#008f6a">8</text>
+
+        <text x="248" y="254" font-size="16" font-weight="700" fill="#008f6a">足すのは 8 が1回</text>
+        <text x="248" y="276" font-size="14" fill="#008f6a">→ 答えは 7 + 8 = 15</text>
+
+        <text x="40" y="312" font-size="12" fill="#008f6a">理由: 枚数が奇数なら、ペアで消えたあとに必ず1枚だけ余る</text>
+
+        <!-- === 注意バー === -->
+        <rect x="20" y="344" width="520" height="36" rx="8" fill="rgba(217,96,24,.06)" stroke="rgba(217,96,24,.25)" stroke-width="1"/>
+        <text x="280" y="368" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018">答えるのは「残った枚数（2枚）」ではなく「残ったカードの整数の合計（15）」</text>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 間違えやすいところ</div>
+        <ul class="box-list">
+          <li>8 が3枚あっても足すのは1回だけ。8 + 8 + 8 = 24 ではなく <strong>8</strong></li>
+          <li>答えるのは「残った枚数」ではなく「残ったカードに書かれた整数の合計」</li>
+          <li>枚数が0枚の数字は、そもそも足す対象に入らない</li>
+        </ul>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 覚え方はこれだけ</div>
+        <ul class="box-list">
+          <li>枚数が<strong>偶数</strong>なら全部消える → 足さない</li>
+          <li>枚数が<strong>奇数</strong>なら1枚残る → その数字を<strong>1回</strong>足す</li>
+        </ul>
+      </div>
+
+      <div class="biz-example">
+        <div class="biz-title">💼 仕事で例えると…</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>同じ金額の請求が3件残っていても、消し込めるのは2件まで</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>未処理として上がるのは<strong>その金額1件分</strong>。3件分の金額ではない</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 A - 問題を読み解く</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .55rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .65rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .35rem;
+  letter-spacing: .03em;
+}
+.prob-card p {
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.prob-card p strong {
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .55rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.meta-card ul li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .2rem .6rem;
+  font-size: .8rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+  display: inline-block;
+  margin-bottom: .15rem;
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+  flex: 1;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .3rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .3rem .8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .78rem;
+}
+.sample-table td.correct {
+  color: var(--green);
+  font-weight: 900;
+}
+.sample-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">ABC468 A — Maximal Value</h2>
+  </div>
+  <div class="slide-body">
+
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p>長さ <strong>N</strong> の数列が与えられます。<strong>連続する3つ</strong>を取り出したとき、
+         <strong>真ん中が左隣よりも大きく、右隣よりも大きい</strong>——
+         つまり「山の形」になっている場所が<strong>何か所あるか</strong>を答えてください。</p>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約（入力の範囲）</h4>
+        <ul>
+          <li>3 ≤ N ≤ 100（数列の長さ）</li>
+          <li>1 ≤ 各要素 ≤ 100</li>
+          <li>入力される値はすべて整数</li>
+        </ul>
+        <p class="hint">→ 最大でも100個。全部の場所を1つずつ調べても余裕</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力の形式</h4>
+        <code>N</code><br>
+        <code>A1 A2 … AN</code>
+        <p class="hint" style="margin-top:.35rem">1行目に個数、2行目に数列が空白区切りで並ぶ</p>
+        <p class="hint">出力は「山の個数」を1行だけ</p>
+      </div>
+    </div>
+
+    <div class="sample-card">
+      <h4>📊 入出力例で確認</h4>
+      <table class="sample-table">
+        <tr>
+          <th style="width:230px">入力（2行目の数列）</th>
+          <th style="width:70px">出力</th>
+          <th>なぜそうなる？</th>
+        </tr>
+        <tr>
+          <td>3 1 4 1 5 2</td>
+          <td class="correct">2</td>
+          <td class="note">「1 4 1」と「1 5 2」の2か所が山</td>
+        </tr>
+        <tr>
+          <td>1 1 1 2 1</td>
+          <td class="correct">1</td>
+          <td class="note">「1 2 1」だけ。1が続く所は"同じ数"なので山ではない</td>
+        </tr>
+        <tr>
+          <td>7 3 9 8 10 3 1 5 5 4</td>
+          <td class="correct">2</td>
+          <td class="note">「3 9 8」と「8 10 3」。「1 5 5」は右隣と同じなので数えない</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

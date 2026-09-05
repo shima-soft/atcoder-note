@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.compare-table table { font-size: .84rem; height: 100%; }
+.compare-table th { padding: .55rem .7rem; }
+.compare-table td { padding: .5rem .7rem; }
+.b-ok   { background: rgba(0,143,106,.12);  color: var(--green); }
+.b-ng   { background: rgba(201,22,46,.1);   color: var(--red); }
+.b-half { background: rgba(168,106,0,.12);  color: var(--yellow); }
+.means { color: var(--muted); }
+.means b { color: var(--text); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">COMPARE</span>
+    <h2 class="slide-title">書き方のコツで直るもの・直らないもの</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>言葉で判定できるものはルールで直る。数で測るものは、測らないかぎり直らない</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:34%">毎回起きていた症状</th>
+            <th style="width:20%">ルールを足して直るか</th>
+            <th style="width:46%">実際に効いた手段</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>スライドと台本で用語がずれる</td>
+            <td><span class="pattern-badge b-ok">⭕ 直る</span></td>
+            <td class="means">指示書に<b>禁止事項として一文書く</b>だけで消えた</td>
+          </tr>
+          <tr>
+            <td>出典クレジットの書き忘れ</td>
+            <td><span class="pattern-badge b-ok">⭕ 直る</span></td>
+            <td class="means">テンプレート側に<b>空欄をあらかじめ用意</b>しておく</td>
+          </tr>
+          <tr>
+            <td>図の文字が枠から数 px はみ出す</td>
+            <td><span class="pattern-badge b-ng">❌ 直らない</span></td>
+            <td class="means">Chrome に描かせて<b>実測する（svg_check）</b></td>
+          </tr>
+          <tr>
+            <td>中身が 1280×720 から溢れる</td>
+            <td><span class="pattern-badge b-ng">❌ 直らない</span></td>
+            <td class="means">描画して<b>高さと幅を測る（layout_check）</b></td>
+          </tr>
+          <tr>
+            <td>Web 公開版の図だけ古いまま</td>
+            <td><span class="pattern-badge b-ng">❌ 直らない</span></td>
+            <td class="means">原本から<b>毎回流し込む（sync_web_svg）</b></td>
+          </tr>
+          <tr>
+            <td>ルールが増えて全体が薄まる</td>
+            <td><span class="pattern-badge b-half">△ 部分的</span></td>
+            <td class="means">指示書を薄くし、<b>詳細を仕様書へ分ける</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

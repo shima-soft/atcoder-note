@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .5rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .3rem;
+  letter-spacing: .03em;
+}
+.prob-card p {
+  font-size: .84rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.prob-card p + p { margin-top: .2rem; }
+.prob-card p strong {
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .55rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .25rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.meta-card ul li {
+  font-size: .82rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .74rem;
+  color: var(--muted);
+  margin-top: .25rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.io-line {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  margin-bottom: .15rem;
+}
+.io-line code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .1rem .55rem;
+  font-size: .8rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+}
+.io-line span {
+  font-size: .74rem;
+  color: var(--muted);
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .55rem 1rem;
+  flex: 1;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .25rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .8rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .22rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .22rem .8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .76rem;
+}
+.sample-table td.ans {
+  color: var(--green);
+  font-weight: 900;
+}
+.sample-table tr:last-child td { border-bottom: none; }
+.edge-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  margin-top: .5rem;
+}
+.edge-item {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: .35rem .7rem;
+  font-size: .78rem;
+  color: var(--muted);
+}
+.edge-item .edge-k {
+  font-weight: 700;
+  color: var(--orange);
+  margin-right: .4rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">ABC469 C — Cantrip</h2>
+  </div>
+  <div class="slide-body">
+
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p>お菓子が1個ずつ入った袋が <strong>N個</strong> 一列に並んでいます。
+         i番目の袋は文字列 S の i文字目が <strong>o なら「当たり」</strong>、<strong>x なら「はずれ」</strong>。</p>
+      <p>まず先頭から <strong>k個</strong>の袋を受け取り、中のお菓子を食べます（袋は手元に残る）。
+         そのあとは「<strong>手元に当たりの袋がある</strong>」かつ「列に袋が残っている」間、
+         当たりの袋を1枚捨てて、列の先頭の袋を1個受け取り、お菓子を食べます。</p>
+      <p>k = 1, 2, …, N のそれぞれについて、<strong>食べられるお菓子の個数</strong>を答えてください。</p>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約（入力の範囲）</h4>
+        <ul>
+          <li>1 ≤ N ≤ 8×10^5（80万）</li>
+          <li>S は o と x だけの長さ N の文字列</li>
+        </ul>
+        <p class="hint">→ 答えを N 個も出す。1つの k を1回のシミュレーションで解くと間に合わない</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力と出力の形式</h4>
+        <div class="io-line"><code>N</code><span>袋の個数</span></div>
+        <div class="io-line"><code>S</code><span>当たり・はずれの並び（例: oxoxo）</span></div>
+        <p class="hint">出力は N 行。l 行目に k=l のときの答えを書く</p>
+      </div>
+    </div>
+
+    <div class="sample-card">
+      <h4>📊 入力例1で確認（N=5, S=oxoxo → 出力 2, 4, 5, 5, 5）</h4>
+      <table class="sample-table">
+        <tr>
+          <th style="width:70px">k</th>
+          <th style="width:80px">出力</th>
+          <th>なぜそうなる？（左から o x o x o）</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td class="ans">2</td>
+          <td class="note">1個目 o で当たり1枚 → 捨てて2個目 x を開けると当たり0枚 → 終了</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td class="ans">4</td>
+          <td class="note">o x で当たり1枚 → 3個目 o は当たりなので枚数キープ → 4個目 x で0枚 → 終了</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td class="ans">5</td>
+          <td class="note">o x o で当たり2枚 → 4個目 x で1枚、5個目 o で1枚のまま → 列が空になって終了</td>
+        </tr>
+        <tr>
+          <td>4, 5</td>
+          <td class="ans">5</td>
+          <td class="note">最初から4個以上もらうので、当たりが尽きるより先に列が空になる</td>
+        </tr>
+      </table>
+      <div class="edge-row">
+        <div class="edge-item"><span class="edge-k">入力例2</span>ooo → はずれが1つも無いので、どの k でも N=3 個すべて食べられる</div>
+        <div class="edge-item"><span class="edge-k">入力例3</span>x → 1個目がはずれ。k=1 で1個食べた時点で当たりが0枚 → 答えは 1</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

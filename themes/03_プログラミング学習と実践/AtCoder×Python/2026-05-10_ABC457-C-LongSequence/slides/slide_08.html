@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">二分探索と答え取得（13行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">解説</span>
+      <p>二分探索で K の所属シーケンスを見つけ、相対位置から答えを計算</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <pre><code class="language-python">left = 0
+right = N
+
+while left < right:
+    mid = (left + right) // 2
+    if cumsum[mid + 1] < K:
+        left = mid + 1
+    else:
+        right = mid
+
+idx = left
+pos = K - cumsum[idx]
+
+result_idx = (pos - 1) % L[idx]
+print(A[idx][result_idx])</code></pre>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 二分探索</div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">1</div>
+          <p><code>cumsum[mid + 1] < K</code><br>K より小さい側を狭める</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">2</div>
+          <p>ループ終了時 idx に答えが</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 計算フロー</div>
+        <ul class="box-list">
+          <li><strong>idx = left:</strong> K が属するシーケンス</li>
+          <li><strong>pos = K - cumsum[idx]:</strong> シーケンス内での相対位置</li>
+          <li><strong>(pos - 1) % L[idx]:</strong> 0-indexed の位置</li>
+          <li><strong>A[idx][...]: </strong> 最終的な要素</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ インデックスの注意</div>
+        <ul class="box-list">
+          <li>cumsum は 0-indexed</li>
+          <li>K は 1-indexed（ユーザー視点）</li>
+          <li>モジュロ前に -1 を忘れずに</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

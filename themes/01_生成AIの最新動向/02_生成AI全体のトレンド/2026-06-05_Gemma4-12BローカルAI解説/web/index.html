@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemma 4 12B ローカルAI解説 | 森の賢人</title>
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --purple: #7a3bce;
+  --blue: #1a96c0;
+  --green: #008f6a;
+  --orange: #d96018;
+  --red: #c9162e;
+  --header-h: 52px;
+  --sidebar-w: 220px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  z-index: 100;
+}
+.header-badge {
+  font-size: .68rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #9a5ce8, #7a3bce);
+  color: #fff;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.header-title { font-size: .9rem; font-weight: 900; color: var(--text); }
+.header-sub { font-size: .75rem; color: var(--muted); margin-left: auto; }
+.layout {
+  display: flex;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+}
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 1.2rem .8rem;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.sidebar h3 {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+  padding-left: .4rem;
+}
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: .15rem; }
+.nav-list a {
+  display: block;
+  padding: .35rem .55rem;
+  border-radius: 8px;
+  font-size: .78rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .15s;
+}
+.nav-list a:hover { background: var(--surface); color: var(--text); }
+.nav-list a.active {
+  background: rgba(122,59,206,.08);
+  color: var(--purple);
+  border-left-color: var(--purple);
+  font-weight: 700;
+}
+.main {
+  flex: 1;
+  min-width: 0;
+  max-width: 860px;
+  padding: 2rem 2rem 3rem;
+  overflow: hidden;
+}
+.hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--purple);
+  border-radius: 12px;
+  padding: 2rem 2.2rem;
+  margin-bottom: 2rem;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(122,59,206,.1);
+  color: var(--purple);
+  font-size: .7rem;
+  font-weight: 700;
+  padding: .18rem .7rem;
+  border-radius: 99px;
+  margin-bottom: .8rem;
+}
+.hero h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: .6rem;
+}
+.hero-meta { font-size: .78rem; color: var(--muted); margin-bottom: 1.1rem; }
+.hero-stats { display: flex; gap: .8rem; flex-wrap: wrap; }
+.stat-box {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .55rem .8rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.stat-num { font-size: 1.35rem; font-weight: 900; color: var(--purple); line-height: 1; }
+.stat-label { font-size: .72rem; color: var(--muted); line-height: 1.4; }
+.section {
+  margin-bottom: 2.4rem;
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  background: rgba(122,59,206,.1);
+  color: var(--purple);
+}
+.section h2 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .5rem;
+  line-height: 1.3;
+}
+.section-sub { font-size: .85rem; color: var(--muted); margin-bottom: 1rem; }
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .8rem;
+  margin-bottom: 1rem;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .9rem 1rem;
+}
+.card-title { font-size: .9rem; font-weight: 900; color: var(--text); margin-bottom: .25rem; }
+.card-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+.note-box {
+  background: rgba(122,59,206,.06);
+  border: 1px solid rgba(122,59,206,.15);
+  border-radius: 10px;
+  padding: .75rem .9rem;
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.note-box strong { color: var(--purple); }
+.svg-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .6rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+.svg-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.timestamp {
+  float: right;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface);
+  padding: .14rem .5rem;
+  border-radius: 99px;
+}
+.guide-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .8rem;
+  padding: .48rem .8rem;
+  border-radius: 9px;
+  background: var(--purple);
+  color: #fff;
+  text-decoration: none;
+  font-size: .8rem;
+  font-weight: 800;
+}
+.guide-link:hover { background: #6530ad; }
+.cmp-table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.cmp-table th {
+  background: var(--surface);
+  padding: .5rem .7rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+.cmp-table td {
+  padding: .55rem .7rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.5;
+  vertical-align: top;
+}
+.cmp-table tr:nth-child(even) td { background: rgba(239,241,247,.4); }
+.c-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.check-section { margin-top: 1rem; }
+details {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .6rem .9rem;
+  margin-bottom: .4rem;
+  cursor: pointer;
+}
+details summary { font-size: .82rem; font-weight: 700; color: var(--text); }
+details p { font-size: .8rem; color: var(--muted); margin-top: .4rem; line-height: 1.6; }
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .6rem;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .65rem .9rem;
+}
+.term-head { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; margin-bottom: .2rem; }
+.term-name { font-size: .86rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .7rem; color: var(--muted); }
+.term-desc { font-size: .76rem; color: var(--muted); line-height: 1.55; margin-bottom: .2rem; }
+.term-link { font-size: .65rem; color: var(--blue); text-decoration: none; }
+.term-link:hover { text-decoration: underline; }
+.source-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.source-list a { color: var(--blue); text-decoration: none; font-weight: 700; }
+.source-list a:hover { text-decoration: underline; }
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .main { width: 100%; padding: 1.2rem 1rem 2rem; }
+  .card-grid, .glossary-grid { grid-template-columns: 1fr; }
+  .header-sub { display: none; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-badge">新モデル解説</span>
+  <span class="header-title">Gemma 4 12B ローカルAI解説</span>
+  <span class="header-sub">2026年6月 | 森の賢人</span>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <h3>目次</h3>
+    <ul class="nav-list">
+      <li><a href="#overview">概要</a></li>
+      <li><a href="#architecture">設計</a></li>
+      <li><a href="#capabilities">できること</a></li>
+      <li><a href="#workflow">導入の流れ</a></li>
+      <li><a href="#compare">比較表</a></li>
+      <li><a href="#action">導入アクション</a></li>
+      <li><a href="#glossary">用語解説</a></li>
+      <li><a href="#sources">出典</a></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <div class="hero">
+      <span class="hero-badge">Google DeepMind / Gemma 4 12B</span>
+      <h1>16GB級ローカル環境で試す<br>マルチモーダルAI</h1>
+      <p class="hero-meta">Googleが2026年6月3日に発表した、12B規模のオープンな中量級マルチモーダルモデルを初学者向けに整理します。</p>
+      <div class="hero-stats">
+        <div class="stat-box"><span class="stat-num">12B</span><span class="stat-label">中量級<br>モデル</span></div>
+        <div class="stat-box"><span class="stat-num">16GB</span><span class="stat-label">VRAM/統合<br>メモリ級</span></div>
+        <div class="stat-box"><span class="stat-num">4</span><span class="stat-label">文章・画像<br>音声・動画</span></div>
+      </div>
+    </div>
+
+    <section class="section" id="overview">
+      <span class="section-label">OVERVIEW</span>
+      <span class="timestamp">動画 01:30</span>
+      <h2>Gemma 4 12B とは</h2>
+      <p class="section-sub">大きすぎないサイズで、ローカルのマルチモーダルAIを現実に近づけるモデル</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">11.95BのDenseモデル</div><p class="card-desc">約120億パラメータ。16GB VRAMまたはユニファイドメモリ級の端末で試しやすいサイズです。</p></div>
+        <div class="card"><div class="card-title">マルチモーダル対応</div><p class="card-desc">テキスト、画像、音声、動画理解を1つのモデルで扱います。</p></div>
+        <div class="card"><div class="card-title">Apache 2.0</div><p class="card-desc">商用利用しやすいライセンスで公開され、検証や組み込みの導線があります。</p></div>
+        <div class="card"><div class="card-title">256Kの長い文脈</div><p class="card-desc">最大256Kトークンのコンテキストに対応し、長い資料を扱う設計余地があります。</p></div>
+        <div class="card"><div class="card-title">MTPで低遅延化</div><p class="card-desc">Multi-Token Prediction draftersにより、応答待ち時間を減らす設計も用意されています。</p></div>
+        <div class="card"><div class="card-title">ネイティブ音声入力</div><p class="card-desc">Gemmaファミリーの中量級で初めて音声を直接取り込めるモデルです。</p></div>
+      </div>
+      <div class="check-section">
+        <details><summary>理解度チェック: Gemma 4 12Bの立ち位置は？</summary><p>最大性能だけを狙うクラウド上位モデルではなく、ローカル実行・マルチモーダル・扱いやすさのバランスを狙った中量級モデルです。</p></details>
+        <details><summary>理解度チェック: 12Bの正確な総パラメータ数は？</summary><p>公式モデルカードでは11.95Bです。「12B」は約120億を読みやすく丸めたモデル名です。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="architecture">
+      <span class="section-label">ARCHITECTURE</span>
+      <span class="timestamp">動画 03:30</span>
+      <h2>新しさはエンコーダーなし設計</h2>
+      <p class="section-sub">画像や音声を別の重い専門部品に通さず、LLM本体に近い場所へ直接渡す設計です。</p>
+      <div class="svg-box">
+        <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="Gemma 4 12Bのエンコーダーなし設計">
+          <rect x="20" y="40" width="250" height="150" rx="16" fill="#eff1f7" stroke="#dde2ec"/>
+          <text x="145" y="72" text-anchor="middle" font-size="18" font-weight="900" fill="#1a1d2e">従来のマルチモーダル</text>
+          <rect x="45" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+          <text x="90" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">画像</text>
+          <rect x="155" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+          <text x="200" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">音声</text>
+          <path d="M90 147 L90 168 M200 147 L200 168" stroke="#5e6a8a" stroke-width="2"/>
+          <rect x="45" y="168" width="200" height="42" rx="10" fill="#fff7ed" stroke="#d96018"/>
+          <text x="145" y="195" text-anchor="middle" font-size="14" font-weight="700" fill="#d96018">別エンコーダーで変換</text>
+
+          <rect x="350" y="40" width="250" height="150" rx="16" fill="#f4efff" stroke="#7a3bce"/>
+          <text x="475" y="72" text-anchor="middle" font-size="18" font-weight="900" fill="#1a1d2e">Gemma 4 12B</text>
+          <rect x="375" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+          <text x="420" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">画像</text>
+          <rect x="485" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+          <text x="530" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">音声</text>
+          <path d="M420 147 L460 208 M530 147 L500 208" stroke="#7a3bce" stroke-width="3"/>
+          <rect x="380" y="208" width="190" height="48" rx="12" fill="#7a3bce"/>
+          <text x="475" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">LLM本体へ直接入力</text>
+
+          <rect x="95" y="275" width="430" height="80" rx="16" fill="#fff" stroke="#dde2ec"/>
+          <text x="310" y="308" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e">ねらい: 低メモリ・低遅延・チューニングしやすさ</text>
+          <text x="310" y="338" text-anchor="middle" font-size="14" fill="#5e6a8a">Vision: 35M embedder / Audio: 16kHz音声を40msフレームで投影</text>
+        </svg>
+      </div>
+      <div class="note-box"><strong>ポイント:</strong> エンコーダーなしとは、重い専用エンコーダーをなくすという意味です。画像や音声をAI本体に渡すための軽量な埋め込み処理はあります。</div>
+      <div class="check-section">
+        <details><summary>理解度チェック: 何が「なし」なのですか？</summary><p>画像や音声用の重い専用エンコーダーです。入力を整える軽量な埋め込み・投影処理までゼロになるわけではありません。</p></details>
+        <details><summary>理解度チェック: 一体化の利点は？</summary><p>マルチモーダル処理の遅延を減らし、追加学習で全体を一度に調整しやすくする点です。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <span class="section-label">CAPABILITIES</span>
+      <span class="timestamp">動画 06:00</span>
+      <h2>できることは音声・画像・動画・コード</h2>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">音声認識・話者分離</div><p class="card-desc">最大30秒の音声を文字起こしし、発言者を整理。長い会議は分割が必要です。</p></div>
+        <div class="card"><div class="card-title">画像理解</div><p class="card-desc">スクリーンショット、ホワイトボード、資料画像の要点を読み取ります。</p></div>
+        <div class="card"><div class="card-title">動画理解</div><p class="card-desc">最大60秒の動画を1fpsのフレーム列として分析し、起きたことを説明します。</p></div>
+        <div class="card"><div class="card-title">コード生成</div><p class="card-desc">ローカルで小さな業務補助アプリや自動化スクリプトを作る補助に使えます。</p></div>
+      </div>
+      <div class="check-section">
+        <details><summary>理解度チェック: 長い会議音声をそのまま渡せる？</summary><p>できません。現行モデルカードでは音声は最大30秒なので、分割処理が必要です。</p></details>
+        <details><summary>理解度チェック: 動画はどのように理解する？</summary><p>動画をフレーム列として処理します。公式目安は1秒に1フレームで最大60秒です。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <span class="section-label">WORKFLOW</span>
+      <span class="timestamp">動画 08:00</span>
+      <h2>ローカルAI導入の現実的な流れ</h2>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">1. GUIで試す</div><p class="card-desc">LM Studio、Ollama、Google AI Edge Galleryなどでモデルの雰囲気をつかみます。</p></div>
+        <div class="card"><div class="card-title">2. 業務サンプルで検証</div><p class="card-desc">30秒の会議音声、資料画像、社内FAQなど、問題のないサンプルで品質を見ます。</p></div>
+        <div class="card"><div class="card-title">3. API連携へ進む</div><p class="card-desc">LiteRT-LMなどでOpenAI互換APIサーバー化し、既存ツールにつなぎます。</p></div>
+        <div class="card"><div class="card-title">4. 運用ルールを決める</div><p class="card-desc">ローカルでもログ、保存場所、社内資料の扱いは明確にします。</p></div>
+      </div>
+      <div class="check-section">
+        <details><summary>理解度チェック: 最初から本番データで試す？</summary><p>いいえ。機密性のないサンプルで品質と端末負荷を確認してから検証範囲を広げます。</p></details>
+        <details><summary>理解度チェック: ローカルなら運用ルールは不要？</summary><p>必要です。ログ、保存場所、端末アクセス権、生成結果のレビュー担当を決めます。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="compare">
+      <span class="section-label">COMPARE</span>
+      <span class="timestamp">動画 10:00</span>
+      <h2>どのモデルと比べて見るか</h2>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead><tr><th>選択肢</th><th>強み</th><th>向いている用途</th><th>判断の目安</th></tr></thead>
+          <tbody>
+            <tr><td><span class="c-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">Gemma 4 12B</span></td><td>16GB級ローカル、音声・画像・動画、Apache 2.0</td><td>機密資料、会議音声、社内補助ツール</td><td>手元処理を重視</td></tr>
+            <tr><td><span class="c-badge" style="background:rgba(217,96,24,.12);color:var(--orange)">Gemini上位モデル</span></td><td>高性能、長文脈、Googleサービス連携</td><td>大量文書分析、高精度な調査</td><td>精度と文脈長を重視</td></tr>
+            <tr><td><span class="c-badge" style="background:rgba(0,143,106,.12);color:var(--green)">ChatGPT/API系</span></td><td>導入が簡単、周辺ツールが豊富</td><td>日常業務、顧客対応、文書作成</td><td>手軽さを重視</td></tr>
+            <tr><td><span class="c-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">Llama系ローカル</span></td><td>選択肢が多く、ローカルLLMの資産が厚い</td><td>社内チャット、RAG、カスタムAI</td><td>既存資産を重視</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="check-section">
+        <details><summary>理解度チェック: 比較で最優先する軸は？</summary><p>最大性能だけでなく、機密性、速度、入力形式、運用コストを自社の制約に合わせて比較します。</p></details>
+        <details><summary>理解度チェック: 常にローカルAIが最適？</summary><p>いいえ。大量文書の高精度分析や簡単な導入ではクラウドAIが適する場合があります。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="action">
+      <span class="section-label">ACTION</span>
+      <span class="timestamp">動画 12:00</span>
+      <h2>まとめと導入アクション</h2>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">まず音声から試す</div><p class="card-desc">30秒の会議音声で文字起こしを検証し、分割処理の手間も評価します。</p></div>
+        <div class="card"><div class="card-title">画像資料を読ませる</div><p class="card-desc">提案書やホワイトボード写真で読み取り品質を確認します。</p></div>
+        <div class="card"><div class="card-title">クラウドAIと比較する</div><p class="card-desc">同じ入力で精度差と機密性メリットを比較します。</p></div>
+        <div class="card"><div class="card-title">重要判断は人が確認</div><p class="card-desc">12Bは万能ではありません。業務利用では必ず人のレビューを残します。</p></div>
+      </div>
+      <a class="guide-link" href="flowchart.html">導入判断ガイドを開く →</a>
+      <div class="check-section">
+        <details><summary>理解度チェック: 最初の成功指標は？</summary><p>正解率だけでなく、作業時間が何分減ったか、分割や確認に何分かかったかも測ります。</p></details>
+        <details><summary>理解度チェック: 生成結果をそのまま業務判断に使う？</summary><p>使いません。重要な内容は人が原資料と照合し、最終判断を行います。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="glossary">
+      <span class="section-label">GLOSSARY</span>
+      <span class="timestamp">動画 13:30</span>
+      <h2>用語解説</h2>
+      <div class="glossary-grid">
+        <div class="term-card"><div class="term-head"><span class="term-name">Gemma</span><span class="term-reading">ジェマ</span></div><p class="term-desc">Google DeepMindのオープンモデル群。</p><a class="term-link" href="https://ai.google.dev/gemma" target="_blank">公式サイト</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">12B</span><span class="term-reading">ジュウニビー</span></div><p class="term-desc">約120億を表す表記。総パラメータ数は11.95B。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">マルチモーダル</span><span class="term-reading">マルチモーダル</span></div><p class="term-desc">文章、画像、音声、動画など複数種類の情報を扱うAI機能。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">エンコーダー</span><span class="term-reading">エンコーダー</span></div><p class="term-desc">画像や音声をAIが読める形へ変換する部品。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">LLM</span><span class="term-reading">エルエルエム</span></div><p class="term-desc">文章を読み書きし、推論や要約を行う大規模言語モデル。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">VRAM</span><span class="term-reading">ブイラム</span></div><p class="term-desc">GPU用メモリ。ローカルAIの作業机に近いもの。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">ユニファイドメモリ</span><span class="term-reading">ユニファイドメモリ</span></div><p class="term-desc">CPUとGPUが共有するメモリ。Apple Silicon Macなどで使われます。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">MTP</span><span class="term-reading">エムティーピー</span></div><p class="term-desc">次の複数トークンを下書きし、応答を速める技術。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">LoRA</span><span class="term-reading">ローラ</span></div><p class="term-desc">少ない追加パラメータでモデルを調整する手法。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Apache 2.0</span><span class="term-reading">アパッチ・ニーテンゼロ</span></div><p class="term-desc">商用利用しやすい代表的なライセンス。</p><a class="term-link" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">ライセンス本文</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">LiteRT-LM</span><span class="term-reading">ライトアールティー・エルエム</span></div><p class="term-desc">Googleのローカル推論向けツール。</p><a class="term-link" href="https://ai.google.dev/edge/litert-lm/cli" target="_blank">公式ドキュメント</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Google DeepMind</span><span class="term-reading">グーグル・ディープマインド</span></div><p class="term-desc">GeminiやGemmaを開発するGoogleのAI研究部門。</p><a class="term-link" href="https://deepmind.google" target="_blank">公式サイト</a></div>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <span class="section-label">SOURCES</span>
+      <h2>出典</h2>
+      <ul class="source-list">
+        <li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemma-4-12B/" target="_blank">Google Blog: Introducing Gemma 4 12B</a></li>
+        <li><a href="https://developers.googleblog.com/en/gemma-4-12b-the-developer-guide/" target="_blank">Google Developers Blog: Gemma 4 12B: The Developer Guide</a></li>
+        <li><a href="https://ai.google.dev/gemma/docs/core/model_card_4" target="_blank">Google AI for Developers: Gemma 4 model card</a></li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

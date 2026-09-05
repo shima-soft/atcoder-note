@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 02 - トークンコストの基本</title>
+  <link rel="stylesheet" href="common.css">
+</head>
+<body class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-green);color:#fff">基礎知識</span>
+    <h2 class="slide-title">なぜ「賢い使い方」が必要なのか</h2>
+    <p class="slide-sub">トークンコストとキャッシュの仕組みを理解する</p>
+  </div>
+  <div class="slide-body">
+    <div class="diagram-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--card); border-radius: 10px; padding: 1rem; border: 1px solid var(--border);">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 1rem;">トークンの消費サイクル</div>
+        <div style="display: flex; justify-content: space-around; width: 100%;">
+          <div style="text-align: center;">
+            <div style="font-size: 2rem; color: var(--blue);">Prefill</div>
+            <div style="font-size: 0.8rem; color: var(--muted);">入力（システム、履歴、ファイル）</div>
+          </div>
+          <div style="font-size: 2rem; color: var(--muted);">→</div>
+          <div style="text-align: center;">
+            <div style="font-size: 2rem; color: var(--orange);">Decode</div>
+            <div style="font-size: 0.8rem; color: var(--muted);">出力（思考、ツール、回答）</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--muted); text-align: center;">
+        ※Decodeは1トークンごとにモデルが動作するため、入力の約5倍のコストがかかる
+      </div>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="box-title">💡 重要ポイント</div>
+        <ul class="box-list">
+          <li><b>Prefill:</b> 読み取ったファイルや履歴がすべてここに含まれる</li>
+          <li><b>Decode:</b> モデルの「思考（Thinking）」もここに含まれる</li>
+          <li><b>Prompt Caching:</b> 同じ先頭トークンを再利用することでコストを削減</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 効率化の鍵</div>
+        <ul class="box-list">
+          <li>履歴を無駄に長く保たない</li>
+          <li>同じ内容を何度も送らない</li>
+          <li>キャッシュの「キー」を維持する</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

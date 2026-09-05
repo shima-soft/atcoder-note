@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"></head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(168,106,0,.14);color:var(--yellow)">SAFETY</span>
+    <h2 class="slide-title">無人実行の安全設計</h2>
+    <div class="hitokoto" style="border-color:var(--yellow)">
+      <span class="badge" style="background:var(--yellow)">一言で</span>
+      <p>自動化は「どこで動くか」「どこまで触れるか」を決めてから走らせる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead><tr><th>観点</th><th>選択肢</th><th>意味</th><th>おすすめ判断</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill" style="background:rgba(26,150,192,.12);color:var(--blue)">実行場所</span></td><td>Local project</td><td>いま作業中のチェックアウトで実行</td><td>差分を直接反映したい小さな作業</td></tr>
+          <tr><td><span class="pill" style="background:rgba(26,150,192,.12);color:var(--blue)">実行場所</span></td><td>Worktree</td><td>別の作業場所で背景実行</td><td>未完成の手元作業と混ぜたくない時</td></tr>
+          <tr><td><span class="pill" style="background:rgba(168,106,0,.14);color:var(--yellow)">権限</span></td><td>read-only</td><td>読むだけ。変更が必要なツールは失敗</td><td>点検・レビュー・調査に向く</td></tr>
+          <tr><td><span class="pill" style="background:rgba(168,106,0,.14);color:var(--yellow)">権限</span></td><td>workspace-write</td><td>ワークスペース内の編集を許可</td><td>パッチ作成・修正案の実装に向く</td></tr>
+          <tr><td><span class="pill" style="background:rgba(201,22,46,.1);color:var(--red)">権限</span></td><td>full access</td><td>広い操作が可能でリスクも高い</td><td>隔離環境・明確な許可ルールがある時だけ</td></tr>
+          <tr><td><span class="pill" style="background:rgba(0,143,106,.12);color:var(--green)">制御</span></td><td>Rules</td><td>許可するコマンドや動作を絞る</td><td>繰り返し実行する自動化ほど先に整える</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body></html>

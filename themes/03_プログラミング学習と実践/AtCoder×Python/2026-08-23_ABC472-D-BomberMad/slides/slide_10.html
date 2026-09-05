@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC472 D - Bomber Mad 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+      <h2 class="slide-title">用語解説</h2>
+      <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+    </div>
+    <div class="slide-body">
+      <div class="glossary-grid">
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">多始点BFS</span>
+            <span class="term-reading">たしてん・ビーエフエス</span>
+          </div>
+          <p class="term-desc">出発点を複数にした幅優先探索。「最寄りの出発点からの距離」を全マス分まとめて求められる。避難所の到達圏の計算などに似ている。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/幅優先探索" target="_blank">幅優先探索 - Wikipedia 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">幅優先探索（BFS）</span>
+            <span class="term-reading">はばゆうせんたんさく</span>
+          </div>
+          <p class="term-desc">スタートに近い場所から順に調べる探索手法。迷路の「最短手数」を求めるときの定番。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/幅優先探索" target="_blank">Wikipedia 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">deque</span>
+            <span class="term-reading">デック</span>
+          </div>
+          <p class="term-desc">両端から出し入れできるキュー。BFSでは「先頭から取り出し・末尾へ追加」に使う。Pythonでは collections で提供。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/collections.html#collections.deque" target="_blank">Python公式ドキュメント 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">二次元リスト</span>
+            <span class="term-reading">にじげんリスト</span>
+          </div>
+          <p class="term-desc">リストの中にリストを入れた構造。グリッドや距離表 dist[i][j] の管理に使う。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/tutorial/datastructures.html" target="_blank">Pythonチュートリアル 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">タプル</span>
+            <span class="term-reading">タプル</span>
+          </div>
+          <p class="term-desc">中身を書き換えられない値の組。(i, j) のように座標をひとまとめにしてキューに積むのに便利。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/tutorial/datastructures.html#tuples-and-sequences" target="_blank">Pythonチュートリアル 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">O記法</span>
+            <span class="term-reading">オーきほう</span>
+          </div>
+          <p class="term-desc">計算量を「データ量 N に対して何倍のオーダーか」で表す記法。O(N²) と O(N) では扱える N の大きさが雲泥の差。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/ランダウの記号" target="_blank">ランダウの記号 - Wikipedia 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">continue文</span>
+            <span class="term-reading">コンティニューぶん</span>
+          </div>
+          <p class="term-desc">その回の残り処理を飛ばし、次のループへ進む命令。条件外を早めに除外して読みやすくする。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/reference/simple_stmts.html#continue" target="_blank">Python公式ドキュメント 🔗</a>
+        </div>
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">AtCoder</span>
+            <span class="term-reading">アットコーダー</span>
+          </div>
+          <p class="term-desc">日本発の競技プログラミングサイト。ABC（AtCoder Beginner Contest）がほぼ毎週開催されている。</p>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

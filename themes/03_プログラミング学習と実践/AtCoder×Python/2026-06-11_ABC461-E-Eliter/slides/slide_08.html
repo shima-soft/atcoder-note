@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 54%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .76rem;
+  line-height: 1.62;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">クエリ処理 — 増減を足し引きして即出力（20 行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「前回時刻 old を調べる → 今の黒マス数を BIT で出す → 時刻を t に引っ越す」が両クエリ共通の型</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — クエリ処理 + 出力</div>
+      <pre><code class="language-python">row_time = [0] * (N + 1)
+col_time = [0] * (N + 1)
+bit_add(row_bit, 0, N)
+bit_add(col_bit, 0, N)
+total = 0
+for t in range(1, Q + 1):
+    typ, x = map(int, input().split())
+    if typ == 1:
+        old = row_time[x]
+        total += N - bit_sum(col_bit, old - 1)
+        bit_add(row_bit, old, -1)
+        bit_add(row_bit, t, 1)
+        row_time[x] = t
+    else:
+        old = col_time[x]
+        total -= N - bit_sum(row_bit, old)
+        bit_add(col_bit, old, -1)
+        bit_add(col_bit, t, 1)
+        col_time[x] = t
+    print(total)</code></pre>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 行を黒に塗るとき（typ == 1）</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>今の黒マス数 = <code>bit_sum(col_bit, old - 1)</code><br>（時刻 old より<strong>前</strong>に白塗りされた列の本数）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p><code>total += N − 黒マス数</code> で増加分だけ加算</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>時刻の引っ越し: old の件数を −1、t に +1</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 列を白に塗るとき（else）</div>
+        <ul class="box-list">
+          <li>消える黒 = <code>N - bit_sum(row_bit, old)</code> ＝ 時刻 old より<strong>後</strong>に黒塗りされた行の本数</li>
+          <li>初期値は「全行・全列が時刻 0」— だから最初に時刻 0 へ N 件ずつ登録</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">⏱ 計算量</div>
+        <ul class="box-list">
+          <li>1 クエリ O(log Q) × Q 回 = <strong>O(Q log Q)</strong> ≈ 540 万回</li>
+          <li>O(N log N) 級は N ≤ 5×10⁵ が目安 → Q = 3×10⁵ なら Python でも間に合う（不安なら PyPy 提出）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card-grid { gap: .7rem; }
+.card { gap: .35rem; }
+.change-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: .8rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: .15rem;
+  flex-shrink: 0;
+}
+.change-tag {
+  display: inline-block;
+  font-size: .62rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+  margin-bottom: .2rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">POINT 05</span>
+    <h2 class="slide-title">Opus 4.7 の4つの行動変化</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>4.6との違いを知っておけば「なんか変だな？」を感じたときにすぐ原因がわかる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+
+      <div class="card">
+        <span class="change-num" style="background:var(--g-orange)">1</span>
+        <span class="change-tag" style="background:rgba(217,96,24,.12);color:var(--orange)">レスポンス長</span>
+        <div class="card-title">🎯 タスクの難しさに応じて長さが変わる</div>
+        <div class="card-desc">
+          シンプルな質問には簡潔に、複雑な問題には詳しく返答する。
+          4.6では長めが多かったが、4.7は「必要十分」が基本。
+          <br><br>
+          <span style="color:var(--green);font-weight:700">✅</span> 詳細が欲しいときは「詳しく説明して」と指示すれば対応してくれる
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="change-num" style="background:var(--g-blue)">2</span>
+        <span class="change-tag" style="background:rgba(26,150,192,.12);color:var(--blue)">冗長性</span>
+        <div class="card-title">📝 デフォルトの冗長性が低下した</div>
+        <div class="card-desc">
+          Opus 4.6より説明が短くなった。「まず〜を説明します」「以上をまとめると」
+          のような前置き・締めくくりが減少。
+          <br><br>
+          <span style="color:var(--orange);font-weight:700">⚠️</span> 「短すぎる」と感じたら「ステップごとに詳しく説明して」と伝えてみよう
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="change-num" style="background:var(--g-green)">3</span>
+        <span class="change-tag" style="background:rgba(0,143,106,.12);color:var(--green)">ツール使用</span>
+        <div class="card-title">🔧 ツール使用が慎重になった</div>
+        <div class="card-desc">
+          ツールをすぐ使わず、まず推論で解決しようとする。
+          4.6がすぐ検索・実行していたのに対し、4.7は「本当に必要か」を考えてから動く。
+          <br><br>
+          <span style="color:var(--green);font-weight:700">✅</span> 精度が上がる一方、明示的にツール使用を指示すればすぐ動く
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="change-num" style="background:var(--g-purple)">4</span>
+        <span class="change-tag" style="background:rgba(122,59,206,.12);color:var(--purple)">サブエージェント</span>
+        <div class="card-title">🤖 サブエージェント生成が節制的に</div>
+        <div class="card-desc">
+          複数のAIエージェントを呼び出す際、本当に必要な場合のみ生成するようになった。
+          4.6では積極的に生成→4.7はコスト最適化を意識して動く。
+          <br><br>
+          <span style="color:var(--green);font-weight:700">✅</span> 大規模タスクのコスト増大を抑制</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+</body></html>

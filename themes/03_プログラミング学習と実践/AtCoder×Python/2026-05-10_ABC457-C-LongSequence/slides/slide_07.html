@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード①</span>
+    <h2 class="slide-title">入力処理と累積和の計算（11行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">解説</span>
+      <p>各シーケンスのサイズを計算し、累積和の配列を構築</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <pre><code class="language-python">N, K = map(int, input().split())
+
+L = []
+A = []
+C = []
+
+for i in range(N):
+    line = list(map(int, input().split()))
+    L.append(len(line) - 1)
+    A.append(line[:-1])
+    C.append(line[-1])
+
+cumsum = [0]
+for i in range(N):
+    cumsum.append(cumsum[-1] + L[i] * C[i])</code></pre>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">📥 入力形式</div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">1</div>
+          <p><strong>1行目:</strong> N (シーケンス数), K (探索対象)</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">2</div>
+          <p><strong>i 行目:</strong> A_i の要素たち、最後に C_i</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ このコードのポイント</div>
+        <ul class="box-list">
+          <li><code>line[:-1]</code> で A_i の要素を分離</li>
+          <li><code>line[-1]</code> で C_i を取得</li>
+          <li>cumsum[0] = 0 で、初期位置をセット</li>
+          <li>cumsum[i] = 前までの合計 + L[i] × C[i]</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

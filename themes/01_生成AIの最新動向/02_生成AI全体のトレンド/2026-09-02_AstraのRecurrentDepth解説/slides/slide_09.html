@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>引き換えに失うもの 考えが読めなくなる</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">トレードオフ</span>
+    <h2 class="slide-title">速さと安さの引き換えに、考えが読めなくなる</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>周回中の考えは言葉にならず数字のまま進む。これを潜在推論と呼び、途中で何を考えたかを人が確認できなくなる</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="420" viewBox="0 0 620 420" role="img" aria-label="Chain of Thoughtは考えが文字で読めるが、Recurrent Depthは数字のままで読めない">
+        <text x="34" y="30" font-size="12" font-weight="900" fill="#5e6a8a">同じ問題を解いているときの「途中の考え」</text>
+
+        <rect x="20" y="44" width="280" height="250" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="160" y="68" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">Chain of Thought</text>
+        <text x="160" y="88" text-anchor="middle" font-size="11" fill="#5e6a8a">考えが文字で出てくる</text>
+        <rect x="38" y="100" width="244" height="34" rx="8" fill="#eff1f7"/>
+        <text x="160" y="121" text-anchor="middle" font-size="11" fill="#1a1d2e">まず条件を整理すると…</text>
+        <rect x="38" y="142" width="244" height="34" rx="8" fill="#eff1f7"/>
+        <text x="160" y="163" text-anchor="middle" font-size="11" fill="#1a1d2e">つまり単価は300円</text>
+        <rect x="38" y="184" width="244" height="34" rx="8" fill="#eff1f7"/>
+        <text x="160" y="205" text-anchor="middle" font-size="11" fill="#1a1d2e">だから答えは…</text>
+        <rect x="38" y="232" width="244" height="44" rx="8" fill="#ffffff" stroke="#008f6a"/>
+        <text x="160" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">👀 人がそのまま読める</text>
+        <text x="160" y="266" text-anchor="middle" font-size="11" fill="#5e6a8a">間違いも指摘できる</text>
+
+        <rect x="320" y="44" width="280" height="250" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="2.5"/>
+        <text x="460" y="68" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">Recurrent Depth</text>
+        <text x="460" y="88" text-anchor="middle" font-size="11" fill="#5e6a8a">考えは数字のまま内部に残る</text>
+        <rect x="338" y="100" width="244" height="34" rx="8" fill="#e9ddfb"/>
+        <text x="460" y="121" text-anchor="middle" font-size="11" fill="#1a1d2e">0.83, -1.24, 0.07 …</text>
+        <rect x="338" y="142" width="244" height="34" rx="8" fill="#d5bff2"/>
+        <text x="460" y="163" text-anchor="middle" font-size="11" fill="#1a1d2e">1.02, 0.44, -0.91 …</text>
+        <rect x="338" y="184" width="244" height="34" rx="8" fill="#b48ae4"/>
+        <text x="460" y="205" text-anchor="middle" font-size="11" fill="#1a1d2e">0.15, 2.30, -0.06 …</text>
+        <rect x="338" y="232" width="244" height="44" rx="8" fill="#ffffff" stroke="#c9162e"/>
+        <text x="460" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">🚫 人には読めない</text>
+        <text x="460" y="266" text-anchor="middle" font-size="11" fill="#5e6a8a">どこで間違えたか追えない</text>
+
+        <text x="310" y="318" text-anchor="middle" font-size="12" font-weight="900" fill="#5e6a8a">なぜこれが問題になるのか</text>
+        <rect x="20" y="330" width="580" height="76" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="358" text-anchor="middle" font-size="11.5" fill="#1a1d2e">AIの危ない考えを見つける今の主な手段は「書かれた考えを読むこと」</text>
+        <text x="310" y="382" text-anchor="middle" font-size="11.5" fill="#1a1d2e">考えが言葉にならないと、その手段がそのままでは効かなくなる</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">現場でいうと</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>今までは提案の根拠が下書きに残っていた</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>これからは結論だけが返ってくる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>チェックの場所を「途中」から「結果」へ移す必要</p></div>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 失うもの</div>
+        <ul class="box-list">
+          <li>途中で軌道修正できない</li>
+          <li>おかしな結論の原因を追えない</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">📖 研究者の指摘</div>
+        <ul class="box-list">
+          <li>潜在推論のモデルは考えを言葉にする必要がなく、監視の利点を失いうる（arXiv:2507.11473）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

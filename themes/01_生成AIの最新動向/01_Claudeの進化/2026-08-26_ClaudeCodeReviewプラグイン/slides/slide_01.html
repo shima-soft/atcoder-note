@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.title-slide { width:1280px; height:720px; display:flex; overflow:hidden; }
+.panel-dark {
+  width:38%;
+  background:#0d1b2a;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2.2rem 2.3rem;
+  position:relative;
+  overflow:hidden;
+}
+.panel-dark::before {
+  content:'';
+  position:absolute; top:-100px; left:-80px;
+  width:380px; height:380px;
+  background:radial-gradient(circle, rgba(26,150,192,.28) 0%, transparent 65%);
+  pointer-events:none;
+}
+.panel-dark::after {
+  content:'';
+  position:absolute; bottom:-60px; right:-60px;
+  width:220px; height:220px;
+  background:radial-gradient(circle, rgba(42,184,224,.2) 0%, transparent 65%);
+  pointer-events:none;
+}
+.ep-badge { background:var(--g-blue); color:#fff; font-size:.68rem; font-weight:700; padding:.18rem .7rem; border-radius:99px; letter-spacing:.1em; margin-bottom:.9rem; position:relative; }
+.main-title { color:#fff; font-size:2.05rem; font-weight:900; line-height:1.25; margin-bottom:.55rem; position:relative; }
+.main-sub { color:rgba(255,255,255,.68); font-size:.84rem; margin-bottom:1.45rem; position:relative; }
+.count-badge {
+  display:flex;
+  gap:.55rem;
+  align-items:center;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  padding:.55rem .9rem;
+  position:relative;
+}
+.big-num { color:#2ab8e0; font-size:2.1rem; font-weight:900; line-height:1; }
+.count-label { color:rgba(255,255,255,.68); font-size:.75rem; line-height:1.4; text-align:left; }
+.panel-light { flex:1; background:var(--bg); display:flex; flex-direction:column; padding:2.2rem 2.8rem 1.8rem; }
+.point-section { flex:1; display:flex; flex-direction:column; justify-content:center; }
+.source-badge { display:inline-block; background:rgba(26,150,192,.1); color:var(--blue); font-size:.68rem; font-weight:700; padding:.18rem .7rem; border-radius:99px; margin-bottom:.9rem; width:fit-content; }
+.feature-name { font-size:1rem; color:var(--muted); font-weight:700; margin-bottom:.35rem; }
+.right-heading { font-size:1.1rem; font-weight:900; color:var(--text); margin-bottom:1rem; }
+.point-list { list-style:none; display:flex; flex-direction:column; gap:.65rem; margin-bottom:0; }
+.point-list li { display:flex; gap:.6rem; font-size:.88rem; color:var(--text); line-height:1.55; }
+.pnum { min-width:22px; height:22px; background:var(--g-blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; flex-shrink:0; margin-top:.05rem; }
+.bottom-info { display:flex; flex-direction:column; gap:.3rem; }
+.credit { font-size:.68rem; color:var(--muted); opacity:.78; line-height:1.5; margin-top:0; }
+</style>
+</head>
+<body>
+<div class="title-slide">
+  <div class="panel-dark">
+    <span class="ep-badge">CODE REVIEW PLUGIN</span>
+    <div class="main-title">PRレビューを<br>5つのAIが<br>同時審査する</div>
+    <div class="main-sub">Claude Code Review プラグイン解説</div>
+    <div class="count-badge">
+      <span class="big-num">5</span>
+      <span class="count-label">つの専門エージェントが<br>並行動作する</span>
+    </div>
+  </div>
+  <div class="panel-light">
+    <div class="point-section">
+      <span class="source-badge">📖 Claude Code Review 解説</span>
+      <div class="feature-name">Code Review — AIによる自動PRレビュー</div>
+      <div class="right-heading">Today's Points</div>
+      <ul class="point-list">
+        <li><span class="pnum">1</span>バグ・セキュリティ・規約違反を5つの視点から同時にチェック</li>
+        <li><span class="pnum">2</span>信頼度スコアで「本当に重要な問題」だけをピックアップ</li>
+        <li><span class="pnum">3</span>不要なレビューを自動スキップし、GitHub に直接コメント投稿</li>
+      </ul>
+    </div>
+    <div class="bottom-info">
+      <p class="credit">出典: Anthropic 公式 Code Review プラグインページ<br>https://claude.com/plugins/code-review</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

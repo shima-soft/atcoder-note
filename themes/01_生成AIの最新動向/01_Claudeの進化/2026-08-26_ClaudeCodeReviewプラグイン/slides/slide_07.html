@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wide-diagram {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .5rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">SMART FILTER</span>
+    <h2 class="slide-title">スマートなフィルタリング</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>レビュー不要なPRは最初からスキップ。余計なAPI呼び出しと時間を節約する</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="wide-diagram">
+      <!--
+        入力: x=30 w=110 (right=140)
+        判定: x=170 w=110 (right=280)
+        スキップ群: x=310 w=120 (right=430) → x=310〜790 (4つ)
+        レビュー対象: x=830 w=130 (right=960)
+        viewBox: 0 0 1000 440
+      -->
+      <svg viewBox="0 0 1000 440" width="1152" height="506" font-family="'Noto Sans JP','Meiryo',sans-serif">
+        <text x="500" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">不要なPRを自動で見分けてスキップする</text>
+
+        <!-- 入力 -->
+        <rect x="30" y="160" width="110" height="80" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="85" y="194" text-anchor="middle" font-size="13" fill="#5e6a8a">すべての</text>
+        <text x="85" y="214" text-anchor="middle" font-size="13" fill="#5e6a8a">Pull Request</text>
+
+        <polygon points="146,200 164,200 155,210" fill="#5e6a8a"/>
+
+        <!-- 判定ノード -->
+        <rect x="170" y="160" width="110" height="80" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="225" y="194" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">レビュー</text>
+        <text x="225" y="214" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">必要？</text>
+
+        <!-- 矢印: 判定→スキップ群 -->
+        <line x1="286" y1="176" x2="304" y2="110" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+        <line x1="286" y1="192" x2="304" y2="170" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+        <line x1="286" y1="210" x2="304" y2="230" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+        <line x1="286" y1="224" x2="304" y2="290" stroke="#c9162e" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+        <!-- 矢印: 判定→レビュー対象 -->
+        <line x1="286" y1="200" x2="824" y2="200" stroke="#1a96c0" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+        <!-- スキップ対象1: 閉じたPR -->
+        <rect x="310" y="72" width="150" height="64" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="385" y="100" text-anchor="middle" font-size="13" fill="#5e6a8a">❌ 閉じたPR</text>
+        <text x="385" y="120" text-anchor="middle" font-size="11" fill="#5e6a8a">（既にマージ or 閉じ済み）</text>
+
+        <!-- スキップ対象2: ドラフト -->
+        <rect x="310" y="148" width="150" height="64" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="385" y="176" text-anchor="middle" font-size="13" fill="#5e6a8a">❌ ドラフトPR</text>
+        <text x="385" y="196" text-anchor="middle" font-size="11" fill="#5e6a8a">（まだ作業中）</text>
+
+        <!-- スキップ対象3: 自動生成 -->
+        <rect x="310" y="224" width="150" height="64" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="385" y="252" text-anchor="middle" font-size="13" fill="#5e6a8a">❌ 自動生成PR</text>
+        <text x="385" y="272" text-anchor="middle" font-size="11" fill="#5e6a8a">（Dependabot等）</text>
+
+        <!-- スキップ対象4: 既にレビュー済み -->
+        <rect x="310" y="300" width="150" height="64" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="385" y="328" text-anchor="middle" font-size="13" fill="#5e6a8a">❌ レビュー済み</text>
+        <text x="385" y="348" text-anchor="middle" font-size="11" fill="#5e6a8a">（既にコメント済み）</text>
+
+        <!-- スキップ zone -->
+        <rect x="490" y="64" width="120" height="310" rx="12" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="550" y="224" text-anchor="middle" font-size="14" font-weight="700" fill="#c9162e" transform="rotate(-90,550,224)">スキップ</text>
+
+        <!-- レビュー対象 -->
+        <rect x="830" y="152" width="140" height="96" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="900" y="184" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">レビュー対象</text>
+        <text x="900" y="208" text-anchor="middle" font-size="13" fill="#1a1d2e">5エージェントが</text>
+        <text x="900" y="228" text-anchor="middle" font-size="13" fill="#1a1d2e">並行で審査開始</text>
+
+        <!-- 凡例 -->
+        <rect x="30" y="400" width="14" height="14" rx="3" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+        <text x="50" y="412" font-size="12" fill="#5e6a8a">レビュー実行</text>
+        <rect x="190" y="400" width="14" height="14" rx="3" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="210" y="412" font-size="12" fill="#5e6a8a">スキップ対象</text>
+
+        <defs>
+          <marker id="arrow-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0,0 8,3 0,6" fill="#c9162e"/>
+          </marker>
+          <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0,0 8,3 0,6" fill="#1a96c0"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">POINT 06</span>
+    <h2 class="slide-title">Auto モードで自律作業を最大化する</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>人が都度確認しなくてもClaudeが最後まで走り切る設定と、完了通知で仕事を任せきれる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <!-- SVG図 -->
+      <div class="diagram-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#1a96c0"></path>
+            </marker>
+            <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#008f6a"></path>
+            </marker>
+          </defs>
+
+          <!-- タイムライン背景 -->
+          <rect x="10" y="10" width="570" height="339.3" rx="12" fill="rgba(26,150,192,.04)" stroke="#1a96c0" stroke-width="1.2"></rect>
+
+          <!-- 時刻ラベル -->
+          <text x="295" y="33" text-anchor="middle" font-size="15" font-weight="700" fill="#1a96c0">Auto モード ワークフロー</text>
+
+          <!-- フロー: 左から右へ -->
+
+          <!-- STEP 1: 朝タスクをセット -->
+          <rect x="30" y="50" width="118" height="100" rx="12" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"></rect>
+          <text x="89" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#1a96c0">🌅 朝</text>
+          <text x="89" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">タスクを</text>
+          <text x="89" y="101" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">包括的に設定</text>
+          <text x="89" y="117" text-anchor="middle" font-size="8.5" fill="#5e6a8a">Auto mode ON</text>
+          <text x="89" y="129" text-anchor="middle" font-size="8.5" fill="#5e6a8a">通知設定あり</text>
+          <text x="89" y="143" text-anchor="middle" font-size="8.5" fill="#1a96c0">所要:1〜2分</text>
+
+          <!-- 矢印 -->
+          <line x1="148" y1="100" x2="192" y2="100" stroke="#1a96c0" stroke-width="2" marker-end="url(#arrowB)"></line>
+          <text x="169" y="91" text-anchor="middle" font-size="8.5" fill="#1a96c0">任せる</text>
+
+          <!-- STEP 2: Claude 自律実行中 -->
+          <rect x="193" y="50" width="180" height="100" rx="12" fill="rgba(26,150,192,.08)" stroke="#1a96c0" stroke-width="1.4"></rect>
+          <text x="283" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#1a96c0">⚙️ 昼〜夕方</text>
+          <text x="283" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">Claude 自律実行中</text>
+          <!-- アニメーション的なドット -->
+          <circle cx="249" cy="98" r="4" fill="#1a96c0" opacity=".9"></circle>
+          <circle cx="263" cy="98" r="4" fill="#1a96c0" opacity=".6"></circle>
+          <circle cx="277" cy="98" r="4" fill="#1a96c0" opacity=".3"></circle>
+          <text x="283" y="116" text-anchor="middle" font-size="8.5" fill="#5e6a8a">計画→実行→確認</text>
+          <text x="283" y="129" text-anchor="middle" font-size="8.5" fill="#5e6a8a">を自動で繰り返す</text>
+          <text x="283" y="143" text-anchor="middle" font-size="8.5" fill="#1a96c0">あなたは他の仕事へ</text>
+
+          <!-- 矢印 -->
+          <line x1="373" y1="100" x2="416" y2="100" stroke="#008f6a" stroke-width="2" marker-end="url(#arrowG)"></line>
+          <text x="395" y="91" text-anchor="middle" font-size="8.5" fill="#008f6a">完了通知</text>
+
+          <!-- STEP 3: 通知受信 -->
+          <rect x="417" y="50" width="143" height="100" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="488" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">📬 夕方</text>
+          <text x="488" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a1d2e">通知受信</text>
+          <text x="488" y="103" text-anchor="middle" font-size="8.5" fill="#5e6a8a">「タスク完了しました」</text>
+          <text x="488" y="116" text-anchor="middle" font-size="8.5" fill="#5e6a8a">最終レビューのみ</text>
+          <text x="488" y="129" text-anchor="middle" font-size="8.5" fill="#5e6a8a">数分で確認→提出</text>
+          <text x="488" y="143" text-anchor="middle" font-size="8.5" fill="#008f6a">所要:数分</text>
+
+          <!-- メリット箱 -->
+          <rect x="30" y="170" width="530" height="54" rx="10" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="1"></rect>
+          <text x="295" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">✅ Auto モードがもたらすメリット</text>
+          <text x="116.2" y="212" text-anchor="middle" font-size="12" fill="#5e6a8a">⏱ 監視不要で時間節約</text>
+          <text x="283.4" y="212" text-anchor="middle" font-size="12" fill="#5e6a8a">💰 不要な割り込みコストゼロ</text>
+          <text x="469.2" y="212" text-anchor="middle" font-size="12" fill="#5e6a8a">🎯 集中した自律実行で品質UP</text>
+
+          <!-- 注意ゾーン -->
+          <rect x="29.6" y="233.8" width="530" height="100.5" rx="10" fill="rgba(168,106,0,.05)" stroke="rgba(168,106,0,.3)" stroke-width="1"></rect>
+          <text x="50" y="250.1" font-size="12" font-weight="700" fill="#a86a00">⚠️ Auto モードを使うべき場面 / 使わない場面</text>
+          <text x="50" y="272.8" font-size="11" fill="#5e6a8a">✅ 使うべき: 繰り返し作業・パターン化できるタスク・信頼できる処理の自動化</text>
+          <text x="50" y="297.8" font-size="12" fill="#5e6a8a">❌ 使わない: 重要な判断が必要な箇所・機密データの処理・承認が必要な外部操作</text>
+          <text x="52" y="321.2" font-size="12" fill="#5e6a8a">→ 「信頼できる範囲のタスク」にだけ自律を与えるのがポイント</text>
+        </svg>
+      </div>
+
+      <!-- 右カラム -->
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">💼 実務シナリオ: 月次レポート自動化</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--blue)">1</span>
+            <p>朝一番で「6月売上CSVを読み込み、前月比グラフ付きA4 2ページで作成」と指定しAuto mode起動</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--blue)">2</span>
+            <p>会議や他業務をこなす間にClaudeが自律的に処理を完了</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--green)">3</span>
+            <p>通知を受け取り、数分でレビューして上司に提出完了</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 通知設定のポイント</div>
+          <ul class="box-list">
+            <li>完了時に通知が届くよう事前に設定する</li>
+            <li>長時間タスクで特に効果的</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 失敗パターン</div>
+          <ul class="box-list">
+            <li>重要判断が必要な場所でauto modeにする</li>
+            <li>仕様が曖昧なまま任せると期待外れになる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

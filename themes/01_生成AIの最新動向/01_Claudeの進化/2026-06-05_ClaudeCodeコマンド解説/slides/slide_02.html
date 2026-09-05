@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.layers { display:grid; grid-template-columns:1fr 1fr; gap:1rem; flex:1; }
+.layer {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+}
+.layer-head { display:flex; align-items:center; gap:.6rem; }
+.layer-icon { width:42px; height:42px; border-radius:12px; background:var(--g-blue); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; }
+.layer h3 { font-size:1.08rem; font-weight:900; }
+.layer p { color:var(--muted); font-size:.82rem; line-height:1.65; }
+.cmd-stack { display:flex; flex-direction:column; gap:.4rem; }
+.cmd-line { background:#eef7fb; border:1px solid rgba(26,150,192,.18); border-radius:10px; padding:.42rem .6rem; font-size:.78rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">MAP</span>
+    <h2 class="slide-title">Claudeのコマンドは「外側」と「内側」で分ける</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>ターミナルから始めるのがCLI、会話中に操作するのがスラッシュコマンドです。</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="layers">
+      <div class="layer">
+        <div class="layer-head"><div class="layer-icon">CLI</div><h3>外側: 起動するコマンド</h3></div>
+        <p>ターミナルで最初に打つ命令です。新しい会話を始める、前回の会話を続ける、1回だけ実行して終わる、といった入り口を決めます。</p>
+        <div class="cmd-stack">
+          <div class="cmd-line"><code>claude</code> 会話を始める</div>
+          <div class="cmd-line"><code>claude -p "query"</code> 1回だけ聞く</div>
+          <div class="cmd-line"><code>claude -c</code> 前回の続き</div>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="layer-icon" style="background:var(--g-green)">/</div><h3>内側: 会話中の操作</h3></div>
+        <p>Claude Codeを開いたあと、メッセージの先頭で使う命令です。計画モード、設定、文脈整理、レビューなど、作業中の状態を切り替えます。</p>
+        <div class="cmd-stack">
+          <div class="cmd-line"><code>/plan</code> 先に計画する</div>
+          <div class="cmd-line"><code>/compact</code> 会話を要約する</div>
+          <div class="cmd-line"><code>/diff</code> 変更を見る</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

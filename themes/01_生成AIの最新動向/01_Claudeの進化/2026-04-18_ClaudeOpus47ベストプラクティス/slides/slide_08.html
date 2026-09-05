@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.migration-layout {
+  flex: 1;
+  display: flex;
+  gap: .8rem;
+  overflow: hidden;
+}
+.migration-steps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  overflow: hidden;
+}
+.migration-side {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  overflow: hidden;
+}
+.step-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .65rem .9rem;
+  display: flex;
+  gap: .7rem;
+  align-items: flex-start;
+  flex: 1;
+}
+.step-num {
+  min-width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .82rem; font-weight: 900; color: #fff;
+  flex-shrink: 0;
+}
+.step-body { flex: 1; }
+.step-title {
+  font-size: .84rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .2rem;
+}
+.step-code {
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  background: #f3f4f8;
+  border-radius: 6px;
+  padding: .2rem .5rem;
+  color: var(--muted);
+  margin: .2rem 0;
+  display: block;
+  text-decoration: line-through;
+}
+.step-code.new {
+  background: rgba(0,143,106,.08);
+  color: var(--green);
+  text-decoration: none;
+}
+.step-desc {
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: .2rem;
+}
+.caution-box {
+  background: rgba(168,106,0,.06);
+  border: 1px solid rgba(168,106,0,.3);
+  border-radius: 12px;
+  padding: .65rem .9rem;
+}
+.caution-title {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--yellow);
+  margin-bottom: .35rem;
+}
+.caution-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.caution-list li {
+  font-size: .76rem;
+  color: var(--text);
+  padding-left: .8rem;
+  position: relative;
+  line-height: 1.5;
+}
+.caution-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--yellow);
+  font-weight: 700;
+}
+.success-box {
+  background: rgba(0,143,106,.06);
+  border: 1px solid rgba(0,143,106,.25);
+  border-radius: 12px;
+  padding: .65rem .9rem;
+}
+.success-title {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: .35rem;
+}
+.success-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.success-list li {
+  font-size: .76rem;
+  color: var(--text);
+  padding-left: .8rem;
+  position: relative;
+  line-height: 1.5;
+}
+.success-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(0,143,106,.12);color:var(--green)">MIGRATION</span>
+    <h2 class="slide-title">4.6 → 4.7 移行チェックリスト</h2>
+    <div class="hitokoto" style="border-color:var(--green)">
+      <span class="badge" style="background:var(--green)">一言で</span>
+      <p>Opus 4.6をそのまま4.7に換えるだけでは性能が出ないことがある。3点を確認しよう</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="migration-layout">
+      <div class="migration-steps">
+        <div class="step-card">
+          <span class="step-num" style="background:var(--g-green)">1</span>
+          <div class="step-body">
+            <div class="step-title">thinking_budget の設定を削除する</div>
+            <code class="step-code">thinking_budget=5000  ← 削除</code>
+            <code class="step-code new">// アダプティブ思考に任せる（設定不要）</code>
+            <div class="step-desc">固定予算は Opus 4.7 では非対応。削除するだけでOK — アダプティブ思考が自動で最適化してくれる</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num" style="background:var(--g-green)">2</span>
+          <div class="step-body">
+            <div class="step-title">エフォート設定「xhigh」をデフォルトに追加</div>
+            <code class="step-code">// effort設定なし  ← 追加が必要</code>
+            <code class="step-code new">effort: "xhigh"  ← 追加</code>
+            <div class="step-desc">ほとんどの作業は xhigh がベスト。コスト重視なら high、難題は max に変更できる</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num" style="background:var(--g-green)">3</span>
+          <div class="step-body">
+            <div class="step-title">プロンプトの見直し（冗長な指示を整理）</div>
+            <code class="step-code">「詳しく・丁寧に・ステップを分けて…」← 過剰指示は削除</code>
+            <code class="step-code new">「〇〇をして。必要なら詳しく説明を加えて」← シンプルに</code>
+            <div class="step-desc">4.7は賢くなったので、余分な指示は逆効果になることがある。シンプルに目的だけ伝えよう</div>
+          </div>
+        </div>
+      </div>
+      <div class="migration-side">
+        <div class="caution-box">
+          <div class="caution-title">⚠️ よくある移行の失敗</div>
+          <ul class="caution-list">
+            <li>4.6向けのプロンプトをそのまま使って「なんか違う」と感じる</li>
+            <li>thinking_budget をそのまま残して非対応エラーが出る</li>
+            <li>冗長な指示が多すぎてClaudeが混乱する</li>
+            <li>effort設定なしでコストが思ったより高くなる</li>
+          </ul>
+        </div>
+        <div class="success-box">
+          <div class="success-title">✅ 移行成功のサイン</div>
+          <ul class="success-list">
+            <li>シンプルな指示で期待通りの結果が出る</li>
+            <li>難しい問題で自動的に深く考えてくれる</li>
+            <li>コスト効率が4.6より改善している</li>
+            <li>途中停止・確認待ちが減った</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

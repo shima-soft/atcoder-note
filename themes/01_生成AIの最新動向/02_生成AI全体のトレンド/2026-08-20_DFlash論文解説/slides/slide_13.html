@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>2つのレバーを数字で見比べる</title>
+<style>
+.lever-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  overflow: hidden;
+}
+.lever-body .compare-table { flex: 0 0 auto; }
+.lever-body .compare-table td { padding-top: .62rem; padding-bottom: .62rem; }
+.lever-note {
+  font-size: .68rem;
+  color: var(--muted);
+  margin-top: .3rem;
+}
+.lever-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .7rem;
+  flex: 1;
+}
+.lever-cards .card { padding: .7rem .9rem; gap: .25rem; justify-content: center; }
+.lever-cards .card-desc { font-size: .76rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">速さの理由</span>
+    <h2 class="slide-title">2つのレバーを、数字で見比べる</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>下書きのGPU処理を1回に固定したまま、採用語数を2倍以上に伸ばしたのがDFlash</p>
+    </div>
+  </div>
+  <div class="lever-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th>見るポイント</th>
+            <th>自己回帰（基準）</th>
+            <th>EAGLE-3</th>
+            <th>DFlash</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>下書きのGPU処理回数</td>
+            <td>下書きなし</td>
+            <td>候補の数だけ繰り返す</td>
+            <td style="color:var(--purple);font-weight:900">何語でも1回</td>
+          </tr>
+          <tr>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.14);color:var(--purple)">レバー②</span> 下書きの軽さ</td>
+            <td>—</td>
+            <td>候補を増やすと重くなる</td>
+            <td style="color:var(--purple);font-weight:900">増やしても変わらない</td>
+          </tr>
+          <tr>
+            <td>下書き役の厚み（層数）</td>
+            <td>—</td>
+            <td>1層まで（重くなるため）</td>
+            <td style="color:var(--purple);font-weight:900">5層でも同じ速さ</td>
+          </tr>
+          <tr>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.14);color:var(--purple)">レバー①</span> 1回で採用できた語数</td>
+            <td>1語</td>
+            <td>3.05語</td>
+            <td style="color:var(--purple);font-weight:900">6.54語</td>
+          </tr>
+          <tr>
+            <td>チェックのGPU処理回数</td>
+            <td>1回</td>
+            <td>1回</td>
+            <td>1回</td>
+          </tr>
+          <tr>
+            <td>結果の速度</td>
+            <td>1倍</td>
+            <td>1.81倍</td>
+            <td style="color:var(--purple);font-weight:900">4.91倍</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="lever-note">※ 語数・速度は Qwen3-4B・7ベンチマーク平均（論文 Table 1、候補数16の条件）</p>
+    </div>
+    <div class="lever-cards">
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">2</div>
+        <div class="card-title">分子は増えていない</div>
+        <div class="card-desc">下書きのGPU処理は1回のまま。候補を16語に増やしても時間はほぼ変わらない</div>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">1</div>
+        <div class="card-title">分母は2倍以上になった</div>
+        <div class="card-desc">本体AIの情報を注入したことで、1回で採用できる語数が3.05語から6.54語へ</div>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">＝</div>
+        <div class="card-title">かけ合わせて4.91倍</div>
+        <div class="card-desc">2つのレバーが同時に効くので、EAGLE-3の1.81倍を大きく上回る</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

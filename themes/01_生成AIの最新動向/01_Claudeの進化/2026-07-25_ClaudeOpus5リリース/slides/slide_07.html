@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">EXPERTISE</span>
+    <h2 class="slide-title">専門分野の精度が一段上がった</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>化学・生物の研究から取引先調査まで、Opus 4.8 をすべての評価項目で上回った</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          バー起点 x=15、スケール 1ポイント = 16px（最大 17 → 272px、右端 287）
+          数値は固定 x=300 / text-anchor="start" で縦揃え
+          行送り 48px（ラベル y=50 → バー y=56）
+          viewBox: 0 0 400 255
+        -->
+        <svg viewBox="0 0 400 255" width="560" height="357" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <!-- タイトル -->
+          <text x="200" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Opus 4.8 からの改善幅</text>
+
+          <!-- 1: 有機化学 -->
+          <text x="15" y="50" font-size="10" fill="#5e6a8a">有機化学（分子構造の読み取り）</text>
+          <rect x="15" y="56" width="163" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="73" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+10.2ポイント</text>
+
+          <!-- 2: タンパク質 -->
+          <text x="15" y="98" font-size="10" fill="#5e6a8a">タンパク質の働きの予測</text>
+          <rect x="15" y="104" width="123" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="121" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+7.7ポイント</text>
+
+          <!-- 3: データ分析 -->
+          <text x="15" y="146" font-size="10" fill="#5e6a8a">企業データの分析業務</text>
+          <rect x="15" y="152" width="176" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="169" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+11%</text>
+
+          <!-- 4: デューデリジェンス -->
+          <text x="15" y="194" font-size="10" fill="#5e6a8a">取引先のデューデリジェンス</text>
+          <rect x="15" y="200" width="272" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="217" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+17%</text>
+
+          <!-- 補足 -->
+          <text x="200" y="243" text-anchor="middle" font-size="9" fill="#5e6a8a">※ Anthropic 社内評価と Box 社の実測値（対 Opus 4.8）</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 先行導入した企業の評価</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>Box: 専門文書の分析で全体 +8%、取引先調査では +17% 改善</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>財務分析: 正答率が平均 +9ポイント、所要時間は 60% 短縮</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>法務: 契約書の初回修正案づくりで Opus 4.8 のほぼ2倍の評価</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 使えるシーン</div>
+          <ul class="box-list">
+            <li>専門用語の多い資料の読み解きと要点整理</li>
+            <li>数字と表を扱う分析、取引先の調査レポート</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>長時間の自律的な生物研究は Mythos 5 が依然上位</li>
+            <li>専門判断の最終責任は人にある、という前提は同じ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

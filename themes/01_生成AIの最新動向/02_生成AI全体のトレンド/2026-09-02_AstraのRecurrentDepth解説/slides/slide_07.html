@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>数字を入れて計算してみる</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">数字で確認</span>
+    <h2 class="slide-title">4層を16周まわすと、何層ぶんになるか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>4層 × 16周 ＝ 64層ぶんの計算。それでも覚えておく重みは8層ぶんのまま — ここがこの方式の全部</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="4層を16周まわしたときの計算量と重みの比較">
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">① 数字を入れて計算してみる（周回を16回にした場合）</text>
+
+        <rect x="20" y="32" width="580" height="180" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="40" y="62" font-size="12" fill="#5e6a8a">中核ブロックの層数</text>
+        <text x="350" y="62" font-size="13" font-weight="900" fill="#1a1d2e">4層</text>
+        <text x="40" y="90" font-size="12" fill="#5e6a8a">まわす回数（周回）</text>
+        <text x="350" y="90" font-size="13" font-weight="900" fill="#1a1d2e">16周</text>
+
+        <rect x="36" y="104" width="548" height="34" rx="8" fill="#f4efff"/>
+        <text x="310" y="126" text-anchor="middle" font-size="13.5" font-weight="900" fill="#7a3bce">4層 × 16周 ＝ 64層ぶんの計算</text>
+
+        <text x="40" y="162" font-size="12" fill="#5e6a8a">入口2層 ＋ 64層ぶん ＋ 出口2層</text>
+        <text x="350" y="162" font-size="13" font-weight="900" fill="#1a1d2e">＝ 実質68層ぶんの深さ</text>
+        <text x="40" y="192" font-size="12" fill="#5e6a8a">覚えておく重み（パラメータ）</text>
+        <text x="350" y="192" font-size="13" font-weight="900" fill="#7a3bce">2+4+2 ＝ 8層ぶんだけ</text>
+
+        <text x="34" y="238" font-size="12" font-weight="900" fill="#5e6a8a">② 同じ深さを、層を積んで作った場合との違い</text>
+
+        <rect x="20" y="248" width="580" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="36" y="282" font-size="11" font-weight="700" fill="#1a1d2e">Recurrent Depth</text>
+        <rect x="150" y="266" width="40" height="22" rx="5" fill="#7a3bce"/>
+        <text x="500" y="283" text-anchor="start" font-size="12" font-weight="900" fill="#7a3bce">重み 8層ぶん</text>
+
+        <text x="36" y="322" font-size="11" font-weight="700" fill="#5e6a8a">68層を積んだモデル</text>
+        <rect x="150" y="306" width="340" height="22" rx="5" fill="#c9cfdd"/>
+        <text x="500" y="323" text-anchor="start" font-size="12" fill="#5e6a8a">重み 68層ぶん</text>
+
+        <text x="310" y="348" text-anchor="middle" font-size="10.5" fill="#5e6a8a">凡例: バーの長さ＝覚えておく重みの量。考える深さはどちらも68層ぶん</text>
+
+        <rect x="20" y="368" width="580" height="52" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="399" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1a1d2e">重みは8層ぶんのまま、考える深さだけ8.5倍にできる</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>68人の会議を1回開くのが「層を積む」やり方</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>4人で16回まわすのが「周回する」やり方</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>かかる会議時間は同じ。用意する席は8分の1</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 席が少なくて済むと</div>
+        <ul class="box-list">
+          <li>必要なメモリと通信量が小さくなる</li>
+          <li>同じ機材でより深く考えさせられる</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">📖 公開研究では</div>
+        <ul class="box-list">
+          <li>Huginn-3.5B は50周で50B級の計算量に相当</li>
+          <li>周回数は問題の難しさに応じて変えられる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

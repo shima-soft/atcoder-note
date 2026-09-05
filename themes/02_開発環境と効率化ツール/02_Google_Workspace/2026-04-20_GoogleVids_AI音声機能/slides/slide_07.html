@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.summary-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.summary-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .84rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.s-dot {
+  min-width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  margin-top: .4rem;
+  flex-shrink: 0;
+}
+.action-step {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.action-step:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">まとめ — 今日からできること</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>Google Workspace ユーザーなら今すぐ無料で試せる。まずは 1 本、AI ナレーション動画を作ってみよう</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <div class="card-title">今回のポイント 3 つ</div>
+        <ul class="summary-list">
+          <li><span class="s-dot"></span>Gemini 3.1 Flash TTS で 30 種の自然な音声が使えるようになった</li>
+          <li><span class="s-dot"></span>感情指示・[pause]・[laugh] の 3 方法で音声を細かく制御できる</li>
+          <li><span class="s-dot"></span>24 言語対応で多言語コンテンツ制作のコストが大幅に下がる</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">今すぐ試す手順</div>
+        <div class="action-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <span>Google Vids（vids.google.com）を開く</span>
+        </div>
+        <div class="action-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <span>新しい動画を作成 → 「ナレーションを追加」を選択</span>
+        </div>
+        <div class="action-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <span>テキスト入力欄に内容と感情指示を書いて生成</span>
+        </div>
+        <div class="action-step">
+          <span class="snum" style="background:var(--g-orange)">4</span>
+          <span>30 種の音声から好みのボイスを選んで完成</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">利用前の確認事項</div>
+        <ul class="summary-list">
+          <li><span class="s-dot"></span><strong>対象：</strong>Google Workspace 全プラン・個人 Google アカウントで利用可能</li>
+          <li><span class="s-dot"></span><strong>管理者設定：</strong>ドメイン全体で無効化されている場合は IT 担当者に確認</li>
+          <li><span class="s-dot"></span><strong>展開日程：</strong>2026年4月15日から順次展開（1〜3日で有効化）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

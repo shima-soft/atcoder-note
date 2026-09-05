@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  flex: 1;
+}
+.action-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  position: relative;
+  overflow: hidden;
+}
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.action-card.c1::before { background: var(--g-orange); }
+.action-card.c2::before { background: var(--g-blue); }
+.action-card.c3::before { background: var(--g-green); }
+
+.action-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: .2rem;
+}
+.c1 .action-step { background: var(--g-orange); }
+.c2 .action-step { background: var(--g-blue); }
+.c3 .action-step { background: var(--g-green); }
+
+.action-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.action-sub {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.action-tip {
+  margin-top: auto;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: .45rem .7rem;
+  font-size: .76rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.tip-label {
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .15rem;
+  display: block;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(0,143,106,.12);color:var(--green)">ACTION</span>
+    <h2 class="slide-title">明日から使える 3ステップ</h2>
+    <div class="hitokoto" style="border-color:var(--green)">
+      <span class="badge" style="background:var(--green)">一言で</span>
+      <p>「最初はシンプルに、観察して、必要なときだけ複雑にする」</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="action-grid">
+      <div class="action-card c1">
+        <div class="action-step">1</div>
+        <div class="action-title">Generator-Verifier から始める</div>
+        <div class="action-sub">
+          まずは「生成AI + 検証AI」の2体制からスタート。
+          最も導入が簡単で、品質保証の効果を実感しやすい。
+        </div>
+        <div class="action-tip">
+          <span class="tip-label">💡 具体例</span>①社内レポートをAIで下書き →② 別AIが誤字・事実確認
+          →③ 問題なければ担当者へ転送
+        <div><br></div></div>
+      </div>
+
+      <div class="action-card c2">
+        <div class="action-step">2</div>
+        <div class="action-title">課題とボトルネックを観察する</div>
+        <div class="action-sub">
+          実際に使い始めたら「どこで詰まっているか」を記録。
+          遅さ・精度不足・コスト超過など問題の種類で次のパターンが見えてくる。
+        </div>
+        <div class="action-tip">
+          <span class="tip-label">💡 チェックポイント</span>
+          処理が遅い → Agent Teams<br>
+          情報が分断する → Shared State<br>
+          トリガー連携したい → Message Bus
+        </div>
+      </div>
+
+      <div class="action-card c3">
+        <div class="action-step">3</div>
+        <div class="action-title">必要なときだけ複雑にする</div>
+        <div class="action-sub">
+          「このパターンの方がカッコいい」ではなく、
+          「この課題にはこのパターンが必要だ」という理由があるときだけ進化させる。
+        </div>
+        <div class="action-tip">
+          <span class="tip-label">💡 判断基準</span>
+          現在のパターンで解決できているなら変える必要はない。&nbsp;<div>&nbsp;シンプルさは保守性と理解しやすさの武器。
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

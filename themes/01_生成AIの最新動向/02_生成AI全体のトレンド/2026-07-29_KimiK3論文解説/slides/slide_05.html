@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>100万トークンの記憶はこう作る</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">LONG CONTEXT</span>
+    <h2 class="slide-title">100万トークンの記憶はこう作る</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>いきなり長文を読ませず、4段階で少しずつ視野を広げていく</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="410" viewBox="0 0 620 410" role="img" aria-label="コンテキスト長を4段階で拡張する学習カリキュラム">
+        <!--
+          bar[i].x = 60 + i*130 (w=100, gap=30) → 60,190,320,450 / 中心 110,240,370,500
+          事前学習ゾーン: bar0-1 → x=50, right=300, w=250
+          クールダウンゾーン: bar2-3 → x=310, right=560, w=250
+          ゾーン y=40 h=275 (40..315) / バー下端 270
+        -->
+        <rect x="50" y="40" width="250" height="275" rx="14" fill="#f6f7fb" stroke="#dde2ec"/>
+        <rect x="310" y="40" width="250" height="275" rx="14" fill="#f4efff" stroke="#7a3bce"/>
+
+        <rect x="60" y="240" width="100" height="30" rx="6" fill="#d9c8f2"/>
+        <text x="110" y="232" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">8K</text>
+        <rect x="190" y="200" width="100" height="70" rx="6" fill="#bfa0e8"/>
+        <text x="240" y="192" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">64K</text>
+        <rect x="320" y="140" width="100" height="130" rx="6" fill="#a578dd"/>
+        <text x="370" y="132" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">256K</text>
+        <rect x="450" y="70" width="100" height="200" rx="6" fill="#7a3bce"/>
+        <text x="500" y="62" text-anchor="middle" font-size="15" font-weight="900" fill="#7a3bce">100万</text>
+
+        <text x="175" y="303" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">事前学習の期間</text>
+        <text x="435" y="303" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3bce">仕上げ（クールダウン）</text>
+
+        <rect x="50" y="335" width="510" height="60" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="305" y="360" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">位置の番号札を使わない設計（NoPE）</text>
+        <text x="305" y="380" text-anchor="middle" font-size="12" fill="#5e6a8a">設定を変えずに100万トークンまでそのまま伸ばせる</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">なぜ段階的に広げるのか</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>長文の学習は費用が跳ね上がるため、最後にまとめて集中投入する</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>短い文から長い文へ、少しずつ視野を慣らしていく</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">長さを活かすための工夫</div>
+        <ul class="box-list">
+          <li>重複や壊れた長文・動画を除いて教材を厳選</li>
+          <li>全体を見ないと解けない問題を人工的に作って学習</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">誤解しやすい点</div>
+        <ul class="box-list">
+          <li>「入る」と「使いこなす」は別物。訓練しないと近くしか見なくなる</li>
+          <li>毎回100万トークン渡せば、その分だけ費用も時間も増える</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

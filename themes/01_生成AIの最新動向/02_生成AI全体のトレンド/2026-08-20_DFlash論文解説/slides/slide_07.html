@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>拡散モデルは実際にどうやって空欄を埋めるのか</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">拡散モデルの動き</span>
+    <h2 class="slide-title">拡散モデルは、実際にどうやって空欄を埋めるのか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>虫食いプリントのように、前後の文脈だけを手がかりに空欄を一気に埋める</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="拡散モデルが空欄を一度に埋める仕組み">
+        <text x="34" y="22" font-size="13" font-weight="900" fill="#5e6a8a">① 空欄（マスク）だらけの状態</text>
+        <rect x="20" y="30" width="580" height="60" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="46" y="66" text-anchor="middle" font-size="12" fill="#1a1d2e">明日</text>
+        <text x="100" y="66" text-anchor="middle" font-size="12" fill="#1a1d2e">の</text>
+        <text x="154" y="66" text-anchor="middle" font-size="12" fill="#1a1d2e">会議</text>
+        <text x="208" y="66" text-anchor="middle" font-size="12" fill="#1a1d2e">は</text>
+        <rect x="234" y="46" width="40" height="30" rx="6" fill="#eff1f7" stroke="#5e6a8a" stroke-dasharray="3 2"/>
+        <text x="254" y="66" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">?</text>
+        <text x="310" y="66" text-anchor="middle" font-size="12" fill="#1a1d2e">時から</text>
+        <rect x="358" y="46" width="40" height="30" rx="6" fill="#eff1f7" stroke="#5e6a8a" stroke-dasharray="3 2"/>
+        <text x="378" y="66" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">?</text>
+        <text x="440" y="66" text-anchor="middle" font-size="12" fill="#1a1d2e">会議室で</text>
+
+        <path d="M310 96 L310 118" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="310,124 305,114 315,114" fill="#5e6a8a"/>
+        <text x="310" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">1回の計算で全部同時に予測</text>
+
+        <text x="34" y="150" font-size="13" font-weight="900" fill="#5e6a8a">② 全部の空欄が一斉に埋まる</text>
+        <rect x="20" y="158" width="580" height="60" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="46" y="194" text-anchor="middle" font-size="12" fill="#1a1d2e">明日</text>
+        <text x="100" y="194" text-anchor="middle" font-size="12" fill="#1a1d2e">の</text>
+        <text x="154" y="194" text-anchor="middle" font-size="12" fill="#1a1d2e">会議</text>
+        <text x="208" y="194" text-anchor="middle" font-size="12" fill="#1a1d2e">は</text>
+        <rect x="234" y="174" width="40" height="30" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="254" y="194" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">10</text>
+        <text x="310" y="194" text-anchor="middle" font-size="12" fill="#1a1d2e">時から</text>
+        <rect x="358" y="174" width="40" height="30" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="378" y="194" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">大</text>
+        <text x="440" y="194" text-anchor="middle" font-size="12" fill="#1a1d2e">会議室で</text>
+        <text x="475" y="196" text-anchor="middle" font-size="10" fill="#5e6a8a">緑＝新しく埋まった語</text>
+
+        <rect x="20" y="242" width="580" height="168" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="272" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">単体で使うと、埋め方が粗くなりやすい</text>
+        <text x="310" y="298" text-anchor="middle" font-size="12" fill="#1a1d2e">周囲の文脈だけを頼りに一気に埋めるため</text>
+        <text x="310" y="322" text-anchor="middle" font-size="12" fill="#1a1d2e">きれいに仕上げるには、何度も塗り直しが必要になる</text>
+        <text x="310" y="346" text-anchor="middle" font-size="12" fill="#5e6a8a">→ 繰り返すほど計算回数が増え、結局遅くなる</text>
+        <text x="310" y="378" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3bce">この「粗さ」を、本体AIの記憶で補うのがDFlash（次スライード）</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>虫食いプリントの空欄を、前後の文だけを見て一気に埋める</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>1文字ずつ悩むのではなく、全体をパッと見て埋める感覚</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>空欄がいくつあっても、計算は1回で済む</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">単体で使う場合の課題</div>
+        <ul class="box-list">
+          <li>ヒントなしで一気に埋めると候補が粗くなりやすい</li>
+          <li>精度を上げる塗り直しを重ねると結局遅くなる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

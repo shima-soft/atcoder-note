@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC455 A問題「455」— AtCoder×Pythonシリーズ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --red: #c9162e;
+  --g-orange: linear-gradient(135deg, #e8873a, #d96018);
+  --header-h: 52px;
+  --sidebar-w: 220px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ===== ヘッダー ===== */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: .8rem;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.header-badge {
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.header-title {
+  font-size: .95rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.header-sub {
+  font-size: .78rem;
+  color: var(--muted);
+}
+.header-link {
+  margin-left: auto;
+  font-size: .78rem;
+  color: var(--orange);
+  text-decoration: none;
+  font-weight: 700;
+}
+.header-link:hover { text-decoration: underline; }
+
+/* ===== レイアウト ===== */
+.layout {
+  display: flex;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+}
+
+/* ===== サイドバー ===== */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.sidebar-title {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.nav-list a {
+  display: block;
+  padding: .35rem .6rem;
+  border-radius: 6px;
+  font-size: .82rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+}
+.nav-list a:hover { color: var(--text); background: var(--surface); }
+.nav-list a.active {
+  color: var(--orange);
+  background: rgba(217,96,24,.07);
+  border-left-color: var(--orange);
+  font-weight: 700;
+}
+
+/* ===== メインコンテンツ ===== */
+main {
+  flex: 1;
+  max-width: 820px;
+  padding: 2.5rem 2rem 4rem;
+}
+
+section {
+  margin-bottom: 3.5rem;
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+/* ===== セクションヘッダー ===== */
+.sec-label {
+  display: inline-block;
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  margin-bottom: .5rem;
+}
+.sec-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .4rem;
+  line-height: 1.3;
+}
+.sec-sub {
+  font-size: .9rem;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+}
+
+/* ===== ヒーロー (#overview) ===== */
+.hero-card {
+  background: #1a1d2e;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(217,96,24,.2) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-left { flex: 0 0 auto; text-align: center; }
+.hero-contest { font-size: .78rem; color: rgba(255,255,255,.5); font-weight: 700; margin-bottom: .3rem; }
+.hero-num {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--orange);
+  line-height: 1;
+  letter-spacing: .05em;
+}
+.hero-prob { font-size: .9rem; color: rgba(255,255,255,.7); margin-top: .3rem; }
+.hero-right { flex: 1; }
+.hero-points-title {
+  font-size: .78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+.hero-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.hero-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  font-size: .88rem;
+  color: rgba(255,255,255,.85);
+  line-height: 1.5;
+}
+.pnum {
+  min-width: 22px; height: 22px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  flex-shrink: 0; margin-top: .1rem;
+}
+.diff-row {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  flex-wrap: wrap;
+}
+.diff-badge {
+  display: inline-block;
+  background: rgba(94,106,138,.12);
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 700;
+  padding: .2rem .7rem;
+  border-radius: 99px;
+  border: 1px solid rgba(94,106,138,.25);
+}
+.source-link {
+  font-size: .78rem;
+  color: var(--orange);
+  text-decoration: none;
+}
+.source-link:hover { text-decoration: underline; }
+
+/* ===== カード ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.card h3 {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .5rem;
+  letter-spacing: .03em;
+}
+.card p {
+  font-size: .95rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+.card strong { color: var(--orange); font-weight: 900; }
+
+.card-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+  margin-bottom: 1rem;
+}
+@media (max-width: 600px) { .card-grid2 { grid-template-columns: 1fr; } }
+
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+}
+.meta-card h3 {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .4rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.meta-card ul li {
+  font-size: .9rem;
+  color: var(--text);
+  padding-left: .8rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .8rem;
+  color: var(--muted);
+  margin-top: .4rem;
+  padding-left: .8rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .1rem .4rem;
+  font-size: .84rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+}
+
+/* ===== サンプルテーブル ===== */
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.sample-card h3 {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .6rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .4rem .8rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .4rem .8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.sample-table td.correct { color: var(--green); font-weight: 900; }
+.sample-table tr:last-child td { border-bottom: none; }
+
+/* ===== SVG図 ===== */
+.svg-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+.svg-wrap svg { width: 100%; height: auto; }
+
+/* ===== ok/ng box ===== */
+.ok-box, .ng-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .8rem 1rem;
+  margin-bottom: .8rem;
+}
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.box-title {
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: .4rem;
+}
+.box-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.box-list li {
+  font-size: .9rem;
+  color: var(--text);
+  padding-left: .8rem;
+  position: relative;
+}
+.box-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+/* ===== AC コードブロック ===== */
+.ac-code-block {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+.ac-code-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--surface);
+  padding: .4rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename {
+  font-family: 'Consolas', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+  flex: 1;
+}
+.ac-badge {
+  font-size: .72rem;
+  color: var(--green);
+  font-weight: 700;
+}
+.copy-btn {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .2rem .6rem;
+  border-radius: 6px;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  background: transparent;
+  cursor: pointer;
+  transition: background .15s;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: .8rem 1rem; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+/* ===== 行解説 ===== */
+.line-cards {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1rem;
+}
+.line-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .7rem 1rem;
+}
+.line-card h4 {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .25rem;
+}
+.line-card p {
+  font-size: .9rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.line-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .05rem .35rem;
+  font-size: .84rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+
+/* ===== 用語解説グリッド ===== */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+}
+@media (max-width: 600px) { .glossary-grid { grid-template-columns: 1fr; } }
+
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name { font-size: .95rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .75rem; color: var(--muted); font-weight: 500; }
+.term-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; flex: 1; }
+.term-link {
+  font-size: .72rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .3rem;
+  align-self: flex-start;
+}
+.term-link:hover { text-decoration: underline; }
+.term-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .05rem .3rem;
+  font-size: .8rem;
+  font-family: 'Consolas', monospace;
+  color: var(--orange);
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  main { padding: 1.5rem 1rem 3rem; }
+  .hero-card { flex-direction: column; gap: 1.2rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-badge">AtCoder×Pythonシリーズ</span>
+  <span class="header-title">ABC455 A — 455</span>
+  <span class="header-sub">条件分岐 / if・and</span>
+  <a class="header-link" href="https://atcoder.jp/contests/abc455/tasks/abc455_a" target="_blank">問題ページ →</a>
+</header>
+
+<div class="layout">
+
+  <!-- サイドバー -->
+  <nav class="sidebar">
+    <div class="sidebar-title">目次</div>
+    <ul class="nav-list">
+      <li><a href="#overview">🏠 概要</a></li>
+      <li><a href="#problem">📝 問題を読み解く</a></li>
+      <li><a href="#approach">💡 考え方</a></li>
+      <li><a href="#code">🐍 コード</a></li>
+      <li><a href="#glossary">📖 用語解説</a></li>
+    </ul>
+  </nav>
+
+  <!-- メインコンテンツ -->
+  <main>
+
+    <!-- #overview -->
+    <section id="overview">
+      <div class="hero-card">
+        <div class="hero-left">
+          <div class="hero-contest">ABC455 A問題</div>
+          <div class="hero-num">455</div>
+          <div class="hero-prob">問題名そのものがヒント！</div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-points-title">Today's Points</div>
+          <ul class="hero-points">
+            <li><span class="pnum">1</span>問題名そのものがヒントになっている — タイトルから問題の本質を読む力がつく</li>
+            <li><span class="pnum">2</span>「かつ（and）」で2つの条件を同時チェックする考え方が身につく</li>
+            <li><span class="pnum">3</span>Python 5行のシンプルな条件分岐で正解を導ける</li>
+          </ul>
+        </div>
+      </div>
+      <div class="diff-row">
+        <span class="diff-badge">ABC-A 難易度: 灰色 ★☆☆</span>
+        <a class="source-link" href="https://atcoder.jp/contests/abc455/tasks/abc455_a" target="_blank">📌 出典: atcoder.jp/contests/abc455/tasks/abc455_a</a>
+      </div>
+    </section>
+
+    <!-- #problem -->
+    <section id="problem">
+      <span class="sec-label">問題を読み解く</span>
+      <h2 class="sec-title">ABC455 A — 455</h2>
+
+      <div class="card">
+        <h3>📝 何を求める問題？</h3>
+        <p>整数 <strong>A</strong>・<strong>B</strong>・<strong>C</strong> が与えられます。
+           「<strong>A と B が異なる</strong>」かつ「<strong>B と C が等しい</strong>」の
+           <strong>両方</strong>が成り立つとき <strong>"Yes"</strong>、そうでなければ <strong>"No"</strong> を出力してください。</p>
+      </div>
+
+      <div class="card-grid2">
+        <div class="meta-card">
+          <h3>🔒 制約</h3>
+          <ul>
+            <li>1 ≤ A, B, C ≤ 9</li>
+            <li>A・B・C はすべて整数</li>
+          </ul>
+          <p class="hint">1〜9の1桁の整数しか来ない</p>
+        </div>
+        <div class="meta-card">
+          <h3>📥 入力の形式</h3>
+          <code>A B C</code>
+          <p class="hint" style="margin-top:.4rem">1行に空白区切りで与えられる</p>
+          <p class="hint">例: <code>4 5 5</code> → A=4, B=5, C=5</p>
+        </div>
+      </div>
+
+      <div class="sample-card">
+        <h3>📊 入出力例</h3>
+        <table class="sample-table">
+          <tr>
+            <th style="width:110px">入力</th>
+            <th style="width:80px">出力</th>
+            <th>なぜそうなる？</th>
+          </tr>
+          <tr>
+            <td>4 5 5</td>
+            <td class="correct">Yes</td>
+            <td class="note">A=4 ≠ B=5 ✓ かつ B=5 = C=5 ✓ → 両方OK</td>
+          </tr>
+          <tr>
+            <td>1 3 7</td>
+            <td class="correct">No</td>
+            <td class="note">B=3 ≠ C=7 → 条件②が成立しない</td>
+          </tr>
+          <tr>
+            <td>6 6 6</td>
+            <td class="correct">No</td>
+            <td class="note">A=6 = B=6 → 条件①が成立しない</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- #approach -->
+    <section id="approach">
+      <span class="sec-label">考え方</span>
+      <h2 class="sec-title">2つの条件を順番に確認する</h2>
+      <p class="sec-sub">「かつ」は両方OKで初めてYes — どちらか1つでも×ならNo</p>
+
+      <!-- SVG: スライド03から完全コピー -->
+      <div class="svg-wrap">
+        <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+          <!--
+            box[i].x: A=18, B=222, C=426  (w=96, gap=108, 送り幅=204)
+            box centers: A=66, B=270, C=474
+          -->
+
+          <!-- Number tiles -->
+          <rect x="18" y="20" width="96" height="96" rx="14" fill="white" stroke="#dde2ec" stroke-width="2"/>
+          <text x="66" y="84" text-anchor="middle" font-size="46" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">4</text>
+
+          <rect x="222" y="20" width="96" height="96" rx="14" fill="white" stroke="#dde2ec" stroke-width="2"/>
+          <text x="270" y="84" text-anchor="middle" font-size="46" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">5</text>
+
+          <rect x="426" y="20" width="96" height="96" rx="14" fill="white" stroke="#dde2ec" stroke-width="2"/>
+          <text x="474" y="84" text-anchor="middle" font-size="46" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">5</text>
+
+          <!-- Variable labels below tiles -->
+          <text x="66" y="136" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">A</text>
+          <text x="270" y="136" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">B</text>
+          <text x="474" y="136" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">C</text>
+
+          <!-- Connector lines at mid-tile height y=68 -->
+          <line x1="118" y1="68" x2="218" y2="68" stroke="#dde2ec" stroke-width="2"/>
+          <line x1="322" y1="68" x2="422" y2="68" stroke="#dde2ec" stroke-width="2"/>
+
+          <!-- Condition symbols above lines -->
+          <text x="168" y="55" text-anchor="middle" font-size="22" font-weight="900" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">≠</text>
+          <text x="372" y="55" text-anchor="middle" font-size="22" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">=</text>
+
+          <!-- Condition boxes -->
+          <rect x="18" y="152" width="237" height="62" rx="10" fill="rgba(201,22,46,.07)" stroke="rgba(201,22,46,.3)" stroke-width="1.5"/>
+          <text x="136" y="172" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">条件①</text>
+          <text x="136" y="198" text-anchor="middle" font-size="14" font-weight="900" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">A ≠ B（違う）✓</text>
+
+          <text x="270" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">かつ</text>
+
+          <rect x="285" y="152" width="237" height="62" rx="10" fill="rgba(0,143,106,.07)" stroke="rgba(0,143,106,.3)" stroke-width="1.5"/>
+          <text x="403" y="172" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">条件②</text>
+          <text x="403" y="198" text-anchor="middle" font-size="14" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">B = C（同じ）✓</text>
+
+          <!-- Arrow down -->
+          <line x1="270" y1="220" x2="270" y2="255" stroke="#5e6a8a" stroke-width="2"/>
+          <polygon points="263,252 277,252 270,263" fill="#5e6a8a"/>
+
+          <!-- Result box -->
+          <rect x="145" y="265" width="250" height="52" rx="12" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2"/>
+          <text x="270" y="285" text-anchor="middle" font-size="12" fill="#008f6a" font-weight="700" font-family="'Noto Sans JP',sans-serif">入力例 4 5 5:</text>
+          <text x="270" y="305" text-anchor="middle" font-size="17" fill="#008f6a" font-weight="900" font-family="'Noto Sans JP',sans-serif">両方OK → Yes ✓</text>
+        </svg>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ Yesになる条件</div>
+        <ul class="box-list">
+          <li>A ≠ B（AとBが違う）</li>
+          <li>B = C（BとCが同じ）</li>
+          <li>上記の<strong>両方</strong>が同時に成立しているとき</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ Noになる例</div>
+        <ul class="box-list">
+          <li><code style="font-family:monospace;font-size:.88rem">1 3 7</code> → B=3 ≠ C=7 なので条件②がNG</li>
+          <li><code style="font-family:monospace;font-size:.88rem">6 6 6</code> → A=6 = B=6 なので条件①がNG</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- #code -->
+    <section id="code">
+      <span class="sec-label">コード</span>
+      <h2 class="sec-title">Python 5行で完成</h2>
+      <p class="sec-sub">考え方がそのままコードに変わる — if と and だけで解ける</p>
+
+      <div class="ac-code-block">
+        <div class="ac-code-header">
+          <span class="ac-filename">abc455_a.py</span>
+          <span class="ac-badge">✅ AC 確認済み</span>
+          <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        <pre><code class="language-python">A, B, C = map(int, input().split())
+if A != B and B == C:
+    print("Yes")
+else:
+    print("No")</code></pre>
+      </div>
+
+      <div class="line-cards">
+        <div class="line-card">
+          <h4>1行目 — 入力の受け取り</h4>
+          <p><code>input().split()</code> で1行を空白で分割し、<code>map(int, ...)</code> でそれぞれを整数に変換。A・B・C に代入する。AtCoder でほぼ毎回使う定型文。</p>
+        </div>
+        <div class="line-card">
+          <h4>2行目 — 条件チェック（かつ）</h4>
+          <p><code>A != B</code> は「AとBが違うか？」、<code>B == C</code> は「BとCが等しいか？」を確認。<code>and</code> で「両方OKか？」を一度に判定する。</p>
+        </div>
+        <div class="line-card">
+          <h4>3〜5行目 — 結果の出力</h4>
+          <p>条件が成立していれば <code>"Yes"</code>、どちらかが成立しなければ <code>"No"</code> を出力する。</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ キーワード確認</div>
+        <ul class="box-list">
+          <li><code style="font-family:monospace">!=</code> → 「等しくない」(not equal)</li>
+          <li><code style="font-family:monospace">==</code> → 「等しい」(equal equal、代入の = と混同注意)</li>
+          <li><code style="font-family:monospace">and</code> → 「かつ」(両方が True のとき True)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- #glossary -->
+    <section id="glossary">
+      <span class="sec-label" style="background:rgba(26,150,192,.12);color:var(--blue);font-weight:700">GLOSSARY</span>
+      <h2 class="sec-title">用語解説</h2>
+      <p class="sec-sub">このスライドで登場した用語の読み方と概要</p>
+
+      <div class="glossary-grid">
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">標準入力</span>
+            <span class="term-reading">ひょうじゅんにゅうりょく</span>
+          </div>
+          <p class="term-desc">キーボードからプログラムにデータを送る仕組み。AtCoderの問題では、テストケースがここから自動で流し込まれる。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">input()</span>
+            <span class="term-reading">インプット</span>
+          </div>
+          <p class="term-desc">標準入力から1行を文字列として読み込む Python の組み込み関数。AtCoderでは毎回使う基本の命令。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python ドキュメント: input 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">map()</span>
+            <span class="term-reading">マップ</span>
+          </div>
+          <p class="term-desc">リストの各要素に同じ変換を適用する関数。「全員を一括で整数に変換」するイメージ。<code>map(int, ...)</code> はよく使う定型文。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python ドキュメント: map 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">int()</span>
+            <span class="term-reading">イント</span>
+          </div>
+          <p class="term-desc">文字列 "5" を整数 5 に変換する関数。input() が返すのは文字列なので、計算前に必ず変換が必要。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#int" target="_blank">Python ドキュメント: int 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">条件分岐</span>
+            <span class="term-reading">じょうけんぶんき</span>
+          </div>
+          <p class="term-desc">条件（True/False）に応じて処理を切り替える仕組み。Pythonでは <code>if / else</code> で書く。日常でいう「もし〜なら〜、そうでなければ〜」。</p>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">AtCoder</span>
+            <span class="term-reading">アットコーダー</span>
+          </div>
+          <p class="term-desc">日本発の競技プログラミングプラットフォーム。世界中のプログラマーが参加するコンテストを毎週開催。初心者向けの ABC が入門に最適。</p>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+
+// サイドバー: IntersectionObserver でアクティブセクションを検出
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-list a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

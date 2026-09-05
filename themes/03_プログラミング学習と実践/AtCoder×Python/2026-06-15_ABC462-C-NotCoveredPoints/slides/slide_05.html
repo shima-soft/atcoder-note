@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem 1.2rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  font-size: .88rem;
+  line-height: 1.7;
+  overflow: hidden;
+}
+.info-col {
+  gap: .55rem;
+}
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .55rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .25rem;
+}
+.line-explain p {
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .78rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">Python 11行で完成</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>ソートしてから1回の走査で判定 — シンプルな貪欲法</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <div class="code-label">PYTHON</div>
+      <pre><code class="language-python">import sys
+
+N = int(sys.stdin.readline())
+points = []
+for _ in range(N):
+    x, y = map(int, sys.stdin.readline().split())
+    points.append((x, y))
+
+points.sort()
+
+ans = 0
+minY = float('inf')
+for x, y in points:
+    if y <= minY:
+        ans += 1
+    minY = min(minY, y)
+
+print(ans)</code></pre>
+    </div>
+
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜6行目 — 入力の受け取り</h4>
+        <p><code>sys.stdin.readline()</code> で高速に入力読み込み。
+           N個のポイントを <code>(x, y)</code> のタプルとしてリストに格納する。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>8行目 — X座標でソート</h4>
+        <p><code>points.sort()</code> でX座標の昇順にソート。
+           タプルのsortは最初の要素（X）で比較される。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>10〜14行目 — 最小Yを追跡しながら走査</h4>
+        <p><code>minY</code> は「今まで見た点の最小Y」。
+           現在の <code>y ≤ minY</code> なら、左側に自分よりYが小さい点は存在しない → カウント。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>15行目 — 結果の出力</h4>
+        <p>条件を満たす点の数 <code>ans</code> を出力する。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ キーワード確認</div>
+        <ul class="box-list">
+          <li><code style="font-size:.76rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">.sort()</code> → リストをソート（デフォルトは昇順）</li>
+          <li><code style="font-size:.76rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">float('inf')</code> → 無限大（初期値として使用）</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

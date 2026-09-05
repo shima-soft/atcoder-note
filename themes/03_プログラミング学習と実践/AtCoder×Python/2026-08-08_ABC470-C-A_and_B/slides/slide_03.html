@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABC470 C - A and B 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <style>
+    pre code.hljs { background: transparent !important; padding: 0 !important; }
+  </style>
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">失敗アプローチ</span>
+      <h2 class="slide-title">なぜ単純な方法では間に合わないか</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>クエリの数が多いとき、毎回全部計算し直すと時間が足りなくなる</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <svg width="1280" height="720" viewBox="0 0 1280 720">
+          <rect x="50" y="200" width="400" height="300" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="2" />
+          <text x="250" y="150" text-anchor="middle" font-weight="bold">愚直な計算</text>
+          <path d="M 450 350 L 600 350" stroke="var(--red)" stroke-width="4" fill="none" marker-end="url(#arrow)" />
+          <rect x="650" y="200" width="400" height="300" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="2" />
+          <text x="850" y="150" text-anchor="middle" font-weight="bold">毎クエリで再計算</text>
+          <text x="850" y="360" text-anchor="middle" fill="var(--red)">計算量：O(Q × ビット数)</text>
+          
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3.5" orient="auto">
+              <path d="M0,0 L0,10 L10,5 Z" fill="var(--red)" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <h4 style="margin:0">❌ 失敗のポイント</h4>
+          <p>クエリごとに「現在の値」をすべて計算し直している</p>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 時間切れ (TLE)</div>
+          <ul class="box-list">
+            <li>$Q = 10^5$ 回の処理</li>
+            <li>1回ごとにビットを全部走査</li>
+            <li>計算回数が多すぎて制限時間を超える</li>
+          </ul>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 解決への気づき</div>
+          <ul class="box-list">
+            <li>「前回の結果」をどう活かすか？</li>
+            <li>ビットをバラバラに管理できないか？</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

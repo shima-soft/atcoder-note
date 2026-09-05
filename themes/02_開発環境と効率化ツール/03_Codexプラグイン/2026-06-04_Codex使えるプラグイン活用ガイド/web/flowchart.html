@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使えるCodexプラグイン選択フロー</title>
+<style>
+:root { --bg:#f9fafb; --card:#fff; --surface:#eff1f7; --border:#dde2ec; --text:#1a1d2e; --muted:#5e6a8a; --blue:#1a96c0; --green:#008f6a; --orange:#d96018; --purple:#7a3bce; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; background:var(--bg); color:var(--text); padding:2rem 1rem; line-height:1.7; }
+main { max-width:820px; margin:0 auto; }
+h1 { font-size:1.8rem; font-weight:900; margin-bottom:.4rem; }
+.sub { color:var(--muted); margin-bottom:1.5rem; }
+.panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1rem; margin-bottom:1rem; }
+.q { font-weight:900; margin-bottom:.7rem; }
+.choices { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+button { border:1px solid var(--border); background:var(--surface); border-radius:8px; padding:.7rem .8rem; font-size:.9rem; cursor:pointer; color:var(--text); text-align:left; }
+button:hover { border-color:var(--blue); background:#eaf7fc; }
+.result { display:none; border-left:4px solid var(--blue); }
+.result.show { display:block; }
+.result h2 { font-size:1.25rem; color:var(--blue); margin-bottom:.35rem; }
+.back { display:inline-block; margin-top:1rem; color:var(--blue); text-decoration:none; }
+@media (max-width:640px) { .choices { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>使えるCodexプラグイン選択フロー</h1>
+  <p class="sub">目的から、どのプラグインを頼むとよいかを選びます。</p>
+  <section class="panel" id="q1">
+    <div class="q">Q1. 作りたい成果物はありますか？</div>
+    <div class="choices">
+      <button onclick="next('qDoc')">はい。文書・表・スライドを作りたい</button>
+      <button onclick="next('q2')">いいえ。確認や外部情報が中心</button>
+    </div>
+  </section>
+  <section class="panel" id="qDoc" style="display:none">
+    <div class="q">Q2. 成果物の形は？</div>
+    <div class="choices">
+      <button onclick="show('documents')">文書や報告書</button>
+      <button onclick="show('presentations')">スライド資料</button>
+      <button onclick="show('spreadsheets')">表・Excel・CSV</button>
+      <button onclick="show('bundle')">複数を組み合わせたい</button>
+    </div>
+  </section>
+  <section class="panel" id="q2" style="display:none">
+    <div class="q">Q2. 画面確認ですか、外部サービスですか？</div>
+    <div class="choices">
+      <button onclick="show('browser')">Web画面を確認したい</button>
+      <button onclick="show('connectors')">Gmail・Drive・Slackを使いたい</button>
+      <button onclick="show('security')">コードの安全確認をしたい</button>
+      <button onclick="show('sites')">Webサイトを公開したい</button>
+    </div>
+  </section>
+  <section class="panel result" id="documents"><h2>おすすめ: Documents</h2><p>報告書、議事録、マニュアル、赤入れに向いています。完成形式と読者を伝えましょう。</p></section>
+  <section class="panel result" id="presentations"><h2>おすすめ: Presentations</h2><p>PowerPointや研修資料に向いています。枚数、用途、話す相手を指定しましょう。</p></section>
+  <section class="panel result" id="spreadsheets"><h2>おすすめ: Spreadsheets</h2><p>Excel、CSV、集計、グラフに向いています。列の意味と欲しい分析を伝えましょう。</p></section>
+  <section class="panel result" id="bundle"><h2>おすすめ: 複数プラグイン</h2><p>CSVをSpreadsheetsで分析し、Presentationsで資料化するなど、成果物の順番を指定しましょう。</p></section>
+  <section class="panel result" id="browser"><h2>おすすめ: Browser</h2><p>localhostやfileページの表示確認、クリック操作、スクリーンショットに向いています。</p></section>
+  <section class="panel result" id="connectors"><h2>おすすめ: Gmail / Drive / Slack</h2><p>外部情報の要約や下書きに向いています。読む範囲と認証アカウントを確認しましょう。</p></section>
+  <section class="panel result" id="security"><h2>おすすめ: Codex Security</h2><p>認可されたリポジトリや差分のセキュリティレビューに向いています。最初は読み取り中心で頼みましょう。</p></section>
+  <section class="panel result" id="sites"><h2>おすすめ: Sites</h2><p>Webサイトやアプリの保存・公開に向いています。まず保存してレビューし、アクセス範囲を決めてから公開しましょう。</p></section>
+  <a class="back" href="index.html">Web版へ戻る</a>
+</main>
+<script>
+function next(id) {
+  document.getElementById(id).style.display = 'block';
+  document.getElementById(id).scrollIntoView({ behavior:'smooth', block:'start' });
+}
+function show(id) {
+  document.querySelectorAll('.result').forEach(el => el.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  document.getElementById(id).scrollIntoView({ behavior:'smooth', block:'start' });
+}
+</script>
+</body>
+</html>

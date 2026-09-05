@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.ov-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .85rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .4rem;
+  position: relative;
+  overflow: hidden;
+}
+.ov-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  border-radius: 14px 0 0 14px;
+}
+.ov-card.c-main::before { background: var(--blue); }
+.ov-card.c-sub::before  { background: var(--muted); }
+.ov-head { display: flex; align-items: center; gap: .5rem; }
+.ov-icon { font-size: 1.35rem; line-height: 1; }
+.ov-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.ov-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  width: fit-content;
+}
+.c-main .ov-badge { background: rgba(26,150,192,.12); color: var(--blue); }
+.c-sub  .ov-badge { background: rgba(94,106,138,.12); color: var(--muted); }
+.ov-list { list-style: none; display: flex; flex-direction: column; gap: .1rem; }
+.ov-list li {
+  font-size: .8rem;
+  color: var(--text);
+  padding-left: .75rem;
+  position: relative;
+  line-height: 1.55;
+}
+.ov-list li::before { content: '•'; position: absolute; left: 0; color: var(--muted); }
+.ov-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+.ov-highlight { font-size: .78rem; font-weight: 700; margin-top: .1rem; }
+.c-main .ov-highlight { color: var(--blue); }
+.c-sub  .ov-highlight { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">PLACE</span>
+    <h2 class="slide-title">ルールを1枚に集めない</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>毎回読ませる紙は薄く保つ。細かい寸法や計算式は、必要な作業のときだけ開かせる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="overview-grid">
+      <div class="ov-card c-main">
+        <div class="ov-head">
+          <span class="ov-icon">📌</span>
+          <span class="ov-title">指示書に残すもの</span>
+        </div>
+        <span class="ov-badge">毎回かならず読まれる</span>
+        <ul class="ov-list">
+          <li>絶対に外せない禁止事項</li>
+          <li>どの仕様書を、どの作業の前に読むか</li>
+          <li>完成とみなす条件（ツールを通すこと）</li>
+        </ul>
+        <div class="ov-highlight">案内板に徹する。中身までは書かない</div>
+      </div>
+      <div class="ov-card c-sub">
+        <div class="ov-head">
+          <span class="ov-icon">📚</span>
+          <span class="ov-title">仕様書に分けるもの</span>
+        </div>
+        <span class="ov-badge">必要なときだけ読まれる</span>
+        <ul class="ov-list">
+          <li>文字幅の計算式、余白の寸法表</li>
+          <li>図の設計原則、色の使い分け</li>
+          <li>台本の書き方、公開ページの作り方</li>
+        </ul>
+        <div class="ov-highlight">7ファイルに分け、作業ごとに指定して開かせる</div>
+      </div>
+      <div class="ov-card c-sub">
+        <div class="ov-head">
+          <span class="ov-icon">🧠</span>
+          <span class="ov-title">なぜ分けるのか</span>
+        </div>
+        <span class="ov-badge">読める量には限りがある</span>
+        <div class="ov-desc">AI が一度に読める情報量は決まっている。使わないルールまで毎回読ませると、その分だけ本当に効かせたい指示の存在感が薄まる</div>
+        <div class="ov-highlight">全部書く＝全部が同じ重さになる、ということ</div>
+      </div>
+      <div class="ov-card c-sub">
+        <div class="ov-head">
+          <span class="ov-icon">🗂</span>
+          <span class="ov-title">分けたあとの形</span>
+        </div>
+        <span class="ov-badge">実際の構成</span>
+        <div class="ov-desc">指示書には「図を作る前に文字幅の仕様書を読む」「作ったら検証ツールを通す」とだけ書く。寸法の話は仕様書側に置く</div>
+        <div class="ov-highlight">読む順番を決めるのも、指示書の仕事のうち</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

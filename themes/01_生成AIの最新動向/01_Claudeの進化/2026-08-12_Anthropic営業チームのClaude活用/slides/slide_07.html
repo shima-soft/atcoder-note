@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.tool-list { font-size: .78rem; }
+.tool-list li { margin-bottom: .05rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">STEP 4 — アウトバウンド</span>
+    <h2 class="slide-title">夜のうちに、100社ぶんの下調べが終わっている</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>寝ている間に全担当先を調べ、朝には「要約・点数・次の打ち手」が並んでいる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左（道具・脇役）: x=20 w=124 (right=144) / y = 74 + i*56 → 74,130,186,242,298
+          中央（Claude）  : x=172 w=116 (right=288)
+          右（主役・青）  : x=322 w=166 (right=488)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">夜のうちに、100社ぶんの下調べが終わる</text>
+
+          <!-- 左: つないだ道具（脇役） -->
+          <text x="82" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">つないだ道具</text>
+          <rect x="20" y="74" width="124" height="46" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="82" y="101" text-anchor="middle" font-size="12" fill="#5e6a8a">Salesforce</text>
+          <rect x="20" y="130" width="124" height="46" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="82" y="157" text-anchor="middle" font-size="12" fill="#5e6a8a">Apollo</text>
+          <rect x="20" y="186" width="124" height="46" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="82" y="213" text-anchor="middle" font-size="12" fill="#5e6a8a">Common Room</text>
+          <rect x="20" y="242" width="124" height="46" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="82" y="269" text-anchor="middle" font-size="12" fill="#5e6a8a">Gong</text>
+          <rect x="20" y="298" width="124" height="46" rx="8" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="82" y="325" text-anchor="middle" font-size="12" fill="#5e6a8a">社内のデータ</text>
+
+          <polygon points="152,201 166,209 152,217" fill="#5e6a8a"/>
+
+          <!-- 中央: Claude（脇役） -->
+          <rect x="172" y="166" width="116" height="86" rx="9" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="230" y="196" text-anchor="middle" font-size="12" fill="#5e6a8a">🌙 夜のあいだ</text>
+          <text x="230" y="213" text-anchor="middle" font-size="12" fill="#5e6a8a">1社ずつ調べて</text>
+          <text x="230" y="230" text-anchor="middle" font-size="12" fill="#5e6a8a">点数をつける</text>
+
+          <polygon points="298,201 312,209 298,217" fill="#1a96c0"/>
+
+          <!-- 右: 朝の一覧（主役） -->
+          <rect x="322" y="110" width="166" height="200" rx="12" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="405" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">朝いちばんの一覧</text>
+          <text x="338" y="176" font-size="12" fill="#1a1d2e">① 会社ごとの要約</text>
+          <text x="338" y="206" font-size="12" fill="#1a1d2e">② 見込みの点数</text>
+          <text x="338" y="236" font-size="12" fill="#1a1d2e">③ 次にとる打ち手</text>
+          <text x="405" y="268" text-anchor="middle" font-size="11" fill="#5e6a8a">重複しないよう履歴を記録</text>
+          <text x="405" y="292" text-anchor="middle" font-size="11" fill="#1a96c0">感想を返すほど精度が上がる</text>
+
+          <text x="250" y="378" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">同時に100社以上を持っていても、朝には全社ぶんそろっている</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 つないでいる道具</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>Salesforce＝顧客管理台帳、Apollo＝企業と担当者の名簿</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>Common Room＝関心の兆しを集める道具、Gong＝商談の録音記録</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>社内のデータ置き場＝各社が実際にどう使っているかの数字</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 判断の物差しも渡している</div>
+          <ul class="box-list">
+            <li>「どういう会社が自社に合うか」の基準を書いて渡し、それに照らして点数を付けさせる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 調べただけでは終わらせない</div>
+          <ul class="box-list">
+            <li>結果に感想を返して仕組みに書き戻す。使うほど的中率が上がる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

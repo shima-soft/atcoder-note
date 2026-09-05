@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 52%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .8rem;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード①</span>
+    <h2 class="slide-title">入力処理 + reach表の構築（12行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>reach[idx+1] をコピーしてから伝播させるだけで、「作れるか」の表が埋まる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — 入力 + reach表構築</div>
+      <pre><code class="language-python">import sys
+input = sys.stdin.readline
+
+N, K = map(int, input().split())
+
+reach = [[False] * (K + 1) for _ in range(N + 2)]
+reach[N + 1][0] = True
+for idx in range(N, 0, -1):
+    reach[idx] = reach[idx + 1][:]
+    for r in range(idx, K + 1):
+        if reach[idx][r - idx]:
+            reach[idx][r] = True</code></pre>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 コードの流れ</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><code>reach[N+1][0]=True</code>（何も使わずrem=0だけ作れる、が出発点）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p><code>reach[idx]</code> は1つ大きい <code>reach[idx+1]</code> をコピーして作る</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>remをidxから順に増やし、<code>reach[idx][r-idx]</code>が○なら<code>reach[idx][r]</code>も○にする</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ Python の実行可能上限の目安</div>
+        <ul class="box-list">
+          <li>全体の計算量は O(N × K)</li>
+          <li>N≤10, K≤2×10⁵ → 最大でも約2×10⁶回のループ</li>
+          <li>O(N)の目安（N≤10⁷）にも収まる規模で、Pythonでも十分間に合う</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

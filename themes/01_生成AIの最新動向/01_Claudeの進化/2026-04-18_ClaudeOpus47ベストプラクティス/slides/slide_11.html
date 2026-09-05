@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">BIZ USE CASE</span>
+    <h2 class="slide-title">営業・事務職での活用シナリオ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>プログラミングスキル不要。Claude Codeは「繰り返し仕事を代わりにやってくれるAI助手」として使える</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <!-- SVG図 -->
+      <div class="diagram-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><rect x="12.6" y="14.7" width="562" height="90" rx="12" fill="rgba(217,96,24,.05)" stroke="#d96018" stroke-width="1.2"></rect><line x1="248.3" y1="68" x2="292.4" y2="68" stroke="#d96018" stroke-width="1.6" marker-end="url(#arrowO)"></line><line x1="247.7" y1="276" x2="293.6" y2="276" stroke="#1a96c0" stroke-width="1.6"></line>
+          <defs>
+            <marker id="arrowO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#d96018"></path>
+            </marker>
+          </defs>
+
+          <!-- 3つの活用シナリオ (縦積み) -->
+
+          <!-- シナリオ1: 営業 - 提案書作成 -->
+          
+          <text x="30" y="36" font-size="10" font-weight="700" fill="#d96018">💼 営業職: 提案書自動生成</text>
+          <!-- 人アイコン -->
+          <rect x="22" y="44" width="80" height="48" rx="8" fill="rgba(217,96,24,.1)" stroke="#d96018" stroke-width="1"></rect>
+          <text x="62" y="64" text-anchor="middle" font-size="10" fill="#d96018" font-weight="700">👔 営業</text>
+          <text x="62" y="78" text-anchor="middle" font-size="8.5" fill="#5e6a8a">「A社向け</text>
+          <text x="62" y="88" text-anchor="middle" font-size="8.5" fill="#5e6a8a">提案書を」</text>
+
+          <line x1="102" y1="68" x2="146.7" y2="68" stroke="#d96018" stroke-width="1.6" marker-end="url(#arrowO)"></line>
+
+          <rect x="150" y="44" width="100" height="48" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1"></rect>
+          <text x="201" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="201" y="75" text-anchor="middle" font-size="8.5" fill="#5e6a8a">過去データ参照</text>
+          <text x="201" y="85" text-anchor="middle" font-size="8.5" fill="#5e6a8a">構成→執筆→整形</text>
+
+          
+
+          <rect x="297" y="44" width="268" height="48" rx="8" fill="rgba(217,96,24,.1)" stroke="#d96018" stroke-width="1"></rect>
+          <text x="431" y="60" text-anchor="middle" font-size="10" font-weight="700" fill="#d96018">✅ PPT提案書（完成）</text>
+          <text x="380" y="74" text-anchor="middle" font-size="8.5" fill="#5e6a8a">エグゼクティブサマリー付き</text>
+          <text x="515" y="74" text-anchor="middle" font-size="8.5" fill="#5e6a8a">提案価格・競合比較なし</text>
+          <text x="431" y="86" text-anchor="middle" font-size="8.5" fill="#5e6a8a">「競合言及は除く」の指示通り</text>
+
+          <!-- シナリオ2: 事務 - データ整理 -->
+          <rect x="14" y="116.4" width="562" height="90" rx="12" fill="rgba(0,143,106,.05)" stroke="#008f6a" stroke-width="1.2"></rect>
+          <text x="30" y="140" font-size="10" font-weight="700" fill="#008f6a">📊 事務職: データ集計・レポート化</text>
+
+          <rect x="22" y="148" width="80" height="48" rx="8" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1"></rect>
+          <text x="62" y="168" text-anchor="middle" font-size="10" fill="#008f6a" font-weight="700">📋 事務</text>
+          <text x="62" y="182" text-anchor="middle" font-size="8.5" fill="#5e6a8a">「月次CSVを</text>
+          <text x="62" y="192" text-anchor="middle" font-size="8.5" fill="#5e6a8a">グラフに」</text>
+
+          <line x1="102" y1="172" x2="145.7" y2="172" stroke="#008f6a" stroke-width="1.6"></line>
+          <polygon points="136,168 136,176 143,172" fill="#008f6a" transform="translate(7,0)"></polygon>
+
+          <rect x="150" y="148" width="100" height="48" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1"></rect>
+          <text x="201" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="201" y="179" text-anchor="middle" font-size="8.5" fill="#5e6a8a">CSV読込→集計</text>
+          <text x="201" y="189" text-anchor="middle" font-size="8.5" fill="#5e6a8a">グラフ生成</text>
+
+          <line x1="251.4" y1="172" x2="294.2" y2="172" stroke="#008f6a" stroke-width="1.6"></line>
+          <polygon points="294,168 294,176 301,172" fill="#008f6a" transform="translate(-5,0)"></polygon>
+
+          <rect x="297" y="148" width="268" height="48" rx="8" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="1"></rect>
+          <text x="431" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">✅ 前月比グラフ付きレポート</text>
+          <text x="380" y="178" text-anchor="middle" font-size="8.5" fill="#5e6a8a">A4 2ページ、Excel出力</text>
+          <text x="515" y="178" text-anchor="middle" font-size="8.5" fill="#5e6a8a">担当者確認5分で完了</text>
+          <text x="431" y="191" text-anchor="middle" font-size="8.5" fill="#5e6a8a">毎月の定型作業を90%削減</text>
+
+          <!-- シナリオ3: 管理職 - 週報分析 -->
+          <rect x="14" y="222" width="562" height="90" rx="12" fill="rgba(26,150,192,.05)" stroke="#1a96c0" stroke-width="1.2"></rect>
+          <text x="30" y="244" font-size="10" font-weight="700" fill="#1a96c0">🏢 管理職: 週報まとめ・アクション抽出</text>
+
+          <rect x="22" y="252" width="80" height="48" rx="8" fill="rgba(26,150,192,.1)" stroke="#1a96c0" stroke-width="1"></rect>
+          <text x="62" y="272" text-anchor="middle" font-size="10" fill="#1a96c0" font-weight="700">👔 管理職</text>
+          <text x="62" y="286" text-anchor="middle" font-size="8.5" fill="#5e6a8a">「チームの週報</text>
+          <text x="62" y="296" text-anchor="middle" font-size="8.5" fill="#5e6a8a">を分析して」</text>
+
+          <line x1="102" y1="276" x2="140.4" y2="276" stroke="#1a96c0" stroke-width="1.6"></line>
+          <polygon points="136,272 136,280 143,276" fill="#1a96c0" transform="translate(5,0)"></polygon>
+
+          <rect x="150" y="252" width="100" height="48" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1"></rect>
+          <text x="201" y="270" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="201" y="283" text-anchor="middle" font-size="8.5" fill="#5e6a8a">読込→パターン抽出</text>
+          <text x="201" y="293" text-anchor="middle" font-size="8.5" fill="#5e6a8a">→アクション提案</text>
+
+          
+          <polygon points="294,272 294,280 301,276" fill="#1a96c0" transform="translate(-5,0)"></polygon>
+
+          <rect x="297" y="252" width="268" height="48" rx="8" fill="rgba(26,150,192,.1)" stroke="#1a96c0" stroke-width="1"></rect>
+          <text x="431" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">✅ 課題サマリー＋要対応リスト</text>
+          <text x="380" y="282" text-anchor="middle" font-size="8.5" fill="#5e6a8a">リスク案件を自動フラグ</text>
+          <text x="515" y="282" text-anchor="middle" font-size="8.5" fill="#5e6a8a">次週アクション3点提示</text>
+          <text x="431" y="295" text-anchor="middle" font-size="8.5" fill="#5e6a8a">週次ミーティング準備時間を70%削減</text>
+
+          <!-- 共通メッセージ -->
+          <rect x="14" y="330" width="562" height="22" rx="8" fill="rgba(217,96,24,.06)" stroke="#d96018" stroke-width="1"></rect>
+          <text x="295" y="345" text-anchor="middle" font-size="12" fill="#d96018" font-weight="600">すべて「包括的な指示 + xhigh + Auto mode」の3点セットで実現。プログラミング知識は不要。</text>
+        </svg>
+      </div>
+
+      <!-- 右カラム -->
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">💼 始め方 3ステップ</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--orange)">1</span>
+            <p>「毎月やっているルーティン作業」をひとつ選ぶ</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--orange)">2</span>
+            <p>「何を・どのレベルまで・何をしないか」を書き出す</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--orange)">3</span>
+            <p>effort: xhigh + Auto mode でClaudeに任せる</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 向いているタスク</div>
+          <ul class="box-list">
+            <li>繰り返し発生する定型業務</li>
+            <li>決まったフォーマットへの変換・整形</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意が必要なタスク</div>
+          <ul class="box-list">
+            <li>機密情報・個人情報を含む処理</li>
+            <li>法的・財務的に重要な最終判断</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

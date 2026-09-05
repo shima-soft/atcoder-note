@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>先読み役を雇う投機的デコーディング</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">既存技術</span>
+    <h2 class="slide-title">先読み役を雇う「投機的デコーディング」</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>小さな「下書き役」が候補を先に書き、本番AIが一括チェックする高速化の定番手法</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="投機的デコーディングの仕組みと既存手法の限界">
+        <!--
+          box: w=100,h=48, gap=20, 送り幅=120
+          box[i].x = 60 + i*120
+        -->
+        <text x="34" y="24" font-size="13" font-weight="900" fill="#5e6a8a">① 下書き役（ドラフトモデル）が候補を考える</text>
+
+        <rect x="60" y="36" width="100" height="48" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="110" y="65" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">候補1</text>
+        <path d="M160 60 L178 60" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="184,60 174,55 174,65" fill="#5e6a8a"/>
+        <text x="169" y="48" text-anchor="middle" font-size="10" fill="#5e6a8a">計算</text>
+
+        <rect x="180" y="36" width="100" height="48" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="230" y="65" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">候補2</text>
+        <path d="M280 60 L298 60" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="304,60 294,55 294,65" fill="#5e6a8a"/>
+        <rect x="273" y="36" width="32" height="22" fill="none"/>
+        <text x="289" y="48" text-anchor="middle" font-size="10" fill="#5e6a8a">計算</text>
+
+        <rect x="300" y="36" width="100" height="48" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="350" y="65" text-anchor="middle" font-size="14" font-weight="900" fill="#ffffff">候補3</text>
+
+        <rect x="20" y="30" width="580" height="78" rx="14" fill="none" stroke="#c9b3ec" stroke-dasharray="4 3"/>
+        <text x="580" y="96" text-anchor="end" font-size="11" fill="#7a3bce" font-weight="700">3語 → GPU処理3回（逐次）</text>
+
+        <path d="M310 114 L310 132" stroke="#5e6a8a" stroke-width="2" fill="none"/>
+        <polygon points="310,138 305,128 315,128" fill="#5e6a8a"/>
+        <text x="330" y="130" font-size="11" fill="#5e6a8a">まとめて提出</text>
+
+        <text x="34" y="158" font-size="13" font-weight="900" fill="#5e6a8a">② 本番モデル（ターゲット）が一括チェック</text>
+        <rect x="20" y="168" width="580" height="80" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="60" y="186" width="100" height="44" rx="10" fill="#eafaf2" stroke="#008f6a"/>
+        <text x="110" y="213" text-anchor="middle" font-size="16" fill="#008f6a">候補1 ○</text>
+        <rect x="180" y="186" width="100" height="44" rx="10" fill="#eafaf2" stroke="#008f6a"/>
+        <text x="230" y="213" text-anchor="middle" font-size="16" fill="#008f6a">候補2 ○</text>
+        <rect x="300" y="186" width="100" height="44" rx="10" fill="#fdecee" stroke="#c9162e"/>
+        <text x="350" y="213" text-anchor="middle" font-size="16" fill="#c9162e">候補3 ×</text>
+        <text x="500" y="196" text-anchor="middle" font-size="11" fill="#5e6a8a">GPU処理1回で</text>
+        <text x="500" y="213" text-anchor="middle" font-size="11" fill="#5e6a8a">まとめて判定</text>
+        <text x="500" y="230" text-anchor="middle" font-size="11" fill="#7a3bce">（読み出しは1回）</text>
+
+        <rect x="20" y="270" width="580" height="140" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="304" text-anchor="middle" font-size="14" font-weight="900" fill="#1a1d2e">既存手法（EAGLE-3など）の弱点</text>
+        <text x="310" y="334" text-anchor="middle" font-size="13" fill="#1a1d2e">下書き役も、まだ「一文字ずつ」しか書けない</text>
+        <text x="310" y="360" text-anchor="middle" font-size="13" fill="#1a1d2e">候補を増やすほど、下書きのGPU処理回数も増える</text>
+        <text x="310" y="392" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3bce">→ 速度向上は 2〜3倍 が限界</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>部下（下書き役）が候補文を書き、上司（本番AI）がまとめてOKを出す</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>上司のチェックは一括だが、下書き自体は今も1文字ずつ</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>チェックは何語でもGPU処理1回。重みの読み出しが1回で済む</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">課題</div>
+        <ul class="box-list">
+          <li>下書き役も逐次生成のため、速度向上の頭打ちが続く</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

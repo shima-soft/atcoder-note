@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マルチエージェント連携パターン入門 — ep01</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #1a1d2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+}
+.frame-wrap {
+  position: relative;
+  width: min(100vw, calc((100vh - 60px) * 1.7778));
+}
+iframe {
+  width: 1280px;
+  height: 720px;
+  border: none;
+  transform-origin: top left;
+  position: absolute;
+  top: 0; left: 0;
+  border-radius: 8px;
+}
+.nav {
+  display: flex;
+  gap: 1rem;
+  margin-top: .8rem;
+  color: #aaa;
+  font-size: 13px;
+  align-items: center;
+}
+button {
+  background: #2e3250;
+  color: #ddd;
+  border: none;
+  padding: .35rem .9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background .15s;
+}
+button:hover { background: #4a5080; }
+button:disabled { opacity: .35; cursor: default; }
+.slide-dots {
+  display: flex;
+  gap: .3rem;
+  flex-wrap: wrap;
+  max-width: 300px;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #444;
+  cursor: pointer;
+  transition: background .15s;
+}
+.dot.active { background: #d96018; }
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<div class="frame-wrap" id="wrap">
+  <iframe id="slide" src="slides/slide_01.html"></iframe>
+</div>
+<div class="nav">
+  <button id="prev" onclick="go(-1)" disabled>◀ 前へ</button>
+  <div class="slide-dots" id="dots"></div>
+  <span id="info" style="min-width:48px;text-align:center">1 / 13</span>
+  <button id="next" onclick="go(1)">次へ ▶</button>
+</div>
+
+<script>
+let cur = 1;
+const total = 13;
+
+// ドット生成
+const dotsEl = document.getElementById('dots');
+for (let i = 1; i <= total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => jump(i);
+  dotsEl.appendChild(d);
+}
+
+function jump(n) {
+  cur = Math.max(1, Math.min(total, n));
+  document.getElementById('slide').src = `slides/slide_${String(cur).padStart(2,'0')}.html`;
+  document.getElementById('info').textContent = `${cur} / ${total}`;
+  document.getElementById('prev').disabled = cur === 1;
+  document.getElementById('next').disabled = cur === total;
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i+1 === cur));
+}
+
+function go(d) { jump(cur + d); }
+
+function resize() {
+  const wrap = document.getElementById('wrap');
+  const scale = wrap.offsetWidth / 1280;
+  document.getElementById('slide').style.transform = `scale(${scale})`;
+  wrap.style.height = (720 * scale) + 'px';
+}
+
+window.addEventListener('resize', resize);
+resize();
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+</script>
+</body>
+</html>

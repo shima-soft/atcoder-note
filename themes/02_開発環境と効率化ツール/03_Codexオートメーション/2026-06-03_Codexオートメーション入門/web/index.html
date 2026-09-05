@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codexオートメーション入門 | Web版</title>
+<style>
+:root {
+  --bg:#f9fafb; --surface:#eff1f7; --card:#fff; --border:#dde2ec;
+  --text:#1a1d2e; --muted:#5e6a8a; --blue:#1a96c0; --green:#008f6a;
+  --yellow:#a86a00; --red:#c9162e; --header-h:52px; --sidebar-w:220px;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; background:var(--bg); color:var(--text); line-height:1.75; }
+.site-header { position:fixed; top:0; left:0; right:0; height:var(--header-h); background:var(--card); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:1rem; padding:0 1.5rem; z-index:10; }
+.header-ep { background:linear-gradient(135deg,#2ab8e0,#1a96c0); color:#fff; font-size:.68rem; font-weight:800; padding:.15rem .55rem; border-radius:99px; }
+.header-title { font-size:.95rem; font-weight:900; }
+.header-link { margin-left:auto; color:var(--blue); text-decoration:none; border:1px solid var(--blue); border-radius:6px; padding:.2rem .58rem; font-size:.78rem; font-weight:700; }
+.page-layout { display:flex; margin-top:var(--header-h); min-height:calc(100vh - var(--header-h)); }
+.sidebar { width:var(--sidebar-w); position:sticky; top:var(--header-h); height:calc(100vh - var(--header-h)); overflow:auto; background:var(--card); border-right:1px solid var(--border); padding:1rem 0; flex-shrink:0; }
+.nav-label { font-size:.65rem; font-weight:800; color:var(--muted); padding:.5rem 1rem .2rem; }
+.nav-item { display:block; padding:.38rem 1rem; color:var(--muted); text-decoration:none; border-left:3px solid transparent; font-size:.8rem; }
+.nav-item:hover, .nav-item.active { background:var(--surface); color:var(--blue); border-left-color:var(--blue); font-weight:800; }
+.main-content { max-width:860px; margin:0 auto; padding:2rem 2.5rem; flex:1; }
+section { margin-bottom:3.1rem; scroll-margin-top:76px; }
+.label { display:inline-block; border-radius:99px; padding:.12rem .55rem; font-size:.68rem; font-weight:800; background:rgba(26,150,192,.12); color:var(--blue); margin-bottom:.5rem; }
+h1, h2 { line-height:1.25; font-weight:900; margin-bottom:.5rem; }
+h1 { font-size:1.8rem; } h2 { font-size:1.45rem; }
+.lead, .muted { color:var(--muted); }
+.hitokoto { display:flex; align-items:center; gap:.6rem; border-left:3px solid var(--blue); padding-left:.8rem; margin:1rem 0; font-weight:800; }
+.hitokoto span { background:var(--blue); color:#fff; border-radius:99px; padding:.08rem .45rem; font-size:.65rem; white-space:nowrap; }
+.slide-embed { width:100%; aspect-ratio:16/9; border:1px solid var(--border); border-radius:8px; overflow:hidden; background:var(--card); margin:1rem 0; }
+.slide-embed iframe { width:1280px; height:720px; border:0; transform-origin:top left; }
+.card-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin:1rem 0; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:.82rem 1rem; }
+.card strong { display:block; margin-bottom:.25rem; }
+.card p, li { font-size:.9rem; }
+.detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin:1rem 0; }
+.detail { background:var(--card); border:1px solid var(--border); border-left:3px solid var(--blue); border-radius:8px; padding:.8rem 1rem; }
+.detail.green { border-left-color:var(--green); } .detail.yellow { border-left-color:var(--yellow); } .detail.red { border-left-color:var(--red); }
+table { width:100%; border-collapse:collapse; font-size:.88rem; background:var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+th, td { padding:.52rem .7rem; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; }
+th { background:var(--surface); color:var(--muted); font-size:.78rem; }
+.term-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.65rem; }
+.term { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:.65rem .8rem; }
+.term strong { display:block; } .term span { color:var(--muted); font-size:.75rem; }
+.quiz { margin-top:.8rem; }
+.quiz summary { cursor:pointer; background:var(--surface); border-radius:8px; padding:.42rem .7rem; font-weight:800; }
+.quiz p { background:var(--card); border:1px solid var(--border); border-radius:0 0 8px 8px; padding:.55rem .7rem; color:var(--muted); font-size:.88rem; }
+@media (max-width:800px){ .sidebar{display:none}.main-content{padding:1.2rem 1rem}.card-grid,.detail-grid,.term-grid{grid-template-columns:1fr}.header-link{display:none} }
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-ep">ep. 01</span>
+  <span class="header-title">Codexオートメーション入門</span>
+  <a class="header-link" href="flowchart.html">選択フローチャート</a>
+</header>
+<div class="page-layout">
+  <nav class="sidebar">
+    <div class="nav-label">目次</div>
+    <a class="nav-item" href="#overview">概要</a>
+    <a class="nav-item" href="#types">2つのAutomation</a>
+    <a class="nav-item" href="#choice">選び方</a>
+    <a class="nav-item" href="#safety">安全設計</a>
+    <a class="nav-item" href="#quality">品質固定</a>
+    <a class="nav-item" href="#extend">CLI / CI</a>
+    <a class="nav-item" href="#action">導入ステップ</a>
+    <a class="nav-item" href="#glossary">用語解説</a>
+  </nav>
+  <main class="main-content">
+    <section id="overview">
+      <span class="label">OVERVIEW</span>
+      <h1>Codexオートメーションとは？</h1>
+      <p class="lead">人が毎回頼んでいた確認作業を、Codexが決まった間隔で見に行く仕組みです。</p>
+      <div class="hitokoto"><span>一言で</span><p>「頼む」から「定期的に見てもらう」へ。</p></div>
+      <div class="slide-embed"><iframe src="../slides/slide_02.html" title="Codexオートメーションとは"></iframe></div>
+      <div class="card-grid">
+        <div class="card"><strong>予定する</strong><p>日次・週次・カスタムcronなど、決まったタイミングで実行します。</p></div>
+        <div class="card"><strong>確認する</strong><p>PR、ログ、資料、TODO、リンク切れなどをCodexが点検します。</p></div>
+        <div class="card"><strong>報告する</strong><p>発見があればTriageやスレッドに報告し、何もなければ静かに終了します。</p></div>
+      </div>
+    </section>
+    <section id="types">
+      <span class="label">AUTOMATION TYPES</span>
+      <h2>Thread automationとStandalone automation</h2>
+      <div class="slide-embed"><iframe src="../slides/slide_03.html" title="ThreadとStandalone"></iframe></div>
+      <div class="detail-grid">
+        <div class="detail"><strong>Thread automation</strong><p>同じ会話に戻る定期実行。デプロイ見守り、継続レビュー、長い調査に向きます。</p></div>
+        <div class="detail green"><strong>Standalone automation</strong><p>毎回独立した点検。週次PR確認、複数プロジェクトの定期監査に向きます。</p></div>
+      </div>
+      <details class="quiz"><summary>理解度チェック</summary><p>進行中の1件を追うならThread、毎回独立した点検ならStandaloneです。</p></details>
+    </section>
+    <section id="choice">
+      <span class="label">CHOICE GUIDE</span>
+      <h2>どの自動化を選ぶ？</h2>
+      <p class="muted">同じ会話の文脈を残すか、独立実行にするか、CIで動かすかで選びます。</p>
+      <div class="slide-embed"><iframe src="../slides/slide_04.html" title="選択ガイド"></iframe></div>
+      <p><a href="flowchart.html">インタラクティブ版の選択フローチャートを見る</a></p>
+    </section>
+    <section id="safety">
+      <span class="label">SAFETY</span>
+      <h2>無人実行の安全設計</h2>
+      <table>
+        <thead><tr><th>要素</th><th>役割</th><th>最初のおすすめ</th></tr></thead>
+        <tbody>
+          <tr><td>Worktree</td><td>自動化の差分を手元作業から分離</td><td>修正案を作る自動化で使う</td></tr>
+          <tr><td>read-only</td><td>読むだけ。変更はしない</td><td>最初の定期点検</td></tr>
+          <tr><td>workspace-write</td><td>ワークスペース内の編集を許可</td><td>レビュー可能なパッチ作成</td></tr>
+          <tr><td>Rules</td><td>許可する操作を絞る</td><td>繰り返し実行前に整える</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="quality">
+      <span class="label">QUALITY</span>
+      <h2>AGENTS.mdとSkillsで品質を固定する</h2>
+      <div class="slide-embed"><iframe src="../slides/slide_06.html" title="品質固定"></iframe></div>
+      <div class="detail-grid">
+        <div class="detail"><strong>AGENTS.md</strong><p>リポジトリの作業ルール。テスト、レビュー観点、禁止事項を固定します。</p></div>
+        <div class="detail green"><strong>Skills</strong><p>再利用する手順書。月次点検やPR見守りのレシピに向いています。</p></div>
+      </div>
+    </section>
+    <section id="extend">
+      <span class="label">EXTEND</span>
+      <h2>Hooksとcodex exec / GitHub Action</h2>
+      <div class="slide-embed"><iframe src="../slides/slide_07.html" title="CLIとCI"></iframe></div>
+      <div class="card-grid">
+        <div class="card"><strong>Hooks</strong><p>Codexの動作前後に、独自チェックやログ処理を差し込みます。</p></div>
+        <div class="card"><strong>codex exec</strong><p>スクリプトからCodexを非対話で実行します。</p></div>
+        <div class="card"><strong>GitHub Action</strong><p>PRレビューやCI失敗調査にCodexを組み込みます。</p></div>
+      </div>
+    </section>
+    <section id="action">
+      <span class="label">ACTION</span>
+      <h2>明日からの導入3ステップ</h2>
+      <div class="card-grid">
+        <div class="card"><strong>1. 手作業で試す</strong><p>普通のスレッドで作業範囲、報告条件、停止条件を確認します。</p></div>
+        <div class="card"><strong>2. read-onlyで点検</strong><p>最初は読むだけの週次点検から始めます。</p></div>
+        <div class="card"><strong>3. Worktreeで修正案</strong><p>必要になったら、分離した場所でパッチを作ります。</p></div>
+      </div>
+    </section>
+    <section id="glossary">
+      <span class="label">GLOSSARY</span>
+      <h2>用語解説</h2>
+      <div class="term-grid">
+        <div class="term"><strong>Codex</strong><span>コーデックス</span><p>OpenAIのコーディングエージェント。</p></div>
+        <div class="term"><strong>Automation</strong><span>オートメーション</span><p>予定に従ってCodexを実行する仕組み。</p></div>
+        <div class="term"><strong>Triage</strong><span>トリアージ</span><p>自動化結果の受け箱。</p></div>
+        <div class="term"><strong>Worktree</strong><span>ワークツリー</span><p>同じGitリポジトリの別作業場所。</p></div>
+        <div class="term"><strong>Sandbox</strong><span>サンドボックス</span><p>Codexが触れる範囲を制限する箱。</p></div>
+        <div class="term"><strong>AGENTS.md</strong><span>エージェンツ・エムディー</span><p>作業ルールを書くファイル。</p></div>
+        <div class="term"><strong>Skills</strong><span>スキルズ</span><p>再利用できる作業手順。</p></div>
+        <div class="term"><strong>Hooks</strong><span>フックス</span><p>動作前後の独自チェック。</p></div>
+        <div class="term"><strong>codex exec</strong><span>コーデックス・エグゼック</span><p>CLIから非対話でCodexを実行する入口。</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+function scaleSlides() {
+  document.querySelectorAll('.slide-embed').forEach(box => {
+    const iframe = box.querySelector('iframe');
+    const scale = box.clientWidth / 1280;
+    iframe.style.transform = `scale(${scale})`;
+    iframe.style.width = '1280px';
+    iframe.style.height = '720px';
+  });
+}
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(item => item.classList.toggle('active', item.getAttribute('href') === '#' + entry.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(section => observer.observe(section));
+window.addEventListener('resize', scaleSlides);
+window.addEventListener('load', scaleSlides);
+</script>
+</body>
+</html>

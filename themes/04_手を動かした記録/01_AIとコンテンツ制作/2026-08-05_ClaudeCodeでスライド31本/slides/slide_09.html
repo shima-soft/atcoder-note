@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body { flex-direction: column; gap: .55rem; }
+.card-grid { gap: .7rem; }
+.card { padding: 1rem 1.1rem; gap: .5rem; justify-content: center; }
+.card-head { display: flex; align-items: center; gap: .5rem; }
+.card-head .card-icon { font-size: 1.45rem; margin: 0; line-height: 1; }
+.card-title { font-size: .98rem; line-height: 1.3; }
+.card-desc { font-size: .86rem; line-height: 1.75; }
+.card-tag {
+  align-self: flex-start;
+  background: rgba(204,10,106,.1);
+  color: var(--pink);
+  font-size: .7rem;
+  font-weight: 700;
+  padding: .12rem .6rem;
+  border-radius: 99px;
+  margin-top: .15rem;
+}
+.card-ex { font-size: .86rem; color: var(--text); line-height: 1.75; }
+.translate-note {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pink);
+  border-radius: 10px;
+  padding: .45rem .8rem;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">TRANSLATE</span>
+    <h2 class="slide-title">これは、ふつうの仕事でも同じでした</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>プログラミングの話に見えますが、AIに何かを任せるときは、たいてい同じ形になります</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🗂️</span>
+          <span class="card-title">決めごとは文書にする</span>
+        </div>
+        <p class="card-desc">毎回口で説明していることは、たいてい相手に残っていない。</p>
+        <span class="card-tag">営業の例</span>
+        <p class="card-ex">提案書の体裁・使ってよい表現・社名の書き方を1枚にまとめる。新人にもAIにも同じものを渡せる。</p>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">📏</span>
+          <span class="card-title">目視チェックをやめる</span>
+        </div>
+        <p class="card-desc">人は「だいたい合っている」を見抜けない。ズレが小さいほど気づけない。</p>
+        <span class="card-tag">事務の例</span>
+        <p class="card-ex">合計金額や日付の抜けは、目で追わずに表計算の式に判定させる。式が通らなければ出さない。</p>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🔗</span>
+          <span class="card-title">同じ情報を2か所に持たない</span>
+        </div>
+        <p class="card-desc">手で書き写した瞬間から、片方だけが古くなり始める。</p>
+        <span class="card-tag">共通</span>
+        <p class="card-ex">資料の数字とメール本文の数字を別々に管理しない。元になる表を1つ決めて、そこから写して使う。</p>
+      </div>
+    </div>
+    <div class="translate-note">3つとも「自分の頭の中にあるものを、外に出す」という同じ作業でした</div>
+  </div>
+</div>
+</body>
+</html>

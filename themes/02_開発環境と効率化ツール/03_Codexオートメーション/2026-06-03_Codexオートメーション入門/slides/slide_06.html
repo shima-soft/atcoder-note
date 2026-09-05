@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"></head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">QUALITY</span>
+    <h2 class="slide-title">AGENTS.mdとSkillsで品質を固定する</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>自動化の前に「この現場ではどう作業するか」をCodexに覚えさせる</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <svg viewBox="0 0 620 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5e6a8a"/></marker></defs>
+        <rect x="40" y="40" width="170" height="80" rx="14" fill="#eef8fc" stroke="#1a96c0" stroke-width="2"/>
+        <text x="125" y="72" text-anchor="middle" font-size="16" font-weight="900" fill="#1a96c0">AGENTS.md</text>
+        <text x="125" y="96" text-anchor="middle" font-size="12" fill="#5e6a8a">リポジトリの約束</text>
+        <rect x="245" y="40" width="170" height="80" rx="14" fill="#f0faf6" stroke="#008f6a" stroke-width="2"/>
+        <text x="330" y="72" text-anchor="middle" font-size="16" font-weight="900" fill="#008f6a">Skills</text>
+        <text x="330" y="96" text-anchor="middle" font-size="12" fill="#5e6a8a">再利用する手順書</text>
+        <rect x="450" y="40" width="130" height="80" rx="14" fill="#fff8e8" stroke="#a86a00" stroke-width="2"/>
+        <text x="515" y="72" text-anchor="middle" font-size="16" font-weight="900" fill="#a86a00">Prompt</text>
+        <text x="515" y="96" text-anchor="middle" font-size="12" fill="#5e6a8a">今回の依頼</text>
+        <line x1="125" y1="120" x2="246" y2="218" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="330" y1="120" x2="330" y2="205" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arr)"/>
+        <line x1="515" y1="120" x2="414" y2="218" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arr)"/>
+        <rect x="190" y="218" width="260" height="94" rx="16" fill="#fff" stroke="#dde2ec" stroke-width="2"/>
+        <text x="320" y="252" text-anchor="middle" font-size="18" font-weight="900" fill="#1a1d2e">Codex automation</text>
+        <text x="320" y="278" text-anchor="middle" font-size="13" fill="#5e6a8a">毎回ぶれずに同じ品質で実行</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example"><div class="biz-title">使い分け</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">1</span><p>AGENTS.md: そのリポジトリの常識</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">2</span><p>Skills: 複数回使う作業レシピ</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">3</span><p>Prompt: 今回だけの目的と停止条件</p></div>
+      </div>
+      <div class="ok-box"><div class="box-title">使えるシーン</div><ul class="box-list"><li>レビュー観点、テストコマンド、出力形式を固定</li><li>チーム共通の月次点検フローをSkill化</li></ul></div>
+      <div class="ng-box"><div class="box-title">失敗パターン</div><ul class="box-list"><li>毎回プロンプトだけで全ルールを書く</li><li>停止条件を書かず、報告の粒度がぶれる</li></ul></div>
+    </div>
+  </div>
+</div>
+</body></html>

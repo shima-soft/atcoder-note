@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>OpenAIの説明と研究者の懸念</title>
+<style>
+.debate { display: flex; flex-direction: column; gap: .4rem; flex: 1; overflow: hidden; }
+.debate-row { display: grid;
+  flex: 0 0 auto; grid-template-columns: 8.6rem 1fr 1fr; gap: .5rem; align-items: stretch; }
+.dh { font-size: .78rem; font-weight: 900; padding: .25rem .7rem; border-radius: 99px; width: fit-content; }
+.dh.a { background: var(--purple); color: #fff; }
+.dh.b { background: rgba(201,22,46,.1); color: var(--red); }
+.topic {
+  display: flex; align-items: center;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .5rem .6rem;
+  font-size: .78rem; font-weight: 900; color: var(--text); line-height: 1.35;
+}
+.debate-row.r { flex: 1; }
+.cell {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  font-size: .8rem; color: var(--text); line-height: 1.5;
+  display: flex; align-items: center;
+}
+.cell.a { border-left: 3px solid var(--purple); }
+.cell.b { border-left: 3px solid var(--red); }
+.cell.none { color: var(--muted); font-style: normal; }
+.debate-foot {
+  background: #f4efff;
+  border: 1px solid #c9b3ec;
+  border-radius: 12px;
+  padding: .6rem 1rem;
+  margin-top: .3rem;
+}
+.debate-foot .ft { font-size: .8rem; font-weight: 900; color: var(--purple); margin-bottom: .15rem; }
+.debate-foot p { font-size: .8rem; color: var(--text); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">論点</span>
+    <h2 class="slide-title">OpenAI の説明と、研究者の懸念</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>争点はひとつ — 監視性、つまり「AIの考えを外から読めること」を、どこまで手放してよいか</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="debate">
+      <div class="debate-row">
+        <div></div>
+        <div><span class="dh a">OpenAI の説明（報道より）</span></div>
+        <div><span class="dh b">研究者の懸念</span></div>
+      </div>
+      <div class="debate-row r">
+        <div class="topic">読める考えは<br>残るのか</div>
+        <div class="cell a">監視に足りるだけの読める推論は Astra にも残る、と説明している</div>
+        <div class="cell b">潜在推論の割合が増えるほど、外から読める部分は減っていく</div>
+      </div>
+      <div class="debate-row r">
+        <div class="topic">追加の<br>安全対策は</div>
+        <div class="cell a">検知の仕組みを追加した上で出荷すると説明している</div>
+        <div class="cell b">読めない考えに対して、検知が追いつく保証はない</div>
+      </div>
+      <div class="debate-row r">
+        <div class="topic">影響が<br>大きいのは</div>
+        <div class="cell a none">報道では言及されていない</div>
+        <div class="cell b">制約の緩い実装が広まると、自律的に動くエージェントの監督が弱まる</div>
+      </div>
+      <div class="debate-foot">
+        <div class="ft">押さえておきたいこと</div>
+        <p>この論点は Astra だけの話ではありません。周回して考える方式が広まるほど、業界全体で「考えが読める」という前提が崩れていきます。だから今回の報道は、性能のニュースであると同時に、安全のニュースとして扱われています。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .86rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .7rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .74rem; color: var(--muted); line-height: 1.5; }
+.term-link    {
+  font-size: .64rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .2rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">数列</span>
+          <span class="term-reading">すうれつ</span>
+        </div>
+        <p class="term-desc">数を順番に並べたもの。今回の A がこれにあたる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/数列" target="_blank">Wikipedia: 数列 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">標準入力</span>
+          <span class="term-reading">ひょうじゅんにゅうりょく</span>
+        </div>
+        <p class="term-desc">データがプログラムに届く入り口。AtCoderではここから自動で流れてくる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">input()</span>
+          <span class="term-reading">インプット</span>
+        </div>
+        <p class="term-desc">標準入力から1行ぶんを文字列として読み込む命令。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python: input 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">int()</span>
+          <span class="term-reading">イント</span>
+        </div>
+        <p class="term-desc">文字列の "8" を数の 8 に変える命令。計算の前に必ず通す。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#int" target="_blank">Python: int 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">並んだ要素すべてに同じ変換をかける命令。「全員まとめて整数に」。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python: map 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">list()</span>
+          <span class="term-reading">リスト</span>
+        </div>
+        <p class="term-desc">値を順番に並べて持つ入れ物。数列 A の置き場になる。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#list" target="_blank">Python: list 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">添字</span>
+          <span class="term-reading">そえじ / インデックス</span>
+        </div>
+        <p class="term-desc">リストの何番目かを指す番号。Pythonでは 0 から始まる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/配列" target="_blank">Wikipedia: 配列 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">整数除算 //</span>
+          <span class="term-reading">せいすうじょざん</span>
+        </div>
+        <p class="term-desc">小数点以下を切り捨てて割り算する記号。8 // 2 は 4。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/reference/expressions.html#binary-arithmetic-operations" target="_blank">Python: 算術演算 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">range()</span>
+          <span class="term-reading">レンジ</span>
+        </div>
+        <p class="term-desc">連続した番号を順に出す命令。range(4, 8) は 4・5・6・7。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#func-range" target="_blank">Python: range 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">スライス</span>
+          <span class="term-reading">スライス</span>
+        </div>
+        <p class="term-desc">リストの一部を範囲指定で切り出す書き方。a[4:] など。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/glossary.html#term-slice" target="_blank">Python: スライス 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">sum()</span>
+          <span class="term-reading">サム</span>
+        </div>
+        <p class="term-desc">リストの中身をまとめて合計する命令。ループの代わりに使える。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#sum" target="_blank">Python: sum 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングサイト。毎週のABCが入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

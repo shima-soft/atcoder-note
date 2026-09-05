@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wrap-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  flex: 1;
+  overflow: hidden;
+}
+.wrap-row {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--blue);
+  border-radius: 14px;
+  padding: .8rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.wrap-num {
+  min-width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--g-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+.wrap-body { display: flex; flex-direction: column; gap: .15rem; }
+.wrap-title { font-size: .98rem; font-weight: 900; color: var(--text); line-height: 1.35; }
+.wrap-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+.wrap-note {
+  background: rgba(26,150,192,.08);
+  border-radius: 12px;
+  padding: .7rem 1.1rem;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.55;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">まとめ</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>指示は「守らせる文章」ではなく、「守れたかを測れる条件」として書く</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="wrap-list">
+      <div class="wrap-row">
+        <span class="wrap-num">1</span>
+        <div class="wrap-body">
+          <div class="wrap-title">ルールを足すほど守られなくなる</div>
+          <div class="wrap-desc">禁止事項を15個まで増やしても、同じ手直しは減らなかった。読ませる量が増えるほど、1項目あたりの効き目は薄まる</div>
+        </div>
+      </div>
+      <div class="wrap-row">
+        <span class="wrap-num">2</span>
+        <div class="wrap-body">
+          <div class="wrap-title">言葉で判定できるものと、数で測るものを分ける</div>
+          <div class="wrap-desc">用語のずれや書き忘れはルールで消える。数 px のはみ出しや画面からの溢れは、実際に描いて測らないかぎり消えない</div>
+        </div>
+      </div>
+      <div class="wrap-row">
+        <span class="wrap-num">3</span>
+        <div class="wrap-body">
+          <div class="wrap-title">合格条件を数えられる形で渡す</div>
+          <div class="wrap-desc">「丁寧に作る」ではなく「ERROR 0件になるまで直す」。判定する道具そのものも Claude に作らせればよく、書ける必要はない</div>
+        </div>
+      </div>
+      <div class="wrap-note">この考え方に、プログラミングスキルは要らない。必要なのは「何が満たされたら完成か」を自分の言葉で決めることだけ</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">やってみる</span>
+    <h2 class="slide-title">小さい入力で、自分で全部書き出してみる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>N = 2 なら手で足りる。小さい順に試せば、そのまま辞書順に並ぶ</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 出題（答えは伏せる） -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          出題パネル y=48..134 / 手順パネル y=150..258 / 解答欄 y=274..368
+          答えは書かない（想起練習のため）
+        -->
+        <text x="280" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">問題: N = 2, K = 5 のとき、条件を満たす数列を辞書順に全部</text>
+
+        <!-- 条件のおさらい -->
+        <rect x="40" y="48" width="480" height="86" rx="12" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="280" y="76" text-anchor="middle" font-size="13" fill="#5e6a8a">重みは 1番目が 1、2番目が 2</text>
+        <text x="280" y="110" text-anchor="middle" font-size="18" font-weight="900" fill="#d96018">1 × A₁ ＋ 2 × A₂ = 5</text>
+
+        <!-- 手順のリマインダ -->
+        <rect x="40" y="150" width="480" height="108" rx="12" fill="rgba(26,150,192,.05)" stroke="rgba(26,150,192,.3)" stroke-width="1.5"/>
+        <text x="60" y="171" font-size="13" font-weight="700" fill="#1a96c0">思い出す手順</text>
+        <text x="60" y="197" font-size="13" fill="#1a1d2e">① 2番目の値 A₂ を 0 から順に試す</text>
+        <text x="60" y="223" font-size="13" fill="#1a1d2e">② 残り 5 − 2 × A₂ が 1番目の値 A₁ になる</text>
+        <text x="60" y="247" font-size="13" fill="#1a1d2e">③ A₁ が 0 以上の整数なら、その組が答えの1行</text>
+
+        <!-- 解答欄（空欄） -->
+        <text x="280" y="292" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">答えは何行になる？</text>
+        <rect x="110" y="304" width="110" height="52" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="165" y="337" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">? ?</text>
+        <rect x="225" y="304" width="110" height="52" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="280" y="337" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">? ?</text>
+        <rect x="340" y="304" width="110" height="52" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="395" y="337" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">? ?</text>
+      </svg>
+    </div>
+
+    <!-- 右: 出題と支援 -->
+    <div class="info-col">
+
+      <div class="practice">
+        <div class="practice-title">✋ ここで動画を止めて、自分で解いてみてください</div>
+        <div class="practice-q">2 5</div>
+        <p class="practice-note">答え合わせは次の「まとめ」で行います</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 詰まったときのヒント</div>
+        <ul class="box-list">
+          <li>A₂ = 0 なら A₁ = 5、A₂ = 1 なら A₁ = 3 …と順に埋まる</li>
+          <li>A₂ を大きくしすぎると残りがマイナスになる。そこで打ち切り</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 引っかかりやすいところ</div>
+        <ul class="box-list">
+          <li>並べる順は<strong>辞書順</strong>。1番目の値が小さいものから先に出す</li>
+          <li>0 も使ってよい値。忘れると1行足りなくなる</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

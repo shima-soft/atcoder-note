@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC473 A「Second Half Sum」解説 — AtCoder×Python</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --g-orange: linear-gradient(135deg, #e8873a, #d96018);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+header {
+  height: 52px;
+  position: fixed; inset: 0 0 auto;
+  z-index: 5;
+  background: #1a1d2e; color: #fff;
+  display: flex; align-items: center;
+  padding: 0 1.2rem;
+  font-weight: 800;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+header span { color: #e8873a; margin-right: .6rem; }
+.header-home {
+  font-size: .74rem; font-weight: 700;
+  color: #7a3bce; text-decoration: none;
+  margin-right: .7rem; white-space: nowrap;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 820px);
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 52px auto 0;
+  padding: 0 1rem;
+}
+.side {
+  position: sticky; top: 52px;
+  height: calc(100vh - 52px);
+  padding: 1.5rem 0;
+  overflow: auto;
+}
+.side a {
+  display: block;
+  padding: .4rem .75rem;
+  color: var(--muted); text-decoration: none;
+  border-left: 3px solid transparent;
+  font-size: .84rem;
+}
+.side a.active {
+  color: var(--orange);
+  border-left-color: var(--orange);
+  background: rgba(217,96,24,.07);
+  font-weight: 800;
+}
+main { padding: 2rem 0 4rem; }
+section { margin-bottom: 2.6rem; scroll-margin-top: 68px; }
+.hero {
+  background: linear-gradient(135deg, #fff7ed, #fff);
+  border: 1px solid #f3d5bd;
+  border-radius: 18px;
+  padding: 2.2rem;
+}
+.eyebrow {
+  display: inline-block;
+  background: var(--orange); color: #fff;
+  border-radius: 99px;
+  padding: .12rem .65rem;
+  font-size: .76rem; font-weight: 800;
+}
+h1 { font-size: 2.1rem; line-height: 1.25; margin: .65rem 0 .45rem; }
+h2 { font-size: 1.45rem; margin: 0 0 .8rem; border-left: 5px solid var(--orange); padding-left: .7rem; }
+h3 { font-size: 1rem; margin: .2rem 0; }
+.lead { font-size: 1.05rem; color: var(--muted); }
+.card, .check {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  margin: .65rem 0;
+}
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+.step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+.num {
+  display: inline-grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--orange); color: #fff; font-weight: 900;
+}
+.ok { border-left: 4px solid var(--green); }
+.ng { border-left: 4px solid var(--red); }
+.info { border-left: 4px solid var(--blue); }
+code { font-family: Consolas, monospace; }
+.mk {
+  font-family: Consolas, monospace;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 .25rem;
+  color: var(--orange);
+  font-weight: 700;
+}
+.sample-box {
+  background: #f0f4f8;
+  padding: .6rem .8rem;
+  border-radius: 8px;
+  font-family: Consolas, monospace;
+  font-size: .85rem;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-x: auto;
+}
+.io-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.io-table th, .io-table td { text-align: left; padding: .55rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.io-table th { color: var(--muted); font-size: .82rem; }
+.io-table td.mono { font-family: Consolas, monospace; font-size: .82rem; }
+.io-table td.ans { color: var(--green); font-weight: 900; }
+/* ▼ スライドから同期したSVG図（sync_web_svg.py 対応） */
+.fig-wrap { width: 100%; margin: .8rem 0 1rem; }
+.fig {
+  width: 100%; height: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .6rem;
+}
+.fig svg { display: block; }
+.ac-code-block { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 1rem 0; }
+.ac-code-header {
+  display: flex; align-items: center; gap: .6rem;
+  background: var(--surface);
+  padding: .45rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename { font-family: Consolas, monospace; font-size: .82rem; color: var(--muted); flex: 1; }
+.ac-badge { font-size: .72rem; color: var(--green); font-weight: 700; }
+.copy-btn {
+  font-size: .76rem; font-weight: 700;
+  padding: .3rem .7rem; border-radius: 6px;
+  border: 1px solid var(--orange); color: var(--orange);
+  background: transparent; cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: 1rem; overflow: auto; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; }
+details { border-top: 1px solid var(--border); padding: .55rem 0; }
+summary { cursor: pointer; font-weight: 700; }
+.glossary { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.term { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: .8rem; }
+.term strong { display: block; }
+.term small { color: var(--muted); }
+.term a { font-size: .74rem; color: var(--blue); word-break: break-all; }
+footer { color: var(--muted); font-size: .8rem; margin-top: 2rem; }
+@media(max-width:800px){
+  .layout { display: block; width: 100%; max-width: 100%; padding: 0 .75rem; }
+  .side { display: none; }
+  main { padding-top: 1rem; }
+  .grid, .steps, .glossary { grid-template-columns: 1fr; }
+  h1 { font-size: 1.7rem; }
+  .hero { padding: 1.3rem; max-width: 100%; overflow: hidden; }
+  .ac-badge { display: none; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header><a class="header-home" href="../../../../../index.html">← 一覧</a><span>AtCoder×Python</span>ABC473 A — Second Half Sum</header>
+
+<div class="layout">
+<nav class="side">
+  <a href="#overview">概要</a>
+  <a href="#problem">問題を読み解く</a>
+  <a href="#hand">手を動かす</a>
+  <a href="#half">境目は N ÷ 2</a>
+  <a href="#index">番号と添字のズレ</a>
+  <a href="#code">AC想定コード</a>
+  <a href="#practice">やってみる</a>
+  <a href="#summary">まとめ</a>
+  <a href="#glossary">用語解説</a>
+</nav>
+
+<main>
+
+<section id="overview" class="hero">
+  <span class="eyebrow">ABC473 A / 100点 / 灰色 ★☆☆</span>
+  <h1>Second Half Sum</h1>
+  <p class="lead">長さ <span class="mk">N</span>（偶数）の数列を<strong>ちょうど半分</strong>に分け、<strong>後ろ半分だけを足す</strong>問題。やることは足し算だけですが、「問題文の◯番目」と「Python の添字」のズレでつまずきやすい1問です。</p>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><h3>半分に分ける</h3><p>N は必ず偶数。後半の個数はいつも N ÷ 2 個</p></div>
+    <div class="step"><span class="num">2</span><h3>開始位置を決める</h3><p>後半の先頭は Python の添字で n // 2</p></div>
+    <div class="step"><span class="num">3</span><h3>順に足す</h3><p>そこから最後まで for ループで足すだけ</p></div>
+  </div>
+</section>
+
+<section id="problem">
+  <h2>問題を読み解く</h2>
+  <div class="card"><p>長さ <span class="mk">N</span> の整数の並び（数列）<span class="mk">A</span> が与えられます。<strong>N は必ず偶数</strong>です。この数列をちょうど半分に分けたときの<strong>後ろ半分の合計</strong>、つまり <span class="mk">N ÷ 2 + 1</span> 番目から <span class="mk">N</span> 番目までを足した値を出力してください。</p></div>
+  <div class="grid">
+    <div class="card info"><h3>制約が示すこと</h3><p><span class="mk">2 ≤ N ≤ 100</span>（N は偶数）、<span class="mk">1 ≤ A の各要素 ≤ 100</span>。N が偶数と保証されているので「半分に割り切れない」場合を考えなくてよい。数も小さいので、工夫せず素直に足すだけで十分。</p></div>
+    <div class="card ok"><h3>入力の形式（2行）</h3><div class="sample-box">N
+A1 A2 … AN</div><p>1行目に個数 N、2行目に N 個の数が空白区切りで並ぶ。読み込みは2回に分かれる点に注意。</p></div>
+  </div>
+  <div class="card">
+    <h3>入出力例で確認する</h3>
+    <table class="io-table">
+      <tr><th style="width:44%">入力</th><th style="width:12%">出力</th><th>なぜそうなる？</th></tr>
+      <tr><td class="mono">8<br>1 3 7 8 4 2 5 6</td><td class="ans">17</td><td>後ろ半分は 4・2・5・6 の4個。4+2+5+6 = 17</td></tr>
+      <tr><td class="mono">2<br>1 100</td><td class="ans">100</td><td>後ろ半分は 100 の1個だけ。そのまま 100</td></tr>
+      <tr><td class="mono">10<br>31 41 59 26 53 58 97 93 23 84</td><td class="ans">355</td><td>後ろ半分は 58・97・93・23・84 の5個。合計 355</td></tr>
+    </table>
+  </div>
+  <div class="check"><details><summary>セルフチェック：入力例1で前半を足してしまうと、いくつになる？</summary><p>1+3+7+8 = <strong>19</strong>。全部足すと 36。どちらも正解の 17 とは違う値になるので、「どこからどこまで足すか」を最初にはっきり決めておくことが大切。</p></details></div>
+</section>
+
+<section id="hand">
+  <h2>入力例1を、紙とペンで解いてみる</h2>
+  <p>コードを書く前に、入力例1を手で解いてみます。<span class="mk">1 3 7 8 4 2 5 6</span> の8個を4個ずつに区切り、右側の4個だけを左から順に足していくだけです。前半の 1・3・7・8 には一度も触りません。</p>
+  <div class="fig-wrap" style="aspect-ratio:540/360"><div class="fig" data-slide="03"><svg viewBox="0 0 540 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          マス box[i].x = 34 + i*56 (w=50, gap=6)  i=0..7 → 34..426 (right=476)
+          区切り線 x=286（4個目 right=252 と 5個目 left=290 の中間）
+          累積チップ chip[i].x = 26 + i*124 (w=114, gap=10) → 26,150,274,398 (right=512)
+        -->
+
+        <text x="270" y="20" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例1: 8個の数を半分に区切る</text>
+
+        <!-- 番号ラベル -->
+        <g font-size="10" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="59" y="42">1</text>
+          <text x="115" y="42">2</text>
+          <text x="171" y="42">3</text>
+          <text x="227" y="42">4</text>
+        </g>
+        <g font-size="10" text-anchor="middle" fill="#d96018" font-family="'Noto Sans JP',sans-serif">
+          <text x="315" y="42">5</text>
+          <text x="371" y="42">6</text>
+          <text x="427" y="42">7</text>
+          <text x="483" y="42">8</text>
+        </g>
+
+        <!-- 前半4個（脇役・グレー） -->
+        <g>
+          <rect x="34" y="50" width="50" height="44" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="90" y="50" width="50" height="44" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="146" y="50" width="50" height="44" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="202" y="50" width="50" height="44" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="18" font-weight="900" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="59" y="79">1</text>
+          <text x="115" y="79">3</text>
+          <text x="171" y="79">7</text>
+          <text x="227" y="79">8</text>
+        </g>
+
+        <!-- 後半4個（主役・オレンジ） -->
+        <g>
+          <rect x="290" y="50" width="50" height="44" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="346" y="50" width="50" height="44" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="402" y="50" width="50" height="44" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="458" y="50" width="50" height="44" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="18" font-weight="900" text-anchor="middle" fill="#d96018" font-family="'Noto Sans JP',sans-serif">
+          <text x="315" y="79">4</text>
+          <text x="371" y="79">2</text>
+          <text x="427" y="79">5</text>
+          <text x="483" y="79">6</text>
+        </g>
+
+        <!-- 半分の区切り -->
+        <line x1="271" y1="34" x2="271" y2="102" stroke="#d96018" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="271" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018" font-family="'Noto Sans JP',sans-serif">ここで半分</text>
+
+        <!-- 足し上げの4ステップ -->
+        <text x="270" y="146" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">後ろの4個を、左から順に足していく</text>
+
+        <rect x="26"  y="158" width="114" height="58" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="83"  y="180" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5番目まで</text>
+        <text x="83"  y="202" text-anchor="middle" font-size="16" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">4</text>
+
+        <rect x="150" y="158" width="114" height="58" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="207" y="180" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6番目まで</text>
+        <text x="207" y="202" text-anchor="middle" font-size="16" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">4+2=6</text>
+
+        <rect x="274" y="158" width="114" height="58" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="331" y="180" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7番目まで</text>
+        <text x="331" y="202" text-anchor="middle" font-size="16" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">6+5=11</text>
+
+        <rect x="398" y="158" width="114" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="455" y="180" text-anchor="middle" font-size="11" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">8番目まで</text>
+        <text x="455" y="202" text-anchor="middle" font-size="16" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">11+6=17</text>
+
+        <!-- 答え -->
+        <rect x="170" y="238" width="200" height="56" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="270" y="273" text-anchor="middle" font-size="22" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">答え 17</text>
+
+        <!-- 気づきバー -->
+        <rect x="26" y="308" width="486" height="42" rx="8" fill="rgba(217,96,24,.05)" stroke="rgba(217,96,24,.2)" stroke-width="1"/>
+        <text x="269" y="334" text-anchor="middle" font-size="13" font-weight="700" fill="#d96018" font-family="'Noto Sans JP',sans-serif">前半の 1・3・7・8 には一度も触っていない</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>答え合わせ</h3><p>4 + 2 + 5 + 6 = <strong>17</strong>。出力例1と一致します。足した回数は4回で、8個あっても<strong>半分しか触っていない</strong>のが分かります。</p></div>
+    <div class="card ng"><h3>やってしまいがち</h3><p>前半を足すと 1+3+7+8 = <strong>19</strong>、全部足すと <strong>36</strong>。どちらも 17 になりません。どこからどこまで足すかを最初に決めてから書き始めます。</p></div>
+  </div>
+  <div class="card info"><h3>ここまでで十分</h3><p>この「半分に区切って後ろだけ足す」という手作業が、そのままプログラムになります。難しいアルゴリズムは要りません。あとは、この手順をどんな N でも通じる形に直すだけです。</p></div>
+  <div class="check"><details><summary>セルフチェック：入力例2（N=2、1 100）を手で解くと？</summary><p>後半は 2 ÷ 2 = 1個だけ。つまり2番目の <strong>100</strong> がそのまま答え。前半の 1 は使いません。</p></details></div>
+</section>
+
+<section id="half">
+  <h2>どんな N でも、境目は N ÷ 2 のところ</h2>
+  <p>手でやった区切り方は、N がいくつでもそのまま通じます。下の図は入力例1（N = 8）と入力例3（N = 10）を並べたものです。どちらも境目はちょうど真ん中で、後半の個数は <span class="mk">N ÷ 2</span> 個。N が偶数と決まっているので、割り切れないケースを気にする必要はありません。</p>
+  <div class="fig-wrap" style="aspect-ratio:540/350"><div class="fig" data-slide="04"><svg viewBox="0 0 540 350" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          上段 N=8  box[i].x = 76 + i*49 (w=44, gap=5) → 76..419 (right=463)、境目 x=269
+          下段 N=10 box[i].x = 52 + i*44 (w=40, gap=4) → 52..448 (right=488)、境目 x=270
+        -->
+
+        <!-- === 上段: N = 8 === -->
+        <text x="270" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例1: N = 8 → 後半は 8 ÷ 2 = 4個</text>
+
+        <g>
+          <rect x="76"  y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="125" y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="174" y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="223" y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="16" font-weight="900" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="98"  y="59">1</text>
+          <text x="147" y="59">3</text>
+          <text x="196" y="59">7</text>
+          <text x="245" y="59">8</text>
+        </g>
+        <g>
+          <rect x="272" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="321" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="370" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="419" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="16" font-weight="900" text-anchor="middle" fill="#d96018" font-family="'Noto Sans JP',sans-serif">
+          <text x="294" y="59">4</text>
+          <text x="343" y="59">2</text>
+          <text x="392" y="59">5</text>
+          <text x="441" y="59">6</text>
+        </g>
+        <line x1="269" y1="28" x2="269" y2="78" stroke="#d96018" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="269" y="94" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018" font-family="'Noto Sans JP',sans-serif">4個目と5個目の間</text>
+
+        <!-- === 下段: N = 10 === -->
+        <text x="270" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例3: N = 10 → 後半は 10 ÷ 2 = 5個</text>
+
+        <g>
+          <rect x="52"  y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="96"  y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="140" y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="184" y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="228" y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="14" font-weight="900" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="72"  y="162">31</text>
+          <text x="116" y="162">41</text>
+          <text x="160" y="162">59</text>
+          <text x="204" y="162">26</text>
+          <text x="248" y="162">53</text>
+        </g>
+        <g>
+          <rect x="272" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="316" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="360" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="404" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="448" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="14" font-weight="900" text-anchor="middle" fill="#d96018" font-family="'Noto Sans JP',sans-serif">
+          <text x="292" y="162">58</text>
+          <text x="336" y="162">97</text>
+          <text x="380" y="162">93</text>
+          <text x="424" y="162">23</text>
+          <text x="468" y="162">84</text>
+        </g>
+        <line x1="270" y1="132" x2="270" y2="182" stroke="#d96018" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="270" y="198" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018" font-family="'Noto Sans JP',sans-serif">5個目と6個目の間</text>
+
+        <!-- === 共通の規則 === -->
+        <text x="270" y="230" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">どちらも境目はちょうど真ん中 — 規則は1つだけ</text>
+
+        <rect x="60" y="244" width="420" height="94" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="270" y="278" text-anchor="middle" font-size="17" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">後半の先頭 = N ÷ 2 ＋ 1 番目</text>
+        <text x="270" y="314" text-anchor="middle" font-size="17" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">後半の個数 = N ÷ 2 個</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>後半の見つけ方</h3><p>後半の個数は <span class="mk">N ÷ 2</span> 個。問題文の数え方だと <span class="mk">N ÷ 2 + 1</span> 番目から始まる。N=8 なら 5番目から8番目までの4個。</p></div>
+    <div class="card ng"><h3>うっかりしやすい点</h3><p>前半を足すと 19、全部足すと 36 になってしまう。「後ろ半分」という言葉に引きずられて、どこが境目かを曖昧にしたまま書き始めないこと。</p></div>
+  </div>
+  <div class="card"><h3>💡 仕事に例えると</h3><p>12か月分の売上リストから<strong>下半期（7月〜12月）だけを集計する</strong>のと同じ作業です。前半6か月と後半6か月に区切り、後半だけを取り出して足す。表計算ソフトで範囲を選んで合計を出すときの、あの「範囲の指定」がそのままプログラムになります。</p></div>
+  <div class="check"><details><summary>セルフチェック：N = 10 のとき、後半は何番目から何番目？</summary><p>10 ÷ 2 = 5 なので、後半は <strong>6番目から10番目まで</strong>の5個。入力例3ではこれが 58・97・93・23・84 にあたる。</p></details></div>
+</section>
+
+<section id="index">
+  <h2>番号と添字の1つのズレ</h2>
+  <p>この問題でいちばん間違えやすいのがここです。問題文は「1番目・2番目…」と <strong>1 から</strong>数えますが、Python のリストは <strong>0 から</strong>数えます。同じマスを指していても、呼び名が1つずれるのです。</p>
+  <div class="fig-wrap" style="aspect-ratio:540/340"><div class="fig" data-slide="05"><svg viewBox="0 0 540 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          box[i].x = 26 + i*62  (w=54, gap=8)  → 26,88,150,212,274,336,398,460 (right=514)
+          box[i].center = 53 + i*62            → 53,115,177,239,301,363,425,487
+        -->
+
+        <text x="270" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">同じマスなのに、数え方が2通りある</text>
+
+        <!-- 上段: 問題文の数え方 -->
+        <text x="270" y="52" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">問題文の数え方 — 1 から数える</text>
+        <g font-size="13" font-weight="700" text-anchor="middle" font-family="'Noto Sans JP',sans-serif">
+          <text x="53" y="72" fill="#a9b0c3">1</text>
+          <text x="115" y="72" fill="#a9b0c3">2</text>
+          <text x="177" y="72" fill="#a9b0c3">3</text>
+          <text x="239" y="72" fill="#a9b0c3">4</text>
+          <text x="301" y="72" fill="#d96018">5</text>
+          <text x="363" y="72" fill="#d96018">6</text>
+          <text x="425" y="72" fill="#d96018">7</text>
+          <text x="487" y="72" fill="#d96018">8</text>
+        </g>
+
+        <!-- マス（後半だけ主役） -->
+        <g>
+          <rect x="26" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="88" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="150" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="212" y="82" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="274" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="336" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="398" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="460" y="82" width="54" height="52" rx="8" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="19" font-weight="900" text-anchor="middle" font-family="'Noto Sans JP',sans-serif">
+          <text x="53" y="115" fill="#a9b0c3">1</text>
+          <text x="115" y="115" fill="#a9b0c3">3</text>
+          <text x="177" y="115" fill="#a9b0c3">7</text>
+          <text x="239" y="115" fill="#a9b0c3">8</text>
+          <text x="301" y="115" fill="#d96018">4</text>
+          <text x="363" y="115" fill="#d96018">2</text>
+          <text x="425" y="115" fill="#d96018">5</text>
+          <text x="487" y="115" fill="#d96018">6</text>
+        </g>
+
+        <!-- 下段: Python の添字 -->
+        <g font-size="13" font-weight="700" text-anchor="middle" font-family="'Noto Sans JP',sans-serif">
+          <text x="53" y="154" fill="#a9b0c3">0</text>
+          <text x="115" y="154" fill="#a9b0c3">1</text>
+          <text x="177" y="154" fill="#a9b0c3">2</text>
+          <text x="239" y="154" fill="#a9b0c3">3</text>
+          <text x="301" y="154" fill="#d96018">4</text>
+          <text x="363" y="154" fill="#d96018">5</text>
+          <text x="425" y="154" fill="#d96018">6</text>
+          <text x="487" y="154" fill="#d96018">7</text>
+        </g>
+        <text x="270" y="176" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">Python の添字 — 0 から数える</text>
+
+        <!-- 後半の先頭を指す吹き出し -->
+        <polygon points="294,192 308,192 301,183" fill="#d96018"/>
+        <rect x="196" y="192" width="210" height="32" rx="8" fill="rgba(217,96,24,.08)" stroke="#d96018" stroke-width="1.5"/>
+        <text x="301" y="213" text-anchor="middle" font-size="13" font-weight="900" fill="#d96018" font-family="'Noto Sans JP',sans-serif">後半の先頭 = a[n // 2]</text>
+
+        <!-- ❌ パネル -->
+        <rect x="25" y="232" width="236" height="96" rx="10" fill="rgba(201,22,46,.05)" stroke="rgba(201,22,46,.25)" stroke-width="1"/>
+        <text x="41" y="254" font-size="12" font-weight="700" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">❌ よくある間違い</text>
+        <text x="41" y="278" font-size="13" font-weight="700" fill="#5e6a8a" font-family="Consolas,monospace">a[n // 2 + 1:]</text>
+        <text x="41" y="300" font-size="11" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">6番目から足してしまう</text>
+        <text x="41" y="318" font-size="11" font-weight="700" fill="#c9162e" font-family="'Noto Sans JP',sans-serif">→ 答えが 13 になる</text>
+
+        <!-- ✅ パネル -->
+        <rect x="279" y="232" width="236" height="96" rx="10" fill="rgba(0,143,106,.05)" stroke="rgba(0,143,106,.25)" stroke-width="1"/>
+        <text x="295" y="254" font-size="12" font-weight="700" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">✅ 正しい書き方</text>
+        <text x="295" y="278" font-size="13" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">a[n // 2:]</text>
+        <text x="295" y="300" font-size="11" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">5番目から足す</text>
+        <text x="295" y="318" font-size="11" font-weight="700" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">→ 答えは 17</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>覚え方はこれだけ</h3><p>問題文の「◯番目」は、Python では <span class="mk">◯ − 1</span> 番の添字。だから後半の先頭「N ÷ 2 + 1 番目」は、添字にすると <span class="mk">n // 2</span>。<strong>+1 が消える</strong>のがポイント。</p></div>
+    <div class="card ng"><h3>1つずれる典型ミス</h3><p>問題文の +1 をそのまま書いて <span class="mk">a[n // 2 + 1:]</span> にすると、6番目から足すことになり1個足りない。入力例1では 17 ではなく <strong>13</strong> が出る。</p></div>
+  </div>
+  <div class="card info"><h3>手を動かして確かめる</h3><p>N=8 のとき <span class="mk">n // 2</span> は 4。<span class="mk">a[4]</span> は5番目の値である 4 を指します。「4番目じゃないの？」と迷ったら、a[0] が1番目だと思い出せば、添字4は5番目だとすぐ確かめられます。</p></div>
+  <div class="check"><details><summary>セルフチェック：a[n // 2 + 1:] だと入力例1でいくつになる？</summary><p>a[5:] つまり 2・5・6 の3個だけ足すことになり、<strong>13</strong>。1個少ないだけで答えが変わってしまう。</p></details></div>
+</section>
+
+<section id="code">
+  <h2>AC想定コード</h2>
+  <p>公式サンプル3件で出力が一致することを確認済みです。後半の開始位置を <span class="mk">n // 2</span> で求め、そこから最後まで順に足していくだけの9行です。</p>
+  <div class="ac-code-block">
+    <div class="ac-code-header">
+      <span class="ac-filename">abc473a.py</span>
+      <span class="ac-badge">✅ 公式サンプル確認済み</span>
+      <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+    </div>
+<pre><code class="language-python">n = int(input())
+a = list(map(int, input().split()))
+
+half = n // 2
+total = 0
+for i in range(half, n):
+    total = total + a[i]
+
+print(total)</code></pre>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>1〜2行目 — 入力を受け取る</h3><p>1行目の個数を <code>int(input())</code> で整数にして n へ。2行目は <code>input().split()</code> で空白ごとに切り分け、<code>map(int, ...)</code> で全部を整数に変え、<code>list(...)</code> でリスト a にまとめる。</p></div>
+    <div class="card"><h3>4〜5行目 — 開始位置と合計の箱</h3><p><code>n // 2</code> は割り算の答えを整数で求める書き方。n=8 なら half は 4 になり、これが後半の先頭の添字。合計を入れる <code>total</code> は 0 から始める。</p></div>
+    <div class="card"><h3>6〜7行目 — 後半だけを足す</h3><p><code>range(half, n)</code> は half から n の1つ手前までの番号を順に出す。n=8 なら 4・5・6・7 の4回まわり、<code>a[i]</code> を total に足していく。</p></div>
+    <div class="card"><h3>9行目 — 出力</h3><p>足し終えた total をそのまま表示する。出力は答えの数値1つだけなので、余計な文字を付けないよう注意。</p></div>
+  </div>
+  <div class="card ok"><h3>慣れてきたら：スライスで1行に</h3><p><code>a[half:]</code> は「half 番の添字から最後まで」を切り出す書き方。合計を出す <code>sum()</code> と組み合わせると <code>print(sum(a[half:]))</code> の1行で書けます。まずはループで書いて動きを追い、納得してから短くするのがおすすめです。</p></div>
+  <div class="check"><details><summary>セルフチェック：range(half, n) の n は足す対象に含まれる？</summary><p>含まれません。<code>range(4, 8)</code> は 4・5・6・7 の4つで、8 は出てきません。この「終わりの値は含まない」決まりのおかげで、最後の添字 n−1 までちょうど足せます。</p></details></div>
+</section>
+
+<section id="practice">
+  <h2>初めて見る数列で、自分で解いてみる</h2>
+  <p>ここまでの手順を、まだ扱っていない数列に当ててみます。読んで分かった気になるのと、自分で一度解いてみるのとでは、次の問題での手応えがまったく違います。<strong>答えを見る前に、まず自分で計算してみてください。</strong></p>
+  <div class="fig-wrap" style="aspect-ratio:540/350"><div class="fig" data-slide="07"><svg viewBox="0 0 540 350" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          マス box[i].x = 84 + i*62 (w=54, gap=8) → 84,146,208,270,332,394 (right=448)
+          答えは書かない（想起練習のため）
+        -->
+
+        <text x="270" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">問題: N = 6 の数列の、後ろ半分の合計は？</text>
+
+        <!-- 番号 -->
+        <g font-size="11" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="111" y="66">1番目</text>
+          <text x="173" y="66">2番目</text>
+          <text x="235" y="66">3番目</text>
+          <text x="297" y="66">4番目</text>
+          <text x="359" y="66">5番目</text>
+          <text x="421" y="66">6番目</text>
+        </g>
+
+        <!-- 数列（全部同じ濃さ。どこが後半かは視聴者が決める） -->
+        <g>
+          <rect x="84"  y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="146" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="208" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="270" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="332" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="394" y="76" width="54" height="52" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="20" font-weight="900" text-anchor="middle" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">
+          <text x="111" y="110">4</text>
+          <text x="173" y="110">9</text>
+          <text x="235" y="110">2</text>
+          <text x="297" y="110">7</text>
+          <text x="359" y="110">1</text>
+          <text x="421" y="110">5</text>
+        </g>
+
+        <!-- 手順のリマインダ（ヒント。答えは出さない） -->
+        <rect x="40" y="156" width="460" height="120" rx="12" fill="rgba(26,150,192,.05)" stroke="rgba(26,150,192,.3)" stroke-width="1.5"/>
+        <text x="60" y="182" font-size="13" font-weight="700" fill="#1a96c0" font-family="'Noto Sans JP',sans-serif">思い出す手順</text>
+        <text x="60" y="208" font-size="13" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">① 半分の位置を出す（N ÷ 2 は？）</text>
+        <text x="60" y="234" font-size="13" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">② 後半の先頭は何番目？</text>
+        <text x="60" y="260" font-size="13" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">③ そこから6番目まで順に足す</text>
+
+        <!-- 答えは伏せる -->
+        <rect x="150" y="294" width="240" height="44" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="270" y="322" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">答え = ？</text>
+      </svg></div></div>
+  <div class="grid">
+    <div class="card ok"><h3>詰まったときのヒント</h3><p>N = 6 なので、前半3個・後半3個に分かれます。Python なら <span class="mk">half = 6 // 2</span>、つまり添字 3 から最後まで。</p></div>
+    <div class="card ng"><h3>引っかかりやすいところ</h3><p>「4番目から」と数えて 7・1・5 を足せば正解。<strong>5番目から</strong>にすると1個足りません。問題文の「N ÷ 2 + 1 番目」の +1 に引きずられないこと。</p></div>
+  </div>
+  <div class="check"><details><summary>答えを見る（先に自分で解いてから開いてください）</summary><p>後ろ半分は <span class="mk">7・1・5</span> の3個。7 + 1 + 5 = <strong>13</strong> が答えです。Python なら <code>print(sum(a[3:]))</code> でも同じ結果になります。</p></details></div>
+</section>
+
+<section id="summary">
+  <h2>まとめ</h2>
+  <div class="steps">
+    <div class="step"><span class="num">1</span><p>N が偶数と書いてあれば「ちょうど半分に割れる」と読み取れる</p></div>
+    <div class="step"><span class="num">2</span><p>問題文の「◯番目」は、Python の添字では ◯ − 1 になる</p></div>
+    <div class="step"><span class="num">3</span><p>開始位置さえ決まれば、あとは for ループで足すだけ</p></div>
+  </div>
+  <p>A問題は「難しいことをしない」のが正解です。むしろ差がつくのは、<strong>問題文の数え方をプログラムの数え方に正しく翻訳できるか</strong>という一点。ここを毎回ていねいに確かめる習慣は、この先のB・C問題でもそのまま効いてきます。</p>
+</section>
+
+<section id="glossary">
+  <h2>用語解説</h2>
+  <div class="glossary">
+    <div class="term"><strong>数列<small>すうれつ</small></strong><small>数を順番に並べたもの。今回の A がこれにあたる。</small><br><a href="https://ja.wikipedia.org/wiki/数列" target="_blank">Wikipedia: 数列 🔗</a></div>
+    <div class="term"><strong>標準入力<small>ひょうじゅんにゅうりょく</small></strong><small>データがプログラムに届く入り口。AtCoderではテストの数値がここから自動で流れてくる。</small><br><a href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a></div>
+    <div class="term"><strong>input()<small>インプット</small></strong><small>標準入力から1行ぶんを文字列として読み込む命令。AtCoderでは毎回使う基本形。</small><br><a href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python ドキュメント: input 🔗</a></div>
+    <div class="term"><strong>int()<small>イント</small></strong><small>文字列の "8" を数の 8 に変える命令。読み込んだ直後は文字なので、計算の前に必ず通す。</small><br><a href="https://docs.python.org/ja/3/library/functions.html#int" target="_blank">Python ドキュメント: int 🔗</a></div>
+    <div class="term"><strong>map()<small>マップ</small></strong><small>並んだ要素すべてに同じ変換をかける命令。「全員まとめて整数に直す」イメージ。</small><br><a href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python ドキュメント: map 🔗</a></div>
+    <div class="term"><strong>list()<small>リスト</small></strong><small>値を順番に並べて持つ入れ物。数列 A の置き場になる。</small><br><a href="https://docs.python.org/ja/3/library/stdtypes.html#list" target="_blank">Python ドキュメント: list 🔗</a></div>
+    <div class="term"><strong>添字<small>そえじ / インデックス</small></strong><small>リストの何番目かを指す番号。Pythonでは 0 から始まるため、問題文の番号より1つ小さい。</small><br><a href="https://ja.wikipedia.org/wiki/配列" target="_blank">Wikipedia: 配列 🔗</a></div>
+    <div class="term"><strong>整数除算 //<small>せいすうじょざん</small></strong><small>割り算の答えを、小数点以下を切り捨てた整数で返す記号。8 // 2 は 4 になる。</small><br><a href="https://docs.python.org/ja/3/reference/expressions.html#binary-arithmetic-operations" target="_blank">Python ドキュメント: 算術演算 🔗</a></div>
+    <div class="term"><strong>range()<small>レンジ</small></strong><small>連続した番号を順に取り出す命令。range(4, 8) は 4・5・6・7 の4つで、8 は含まない。</small><br><a href="https://docs.python.org/ja/3/library/functions.html#func-range" target="_blank">Python ドキュメント: range 🔗</a></div>
+    <div class="term"><strong>スライス<small>スライス</small></strong><small>リストの一部を範囲指定で切り出す書き方。a[4:] は「4番の添字から最後まで」。</small><br><a href="https://docs.python.org/ja/3/glossary.html#term-slice" target="_blank">Python ドキュメント: スライス 🔗</a></div>
+    <div class="term"><strong>sum()<small>サム</small></strong><small>リストの中身をまとめて合計する命令。for ループの代わりに使える。</small><br><a href="https://docs.python.org/ja/3/library/functions.html#sum" target="_blank">Python ドキュメント: sum 🔗</a></div>
+    <div class="term"><strong>AtCoder<small>アットコーダー</small></strong><small>日本発の競技プログラミングサイト。毎週開催のABCは初学者の入門に最適。</small><br><a href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a></div>
+  </div>
+</section>
+
+<footer>出典: <a href="https://atcoder.jp/contests/abc473/tasks/abc473_a">AtCoder ABC473 A — Second Half Sum</a>。問題文は平易に言い換えています。</footer>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+const links = [...document.querySelectorAll('.side a')];
+const sections = [...document.querySelectorAll('main section')];
+const ob = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+}), { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => ob.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">EFFORT</span>
+    <h2 class="slide-title">考える深さを5段階で選ぶ</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>仕事の重さに合わせて「じっくり考える／さっと答える」を切り替えられる。いちばん浅い設定でも他社モデルを上回る</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          box[i].x = 45 + i * 82  (boxWidth=74, gap=8, 送り幅=82)
+          center[i] = 82, 164, 246, 328, 410   右端 = 373+74 = 447
+          注釈rect: 左 x=20 w=180 (center=110) / 右 x=290 w=190 (center=385)
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="640" height="320" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <!-- タイトル -->
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">エフォート（考える深さ）の5段階</text>
+
+          <!-- 方向ラベル -->
+          <text x="45" y="55" text-anchor="start" font-size="10" font-weight="700" fill="#5e6a8a">速い・安い</text>
+          <text x="447" y="55" text-anchor="end" font-size="10" font-weight="700" fill="#1a96c0">深い・高精度</text>
+          <line x1="45" y1="66" x2="447" y2="66" stroke="#dde2ec" stroke-width="2"/>
+
+          <!-- 5段階ボックス -->
+          <rect x="45"  y="90" width="74" height="44" rx="8" fill="#e8f4f9" stroke="#a5d9ea" stroke-width="1"/>
+          <text x="82"  y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">low</text>
+
+          <rect x="127" y="90" width="74" height="44" rx="8" fill="#cfeaf3" stroke="#a5d9ea" stroke-width="1"/>
+          <text x="164" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">medium</text>
+
+          <rect x="209" y="90" width="74" height="44" rx="8" fill="#a5d9ea" stroke="#6ec4de" stroke-width="1"/>
+          <text x="246" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">high</text>
+
+          <rect x="291" y="90" width="74" height="44" rx="8" fill="#6ec4de" stroke="#1a96c0" stroke-width="1"/>
+          <text x="328" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">xhigh</text>
+
+          <rect x="373" y="90" width="74" height="44" rx="8" fill="#1a96c0" stroke="#1a96c0" stroke-width="1"/>
+          <text x="410" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">max</text>
+
+          <!-- 注釈（左） -->
+          <rect x="20" y="150" width="180" height="44" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="110" y="169" text-anchor="middle" font-size="10" fill="#5e6a8a">いちばん浅い low でも</text>
+          <text x="110" y="182" text-anchor="middle" font-size="10" fill="#5e6a8a">他社モデルより高スコア</text>
+
+          <!-- 注釈（右） -->
+          <rect x="290" y="150" width="190" height="44" rx="8" fill="rgba(26,150,192,.1)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="385" y="169" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">max では Fable 5 と</text>
+          <text x="385" y="182" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">わずか 0.5% 差</text>
+
+          <!-- 補足 -->
+          <text x="250" y="220" text-anchor="middle" font-size="9" fill="#5e6a8a">※ 深くするほどトークン消費と待ち時間が増えます</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 営業パーソンの活用例</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>日々のメール下書きは low〜medium で素早く仕上げる</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>大型案件の提案書レビューは max に上げてじっくり考えさせる</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>モデルは変えず、仕事の重さで「深さ」だけを切り替える</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 効率も改善</div>
+          <ul class="box-list">
+            <li>法務レビューでは Opus 4.8 比 26% 少ないトークンで同等品質</li>
+            <li>財務モデリングでは正答率 +9pt、所要時間 60% 削減の報告も</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>いつも max にすると費用と待ち時間が膨らむ</li>
+            <li>迷ったら medium から始めて、必要な時だけ上げる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

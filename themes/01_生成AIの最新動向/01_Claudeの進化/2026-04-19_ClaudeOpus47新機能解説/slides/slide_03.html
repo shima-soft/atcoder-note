@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">VISION</span>
+    <h2 class="slide-title">画像解析が3倍以上鮮明に</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>営業資料のグラフも、複雑な設計図も、そのまま貼り付けて「要約して」と頼めるようになった</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          BEFORE bar: x=40, w=210 → 右端 x=250
+          AFTER  bar: x=40, w=340 → 右端 x=380 (比率×1.6倍表示)
+          テキスト固定 x=400, text-anchor="start"
+          viewBox: 0 0 500 240
+        -->
+        <svg viewBox="0 0 500 240" width="640" height="260" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <!-- タイトル -->
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">最大処理解像度の比較</text>
+
+          <!-- BEFORE ラベル -->
+          <text x="40" y="55" font-size="10" font-weight="700" fill="#5e6a8a">BEFORE（Opus 4.6）</text>
+          <!-- BEFORE バー -->
+          <rect x="40" y="62" width="210" height="34" rx="6" fill="#dde2ec"/>
+          <!-- BEFORE バー内テキスト -->
+          <text x="145" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">〜860px</text>
+          <!-- BEFORE 説明テキスト -->
+          <text x="400" y="72" text-anchor="start" font-size="10" fill="#5e6a8a">約 0.7</text>
+          <text x="400" y="87" text-anchor="start" font-size="10" fill="#5e6a8a">メガピクセル</text>
+
+          <!-- 矢印 -->
+          <text x="250" y="120" text-anchor="middle" font-size="20" fill="#1a96c0">↓</text>
+          <text x="250" y="138" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">3倍以上に進化</text>
+
+          <!-- AFTER ラベル -->
+          <text x="40" y="160" font-size="10" font-weight="700" fill="#1a96c0">AFTER（Opus 4.7）</text>
+          <!-- AFTER バー -->
+          <rect x="40" y="167" width="340" height="34" rx="6" fill="rgba(26,150,192,.18)" stroke="var(--blue)" stroke-width="1.5"/>
+          <!-- AFTER バー内テキスト -->
+          <text x="210" y="190" text-anchor="middle" font-size="11" font-weight="700" fill="#1a96c0">最大 2,576px</text>
+          <!-- AFTER 説明テキスト -->
+          <text x="400" y="177" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">約 3.75</text>
+          <text x="400" y="192" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">メガピクセル</text>
+
+          <!-- 補足 -->
+          <text x="250" y="228" text-anchor="middle" font-size="9" fill="#5e6a8a">※ 長辺ピクセル数。実際の処理品質は画像内容によって異なります</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 営業パーソンの活用例</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>取引先から届いた決算資料（グラフ・表入り）をスクリーンショットで撮る</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>Claudeに画像を貼り付け「重要な数字を3行でまとめて」と依頼</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>上司への報告メールの下書きをそのまま作成してもらう</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 使えるシーン</div>
+          <ul class="box-list">
+            <li>グラフ・図表が混在した資料の要約・翻訳</li>
+            <li>スクリーンショットから文字起こし（OCR代替）</li>
+            <li>設計図・フロー図の内容確認</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>高解像度画像は処理トークン数が増えるためコストに注意</li>
+            <li>手書き文字や極小フォントは読み取り精度に限界あり</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

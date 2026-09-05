@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">解法</span>
+    <h2 class="slide-title">Pythonの set() で一発解決</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">コツ</span>
+      <p>重複を消してカウントするだけ — Q1は「N個残るか」、Q2は「M個残るか」</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: SVG図 -->
+    <div class="diagram-box">
+      <!--
+        F = [1, 2, 1, 2] の set() 変換を示す
+        boxes width=46, gap=8, step=54
+        box[0]: x=30, cx=53
+        box[1]: x=84, cx=107
+        box[2]: x=138, cx=161  (重複の1)
+        box[3]: x=192, cx=215
+
+        set後: 2boxes
+        box[0]: x=55, cx=78
+        box[1]: x=109, cx=132
+
+        Q1/Q2比較: 2列
+      -->
+      <svg viewBox="0 0 600 370" font-family="'Noto Sans JP',sans-serif">
+
+        <!-- == セクション1: Fのリスト == -->
+        <text x="20" y="28" font-size="11" fill="#5e6a8a" font-weight="700">F = [1, 2, 1, 2]　　入力リスト（N=4, M=2）</text>
+
+        <!-- box[0]: 値1, orange -->
+        <rect x="30" y="36" width="46" height="46" rx="8" fill="rgba(217,96,24,.15)" stroke="#d96018" stroke-width="2"/>
+        <text x="53" y="65" font-size="20" fill="#d96018" text-anchor="middle" font-weight="900">1</text>
+
+        <!-- box[1]: 値2, blue -->
+        <rect x="84" y="36" width="46" height="46" rx="8" fill="rgba(26,150,192,.15)" stroke="#1a96c0" stroke-width="2"/>
+        <text x="107" y="65" font-size="20" fill="#1a96c0" text-anchor="middle" font-weight="900">2</text>
+
+        <!-- box[2]: 値1, red dashed (重複) -->
+        <rect x="138" y="36" width="46" height="46" rx="8" fill="rgba(201,22,46,.1)" stroke="#c9162e" stroke-width="2" stroke-dasharray="5 3"/>
+        <text x="161" y="65" font-size="20" fill="#c9162e" text-anchor="middle" font-weight="900">1</text>
+        <!-- × マーク -->
+        <text x="171" y="44" font-size="12" fill="#c9162e" font-weight="900">×</text>
+
+        <!-- box[3]: 値2, blue (重複気味) -->
+        <rect x="192" y="36" width="46" height="46" rx="8" fill="rgba(26,150,192,.1)" stroke="#1a96c0" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="215" y="65" font-size="20" fill="#1a96c0" text-anchor="middle" font-weight="900">2</text>
+        <text x="225" y="44" font-size="12" fill="#1a96c0" font-weight="900">×</text>
+
+        <!-- 重複ラベル -->
+        <!-- "重複！" = 3全角 * 10 = 30px + 20 = 50px -->
+        <rect x="138" y="87" width="100" height="16" rx="8" fill="rgba(201,22,46,.15)"/>
+        <text x="188" y="99" font-size="10" fill="#c9162e" text-anchor="middle" font-weight="700">重複を除去</text>
+
+        <!-- == 矢印 + set() ラベル == -->
+        <!-- "↓ set() 関数が重複を自動除去" -->
+        <line x1="130" y1="110" x2="130" y2="148" stroke="#d96018" stroke-width="2" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M1,1 L7,4 L1,7 Z" fill="#d96018"/>
+          </marker>
+        </defs>
+        <!-- "set() を適用" = 7全角相当 * 12 = 84px -->
+        <rect x="148" y="118" width="120" height="22" rx="6" fill="rgba(217,96,24,.12)" stroke="rgba(217,96,24,.4)" stroke-width="1"/>
+        <text x="208" y="133" font-size="11" fill="#d96018" text-anchor="middle" font-weight="700">set() を適用</text>
+
+        <!-- == セクション2: set後の結果 == -->
+        <!-- "set(F) = {1, 2}" -->
+        <text x="20" y="168" font-size="11" fill="#5e6a8a" font-weight="700">set(F) = {1, 2}　　重複が消えてユニーク値だけ残る</text>
+
+        <!-- set box[0]: 値1, orange (残った) -->
+        <rect x="55" y="176" width="46" height="46" rx="8" fill="rgba(217,96,24,.15)" stroke="#d96018" stroke-width="2"/>
+        <text x="78" y="205" font-size="20" fill="#d96018" text-anchor="middle" font-weight="900">1</text>
+
+        <!-- set box[1]: 値2, blue (残った) -->
+        <rect x="109" y="176" width="46" height="46" rx="8" fill="rgba(26,150,192,.15)" stroke="#1a96c0" stroke-width="2"/>
+        <text x="132" y="205" font-size="20" fill="#1a96c0" text-anchor="middle" font-weight="900">2</text>
+
+        <!-- len = 2 ラベル -->
+        <rect x="175" y="188" width="130" height="24" rx="12" fill="rgba(0,143,106,.12)" stroke="rgba(0,143,106,.35)" stroke-width="1"/>
+        <text x="240" y="204" font-size="12" fill="#008f6a" text-anchor="middle" font-weight="700">len(set(F)) = 2</text>
+
+        <!-- == セクション3: Q1 と Q2 の比較 == -->
+        <line x1="130" y1="228" x2="130" y2="250" stroke="#5e6a8a" stroke-width="1.5"/>
+        <text x="300" y="248" font-size="11" fill="#5e6a8a" text-anchor="middle">len(set(F)) の値を N と M それぞれと比較する</text>
+
+        <!-- Q1 比較ボックス -->
+        <rect x="20" y="258" width="265" height="90" rx="10" fill="white" stroke="#dde2ec"/>
+        <rect x="20" y="258" width="265" height="4" rx="10" fill="#c9162e"/>
+        <!-- "Q1: len(set(F)) == N ?" = 英数混在、短め -->
+        <text x="152" y="282" font-size="12" fill="#1a1d2e" text-anchor="middle" font-weight="700">Q1: len(set(F)) == N ?</text>
+        <!-- "2 == 4 → False → No" -->
+        <text x="152" y="303" font-size="13" fill="#5e6a8a" text-anchor="middle" font-family="'Consolas',monospace">2 == 4 → False</text>
+        <rect x="102" y="313" width="100" height="24" rx="12" fill="#c9162e"/>
+        <text x="152" y="330" font-size="12" fill="white" text-anchor="middle" font-weight="900">No ✗</text>
+
+        <!-- Q2 比較ボックス -->
+        <rect x="315" y="258" width="265" height="90" rx="10" fill="white" stroke="#dde2ec"/>
+        <rect x="315" y="258" width="265" height="4" rx="10" fill="#008f6a"/>
+        <!-- "Q2: len(set(F)) == M ?" -->
+        <text x="447" y="282" font-size="12" fill="#1a1d2e" text-anchor="middle" font-weight="700">Q2: len(set(F)) == M ?</text>
+        <!-- "2 == 2 → True → Yes" -->
+        <text x="447" y="303" font-size="13" fill="#5e6a8a" text-anchor="middle" font-family="'Consolas',monospace">2 == 2 → True</text>
+        <rect x="397" y="313" width="100" height="24" rx="12" fill="#008f6a"/>
+        <text x="447" y="330" font-size="12" fill="white" text-anchor="middle" font-weight="900">Yes ✓</text>
+
+      </svg>
+    </div>
+
+    <!-- 右: 情報列 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔑 set() とは何か？</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>Pythonの<strong>集合型</strong>。重複した値を自動で除去する</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>リストを set() に入れると <strong>ユニークな値だけ</strong>が残る</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>len() で個数を数えて N や M と比較するだけ</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title">✅ Q1の判定ロジック</div>
+        <ul class="box-list">
+          <li>重複なし → set後も N 個残る</li>
+          <li><code style="font-size:.8rem;">len(set(F)) == N</code> → Yes</li>
+          <li>重複あり → set後は N 個より少ない</li>
+        </ul>
+      </div>
+
+      <div class="ok-box" style="border-left-color:var(--blue)">
+        <div class="box-title">✅ Q2の判定ロジック</div>
+        <ul class="box-list">
+          <li>全種類カバー → set後ちょうど M 種類</li>
+          <li><code style="font-size:.8rem;">len(set(F)) == M</code> → Yes</li>
+          <li>カバー不足 → set後は M 個より少ない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

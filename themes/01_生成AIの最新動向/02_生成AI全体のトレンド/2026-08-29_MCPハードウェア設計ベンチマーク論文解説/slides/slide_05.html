@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>ベンチマーク8つの試験コース</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">ベンチマーク</span>
+    <h2 class="slide-title">8つの試験コース — 簡単な一手から“意地悪”な罠まで</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>40問×8コース＝最大360問。現場の「あるある」を専門家が8パターンに分解して出題</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="8つのベンチマークスイート">
+        <!-- Easy/Medium/Hard -->
+        <text x="34" y="20" font-size="11" font-weight="900" fill="#5e6a8a">難易度で分けた独立タスク（前の問題の情報は不要）</text>
+        <rect x="20" y="28" width="184" height="96" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="112" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">Easy 40問</text>
+        <text x="112" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">1手で完了</text>
+        <text x="112" y="90" text-anchor="middle" font-size="10" fill="#5e6a8a">例: 部品を1つ作る</text>
+        <text x="112" y="108" text-anchor="middle" font-size="10" fill="#5e6a8a">create_component</text>
+
+        <rect x="218" y="28" width="184" height="96" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Medium 40問</text>
+        <text x="310" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">2手で完了</text>
+        <text x="310" y="90" text-anchor="middle" font-size="10" fill="#5e6a8a">例: 部品作成＋端子追加</text>
+        <text x="310" y="108" text-anchor="middle" font-size="10" fill="#5e6a8a">2コール連続</text>
+
+        <rect x="416" y="28" width="184" height="96" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="508" y="52" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Hard 40問</text>
+        <text x="508" y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">3〜5手＆依存あり</text>
+        <text x="508" y="90" text-anchor="middle" font-size="10" fill="#5e6a8a">例: 部品→端子3つ→保存</text>
+        <text x="508" y="108" text-anchor="middle" font-size="10" fill="#5e6a8a">順番を間違えると失敗</text>
+
+        <!-- History/Cross/Errors -->
+        <text x="34" y="148" font-size="11" font-weight="900" fill="#5e6a8a">記憶と判断力を試すコース</text>
+        <rect x="20" y="156" width="184" height="96" rx="12" fill="#ffffff" stroke="#7a3bce" stroke-width="1.5"/>
+        <text x="112" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">History 40問</text>
+        <text x="112" y="198" text-anchor="middle" font-size="10" fill="#1a1d2e">前の問題を覚えているか？</text>
+        <text x="112" y="216" text-anchor="middle" font-size="10" fill="#5e6a8a">「さっき作った部品に端子を」</text>
+        <text x="112" y="232" text-anchor="middle" font-size="10" fill="#5e6a8a">VLNVを省略して指示</text>
+
+        <rect x="218" y="156" width="184" height="96" rx="12" fill="#ffffff" stroke="#7a3bce" stroke-width="1.5"/>
+        <text x="310" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">Cross 40問</text>
+        <text x="310" y="198" text-anchor="middle" font-size="10" fill="#1a1d2e">依存＋記憶＋罠の総合</text>
+        <text x="310" y="216" text-anchor="middle" font-size="10" fill="#5e6a8a">パターン展開＋存在しない</text>
+        <text x="310" y="232" text-anchor="middle" font-size="10" fill="#5e6a8a">部品への依頼＝断るべき</text>
+
+        <rect x="416" y="156" width="184" height="96" rx="12" fill="#ffffff" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="508" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#c9162e">Errors 40問</text>
+        <text x="508" y="198" text-anchor="middle" font-size="10" fill="#1a1d2e">20問＝盛大な誤字</text>
+        <text x="508" y="216" text-anchor="middle" font-size="10" fill="#1a1d2e">20問＝空振りが正解</text>
+        <text x="508" y="232" text-anchor="middle" font-size="10" fill="#5e6a8a">何もしないのが正解を判定</text>
+
+        <!-- Noise -->
+        <text x="34" y="276" font-size="11" font-weight="900" fill="#5e6a8a">実務のノイズを再現（別ツールを混ぜる）</text>
+        <rect x="20" y="284" width="290" height="74" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="165" y="308" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Easy-Noise 60問</text>
+        <text x="165" y="328" text-anchor="middle" font-size="11" fill="#5e6a8a">設計2問ごとに GDB / Git を1問混ぜる</text>
+        <text x="165" y="344" text-anchor="middle" font-size="10" fill="#5e6a8a">ツール数3倍→誤爆しやすくなるか検証</text>
+
+        <rect x="324" y="284" width="276" height="74" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="462" y="308" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Hard-Noise 60問</text>
+        <text x="462" y="328" text-anchor="middle" font-size="11" fill="#5e6a8a">Hard版に同じノイズを混ぜる</text>
+        <text x="462" y="344" text-anchor="middle" font-size="10" fill="#5e6a8a">長いセッションでの迷子を検証</text>
+
+        <rect x="20" y="374" width="580" height="36" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="397" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">全タスクは専門家が正解コールを手作業で検証済み（ proprietaryのため詳細は非公開 ）</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">事務作業でたとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>Easy＝「顧客Aを登録して」1手で終わる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>History＝「さっきの顧客に請求書を紐付けて」記憶が必要</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>Errors＝誤字だらけの指示／存在しない顧客への依頼</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ この設計が秀逸な理由</div>
+        <ul class="box-list">
+          <li>単純作業から総合力まで段階的に測れる</li>
+          <li>空振りが正解の問題で「余計なことをしない勇気」も測る</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 実務との対応</div>
+        <ul class="box-list">
+          <li>Noiseコース＝SlackやGit操作が混ざる日常そのもの</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>4つの指標をやさしく解説</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">評価指標</span>
+    <h2 class="slide-title">4つの指標 — AIの“仕事ぶり”をどう測るか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>「やるべきことをやったか」「余計なことをしなかったか」「失敗したか」「断るべき時に断れたか」を別々に測る</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="4つの評価指標">
+        <!-- ECC -->
+        <rect x="20" y="18" width="286" height="174" rx="14" fill="#ffffff" stroke="#7a3bce" stroke-width="2.2"/>
+        <rect x="34" y="32" width="56" height="22" rx="6" fill="#7a3bce"/>
+        <text x="62" y="48" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">ECC ↑</text>
+        <text x="110" y="48" font-size="11" font-weight="900" fill="#1a1d2e">Expected Call Coverage</text>
+        <text x="34" y="70" font-size="11" font-weight="700" fill="#1a1d2e">やるべきことをやった率</text>
+        <text x="34" y="88" font-size="11" fill="#5e6a8a">正しく実行できた期待コール ÷ 期待コール数</text>
+        <rect x="34" y="102" width="258" height="48" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="163" y="120" text-anchor="middle" font-size="10" fill="#7a3bce" font-weight="700">例: 5手必要なのに3手しか合致→0.60</text>
+        <text x="163" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">高いほど「やり切った」</text>
+        <text x="34" y="174" font-size="10" fill="#5e6a8a">※順番違いはサーバが失敗させる→TFRで捕捉</text>
+
+        <!-- EVCR -->
+        <rect x="320" y="18" width="280" height="174" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="334" y="32" width="62" height="22" rx="6" fill="#ffffff" stroke="#c9162e"/>
+        <text x="365" y="48" text-anchor="middle" font-size="11" font-weight="900" fill="#c9162e">EVCR ↓</text>
+        <text x="408" y="48" font-size="11" font-weight="900" fill="#1a1d2e">余計なことをした率</text>
+        <text x="334" y="70" font-size="11" font-weight="700" fill="#1a1d2e">成功したのに不要だったコールの割合</text>
+        <text x="334" y="88" font-size="11" fill="#5e6a8a">期待外の成功コール ÷ 成功コール数</text>
+        <rect x="334" y="102" width="252" height="48" rx="8" fill="#fdecee" stroke="#f0a8b4"/>
+        <text x="460" y="120" text-anchor="middle" font-size="10" fill="#c9162e" font-weight="700">例: 頼んでないのに勝手に端子を追加</text>
+        <text x="460" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">低いほど「余計な手出しなし」</text>
+        <text x="334" y="174" font-size="10" fill="#5e6a8a">Noiseで増えやすい（別ツールを誤爆）</text>
+
+        <!-- TFR -->
+        <rect x="20" y="206" width="286" height="174" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="34" y="220" width="56" height="22" rx="6" fill="#ffffff" stroke="#c9162e"/>
+        <text x="62" y="236" text-anchor="middle" font-size="11" font-weight="900" fill="#c9162e">TFR ↓</text>
+        <text x="110" y="236" font-size="11" font-weight="900" fill="#1a1d2e">失敗率</text>
+        <text x="34" y="258" font-size="11" font-weight="700" fill="#1a1d2e">サーバに弾かれたコールの割合</text>
+        <text x="34" y="276" font-size="11" fill="#5e6a8a">失敗コール ÷ 全コール数</text>
+        <rect x="34" y="290" width="258" height="48" rx="8" fill="#fdecee" stroke="#f0a8b4"/>
+        <text x="163" y="308" text-anchor="middle" font-size="10" fill="#c9162e" font-weight="700">例: 存在しない部品の端子を作ろうとした</text>
+        <text x="163" y="326" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">低いほど「正確な指示」</text>
+        <text x="34" y="362" font-size="10" fill="#5e6a8a">包括的な説明書で半減する</text>
+
+        <!-- NCA -->
+        <rect x="320" y="206" width="280" height="174" rx="14" fill="#ffffff" stroke="#7a3bce" stroke-width="1.8"/>
+        <rect x="334" y="220" width="56" height="22" rx="6" fill="#eafaf2" stroke="#008f6a"/>
+        <text x="362" y="236" text-anchor="middle" font-size="11" font-weight="900" fill="#008f6a">NCA ↑</text>
+        <text x="408" y="236" font-size="11" font-weight="900" fill="#1a1d2e">断る力</text>
+        <text x="334" y="258" font-size="11" font-weight="700" fill="#1a1d2e">やるべきでない時に止まれた率</text>
+        <text x="334" y="276" font-size="11" fill="#5e6a8a">何もしなかった空振りタスク ÷ 空振りタスク数</text>
+        <rect x="334" y="290" width="252" height="48" rx="8" fill="#eafaf2" stroke="#8bd0b8"/>
+        <text x="460" y="308" text-anchor="middle" font-size="10" fill="#008f6a" font-weight="700">例: ない部品への依頼→何もしないが正解</text>
+        <text x="460" y="326" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">高いほど「空気を読めた」</text>
+        <text x="334" y="362" font-size="10" fill="#5e6a8a">Gemma31B 0.80 vs Llama 0.00で大差</text>
+
+        <text x="34" y="404" font-size="10" fill="#5e6a8a">↑高いほど良い　↓低いほど良い　■紫枠＝今回の主役指標（ECC/NCA）</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">事務作業でたとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">ECC</span><p>頼んだ5つの入力を何個正しく終えたか</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">EVCR</span><p>頼んでないのに勝手に余計な列を作ってないか</p></div>
+        <div class="biz-step"><span class="snum" style="background:#c9162e">TFR</span><p>エラーで弾かれた操作は何回か</p></div>
+        <div class="biz-step"><span class="snum" style="background:#008f6a">NCA</span><p>「その顧客は存在しません」と断れたか</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ なぜ4つも見るの？</div>
+        <ul class="box-list">
+          <li>ECCだけだと余計な手出しを見逃す — EVCRとセットで見る</li>
+          <li>失敗（TFR）と空振り対応（NCA）は別物だから分けて測る</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">論文の工夫</div>
+        <ul class="box-list">
+          <li>各タスク後に状態を“正解”に戻して次の問題へ — 連鎖失敗を防ぐ設計</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

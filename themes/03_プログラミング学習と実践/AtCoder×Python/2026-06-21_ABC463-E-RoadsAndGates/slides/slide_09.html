@@ -1,0 +1,9 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><style>.code-card code{font-size:.82rem;line-height:1.55}</style></head><body><div class="slide"><div class="slide-header"><span class="label" style="background:var(--g-orange);color:#fff">コード②</span><h2 class="slide-title">超頂点とワープ辺（8行）</h2><p class="slide-sub">料金式を、そのまま3種類の有向辺へ写す</p></div><div class="code-layout slide-body"><div class="code-card"><pre><code class="language-python">gate_in = N
+gate_out = N + 1
+
+for city in range(N):
+    graph[city].append((gate_in, X[city]))
+    graph[gate_out].append((city, X[city]))
+
+graph[gate_in].append((gate_out, Y))</code></pre></div><div class="code-notes"><div class="biz-example"><div class="biz-title">添字の割り当て</div><div class="biz-step"><span class="snum" style="background:var(--blue)">N</span><p>入口 Wₛ</p></div><div class="biz-step"><span class="snum" style="background:var(--purple);font-size:.58rem">N+1</span><p>出口 Wₜ</p></div></div><div class="ok-box"><div class="box-title">追加される辺</div><ul class="box-list"><li>都市 → gate_in：X[city]</li><li>gate_out → 都市：X[city]</li><li>gate_in → gate_out：Y</li></ul></div><div class="ng-box"><div class="box-title">向きを逆にしない</div><ul class="box-list"><li>すべて有向辺。不要な逆向き辺は登録しない</li></ul></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll())</script></body></html>
+

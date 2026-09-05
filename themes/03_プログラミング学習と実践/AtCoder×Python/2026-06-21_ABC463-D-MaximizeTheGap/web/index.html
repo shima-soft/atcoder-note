@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ABC463 D Maximize the Gap 解説</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css"><style>
+:root{--bg:#f9fafb;--surface:#eff1f7;--card:#fff;--border:#dde2ec;--text:#1a1d2e;--muted:#5e6a8a;--orange:#d96018;--green:#008f6a;--blue:#1a96c0;--red:#c9162e}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif;line-height:1.75}header{height:52px;position:fixed;inset:0 0 auto;z-index:5;background:#1a1d2e;color:#fff;display:flex;align-items:center;padding:0 1.2rem;font-weight:800}header span{color:#e8873a;margin-right:.6rem}.layout{display:grid;grid-template-columns:220px minmax(0,820px);gap:2rem;max-width:1100px;margin:52px auto 0;padding:0 1rem}.side{position:sticky;top:52px;height:calc(100vh - 52px);padding:1.5rem 0}.side a{display:block;padding:.42rem .75rem;color:var(--muted);text-decoration:none;border-left:3px solid transparent;font-size:.86rem}.side a.active{color:var(--orange);border-left-color:var(--orange);background:rgba(217,96,24,.07);font-weight:800}main{padding:2rem 0 4rem}section{scroll-margin-top:70px;margin-bottom:2.4rem}.hero{background:linear-gradient(135deg,#fff7ed,#fff);border:1px solid #f3d5bd;border-radius:18px;padding:2.2rem}.eyebrow{display:inline-block;background:var(--orange);color:#fff;border-radius:99px;padding:.12rem .65rem;font-size:.76rem;font-weight:800}h1{font-size:2.1rem;line-height:1.25;margin:.65rem 0 .45rem}h2{font-size:1.45rem;margin:0 0 .8rem;border-left:5px solid var(--orange);padding-left:.7rem}h3{font-size:1rem;margin:.2rem 0}.lead{font-size:1.05rem;color:var(--muted)}.card,.check{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem 1.15rem;margin:.65rem 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem}.num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;font-weight:900}.ok{border-left:4px solid var(--green)}.ng{border-left:4px solid var(--red)}code{font-family:Consolas,monospace}.formula{background:var(--surface);border-radius:8px;padding:.6rem .8rem;font-family:Consolas,monospace;font-weight:700}.ac-code-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:1rem 0}.ac-code-header{display:flex;align-items:center;gap:.6rem;background:var(--surface);padding:.45rem .8rem;border-bottom:1px solid var(--border)}.ac-filename{font-family:Consolas,monospace;font-size:.82rem;color:var(--muted);flex:1}.ac-badge{font-size:.72rem;color:var(--green);font-weight:700}.copy-btn,.flow-link{font-size:.76rem;font-weight:700;padding:.3rem .7rem;border-radius:6px;border:1px solid var(--orange);color:var(--orange);background:transparent;cursor:pointer;text-decoration:none}.ac-code-block pre{margin:0;padding:1rem;overflow:auto}.ac-code-block pre code.hljs{background:transparent!important;padding:0!important}.complexity{width:100%;border-collapse:collapse}.complexity th,.complexity td{text-align:left;padding:.55rem;border-bottom:1px solid var(--border)}details{border-top:1px solid var(--border);padding:.55rem 0}summary{cursor:pointer;font-weight:700}.glossary{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.term{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem}.term strong{display:block}.term small{color:var(--muted)}footer{color:var(--muted);font-size:.8rem;margin-top:2rem}@media(max-width:800px){.layout{display:block}.side{display:none}main{padding-top:1rem}.grid,.steps,.glossary{grid-template-columns:1fr}h1{font-size:1.7rem}.hero{padding:1.3rem}.ac-badge{display:none}}
+</style><!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head><body><header><a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;margin-right:.7rem;white-space:nowrap">← 一覧</a><span>AtCoder×Python</span>ABC463 D — Maximize the Gap</header><div class="layout"><nav class="side"><a href="#overview">概要</a><a href="#problem">問題を読み解く</a><a href="#transform">判定問題へ変換</a><a href="#greedy">貪欲法</a><a href="#binary">二分探索</a><a href="#code">AC想定コード</a><a href="#complexity">計算量</a><a href="#summary">まとめ</a><a href="#glossary">用語解説</a></nav><main>
+<section id="overview" class="hero"><span class="eyebrow">ABC463 D / 400点</span><h1>Maximize the Gap</h1><p class="lead">「最大スコア」を直接探さず、距離xが実現可能かを貪欲に判定し、OK / NGの境界を二分探索します。</p><div class="steps"><div class="step"><span class="num">1</span><h3>xを固定</h3><p>Yes/No問題へ変換</p></div><div class="step"><span class="num">2</span><h3>右端順に選ぶ</h3><p>最大枚数を貪欲に数える</p></div><div class="step"><span class="num">3</span><h3>境界を探す</h3><p>最大のOKが答え</p></div></div><p><a class="flow-link" href="flowchart.html">考え方フローチャートを開く →</a></p></section>
+<section id="problem"><h2>問題を読み解く</h2><div class="card"><p>N枚の布 i が閉区間 [L<sub>i</sub>, R<sub>i</sub>] を覆います。互いに重ならないK枚を選び、布どうしの距離の最小値を最大にします。K枚選べなければ -1。</p></div><div class="grid"><div class="card"><h3>制約が示すこと</h3><p>N ≤ 2×10<sup>5</sup> なので全組合せは不可。座標 ≤ 10<sup>9</sup> は答えの二分探索に向きます。</p></div><div class="card ng"><h3>閉区間に注意</h3><p>[1,5] と [5,9] は点5を共有するため重なります。重ならない整数区間の距離は1以上です。</p></div></div><div class="check"><details><summary>セルフチェック：サンプル1のスコアが2になる理由は？</summary><p>[2,7]・[9,13]・[15,20]を選ぶと、隣の距離が2と2で、その最小値が2だからです。</p></details></div></section>
+<section id="transform"><h2>「距離x以上で選べるか？」へ変換</h2><div class="formula">次の L − 前の R ≥ x</div><p>xで可能なら、それより小さい値も可能です。xで不可能なら、それより大きい値も不可能。判定結果には単調性があり、二分探索できます。</p><div class="grid"><div class="card ok"><h3>OK側</h3><p>x = 1, 2, …</p></div><div class="card ng"><h3>NG側</h3><p>… x = 3, 4（サンプル1）</p></div></div></section>
+<section id="greedy"><h2>右端が早い布から選ぶ</h2><p>布をRの昇順に並べます。条件を満たす布を見つけたら選び、最後の右端を更新します。早く終わる布ほど右側に広い空きを残すので、後の候補を減らしません。</p><div class="card"><ol><li>Rの昇順にソート</li><li><code>L - last_right &gt;= x</code> なら選ぶ</li><li>K枚以上選べたらxは実現可能</li></ol></div><div class="check"><details><summary>セルフチェック：左端順ではなく右端順なのはなぜ？</summary><p>右端が早い布を選ぶと、次に使える空間を最大にできるからです。</p></details></div></section>
+<section id="binary"><h2>最大のOKを二分探索</h2><div class="grid"><div class="card ok"><h3>ok = 0</h3><p>可能側の番兵。最後まで0なら答えは存在しません。</p></div><div class="card ng"><h3>ng = 10<sup>9</sup> + 1</h3><p>必ず不可能な側。</p></div></div><p><code>mid = (ok + ng) // 2</code> を判定し、可能ならok、不可能ならngをmidへ動かします。差が1で終了します。</p></section>
+<section id="code"><h2>提出コード</h2><p>公式サンプル3件（2 / -1 / 35）で確認済みです。</p><div class="ac-code-block"><div class="ac-code-header"><span class="ac-filename">abc463d.py</span><span class="ac-badge">✅ AC想定・公式サンプル確認済み</span><button class="copy-btn" onclick="copyCode(this)">コピー</button></div><pre><code class="language-python">import sys
+
+input = sys.stdin.readline
+N, K = map(int, input().split())
+
+cloths = []
+for _ in range(N):
+    L, R = map(int, input().split())
+    cloths.append((L, R))
+
+cloths.sort(key=lambda cloth: cloth[1])
+
+ok = 0
+ng = 10**9 + 1
+
+while ng - ok &gt; 1:
+    mid = (ok + ng) // 2
+    selected_count = 0
+    last_right = -10**18
+
+    for left, right in cloths:
+        if left - last_right &gt;= mid:
+            selected_count += 1
+            last_right = right
+
+    if selected_count &gt;= K:
+        ok = mid
+    else:
+        ng = mid
+
+if ok == 0:
+    print(-1)
+else:
+    print(ok)</code></pre></div></section>
+<section id="complexity"><h2>計算量</h2><table class="complexity"><tr><th>処理</th><th>計算量</th></tr><tr><td>右端ソート</td><td>O(N log N)</td></tr><tr><td>貪欲判定</td><td>O(N)</td></tr><tr><td>二分探索</td><td>O(log M)、約30回</td></tr><tr><td>全体</td><td><strong>O(N log N + N log M)</strong></td></tr></table><p>M ≤ 10<sup>9</sup>。N ≤ 2×10<sup>5</sup> はPythonでも現実的な範囲です。</p></section>
+<section id="summary"><h2>まとめ</h2><div class="steps"><div class="step"><span class="num">1</span><p>最大化を判定問題へ</p></div><div class="step"><span class="num">2</span><p>右端順の貪欲法</p></div><div class="step"><span class="num">3</span><p>最大OKを二分探索</p></div></div><p>「最小値を最大化」「最大値を最小化」を見たら、答えを固定した判定を疑いましょう。</p></section>
+<section id="glossary"><h2>用語解説</h2><div class="glossary"><div class="term"><strong>閉区間</strong><small>端点を含む区間。</small></div><div class="term"><strong>区間スケジューリング</strong><small>重ならない区間を多く選ぶ定番問題。</small></div><div class="term"><strong>貪欲法</strong><small>その場で最善の選択を積み重ねる。</small></div><div class="term"><strong>二分探索</strong><small>候補範囲を半分ずつ捨てる。</small></div><div class="term"><strong>単調性</strong><small>OKとNGが一度だけ切り替わる性質。</small></div><div class="term"><strong>lambda</strong><small>短い無名関数を書くPython構文。</small></div></div></section><footer>出典: <a href="https://atcoder.jp/contests/abc463/tasks/abc463_d">AtCoder ABC463 D</a> / 問題文は平易に言い換えています。</footer>
+</main></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());function copyCode(btn){const code=btn.closest('.ac-code-block').querySelector('code').textContent;navigator.clipboard.writeText(code).then(()=>{btn.textContent='コピー完了！';setTimeout(()=>btn.textContent='コピー',2000)})}const links=[...document.querySelectorAll('.side a')],sections=[...document.querySelectorAll('main section')];const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-20% 0px -60% 0px'});sections.forEach(s=>ob.observe(s));</script></body></html>

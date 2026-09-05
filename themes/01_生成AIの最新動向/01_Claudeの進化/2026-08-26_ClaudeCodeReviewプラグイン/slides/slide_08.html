@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">USAGE</span>
+    <h2 class="slide-title">使い方 — /code-review 1コマンドで起動</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>PRのブランチでコマンドを打つだけで、全エージェントが自動起動して結果がGitHubに投稿される</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左（手順・脇役）: x=20 w=190 (right=210)
+          右（出力・主役）: x=230 w=240 (right=470)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">たった1つのコマンドで全自動レビュー</text>
+
+          <!-- 左: 手順（脇役） -->
+          <text x="115" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">やることは3つだけ</text>
+          <rect x="20" y="76" width="190" height="52" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="115" y="100" text-anchor="middle" font-size="12.5" fill="#5e6a8a">① PRブランチに切る</text>
+          <rect x="20" y="140" width="190" height="52" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="115" y="164" text-anchor="middle" font-size="12.5" fill="#5e6a8a">② /code-review を打つ</text>
+          <rect x="20" y="204" width="190" height="52" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="115" y="228" text-anchor="middle" font-size="12.5" fill="#5e6a8a">③ 結果をGitHubで確認</text>
+
+          <polygon points="216,171 228,179 216,187" fill="#5e6a8a"/>
+
+          <!-- 右: 出力（主役） -->
+          <rect x="230" y="76" width="240" height="190" rx="12" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="350" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">GitHub に投稿される内容</text>
+          <text x="248" y="138" font-size="12" fill="#1a1d2e">✓ 該当ファイル名 + 行番号範囲</text>
+          <text x="248" y="162" font-size="12" fill="#1a1d2e">✓ 問題の説明 + 修正提案コード</text>
+          <text x="248" y="186" font-size="12" fill="#1a1d2e">✓ 信頼度スコア</text>
+          <text x="248" y="214" font-size="12" font-weight="700" fill="#1a96c0">✓ SHA ハッシュ付きリンク</text>
+          <text x="248" y="234" font-size="11" fill="#5e6a8a">（該当箇所にワンクリックで移動）</text>
+
+          <!-- コマンド例 -->
+          <rect x="20" y="290" width="450" height="48" rx="10" fill="#0d1b2a"/>
+          <text x="40" y="320" font-size="14" font-weight="700" fill="#2ab8e0" font-family="'Courier New',monospace">/code-review</text>
+
+          <!-- カスタマイズ情報 -->
+          <text x="250" y="376" text-anchor="middle" font-size="12" fill="#5e6a8a">閾値や注力分野（セキュリティ・パフォーマンス等）の変更も可能</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 事務・営業に置き換えると</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>企画書を共有フォルダにアップする（PRブランチに切るのと同じ）</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>「確認して」と一言送る（/code-review を打つのと同じ）</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>メールで指摘事項が届く。該当ページへのリンク付き（GitHubコメントと同じ）</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 導入に必要なもの</div>
+          <ul class="box-list">
+            <li>Claude Code（Anthropic の開発ツール）</li>
+            <li>GitHub リポジトリへのアクセス権</li>
+            <li>プログラミングスキルは不要</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>大量のPRをレビューする場合は、プランや料金を事前に確認しておこう</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

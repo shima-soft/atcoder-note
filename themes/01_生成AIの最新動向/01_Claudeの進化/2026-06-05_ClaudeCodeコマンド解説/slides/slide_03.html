@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">START</span>
+    <h2 class="slide-title">まず覚えるCLI: 始める・聞く・戻る</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>普段使いは <code>claude</code>、自動化は <code>-p</code>、続きは <code>-c</code> と <code>-r</code> です。</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <table class="command-table">
+      <thead><tr><th>コマンド</th><th>使う場面</th><th>例</th></tr></thead>
+      <tbody>
+        <tr><td><code>claude</code></td><td>対話形式で作業を始める</td><td>プロジェクトを開いて相談する</td></tr>
+        <tr><td><code>claude "query"</code></td><td>最初の依頼文つきで開始する</td><td><code>claude "この構成を説明して"</code></td></tr>
+        <tr><td><code>claude -p "query"</code></td><td>答えを出して終了する</td><td>ログ要約、簡単なチェック、自動処理</td></tr>
+        <tr><td><code>cat file | claude -p "query"</code></td><td>ファイル内容を渡して処理する</td><td>長いログやメモを要約する</td></tr>
+        <tr><td><code>claude -c</code></td><td>同じフォルダの直近会話を続ける</td><td>昨日の作業に戻る</td></tr>
+        <tr><td><code>claude -r "name"</code></td><td>会話IDや名前を指定して戻る</td><td>複数案件を名前で切り替える</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

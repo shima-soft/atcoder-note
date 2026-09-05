@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">TOOL 3</span>
+    <h2 class="slide-title">写させない。機械に流し込ませる</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>同じ図を2か所に置くなら、原本を1つ決めて、もう片方は毎回コピーで作り直す</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          BEFORE ゾーン: x=16 y=46  w=468 h=112 (46..158)
+          AFTER  ゾーン: x=16 y=178 w=468 h=112 (178..290)
+          各ゾーン内の箱: 左 x=32 w=160 (right=192) / 右 x=308 w=160 (right=468)
+          箱の間 192..308 (116px) — 注記は中心 x=250 に置く
+          viewBox: 0 0 500 330
+        -->
+        <svg viewBox="0 0 500 330" width="600" height="396" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">同じSVGを2か所に置く — その同期方法</text>
+
+          <!-- BEFORE（脇役） -->
+          <rect x="16" y="46" width="468" height="112" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="32" y="68" text-anchor="start" font-size="12" font-weight="700" fill="#5e6a8a">BEFORE — 人が写す</text>
+          <rect x="32" y="84" width="160" height="56" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="112" y="116" text-anchor="middle" font-size="12" fill="#5e6a8a">スライドのSVG</text>
+          <text x="250" y="108" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c9162e">👀 手でコピペ</text>
+          <text x="250" y="128" text-anchor="middle" font-size="10.5" fill="#c9162e">→ 片方だけ古くなる</text>
+          <rect x="308" y="84" width="160" height="56" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="388" y="116" text-anchor="middle" font-size="12" fill="#5e6a8a">Web公開版のSVG</text>
+
+          <!-- AFTER（主役） -->
+          <rect x="16" y="178" width="468" height="112" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2"/>
+          <text x="32" y="200" text-anchor="start" font-size="12" font-weight="700" fill="#1a96c0">AFTER — ツールが流し込む</text>
+          <rect x="32" y="216" width="160" height="56" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="112" y="248" text-anchor="middle" font-size="12" fill="#1a1d2e">スライドのSVG</text>
+          <text x="250" y="240" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a96c0">sync_web_svg.py</text>
+          <text x="250" y="260" text-anchor="middle" font-size="10.5" fill="#1a96c0">→ 常に同じ中身になる</text>
+          <rect x="308" y="216" width="160" height="56" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="388" y="248" text-anchor="middle" font-size="12" font-weight="700" fill="#1a96c0">Web公開版のSVG</text>
+
+          <text x="250" y="316" text-anchor="middle" font-size="11.5" fill="#5e6a8a">--check を付けると、ずれている図だけを教えてくれる</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 仕組みはこれだけ</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>公開ページ側に「ここは3枚目の図」という目印だけ置いておく</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>ツールが原本のスライドから図を取り出し、目印の中身を入れ替える</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>公開前に確認モードで流し、差分0枚を確かめる</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 手で写すのをやめると</div>
+          <ul class="box-list">
+            <li>写し間違いという失敗の種類そのものが消える</li>
+            <li>図の枚数や順番が変わっても、目印があれば追従する</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 前提</div>
+          <ul class="box-list">
+            <li>原本をどちらか一方に決めること。両方を直すと必ずずれる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

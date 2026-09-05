@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>まとめ 拡散モデルは先読み役に向いていた</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">まとめ</span>
+    <h2 class="slide-title">拡散モデルは「先読み役」にちょうど向いていた</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>2つの技術の弱点を、お互いの強みで補い合わせたのがDFlashのポイント</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">1</div>
+        <div class="card-title">先読み役の「遅さ」が真のボトルネック</div>
+        <div class="card-desc">投機的デコーディングの限界は、下書き役自身が一文字ずつしか書けないことだった</div>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">2</div>
+        <div class="card-title">本体の記憶を注ぎ込んで弱点を克服</div>
+        <div class="card-desc">拡散モデル単体の精度不足を、本体AIの特徴量を全層に注入することで解決した</div>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">3</div>
+        <div class="card-title">質を落とさず最大6倍速、公開済み</div>
+        <div class="card-desc">コードとモデルは公開されており、今後は実サービスへの組み込みが焦点になる</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

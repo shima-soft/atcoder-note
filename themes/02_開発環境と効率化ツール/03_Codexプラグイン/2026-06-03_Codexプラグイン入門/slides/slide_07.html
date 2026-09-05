@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wrap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.85rem; flex:1; }
+.wrap-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem; display:flex; flex-direction:column; gap:.45rem; }
+.wrap-card strong { font-size:1rem; font-weight:900; color:var(--text); }
+.wrap-card p { font-size:.82rem; color:var(--muted); line-height:1.65; }
+.action-band { margin-top:.7rem; background:#eaf7fc; border:1px solid rgba(26,150,192,.22); border-radius:14px; padding:.8rem 1rem; }
+.action-band p { font-size:.86rem; color:var(--text); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">まとめ: 小さく作って、必要な人に配る</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>プラグインは、Codexの働き方をチームの仕事に合わせるための配布パッケージです</p>
+    </div>
+  </div>
+  <div class="slide-body" style="flex-direction:column">
+    <div class="wrap-grid">
+      <div class="wrap-card">
+        <span class="card-num" style="background:var(--g-blue)">1</span>
+        <strong>まずSkillで型を作る</strong>
+        <p>毎回説明している作業手順を、1つのSkillとして文章化します。小さな成功例を作るのが最短です。</p>
+      </div>
+      <div class="wrap-card">
+        <span class="card-num" style="background:var(--g-orange)">2</span>
+        <strong>必要ならPluginに包む</strong>
+        <p>チームで配る、外部サービスとつなぐ、MCPやhookをまとめる。共有したくなったらプラグイン化します。</p>
+      </div>
+      <div class="wrap-card">
+        <span class="card-num" style="background:var(--g-green)">3</span>
+        <strong>権限と運用を決める</strong>
+        <p>誰が使うか、何を読めるか、誰がメンテナンスするか。便利さと安全性をセットで設計します。</p>
+      </div>
+    </div>
+    <div class="action-band">
+      <p>明日やるなら: 「自分が毎回Codexに説明している作業」を1つ選び、Skill化できるかを書き出してみましょう。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

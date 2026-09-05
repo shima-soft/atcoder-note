@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>実験結果 平均4.9倍速 最大6.1倍速</title>
+<style>
+.result-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  overflow: hidden;
+}
+.result-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .7rem;
+  flex: 0 0 auto;
+}
+.result-highlights .card { padding: .6rem .9rem; gap: .2rem; }
+.result-highlights .card-desc { font-size: .72rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">実験結果</span>
+    <h2 class="slide-title">数学・コード・雑談、どの分野でもEAGLE-3を上回った</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>Qwen3モデルで平均4.9倍速、最大6.1倍速。EAGLE-3の最大2.5倍のスピードを記録</p>
+    </div>
+  </div>
+  <div class="result-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th>モデル</th>
+            <th>手法（候補数）</th>
+            <th>平均速度倍率</th>
+            <th>1回で採用された語数（τ）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qwen3-4B</td>
+            <td>EAGLE-3（16）</td>
+            <td>1.81倍</td>
+            <td>3.05語</td>
+          </tr>
+          <tr>
+            <td>Qwen3-4B</td>
+            <td>EAGLE-3（60）</td>
+            <td>2.08倍</td>
+            <td>3.48語</td>
+          </tr>
+          <tr>
+            <td>Qwen3-4B</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.14);color:var(--purple)">DFlash（16）</span></td>
+            <td style="color:var(--purple);font-weight:900">4.91倍</td>
+            <td style="color:var(--purple);font-weight:900">6.54語</td>
+          </tr>
+          <tr>
+            <td>Qwen3-8B</td>
+            <td>EAGLE-3（16）</td>
+            <td>1.76倍</td>
+            <td>2.96語</td>
+          </tr>
+          <tr>
+            <td>Qwen3-8B</td>
+            <td>EAGLE-3（60）</td>
+            <td>2.02倍</td>
+            <td>3.40語</td>
+          </tr>
+          <tr>
+            <td>Qwen3-8B</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.14);color:var(--purple)">DFlash（16）</span></td>
+            <td style="color:var(--purple);font-weight:900">4.86倍</td>
+            <td style="color:var(--purple);font-weight:900">6.49語</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="result-highlights">
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">1</div>
+        <div class="card-title">最大6.1倍速</div>
+        <div class="card-desc">Qwen3-8Bで自己回帰の単純生成と比べて最大6.1倍の高速化</div>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">2</div>
+        <div class="card-title">EAGLE-3比 最大2.5倍</div>
+        <div class="card-desc">現行トップクラスの手法EAGLE-3と比べても大きく上回る</div>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background:var(--g-purple)">3</div>
+        <div class="card-title">出力品質はそのまま</div>
+        <div class="card-desc">最終出力は本番AIが検証するため、答えの中身は変わらない</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

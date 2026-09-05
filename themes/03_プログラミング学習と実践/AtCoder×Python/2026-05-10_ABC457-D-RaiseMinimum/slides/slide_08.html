@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wrap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .8rem;
+  flex: 1;
+  overflow: hidden;
+}
+.wrap-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.wc-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--g-orange);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 900;
+  flex-shrink: 0;
+}
+.wc-title {
+  font-size: .95rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.wc-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.65;
+  flex: 1;
+}
+.wc-tag {
+  display: inline-block;
+  background: rgba(217,96,24,.1);
+  color: var(--orange);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .12rem .5rem;
+  border-radius: 99px;
+  width: fit-content;
+}
+.pattern-box {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+  border-radius: 12px;
+  padding: .6rem .9rem;
+}
+.pb-label { font-size: .68rem; font-weight: 700; color: var(--blue); margin-bottom: .3rem; }
+.pb-flow {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-wrap: wrap;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.pb-arrow { color: var(--muted); font-size: 1rem; }
+.pb-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .2rem .6rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">まとめ</span>
+    <h2 class="slide-title">解法パターンの整理</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「最大化 → 判定問題 → 二分探索」は競プロ頻出パターン。今日のポイントをまとめて振り返ろう</p>
+    </div>
+  </div>
+
+  <div class="slide-body" style="flex-direction:column;gap:.7rem;">
+    <!-- 3カード -->
+    <div class="wrap-grid">
+      <div class="wrap-card">
+        <div class="wc-num">1</div>
+        <div class="wc-title">判定問題への変換</div>
+        <div class="wc-body">
+          「最小値を最大化」という難しい最適化問題を、<br>
+          「<strong>最小値を m 以上にできるか？</strong>」という<br>
+          YES/NO 判定に置き換えた。<br><br>
+          判定が簡単に計算できるなら、<br>
+          この変換が有効なサインだ。
+        </div>
+        <span class="wc-tag">最適化 → 判定</span>
+      </div>
+
+      <div class="wrap-card">
+        <div class="wc-num">2</div>
+        <div class="wc-title">操作回数の計算</div>
+        <div class="wc-body">
+          要素 i（1始まり）を目標 m まで上げるには<br>
+          <strong>⌈(m − A[i]) ÷ i⌉</strong> 回の操作が必要。<br><br>
+          全要素の合計 ≤ K なら達成可能。<br>
+          合計が K を超えた時点で即 False で<br>
+          早期終了する実装も重要。
+        </div>
+        <span class="wc-tag">切り上げ除算</span>
+      </div>
+
+      <div class="wrap-card">
+        <div class="wc-num">3</div>
+        <div class="wc-title">単調性 × 二分探索</div>
+        <div class="wc-body">
+          m が大きくなるほど必要な操作数も増える<br>
+          <strong>単調性</strong>があるため、<br>
+          達成可能な m の最大値を<br>
+          二分探索で O(N log V) ≈ <strong>O(60N)</strong> で発見できる。<br><br>
+          N=2×10⁵ でも余裕で間に合う。
+        </div>
+        <span class="wc-tag">二分探索</span>
+      </div>
+    </div>
+
+    <!-- 解法フロー -->
+    <div class="pattern-box">
+      <div class="pb-label">🔁 今日の解法パターン（競プロ頻出）</div>
+      <div class="pb-flow">
+        <span class="pb-step">最大化問題</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">「m 以上にできる？」判定に変換</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">判定を O(N) で実装</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">単調性を確認</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step" style="border-color:var(--orange);color:var(--orange);">二分探索で最大 m を発見</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

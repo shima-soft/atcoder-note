@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">TROUBLE 3</span>
+    <h2 class="slide-title">同じ図を2か所に置くとズレる</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>スライドの図を直すたび、Webページ側が古いまま残る。貼るのをやめて、流し込むようにしました</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          BEFORE行: y=48  h=60 → bottom=108
+          AFTER行 : y=150 h=60 → bottom=210
+            左box  x=30  w=130 → right=160
+            右box  x=230 w=130 → right=360   (gap=70)
+            矢印   x=166 → 224              (gap内に収める)
+            注釈   x=372 anchor=start        (右余白 470まで98px)
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="620" height="310" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <defs>
+            <marker id="arg3" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#9aa3bd"/>
+            </marker>
+            <marker id="arp3" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#cc0a6a"/>
+            </marker>
+          </defs>
+
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">図の置き場所は2か所ある</text>
+
+          <!-- BEFORE -->
+          <text x="30" y="40" text-anchor="start" font-size="10" font-weight="700" fill="#c9162e">BEFORE ─ 手で貼り直す</text>
+          <rect x="30" y="48" width="130" height="60" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="95" y="82" text-anchor="middle" font-size="11" fill="#5e6a8a">スライドの図</text>
+
+          <text x="195" y="66" text-anchor="middle" font-size="9" fill="#5e6a8a">手でコピー</text>
+          <line x1="166" y1="78" x2="222" y2="78" stroke="#9aa3bd" stroke-width="1.5" marker-end="url(#arg3)"/>
+
+          <rect x="230" y="48" width="130" height="60" rx="10" fill="#ffffff" stroke="#c9162e" stroke-width="1.2"/>
+          <text x="295" y="82" text-anchor="middle" font-size="11" fill="#5e6a8a">Web公開版の図</text>
+
+          <text x="372" y="74" text-anchor="start" font-size="10" font-weight="700" fill="#c9162e">片方だけ</text>
+          <text x="372" y="92" text-anchor="start" font-size="10" font-weight="700" fill="#c9162e">古くなる</text>
+
+          <!-- AFTER -->
+          <text x="30" y="142" text-anchor="start" font-size="10" font-weight="700" fill="#cc0a6a">AFTER ─ コマンドで流し込む</text>
+          <rect x="30" y="150" width="130" height="60" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="95" y="184" text-anchor="middle" font-size="11" fill="#5e6a8a">スライドの図</text>
+
+          <text x="195" y="168" text-anchor="middle" font-size="9" font-weight="700" fill="#cc0a6a">同期する</text>
+          <line x1="166" y1="180" x2="222" y2="180" stroke="#cc0a6a" stroke-width="1.5" marker-end="url(#arp3)"/>
+
+          <rect x="230" y="150" width="130" height="60" rx="10" fill="rgba(204,10,106,.10)" stroke="#cc0a6a" stroke-width="2.5"/>
+          <text x="295" y="184" text-anchor="middle" font-size="11" font-weight="700" fill="#cc0a6a">Web公開版の図</text>
+
+          <text x="372" y="176" text-anchor="start" font-size="10" font-weight="700" fill="#cc0a6a">いつでも</text>
+          <text x="372" y="194" text-anchor="start" font-size="10" font-weight="700" fill="#cc0a6a">同じ中身</text>
+
+          <text x="250" y="236" text-anchor="middle" font-size="9" fill="#5e6a8a">公開前に、食い違っている図が0枚かどうかを確認する</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 なぜ手で貼るとズレるのか</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">1</span>
+            <p>スライドの図を直す。ここまでは問題ない</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">2</span>
+            <p>Webページ側にも同じ図がある。直し忘れる</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">3</span>
+            <p>見比べないと気づけない。22本分は見きれない</p>
+          </div>
+        </div>
+        <div class="ok-box" style="border-left-color:var(--pink)">
+          <div class="box-title">✅ やめたこと・始めたこと</div>
+          <ul class="box-list">
+            <li>図を手で貼るのをやめた</li>
+            <li>スライドから機械的に流し込むようにした</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 仕上げに必ずやること</div>
+          <ul class="box-list">
+            <li>食い違いが0枚だと確認してから公開する</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide 04 - コンテキスト最適化</title>
+  <link rel="stylesheet" href="common.css">
+</head>
+<body class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-green);color:#fff">実践テクニック</span>
+    <h2 class="slide-title">コンテキストを「賢く」管理する</h2>
+    <p class="slide-sub">必要な情報だけを、最適なタイミングで渡す</p>
+  </div>
+  <div class="pattern-cols">
+    <div class="diagram-box" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--card); border-radius: 10px; padding: 1rem; border: 1px solid var(--border);">
+      <div style="font-size: 1.1rem; font-weight: 900; margin-bottom: 2rem; text-align: center;">@メンション の魔法</div>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+        <div style="background: var(--bg); padding: 1rem; border: 1px dashed var(--border); border-radius: 10px; text-align: center;">
+          <div style="font-size: 0.9rem; color: var(--muted);">【NG】パスを打ち込む</div>
+          <div style="font-size: 1.4rem; font-weight: 900; color: var(--red);">"utils.test.ts を直して"</div>
+          <div style="font-size: 0.7rem; color: var(--muted); margin-top: 0.5rem;">(Readコールが発生し、コストとターンを消費)</div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <div style="font-size: 2rem;">⬇</div>
+        </div>
+        <div style="background: var(--bg); padding: 1rem; border: 1px solid var(--green); border-radius: 10px; text-align: center;">
+          <div style="font-size: 0.9rem; color: var(--muted);">【OK】 @メンション</div>
+          <div style="font-size: 1.4rem; font-weight: 900; color: var(--green);">"@utils.test.ts を直して"</div>
+          <div style="font-size: 0.7rem; color: var(--muted); margin-top: 0.5rem;">(初手でコンテキストに含まれ、効率的)</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="box-title">💡 CLAUDE.md の最適化</div>
+        <ul class="box-list">
+          <li><b class="badge" style="background:var(--g-orange);margin-right:0.5rem;">基本</b> 汎用的な指示は `CLAUDE.md` へ</li>
+          <li><b class="badge" style="background:var(--g-orange);margin-right:0.5rem;">分離</b> ワークフロー固有の指示は「スキル」へ</li>
+          <li><b class="badge" style="background:var(--g-orange);margin-right:0.5rem;">除外</b> 不要な MCP サーバーは `/mcp` でオフ</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 効率化の鍵</div>
+        <ul class="box-list">
+          <li><b class="badge" style="background:var(--g-green);margin-right:0.5rem;">Tip</b> 必要なファイルは `@` で一度だけ言及</li>
+          <li><b class="badge" style="background:var(--g-green);margin-right:0.5rem;">Tip</b> `CLAUDE.md` は常に最新かつ簡潔に</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

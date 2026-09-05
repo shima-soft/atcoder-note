@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.rule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .9rem;
+  flex: 1;
+}
+.rule-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  position: relative;
+  overflow: hidden;
+}
+.rule-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.rule-card.c1::before { background: var(--g-orange); }
+.rule-card.c2::before { background: var(--g-blue); }
+.rule-card.c3::before { background: var(--g-green); }
+
+.rule-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-top: .3rem;
+}
+.rule-num {
+  position: absolute;
+  top: .9rem; right: 1rem;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  opacity: .05;
+  color: var(--text);
+}
+.rule-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.rule-desc {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.rule-example {
+  margin-top: .3rem;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: .45rem .7rem;
+  font-size: .76rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.rule-example .ex-label {
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .15rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">GUIDE</span>
+    <h2 class="slide-title">パターン選択の3つの鉄則</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>「洗練されているから良い」ではなく「目的に合っているから良い」で選ぶ</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="rule-grid">
+      <div class="rule-card c1">
+        <span class="rule-num">1</span>
+        <div class="rule-icon">🌱</div>
+        <div class="rule-title">シンプルから始める</div>
+        <div class="rule-desc">
+          最も単純なパターンを選び、実際の課題が見えてから
+          複雑な構成に移行する。最初から凝った設計をしない。
+        </div>
+        <div class="rule-example">
+          <div class="ex-label">💼 実務例</div>
+          まず「1体のAIで試す」→ 品質が不安定になってから「生成+検証の2体制」へ進化
+        </div>
+      </div>
+      <div class="rule-card c2">
+        <span class="rule-num">2</span>
+        <div class="rule-icon">🔍</div>
+        <div class="rule-title">観察してから進化させる</div>
+        <div class="rule-desc">
+          実際の失敗・ボトルネックを観察し、
+          必要になったときだけ構成をアップグレードする。
+        </div>
+        <div class="rule-example">
+          <div class="ex-label">💼 実務例</div>
+          「処理が遅い」と気づいたら並列処理モデルへ。「情報が断片化する」ならShared Stateへ
+        </div>
+      </div>
+      <div class="rule-card c3">
+        <span class="rule-num">3</span>
+        <div class="rule-icon">🎯</div>
+        <div class="rule-title">洗練度で選ばない</div>
+        <div class="rule-desc">
+          複雑なパターンは「より良い」わけではない。
+          目的・コスト・チームの理解度に合った選択が最善。
+        </div>
+        <div class="rule-example">
+          <div class="ex-label">💼 実務例</div>
+          「Message Busはカッコいい」ではなく「イベント駆動の要件があるか」で判断
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

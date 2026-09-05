@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>前作 Kimi K2 との比較</title>
+<style>
+  .compare-table table { font-size: .88rem; }
+  .compare-table td { padding: .85rem .8rem; }
+  .compare-table th { padding: .7rem .8rem; font-size: .8rem; }
+  .k3col { font-weight: 900; color: var(--purple); }
+  .table-note { font-size: .72rem; color: var(--muted); margin-top: .5rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">SPEC</span>
+    <h2 class="slide-title">前作 Kimi K2 との比較</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>1年前の自社モデルから、規模も視野もおよそ2〜8倍に広がった</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:26%">項目</th>
+            <th style="width:24%">Kimi K2（前作）</th>
+            <th style="width:30%">Kimi K3</th>
+            <th style="width:20%">変化</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>総パラメータ</td><td>1兆400億</td><td class="k3col">2兆7,800億</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+167%</span></td>
+          </tr>
+          <tr>
+            <td>1回の応答で動く量</td><td>326億</td><td class="k3col">1,042億</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+220%</span></td>
+          </tr>
+          <tr>
+            <td>層（ブロック）の数</td><td>61層</td><td class="k3col">93層</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+52%</span></td>
+          </tr>
+          <tr>
+            <td>専門家（エキスパート）の数</td><td>384</td><td class="k3col">896</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+133%</span></td>
+          </tr>
+          <tr>
+            <td>1回に呼ぶ専門家</td><td>8</td><td class="k3col">16</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">+100%</span></td>
+          </tr>
+          <tr>
+            <td>学習時のコンテキスト</td><td>12万8千トークン</td><td class="k3col">100万トークン</td>
+            <td><span class="pattern-badge" style="background:rgba(217,96,24,.12);color:var(--orange)">8倍</span></td>
+          </tr>
+          <tr>
+            <td>注意の仕組み</td><td>MLA のみ</td><td class="k3col">KDA + MLA のハイブリッド</td>
+            <td><span class="pattern-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">刷新</span></td>
+          </tr>
+          <tr>
+            <td>画像・動画の処理</td><td>なし</td><td class="k3col">専用の画像エンジン（4億）を内蔵</td>
+            <td><span class="pattern-badge" style="background:rgba(0,143,106,.12);color:var(--green)">新搭載</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="table-note">※ 語彙サイズ16万・隠れ層の幅7,168 は据え置き。数を増やすだけでなく、情報の流し方を作り替えたことで同じ計算量あたりの伸びが約2.5倍になったと報告されている。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

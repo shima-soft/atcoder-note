@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.calc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.calc-table th {
+  background: #1a1d2e;
+  color: #fff;
+  padding: .35rem .5rem;
+  font-size: .72rem;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #2e3250;
+}
+.calc-table td {
+  padding: .35rem .5rem;
+  border: 1px solid var(--border);
+  text-align: center;
+  font-family: 'Consolas', monospace;
+  vertical-align: middle;
+  background: var(--card);
+}
+.calc-table tr.need td { background: rgba(217,96,24,.05); }
+.calc-table tr.zero td { background: rgba(0,143,106,.05); }
+.calc-table tr.total td {
+  background: rgba(0,143,106,.12);
+  font-weight: 900;
+  font-size: .88rem;
+}
+.ops-val { color: var(--orange); font-weight: 700; }
+.zero-val { color: var(--green); font-weight: 700; }
+.formula-box {
+  background: #1a1d2e;
+  border-radius: 12px;
+  padding: .8rem 1rem;
+  margin-top: .6rem;
+}
+.formula-box .fl { color: rgba(255,255,255,.5); font-size: .72rem; margin-bottom: .3rem; }
+.formula-box .fv {
+  font-family: 'Consolas', monospace;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.formula-box .fv span { color: #e8873a; }
+.result-banner {
+  background: rgba(0,143,106,.1);
+  border: 2px solid var(--green);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  text-align: center;
+  margin-top: .4rem;
+}
+.result-banner .rv { font-size: 1rem; font-weight: 900; color: var(--green); font-family: 'Consolas', monospace; }
+.result-banner .rs { font-size: .76rem; color: var(--muted); margin-top: .1rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">判定関数</span>
+    <h2 class="slide-title">「最小値 m 以上にできるか？」を O(N) で判定する</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>要素ごとに必要な操作回数を切り上げ除算で計算し、合計 ≤ K なら達成可能</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 計算例テーブル -->
+    <div class="diagram-box" style="flex-direction:column;gap:.6rem;padding:.8rem 1rem;align-items:stretch;justify-content:flex-start;">
+
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:.1rem;">
+        計算例: m = 3, A = (1, 2, 3), K = 3
+      </div>
+
+      <table class="calc-table">
+        <tr>
+          <th>i（番号）</th>
+          <th>A[i]（初期値）</th>
+          <th>m − A[i]</th>
+          <th>必要操作回数</th>
+        </tr>
+        <tr class="need">
+          <td>1</td>
+          <td>1</td>
+          <td style="color:var(--orange);">2</td>
+          <td><span class="ops-val">⌈2÷1⌉ = 2</span></td>
+        </tr>
+        <tr class="need">
+          <td>2</td>
+          <td>2</td>
+          <td style="color:var(--orange);">1</td>
+          <td><span class="ops-val">⌈1÷2⌉ = 1</span></td>
+        </tr>
+        <tr class="zero">
+          <td>3</td>
+          <td>3</td>
+          <td style="color:var(--green);">0（≥ m）</td>
+          <td><span class="zero-val">0</span></td>
+        </tr>
+        <tr class="total">
+          <td colspan="3" style="text-align:right;color:var(--text);">合計操作回数</td>
+          <td style="color:var(--green);">2 + 1 + 0 = <strong>3</strong></td>
+        </tr>
+      </table>
+
+      <div class="result-banner">
+        <div class="rv">3 ≤ K=3 → 達成可能 ✅</div>
+        <div class="rs">m=3 の最小値は操作 K 回以内で実現できる</div>
+      </div>
+
+      <div class="formula-box">
+        <div class="fl">一般式（A[i] &lt; m のとき）</div>
+        <div class="fv">cost(i) = <span>⌈(m − A[i]) ÷ i⌉</span></div>
+        <div style="color:rgba(255,255,255,.4);font-size:.7rem;margin-top:.4rem;">Python: (m - A[i] + i - 1) // i</div>
+      </div>
+
+      <div style="background:rgba(217,96,24,.06);border:1px solid rgba(217,96,24,.2);border-radius:8px;padding:.4rem .6rem;font-size:.75rem;color:var(--text);line-height:1.55;">
+        ⌈a ÷ b⌉ = (a + b − 1) // b（Python 整数除算で切り上げ）
+      </div>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 計算の手順</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>A[i] ≥ m なら操作不要 → cost = 0</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>A[i] &lt; m なら不足量 = m − A[i]</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>操作1回で i 増えるので、<br>必要回数 = ⌈不足量 ÷ i⌉（切り上げ）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">4</span>
+          <p>全要素の合計 ≤ K なら達成可能</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ なぜ切り上げ除算なのか</div>
+        <ul class="box-list">
+          <li>i=2 で A[i]=1、目標 m=4 の場合: 不足 3</li>
+          <li>1回目: 1→3（+2）、2回目: 3→5（+2）</li>
+          <li>2回で 5≥4 達成 → ⌈3÷2⌉ = 2 回で正しい ✓</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ オーバーフロー対策</div>
+        <ul class="box-list">
+          <li>合計が K を超えた時点で即 False を返す</li>
+          <li>加算し続けると 10¹⁸ × N を超える可能性</li>
+          <li>Python は多倍長なので溢れないが早期終了で高速化</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

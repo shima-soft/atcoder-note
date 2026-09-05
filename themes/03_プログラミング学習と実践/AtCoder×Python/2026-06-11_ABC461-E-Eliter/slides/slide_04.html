@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">気づき①</span>
+    <h2 class="slide-title">マスの色は「行と列、どちらが後に塗られたか」で決まる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>グリッドの代わりに、行と列の「最後に塗られた時刻」だけを覚える — メモリは O(N) で済む</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="行の黒塗り時刻と列の白塗り時刻の比較でマスの色が決まる図">
+        <defs>
+          <marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d96018"/></marker>
+        </defs>
+        <!-- 列ラベル -->
+        <text x="166" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a96c0">列4</text>
+        <text x="166" y="60" text-anchor="middle" font-size="12" fill="#1a96c0">時刻5に白</text>
+        <!-- 5x5グリッド -->
+        <rect x="40" y="70" width="180" height="180" fill="#ffffff" stroke="#dde2ec" stroke-width="2"/>
+        <line x1="76" y1="70" x2="76" y2="250" stroke="#dde2ec"/>
+        <line x1="112" y1="70" x2="112" y2="250" stroke="#dde2ec"/>
+        <line x1="148" y1="70" x2="148" y2="250" stroke="#dde2ec"/>
+        <line x1="184" y1="70" x2="184" y2="250" stroke="#dde2ec"/>
+        <line x1="40" y1="106" x2="220" y2="106" stroke="#dde2ec"/>
+        <line x1="40" y1="142" x2="220" y2="142" stroke="#dde2ec"/>
+        <line x1="40" y1="178" x2="220" y2="178" stroke="#dde2ec"/>
+        <line x1="40" y1="214" x2="220" y2="214" stroke="#dde2ec"/>
+        <!-- 行2の黒帯 -->
+        <rect x="40" y="106" width="180" height="36" fill="#1a1d2e"/>
+        <!-- 列4の白帯 -->
+        <rect x="148" y="70" width="36" height="180" fill="#ffffff" stroke="#1a96c0" stroke-width="2" stroke-dasharray="5 3"/>
+        <!-- 交差マス -->
+        <rect x="148" y="106" width="36" height="36" fill="#ffffff" stroke="#d96018" stroke-width="3"/>
+        <text x="166" y="130" text-anchor="middle" font-size="18" font-weight="900" fill="#d96018">?</text>
+        <!-- 行ラベル -->
+        <text x="32" y="128" text-anchor="end" font-size="12" font-weight="700" fill="#1a1d2e">行2</text>
+        <text x="232" y="128" font-size="12" fill="#1a1d2e">⬛ 時刻3に黒</text>
+        <!-- 比較ボックスへの矢印 -->
+        <line x1="188" y1="120" x2="292" y2="110" stroke="#d96018" stroke-width="2" marker-end="url(#ar4)"/>
+        <!-- ケースA -->
+        <rect x="300" y="70" width="240" height="88" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="420" y="107" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1d2e">行の時刻 3 ＜ 列の時刻 5</text>
+        <text x="420" y="131" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">白く塗った方が後 → 白</text>
+        <!-- ケースB -->
+        <rect x="300" y="190" width="240" height="88" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="420" y="227" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1d2e">行の時刻 6 ＞ 列の時刻 5</text>
+        <text x="420" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">黒く塗った方が後 → 黒</text>
+        <!-- まとめボックス -->
+        <rect x="40" y="300" width="500" height="110" rx="12" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="1.5"/>
+        <text x="290" y="336" text-anchor="middle" font-size="14" font-weight="800" fill="#008f6a">✅ 持つのは時刻だけ — グリッドは持たない</text>
+        <text x="290" y="359" text-anchor="middle" font-size="12" fill="#1a1d2e">row_time[r] ＝ 行 r を最後に黒く塗った時刻</text>
+        <text x="290" y="383" text-anchor="middle" font-size="12" fill="#1a1d2e">col_time[c] ＝ 列 c を最後に白く塗った時刻</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">💼 身近な例え</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">例</span>
+          <p>共有ファイルの上書き保存と同じ。誰が何を書いても、<strong>最後に保存した内容</strong>だけが残る</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ この発想で得られるもの</div>
+        <ul class="box-list">
+          <li>覚える配列は <code>row_time</code> と <code>col_time</code> の 2 本だけ — メモリ <strong>O(N)</strong></li>
+          <li>塗り直しは「時刻を新しい値に書き換える」だけで O(1)</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">📝 時刻の決めごと</div>
+        <ul class="box-list">
+          <li>時刻はクエリ番号 t（1, 2, 3, …）をそのまま使う</li>
+          <li>「まだ一度も塗られていない」は<strong>時刻 0</strong> として扱う</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

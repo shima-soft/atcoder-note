@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>GPUは計算ではなく読み出し待ちで止まっている</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">なぜ遅いのか</span>
+    <h2 class="slide-title">GPUは計算ではなく「読み出し待ち」で止まっている</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>前のスライドの「計算1回」の正体。時間の大半は、AIの重みをメモリから運び出すのに使われている</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="GPUの処理時間は重みの読み出しが支配的であることを示す図">
+        <!--
+          倉庫 30..170 / 帯 186..430 / コア 440..580
+          バー: 読み出し 126..396 / 計算 400..416(A) 400..448(B) / 注記 458〜
+        -->
+        <text x="34" y="20" font-size="13" font-weight="900" fill="#5e6a8a">① GPUの中で起きていること</text>
+
+        <rect x="30" y="28" width="140" height="64" rx="10" fill="#eff1f7" stroke="#b9c0d4"/>
+        <text x="100" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">VRAM（倉庫）</text>
+        <text x="100" y="70" text-anchor="middle" font-size="12" fill="#1a1d2e">モデルの重み</text>
+        <text x="100" y="86" text-anchor="middle" font-size="11" fill="#5e6a8a">数十GB</text>
+
+        <polygon points="186,60 176,55 176,65" fill="#c9162e"/>
+        <rect x="186" y="44" width="244" height="32" rx="8" fill="#fdecee" stroke="#c9162e"/>
+        <text x="308" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e">重みの運び出し＝ここが遅い</text>
+        <polygon points="440,60 430,55 430,65" fill="#c9162e"/>
+
+        <rect x="440" y="28" width="140" height="64" rx="10" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="510" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">計算コア</text>
+        <text x="510" y="70" text-anchor="middle" font-size="12" fill="#1a1d2e">計算じたいは</text>
+        <text x="510" y="86" text-anchor="middle" font-size="11" fill="#5e6a8a">一瞬で終わる</text>
+
+        <text x="34" y="112" font-size="13" font-weight="900" fill="#5e6a8a">② GPU処理1回の時間の内訳</text>
+
+        <rect x="20" y="122" width="580" height="54" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="38" y="153" font-size="11" font-weight="700" fill="#1a1d2e">1語だけ生成</text>
+        <rect x="126" y="138" width="270" height="22" rx="5" fill="#c9cfdd"/>
+        <text x="261" y="153" text-anchor="middle" font-size="11" fill="#1a1d2e">重みの読み出し（遅い）</text>
+        <rect x="400" y="138" width="16" height="22" rx="4" fill="#7a3bce"/>
+        <text x="458" y="153" font-size="11" fill="#5e6a8a">計算はごくわずか</text>
+
+        <rect x="20" y="186" width="580" height="54" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="38" y="217" font-size="11" font-weight="700" fill="#1a1d2e">16語まとめて生成</text>
+        <rect x="126" y="202" width="270" height="22" rx="5" fill="#c9cfdd"/>
+        <text x="261" y="217" text-anchor="middle" font-size="11" fill="#1a1d2e">重みの読み出し（遅い）</text>
+        <rect x="400" y="202" width="48" height="22" rx="4" fill="#7a3bce"/>
+        <text x="458" y="217" font-size="11" fill="#5e6a8a">計算が少し増えるだけ</text>
+
+        <rect x="20" y="256" width="580" height="144" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="288" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">読み出しの時間は、1語でも16語でもほぼ同じ</text>
+        <text x="310" y="316" text-anchor="middle" font-size="12" fill="#1a1d2e">だから「まとめて処理」すると、1語あたりの時間が大きく下がる</text>
+        <text x="310" y="342" text-anchor="middle" font-size="12" fill="#5e6a8a">投機的デコーディングの「一括チェック」が安いのも、同じ理由</text>
+        <text x="310" y="378" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3bce">→ 速くするカギは「GPU処理の回数を減らすこと」</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>倉庫から工具一式を運ぶのに10分、ネジ1本締めるのは10秒</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>1本締めるたび工具を戻しに行くのが、今のAIの生成</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>16本まとめて締めれば、運ぶ手間は1回で済む</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">ここが本質</div>
+        <ul class="box-list">
+          <li>コストは「何語作ったか」ではなく「GPU処理を何回したか」</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">今のAIがもったいない理由</div>
+        <ul class="box-list">
+          <li>1語ずつ生成＝毎回フルで読み出し、計算コアは遊んだまま</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

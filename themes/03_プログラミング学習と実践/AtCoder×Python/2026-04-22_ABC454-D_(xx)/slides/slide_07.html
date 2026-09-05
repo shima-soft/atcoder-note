@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 42%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .78rem;
+  line-height: 1.65;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.sum-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .55rem .75rem;
+}
+.sum-card .sum-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.sum-val {
+  font-size: .9rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.sum-sub {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .1rem;
+}
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">メイン処理 + 計算量まとめ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>A と B の正規形をそれぞれ求めて比較するだけ。全体の計算量は O(文字列合計長)</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — メイン処理</div>
+      <pre><code class="language-python hljs" data-highlighted="yes" style="font-size: 14px;">T = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>())
+<span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(T):
+    A = <span class="hljs-built_in">input</span>().rstrip()
+    B = <span class="hljs-built_in">input</span>().rstrip()
+    <span class="hljs-keyword">if</span> canonical(A) == canonical(B):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"Yes"</span>)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"No"</span>)</code></pre>
+    </div>
+
+    <!-- 右: まとめ -->
+    <div class="info-col">
+      <div class="summary-grid">
+        <div class="sum-card">
+          <div class="sum-title">canonical の計算量</div>
+          <div class="sum-val">O(n)</div>
+          <div class="sum-sub">n = 文字列の長さ</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">全体の計算量</div>
+          <div class="sum-val">O(Σ|A|+|B|)</div>
+          <div class="sum-sub">≤ 2×10⁶ → 余裕</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">Python 実行目安</div>
+          <div class="sum-val">N ≤ 10⁷</div>
+          <div class="sum-sub">O(n) は Python で十分高速</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">リスト比較</div>
+          <div class="sum-val">O(n)</div>
+          <div class="sum-sub">== でリスト全体を比較</div>
+        </div>
+      </div>
+      <div class="ok-box" style="margin-top:.5rem;">
+        <div class="box-title">✅ 解法の全体像（3ステップ）</div>
+        <ul class="box-list">
+          <li>① A の正規形（canonical）をスタックで計算：O(|A|)</li>
+          <li>② B の正規形（canonical）をスタックで計算：O(|B|)</li>
+          <li>③ 2つの正規形を比較：O(|A| or |B|)</li>
+          <li>→ 合計 O(|A|+|B|) × T = O(全文字数) ≤ O(2×10⁶)</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">💡 input().rstrip() が必要な理由</div>
+        <ul class="box-list">
+          <li>行末の改行文字 <code>\n</code> を取り除くため</li>
+          <li><code>sys.stdin.readline</code> は改行を含んで読み込む</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+
+
+</body></html>

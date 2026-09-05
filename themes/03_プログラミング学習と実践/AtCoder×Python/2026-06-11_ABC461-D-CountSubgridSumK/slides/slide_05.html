@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.split-layout {
+  display: flex; gap: 1rem; flex: 1; overflow: hidden;
+}
+.code-panel {
+  flex: 0 0 55%; display: flex; flex-direction: column; gap: .3rem; overflow: hidden;
+}
+.code-body {
+  background: #1a1d2e; color: #e8e8e8; border-radius: 10px;
+  padding: .7rem .9rem; flex: 1; overflow: hidden;
+  font-family: 'Consolas', monospace; font-size: .7rem; line-height: 1.6;
+}
+.code-body .cm { color: #6a7a9a; }
+.code-body .kw { color: #c792ea; }
+.code-body .fn { color: #82aaff; }
+.code-body .str { color: #c3e88d; }
+.code-body .num { color: #f78c6c; }
+.info-panel {
+  flex: 1; display: flex; flex-direction: column; gap: .5rem; overflow: hidden;
+}
+.info-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .5rem .8rem;
+}
+.info-title {
+  font-size: .72rem; font-weight: 700; color: var(--muted); margin-bottom: .3rem;
+}
+.info-body { font-size: .78rem; color: var(--text); line-height: 1.6; }
+.emit { color: var(--orange); font-weight: 700; }
+.hint-box {
+  background: rgba(0,143,106,.06); border: 1px solid rgba(0,143,106,.2);
+  border-radius: 10px; padding: .4rem .6rem;
+  font-size: .76rem; color: var(--text); line-height: 1.6; margin-top: auto;
+}
+.step-row {
+  display: flex; align-items: flex-start; gap: .5rem;
+  padding: .3rem 0; border-bottom: 1px solid var(--border);
+}
+.step-row:last-child { border-bottom: none; }
+.snum {
+  min-width: 22px; height: 22px; border-radius: 50%;
+  background: var(--g-green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700; flex-shrink: 0; margin-top: .05rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-green);color:#fff">実装</span>
+    <h2 class="slide-title">Python 実装（全コード）</h2>
+    <div class="hitokoto" style="border-color:var(--green)">
+      <span class="badge" style="background:var(--green)">POINT</span>
+      <p>2次元累積和は使わず、行範囲を進めるたびに列和をインクリメント更新</p>
+    </div>
+  </div>
+  <div class="split-layout slide-body">
+    <div class="code-panel">
+      <div class="code-body">
+<span class="cm"># ABC461D - Count Subgrid Sum = K</span><br>
+<br>
+<span class="kw">def</span> <span class="fn">count_eq</span>(arr, k):<br>
+&nbsp;&nbsp;n = <span class="fn">len</span>(arr)<br>
+&nbsp;&nbsp;r1 = r2 = <span class="num">0</span><br>
+&nbsp;&nbsp;res = <span class="num">0</span><br>
+&nbsp;&nbsp;<span class="kw">for</span> l <span class="kw">in</span> <span class="fn">range</span>(n - <span class="num">1</span>):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;r1 = <span class="fn">max</span>(r1, l + <span class="num">1</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;r2 = <span class="fn">max</span>(r2, l + <span class="num">1</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">while</span> r1 &lt; n <span class="kw">and</span> arr[r1] - arr[l] &lt; k:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r1 += <span class="num">1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">while</span> r2 &lt; n <span class="kw">and</span> arr[r2] - arr[l] &lt;= k:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r2 += <span class="num">1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;res += r2 - r1<br>
+&nbsp;&nbsp;<span class="kw">return</span> res<br>
+<br>
+<span class="kw">def</span> <span class="fn">solve</span>():<br>
+&nbsp;&nbsp;H, W, K = <span class="fn">map</span>(<span class="kw">int</span>, <span class="fn">input</span>().<span class="fn">split</span>())<br>
+&nbsp;&nbsp;S = [<span class="fn">input</span>().<span class="fn">strip</span>() <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(H)]<br>
+&nbsp;&nbsp;ans = <span class="num">0</span><br>
+&nbsp;&nbsp;<span class="kw">for</span> u <span class="kw">in</span> <span class="fn">range</span>(H):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;col_sum = [<span class="num">0</span>] * W<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> d <span class="kw">in</span> <span class="fn">range</span>(u, H):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row = S[d]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(W):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> row[j] == <span class="str">'1'</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_sum[j] += <span class="num">1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B = [<span class="num">0</span>] * (W + <span class="num">1</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(W):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B[j + <span class="num">1</span>] = B[j] + col_sum[j]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ans += <span class="fn">count_eq</span>(B, K)<br>
+&nbsp;&nbsp;<span class="fn">print</span>(ans)
+      </div>
+    </div>
+    <div class="info-panel">
+      <div class="info-card" style="flex-shrink:0;">
+        <div class="info-title">実装のポイント</div>
+        <div class="step-row">
+          <span class="snum">1</span>
+          <div class="info-body"><span class="emit">col_sum</span> は行範囲を拡張するたびにインクリメント。毎回ゼロから再計算しない。</div>
+        </div>
+        <div class="step-row">
+          <span class="snum">2</span>
+          <div class="info-body">各 (u,d) で <span class="emit">B</span> を O(W) で構築 → <span class="emit">count_eq</span> で O(W) → 計 O(W) の定数倍。</div>
+        </div>
+        <div class="step-row">
+          <span class="snum">3</span>
+          <div class="info-body"><span class="emit">K=0</span> の場合も尺取り法で正しく動作（条件式は <span class="emit">< K</span> と <span class="emit">≤ K</span>）。</div>
+        </div>
+      </div>
+      <div class="hint-box">
+        ⚡ 実行時間のめやす（H=W=500）:<br>
+        Python で約 2〜3 秒。AtCoder の 4 秒制限に十分収まる。<br>
+        ボトルネックは二重ループ⇔j の二重ループ。Pypy なら更に高速。
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

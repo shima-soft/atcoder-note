@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card-grid {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: .7rem;
+}
+.card {
+  padding: .7rem .9rem;
+  gap: .3rem;
+  justify-content: center;
+}
+.card-head { display: flex; align-items: center; gap: .5rem; }
+.card-num { width: 26px; height: 26px; margin-bottom: 0; background: var(--g-blue); }
+.card-title { font-size: .88rem; line-height: 1.3; }
+.card-desc { font-size: .78rem; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">HOW TO START</span>
+    <h2 class="slide-title">始めるときの6つのコツ</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>道具の使い方より、渡す材料と人の関わり方を決めるほうが効く</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">1</span>
+          <span class="card-title">仕組みより先に、<br>知識をまとめる</span>
+        </div>
+        <div class="card-desc">よく聞かれる質問と自分たちの最善の回答を、まず1枚の外向け文書にする</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">2</span>
+          <span class="card-title">仕事のやり方を<br>実例で見せる</span>
+        </div>
+        <div class="card-desc">うまくいったメール、狙う顧客像、自分の書きぶり。実例があるほど下書きが自分の言葉に近づく</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">3</span>
+          <span class="card-title">送信の手前には<br>必ず人を置く</span>
+        </div>
+        <div class="card-desc">作るのは下書きまで。読んで、直して、送るのは人。社外に出る文面は例外なし</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">4</span>
+          <span class="card-title">効いた仕組みは<br>チームで共有する</span>
+        </div>
+        <div class="card-desc">日常的に使われると分かったものだけを、共有の置き場に昇格させる</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">5</span>
+          <span class="card-title">1人専用に<br>作り込まない</span>
+        </div>
+        <div class="card-desc">担当地域も進め方も人によって違う。共有するものは、あえてゆるく作る</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-num">6</span>
+          <span class="card-title">直した理由を<br>書き戻す</span>
+        </div>
+        <div class="card-desc">下書きを直したり提案を断ったりしたら、その理由を仕組みに記録させる。同じ間違いが減る</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

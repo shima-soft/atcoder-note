@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: .6rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card { padding: .9rem 1rem; justify-content: center; gap: .3rem; }
+.term-desc { font-size: .8rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説 — 登場したサービス・企業</h2>
+    <p class="slide-sub">「先行導入した現場の評価」で紹介した6つのサービス</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Devin</span>
+          <span class="term-reading">デヴィン</span>
+        </div>
+        <p class="term-desc">「AIソフトウェアエンジニア」と呼ばれる開発代行サービス。指示すると自分で開発を進める。</p>
+        <a class="term-link" href="https://devin.ai" target="_blank">devin.ai 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Cursor</span>
+          <span class="term-reading">カーソル</span>
+        </div>
+        <p class="term-desc">AIを組み込んだプログラム編集ツール。エンジニアが日常的に使う「AI入りのメモ帳」。</p>
+        <a class="term-link" href="https://cursor.com" target="_blank">cursor.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Zapier</span>
+          <span class="term-reading">ザピアー</span>
+        </div>
+        <p class="term-desc">アプリ同士をつないで業務を自動化するサービス。プログラミング不要で使える。</p>
+        <a class="term-link" href="https://zapier.com" target="_blank">zapier.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Lovable</span>
+          <span class="term-reading">ラバブル</span>
+        </div>
+        <p class="term-desc">やりたいことを文章で書くとWebアプリを作ってくれるサービス。</p>
+        <a class="term-link" href="https://lovable.dev" target="_blank">lovable.dev 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">JetBrains</span>
+          <span class="term-reading">ジェットブレインズ</span>
+        </div>
+        <p class="term-desc">プログラム開発用ソフト（IDE）を作る企業。開発者向けの定番ツールを提供する。</p>
+        <a class="term-link" href="https://www.jetbrains.com" target="_blank">jetbrains.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Box</span>
+          <span class="term-reading">ボックス</span>
+        </div>
+        <p class="term-desc">企業向けのクラウド文書管理サービス。契約書や社内資料をまとめて保管する。</p>
+        <a class="term-link" href="https://www.box.com" target="_blank">box.com 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-link    { font-size: .65rem; color: var(--blue); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.term-link:hover { text-decoration: underline; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(217,96,24,.12);color:var(--orange)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Google Vids</span>
+          <span class="term-reading">グーグル ビッズ</span>
+          <a class="term-link" href="https://workspace.google.com/products/vids/" target="_blank">workspace.google.com 🔗</a>
+        </div>
+        <p class="term-desc">Google が提供する Web ブラウザで動く動画制作ツール。テキストや資料から AI が動画を自動生成する。Google Workspace に含まれる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">TTS</span>
+          <span class="term-reading">ティーティーエス / Text-To-Speech</span>
+        </div>
+        <p class="term-desc">「テキスト読み上げ」の技術。書いた文字を AI が自動で音声に変換する仕組み。カーナビの音声案内も TTS の一種。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Gemini 3.1 Flash TTS</span>
+          <span class="term-reading">ジェミニ スリーポイントワン フラッシュ ティーティーエス</span>
+        </div>
+        <p class="term-desc">Google が2026年4月に公開した最新の AI 音声合成モデル。従来より感情・抑揚・ポーズ表現が大幅に向上し、30 種の会話型音声を提供する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Google Workspace</span>
+          <span class="term-reading">グーグル ワークスペース</span>
+          <a class="term-link" href="https://workspace.google.com/" target="_blank">workspace.google.com 🔗</a>
+        </div>
+        <p class="term-desc">Gmail・Google ドライブ・Google ドキュメントなどを束ねた Google の企業向けグループウェア。個人 Google アカウントでも一部機能が使える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AI 音声合成</span>
+          <span class="term-reading">エーアイ おんせいごうせい</span>
+        </div>
+        <p class="term-desc">人工知能がテキストを人間らしい音声に変換する技術。昔のロボット音声と違い、最新モデルは感情・間・速度などを細かく制御できる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Rapid Release</span>
+          <span class="term-reading">ラピッド リリース</span>
+        </div>
+        <p class="term-desc">Google Workspace の機能展開形式の一つ。通常展開（Scheduled Release）より早く新機能が有効になる。管理者が選択できる設定。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

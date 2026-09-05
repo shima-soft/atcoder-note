@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">TROUBLE</span>
+    <h2 class="slide-title">困った時は「状態・診断・終了」を見る</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>動きがおかしい時ほど、作業を進めるより状態確認コマンドが近道です。</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">?</span>
+        <div class="card-title"><code>/help</code></div>
+        <p class="card-desc">使えるコマンド一覧を見る。環境によって出るコマンドが違う点も確認できる。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">S</span>
+        <div class="card-title"><code>/status</code></div>
+        <p class="card-desc">バージョン、モデル、アカウント、接続状態を確認する。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">D</span>
+        <div class="card-title"><code>/doctor</code></div>
+        <p class="card-desc">インストールや設定を診断する。不調時の健康診断。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">L</span>
+        <div class="card-title"><code>/debug</code></div>
+        <p class="card-desc">デバッグログを有効にして原因調査する。再現しにくい問題向け。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">U</span>
+        <div class="card-title"><code>/usage</code></div>
+        <p class="card-desc">利用状況やコスト、制限の見え方を確認する。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">X</span>
+        <div class="card-title"><code>/exit</code></div>
+        <p class="card-desc">CLIを終了する。背景セッションに接続中なら停止ではなく切断になる場合がある。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  overflow: hidden;
+}
+.wrap .card-grid { flex: 0 0 41%; }
+.wrap .card { justify-content: center; gap: .45rem; }
+.wrap .card-desc { font-size: .84rem; }
+.verify {
+  flex: 0 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: 14px;
+  padding: .9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.verify-title { font-size: .8rem; font-weight: 700; color: var(--text); }
+.verify-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.verify-table th {
+  background: var(--surface);
+  padding: .5rem .5rem;
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+}
+.verify-table td {
+  padding: .72rem .5rem;   /* 行が4本（やってみる＋入力例3つ）になったぶんだけ詰める */
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+.verify-table tr:last-child td { border-bottom: none; }
+.mono { font-family: 'Consolas', monospace; }
+.ans { color: var(--orange); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">まとめ</span>
+    <h2 class="slide-title">「実際にやらずに、数えて決める」3ステップ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>操作を再現するのではなく、結果を決めているものは何かを探すと短く書ける</p>
+    </div>
+  </div>
+
+  <div class="wrap slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num" style="background:var(--g-orange)">1</span>
+        <div class="card-title">数字ごとに分ける</div>
+        <div class="card-desc">捨てられるのは同じ数字の2枚だけ。違う数字は互いに影響しないので、数字ごとに考えてよい。</div>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-orange)">2</span>
+        <div class="card-title">枚数を数える</div>
+        <div class="card-desc">数字は1〜100の100種類だけ。0を101個並べたリストを用意し、カード1枚につき1つ印を足す。</div>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-orange)">3</span>
+        <div class="card-title">奇数の数字を足す</div>
+        <div class="card-desc">枚数が偶数なら全部消え、奇数なら1枚だけ残る。残る数字を1回ずつ足したものが答え。</div>
+      </div>
+    </div>
+
+    <div class="verify">
+      <div class="verify-title">📋 答え合わせ（前ページの「やってみる」＋入力例）</div>
+      <table class="verify-table">
+        <tr>
+          <th style="width:18%">問題</th><th style="width:40%">カード</th><th style="width:28%">枚数が奇数の数字</th><th>答え</th>
+        </tr>
+        <tr style="background:rgba(26,150,192,.06)">
+          <td><strong>やってみる</strong></td><td class="mono">3 5 3 9 5 9 9</td><td class="mono">9</td><td class="ans">9</td>
+        </tr>
+        <tr>
+          <td>入力例1</td><td class="mono">2 7 1 8 2 8 1 8</td><td class="mono">7, 8</td><td class="ans">15</td>
+        </tr>
+        <tr>
+          <td>入力例2</td><td class="mono">1 2 3 4 5</td><td class="mono">1, 2, 3, 4, 5</td><td class="ans">15</td>
+        </tr>
+        <tr>
+          <td>入力例3</td><td class="mono">58 97 74 16 97 74 97 16 51 52 58 52 74 32 43</td><td class="mono">32, 43, 51, 74, 97</td><td class="ans">297</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</body></html>

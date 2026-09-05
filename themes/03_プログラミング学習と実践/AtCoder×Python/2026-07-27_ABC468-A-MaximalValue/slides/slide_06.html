@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 A - Python 9行で完成</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem 1.2rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  font-size: .82rem;
+  line-height: 1.75;
+  overflow: hidden;
+}
+.info-col {
+  gap: .5rem;
+}
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .55rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .25rem;
+}
+.line-explain p {
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .76rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">Python 9行で完成</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>「窓を1つずつずらして山を数える」をそのまま for ループに書く</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <div class="code-label">PYTHON</div>
+      <pre><code class="language-python">N = int(input())
+A = list(map(int, input().split()))
+
+count = 0
+for i in range(N - 2):
+    if A[i] &lt; A[i + 1] and A[i + 1] &gt; A[i + 2]:
+        count += 1
+
+print(count)</code></pre>
+    </div>
+
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜2行目 — 入力の受け取り</h4>
+        <p>1行目で個数 N を整数として読み込む。2行目の
+           <code>list(map(int, input().split()))</code> は
+           「空白区切りの数字をまとめて整数に直し、リストにする」定型文。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>4〜5行目 — 窓を1つずつずらす</h4>
+        <p><code>count</code> は山の個数を入れる箱。
+           <code>range(N - 2)</code> でちょうど N-2 回だけ繰り返し、
+           3つ組をすべて調べる。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>6〜9行目 — 山なら1つ足して出力</h4>
+        <p>左隣より大きく、右隣より大きいときだけ
+           <code>count += 1</code>。最後に <code>count</code> を出力する。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ ここだけ押さえる</div>
+        <ul class="box-list">
+          <li>リストの番号は 0 から始まる（先頭は A[0]）</li>
+          <li><code style="font-size:.76rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">and</code> は「両方成り立つ」ときだけ真</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

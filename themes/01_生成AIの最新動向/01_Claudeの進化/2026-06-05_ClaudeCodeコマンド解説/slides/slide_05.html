@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.flow { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">SETUP</span>
+    <h2 class="slide-title">最初の設定は「説明書・記憶・権限」から</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>プロジェクトのルールを教え、覚え方と許可範囲を整えると、毎回の説明が減ります。</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="設定コマンドの流れ">
+        <rect x="40" y="35" width="540" height="360" rx="20" fill="#f9fafb" stroke="#dde2ec"/>
+        <rect x="82" y="82" width="138" height="74" rx="14" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="151" y="113" text-anchor="middle" font-size="21" font-weight="800" fill="#1a1d2e">/init</text>
+        <text x="151" y="139" text-anchor="middle" font-size="16" fill="#5e6a8a">説明書を作る</text>
+        <path d="M230 119 H300" stroke="#1a96c0" stroke-width="4" marker-end="url(#arrow)"/>
+        <rect x="310" y="82" width="138" height="74" rx="14" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="379" y="113" text-anchor="middle" font-size="21" font-weight="800" fill="#1a1d2e">/memory</text>
+        <text x="379" y="139" text-anchor="middle" font-size="16" fill="#5e6a8a">記憶を整える</text>
+        <path d="M379 164 V225" stroke="#1a96c0" stroke-width="4" marker-end="url(#arrow)"/>
+        <rect x="310" y="236" width="138" height="74" rx="14" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="379" y="267" text-anchor="middle" font-size="21" font-weight="800" fill="#1a1d2e">/permissions</text>
+        <text x="379" y="293" text-anchor="middle" font-size="16" fill="#5e6a8a">許可を決める</text>
+        <path d="M300 273 H230" stroke="#1a96c0" stroke-width="4" marker-end="url(#arrow)"/>
+        <rect x="82" y="236" width="138" height="74" rx="14" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="151" y="267" text-anchor="middle" font-size="21" font-weight="800" fill="#1a1d2e">/mcp</text>
+        <text x="151" y="293" text-anchor="middle" font-size="16" fill="#5e6a8a">外部道具を接続</text>
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a96c0"/></marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="ok-box">
+        <div class="box-title">先に整えるもの</div>
+        <ul class="box-list">
+          <li><code>/init</code>: プロジェクト用のCLAUDE.mdを作る</li>
+          <li><code>/memory</code>: いつも使うルールを管理する</li>
+          <li><code>/permissions</code>: 許可・確認・禁止を整理する</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">外部連携が必要なら</div>
+        <ul class="box-list">
+          <li><code>/mcp</code>: MCPサーバー接続を管理する</li>
+          <li><code>/agents</code>: サブエージェント設定を見る</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">失敗パターン</div>
+        <ul class="box-list">
+          <li>毎回ルールを手入力して説明が長くなる</li>
+          <li>権限を広げすぎて確認しづらくなる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

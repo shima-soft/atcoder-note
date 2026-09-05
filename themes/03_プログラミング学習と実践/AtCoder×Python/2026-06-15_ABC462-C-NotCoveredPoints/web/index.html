@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC462 C「Not Covered Points」解説 — AtCoder×Python</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: #f9fafb;
+  color: #1a1d2e;
+  line-height: 1.7;
+}
+.hero {
+  background: linear-gradient(135deg, #e8873a, #d96018);
+  color: #fff;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(255,255,255,.2);
+  border-radius: 99px;
+  padding: .2rem 1rem;
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: .8rem;
+}
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: .3rem;
+}
+.hero .sub {
+  opacity: .85;
+  font-size: 1rem;
+}
+.hero .links {
+  margin-top: 1rem;
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero .links a {
+  color: #fff;
+  text-decoration: underline;
+  font-size: .85rem;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem;
+}
+section {
+  background: #fff;
+  border: 1px solid #dde2ec;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+section h2 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #d96018;
+  margin-bottom: .8rem;
+  padding-bottom: .4rem;
+  border-bottom: 2px solid #dde2ec;
+}
+section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1d2e;
+  margin: 1rem 0 .4rem;
+}
+section p {
+  margin-bottom: .6rem;
+  color: #1a1d2e;
+}
+section strong {
+  color: #d96018;
+  font-weight: 900;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: .8rem;
+}
+.meta-card {
+  background: #eff1f7;
+  border-radius: 10px;
+  padding: .8rem 1rem;
+}
+.meta-card h4 {
+  font-size: .8rem;
+  font-weight: 700;
+  color: #5e6a8a;
+  margin-bottom: .4rem;
+}
+.meta-card ul {
+  list-style: none;
+}
+.meta-card ul li {
+  font-size: .9rem;
+  color: #1a1d2e;
+  padding-left: .8rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: #d96018;
+  font-weight: 900;
+}
+.meta-card code {
+  background: #fff;
+  border: 1px solid #dde2ec;
+  border-radius: 6px;
+  padding: .2rem .6rem;
+  font-size: .88rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+  margin: .8rem 0;
+}
+.sample-table th {
+  background: #eff1f7;
+  padding: .4rem .6rem;
+  font-weight: 700;
+  color: #5e6a8a;
+  border-bottom: 2px solid #dde2ec;
+  text-align: center;
+}
+.sample-table td {
+  padding: .4rem .8rem;
+  border-bottom: 1px solid #dde2ec;
+  text-align: center;
+}
+.sample-table td.note {
+  text-align: left;
+  color: #5e6a8a;
+  font-size: .85rem;
+}
+.sample-table td.ok { color: #008f6a; font-weight: 900; }
+.sample-table td.ng { color: #c9162e; font-weight: 900; }
+.ac-code-block {
+  border: 1px solid #dde2ec;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+.ac-code-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: #eff1f7;
+  padding: .4rem .8rem;
+  border-bottom: 1px solid #dde2ec;
+}
+.ac-filename {
+  font-family: 'Consolas', monospace;
+  font-size: .82rem;
+  color: #5e6a8a;
+  flex: 1;
+}
+.ac-badge {
+  font-size: .72rem;
+  color: #008f6a;
+  font-weight: 700;
+}
+.copy-btn {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .2rem .6rem;
+  border-radius: 6px;
+  border: 1px solid #d96018;
+  color: #d96018;
+  background: transparent;
+  cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: .8rem 1rem; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; }
+.step-box {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem .8rem;
+  background: #eff1f7;
+  border-radius: 10px;
+  margin-bottom: .4rem;
+}
+.step-num {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8873a, #d96018);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+}
+.term-card {
+  background: #fff;
+  border: 1px solid #dde2ec;
+  border-radius: 10px;
+  padding: .8rem 1rem;
+}
+.term-card h4 {
+  font-size: .9rem;
+  font-weight: 900;
+  margin-bottom: .2rem;
+}
+.term-card .reading {
+  font-size: .8rem;
+  color: #5e6a8a;
+  margin-bottom: .3rem;
+}
+.term-card p {
+  font-size: .82rem;
+  color: #5e6a8a;
+  line-height: 1.5;
+}
+.term-card a {
+  display: inline-block;
+  margin-top: .3rem;
+  font-size: .8rem;
+  color: #1a96c0;
+  text-decoration: none;
+}
+.term-card a:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .meta-grid, .glossary-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.4rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">AtCoder×Pythonシリーズ</div>
+  <h1>ABC462 C — Not Covered Points</h1>
+  <p class="sub">長方形の内部に点がない条件を、ソートと最小値追跡で効率的に判定</p>
+  <div class="links">
+    <a class="header-home" href="../../../../../index.html">← 一覧へ戻る</a>
+    <a href="https://atcoder.jp/contests/abc462/tasks/abc462_c" target="_blank">問題ページ 🔗</a>
+    <a href="../slideshow.html" target="_blank">スライドモードで見る 🔗</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <section>
+    <h2>📝 問題を読み解く</h2>
+    <p>2次元平面上に <strong>N個の点</strong>があります。各点 i の座標は (X_i, Y_i)。左下が (0,0)、右上が (X_i, Y_i) の<strong>長方形の内部</strong>に、どの点も含まれない i の個数を求めてください。</p>
+
+    <div class="meta-grid">
+      <div class="meta-card">
+        <h4>🔒 制約</h4>
+        <ul>
+          <li>1 ≤ N ≤ 3×10^5（30万）</li>
+          <li>X, Y はそれぞれ 1〜N の順列</li>
+        </ul>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力形式</h4>
+        <code>N</code>
+        <p style="font-size:.82rem;color:#5e6a8a;margin-top:.4rem">1行目にN、以下N行に各点の座標</p>
+      </div>
+    </div>
+
+    <h3>📊 入出力例（サンプル1: N=3）</h3>
+    <table class="sample-table">
+      <tr><th>点</th><th>座標</th><th>結果</th><th>理由</th></tr>
+      <tr><td>i=1</td><td>(2, 1)</td><td class="ok">OK</td><td class="note">長方形(0,0)→(2,1) の内部に他の点なし</td></tr>
+      <tr><td>i=2</td><td>(1, 3)</td><td class="ok">OK</td><td class="note">長方形(0,0)→(1,3) の内部に他の点なし</td></tr>
+      <tr><td>i=3</td><td>(3, 2)</td><td class="ng">NG</td><td class="note">長方形(0,0)→(3,2) の内部に点1(2,1)が含まれる</td></tr>
+    </table>
+    <p>→ 答えは <strong>2</strong>（i=1, 2 の2つ）</p>
+  </section>
+
+  <section>
+    <h2>💡 考え方</h2>
+    <p>「長方形の内部に点がない」は、「その点の<strong>左下</strong>に点がない」と読み替えられます。</p>
+
+    <div class="step-box">
+      <span class="step-num">①</span>
+      <p>全ポイントを <strong>X座標の昇順</strong>にソートする</p>
+    </div>
+    <div class="step-box">
+      <span class="step-num">②</span>
+      <p>左から順に処理し、<strong>minY（最小Y）</strong>を追跡する</p>
+    </div>
+    <div class="step-box">
+      <span class="step-num">③</span>
+      <p>各点の Y ≤ minY なら「左側に小さい点なし」→ <strong>カウント+1</strong></p>
+    </div>
+
+    <h3>📊 トレース（サンプル1）</h3>
+    <table class="sample-table">
+      <tr><th>順番</th><th>点</th><th>minY（前）</th><th>Y ≤ minY?</th><th>結果</th></tr>
+      <tr><td>1</td><td>(1, 3)</td><td>∞</td><td class="ok">3 ≤ ∞ ✓</td><td class="ok">カウント+1</td></tr>
+      <tr><td>2</td><td>(2, 1)</td><td>3</td><td class="ok">1 ≤ 3 ✓</td><td class="ok">カウント+1</td></tr>
+      <tr><td>3</td><td>(3, 2)</td><td>1</td><td class="ng">2 ≤ 1 ✗</td><td class="ng">スキップ</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>💻 コード（Python）</h2>
+    <div class="ac-code-block">
+      <div class="ac-code-header">
+        <span class="ac-filename">abc462c.py</span>
+        <span class="ac-badge">✅ AC 確認済み</span>
+        <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+      </div>
+      <pre><code class="language-python">import sys
+
+N = int(sys.stdin.readline())
+points = []
+for _ in range(N):
+    x, y = map(int, sys.stdin.readline().split())
+    points.append((x, y))
+
+points.sort()
+
+ans = 0
+minY = float('inf')
+for x, y in points:
+    if y <= minY:
+        ans += 1
+    minY = min(minY, y)
+
+print(ans)</code></pre>
+    </div>
+
+    <h3>解説</h3>
+    <p><strong>1〜6行目:</strong> <code>sys.stdin.readline()</code> で高速に入力読み込み。N個のポイントをタプルとしてリストに格納。</p>
+    <p><strong>8行目:</strong> <code>points.sort()</code> でX座標の昇順にソート。</p>
+    <p><strong>10〜14行目:</strong> minY を追跡しながら走査。Y ≤ minY ならカウントし、minY を更新。</p>
+    <p><strong>15行目:</strong> 結果を出力。</p>
+
+    <h3>計算量</h3>
+    <p>ソート O(N log N) + 走査 O(N) = <strong>O(N log N)</strong>。Python で N ≤ 50万 なら時間内に通ります。</p>
+  </section>
+
+  <section>
+    <h2>📖 用語解説</h2>
+    <div class="glossary-grid">
+      <div class="term-card">
+        <h4>順列</h4>
+        <div class="reading">じゅんれつ</div>
+        <p>1〜N の数字を重複なく1つずつ並べたもの。この問題では全座標の値が異なる。</p>
+        <a href="https://ja.wikipedia.org/wiki/順列" target="_blank">Wikipedia 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>ソート</h4>
+        <div class="reading">ソート</div>
+        <p>データを並べ替えること。Python の .sort() はデフォルトで昇順。</p>
+        <a href="https://docs.python.org/ja/3/library/stdtypes.html#list.sort" target="_blank">Python docs 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>貪欲法</h4>
+        <div class="reading">たんよくほう</div>
+        <p>各ステップで今最善の選択をするアルゴリズム。この問題では使える。</p>
+      </div>
+      <div class="term-card">
+        <h4>計算量</h4>
+        <div class="reading">けいさんりょう</div>
+        <p>アルゴリズムの処理時間。O(N log N) は N=50万程度まで Python で間に合う。</p>
+      </div>
+      <div class="term-card">
+        <h4>sys.stdin.readline</h4>
+        <div class="reading">システムスタンダードインリードライン</div>
+        <p>標準入力から1行高速に読み込む関数。input() より速い。</p>
+        <a href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python docs 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>float('inf')</h4>
+        <div class="reading">フロート インフィニティ</div>
+        <p>「無限大」を表す値。最小値の初期値として使う。</p>
+        <a href="https://docs.python.org/ja/3/library/stdtypes.html#numeric-types-float-int-complex" target="_blank">Python docs 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>Pareto最適</h4>
+        <div class="reading">パレトさいてき</div>
+        <p>他のどの選択肢よりも1つ以上が良く、残りが同等以上の状態。正解点に相当。</p>
+        <a href="https://ja.wikipedia.org/wiki/パレート最適" target="_blank">Wikipedia 🔗</a>
+      </div>
+      <div class="term-card">
+        <h4>AtCoder</h4>
+        <div class="reading">アットコーダー</div>
+        <p>日本発の競技プログラミングプラットフォーム。初心者向けの ABC が入門に最適。</p>
+        <a href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+</script>
+</body>
+</html>

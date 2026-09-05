@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC469 D: The Big Two - 問題を読み解く</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+      <h2 class="slide-title">問題の状況を整理する</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>「すべての試合で、どちらかが決勝に進んでいる」ペアを探す</p>
+      </div>
+    </div>
+<div class="pattern-cols slide-body">
+  <div class="diagram-box">
+    <p style="text-align: center; font-weight: 900; margin: 0;">
+      思考のステップ<br>
+      <span style="font-size: 1.2rem; color: var(--muted);">
+        「全探索」を「分類」に置き換える
+      </span>
+    </p>
+  </div>
+  <div class="info-col">
+    <div>
+      <h4>なぜこのアプローチなのか</h4>
+      <p style="font-size: 0.85rem;">
+        **「全ての組み合わせを数える」ことは、実は「全ての組み合わせを調べる」ことと同じです。**<br>
+        条件を満たすペアを一つずつ見つけるのではなく、**「このプレイヤーとペアになれるのは誰か？」**という視点に変えることで、計算を大幅に削減できます。
+      </p>
+    </div>
+    <div class="ok-box">
+      <div class="box-title">✅ 視点の転換</div>
+      <ul class="box-list">
+        <li style="margin-bottom: 0.5rem;">「誰とペアならOK？」を数える</li>
+        <li style="margin-bottom: 0.5rem;">「強いプレイヤー」を軸にする</li>
+        <li style="margin-bottom: 0.5rem;">「特別な例外」だけを個別に処理する</li>
+      </ul>
+    </div>
+    <div class="ng-box">
+      <div class="box-title">⚠️ 注意点</div>
+      <ul class="box-list">
+        <li style="margin-bottom: 0.5rem;">「正しい」ものだけを数えるのは難しいため、逆の視点も検討する</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

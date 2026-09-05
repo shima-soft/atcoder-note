@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.decision { display:grid; grid-template-columns:1.1fr .9fr; gap:1rem; flex:1; }
+.decision-list { display:flex; flex-direction:column; gap:.55rem; }
+.choice { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.58rem .8rem; display:flex; gap:.55rem; align-items:center; }
+.choice strong { font-size:.86rem; min-width:115px; }
+.choice span { font-size:.8rem; color:var(--muted); line-height:1.45; }
+.prompt-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.85rem 1rem; display:flex; flex-direction:column; gap:.55rem; }
+.prompt-title { font-size:.92rem; font-weight:900; color:var(--blue); }
+.prompt-text { font-size:.82rem; color:var(--text); line-height:1.62; background:#f2f6fb; border:1px solid var(--border); border-radius:10px; padding:.55rem .7rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">CHOICE</span>
+    <h2 class="slide-title">迷ったら「成果物」と「データ源」を先に言う</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>何を作るか、何を読ませるか、どこまで任せるかを伝えると選びやすい</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="decision">
+      <div class="decision-list">
+        <div class="choice"><span class="snum" style="background:var(--g-blue)">1</span><strong>文書にしたい</strong><span>Documents。報告書、マニュアル、レビューコメント。</span></div>
+        <div class="choice"><span class="snum" style="background:var(--g-orange)">2</span><strong>発表したい</strong><span>Presentations。提案資料、研修資料、スライド。</span></div>
+        <div class="choice"><span class="snum" style="background:var(--g-green)">3</span><strong>数字を整理</strong><span>Spreadsheets。Excel、CSV、グラフ、分析。</span></div>
+        <div class="choice"><span class="snum" style="background:var(--g-purple)">4</span><strong>画面を確認</strong><span>Browser。Web表示、クリック、スクリーンショット。</span></div>
+        <div class="choice"><span class="snum" style="background:var(--g-green)">5</span><strong>外部情報を読む</strong><span>Gmail、Drive、Slack。認証と範囲確認が大事。</span></div>
+        <div class="choice"><span class="snum" style="background:var(--g-orange)">6</span><strong>守る・公開</strong><span>Security、Sites。認可、レビュー、アクセス範囲を確認。</span></div>
+      </div>
+      <div class="prompt-card">
+        <div class="prompt-title">依頼テンプレート</div>
+        <div class="prompt-text">目的: 営業会議用の10枚スライドを作る<br>素材: このCSVと議事録<br>使ってほしいもの: PresentationsとSpreadsheets<br>確認: 完成後に表とタイトルの整合性を見て</div>
+        <div class="prompt-text">目的: ローカルWeb画面の表示確認<br>素材: localhost:8181 の画面<br>使ってほしいもの: Browser<br>確認: 文字切れ、ボタン動作、スマホ幅</div>
+        <div class="note-box">
+          <div class="box-title">コツ</div>
+          <ul class="box-list"><li>プラグイン名がわからなくても目的で頼める</li><li>外部データは読む範囲を必ず指定する</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

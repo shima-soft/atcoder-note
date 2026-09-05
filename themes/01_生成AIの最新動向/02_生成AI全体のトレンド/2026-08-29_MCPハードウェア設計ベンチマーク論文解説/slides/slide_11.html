@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>5つの実践ガイド</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">実践ガイド</span>
+    <h2 class="slide-title">明日から使える5つの実践ガイド</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>論文の結論を“チェックリスト”に翻訳。モデル選びより「設定選び」が成果を分ける</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid" style="grid-template-columns:repeat(3, 1fr);gap:.7rem">
+      <div class="card" style="border-top:3px solid #7a3bce">
+        <div class="card-num" style="background:var(--g-purple)">1</div>
+        <div class="card-title">プロンプトは実機で試す</div>
+        <div class="card-desc"><b>MDが5/7で最良</b>だが差は小さい。few-shotはモデルにより暴落（31Bで-40%）。他モデルの成功例を鵜呑みにせず、必ずターゲットでA/B。</div>
+      </div>
+      <div class="card" style="border-top:3px solid #7a3bce">
+        <div class="card-num" style="background:var(--g-purple)">2</div>
+        <div class="card-title">説明書は包括的に</div>
+        <div class="card-desc">全モデルでTFR半減。ベストの<b>83%が包括的</b>（35/42）。2,000トークン削るより正確さを取る。引数・制約・失敗条件まで書く。</div>
+      </div>
+      <div class="card" style="border-top:3px solid #7a3bce">
+        <div class="card-num" style="background:var(--g-purple)">3</div>
+        <div class="card-title">難しい課題で選ぶ</div>
+        <div class="card-desc">簡単タスクは差0.14以内、<b>Crossで0.47差</b>。平均値だけで選ばず、History/Crossの数字を見る。小さいモデルは軽作業なら9割使える。</div>
+      </div>
+      <div class="card" style="border-top:3px solid #c9162e">
+        <div class="card-num" style="background:linear-gradient(135deg,#f87171,#c9162e)">4</div>
+        <div class="card-title">履歴は“溜めない”が基本</div>
+        <div class="card-desc">強いモデルは影響小、<b>Llamaは-71%沈黙</b>。弱いモデルや長期セッションは <b>taskスコープ</b>（毎回リセット）で迷子を防ぐ。</div>
+      </div>
+      <div class="card" style="border-top:3px solid #008f6a">
+        <div class="card-num" style="background:var(--g-green)">5</div>
+        <div class="card-title">苦手は分業で補う</div>
+        <div class="card-desc">弱い作業役は強い計画役と分業で<b>0.55→0.71</b>。長い仕事（60手）は<b>0.85→0.95</b>に復活。ただし呼び出し増なので使いどころを絞る。</div>
+      </div>
+      <div class="card" style="background:#f4efff;border:1px solid #c9b3ec">
+        <div class="card-num" style="background:#7a3bce">＋</div>
+        <div class="card-title">安定性は高い</div>
+        <div class="card-desc">温度0/0.5/1.0で順位は不変。Gemma26Bは0.88〜0.89で安定。弱いモデルだけバラつき大 → 本番は低温度も検討。</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

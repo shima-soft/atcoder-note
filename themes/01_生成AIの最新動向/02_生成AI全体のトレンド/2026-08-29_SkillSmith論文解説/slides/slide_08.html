@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>ステージ2 失敗を圧縮して使えるマニュアルに鍛え直す</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">しくみ②</span>
+    <h2 class="slide-title">ステージ2: 失敗を圧縮して「使えるマニュアル」に鍛え直す</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>若手の失敗ログは長くてノイズだらけ — 同じ穴を集め、原因を切り分け、優先度順にだけ赤入れする</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="Skill Evolutionパイプライン Execute Compress と Evolve">
+        <!-- Step C -->
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#008f6a">Step C: Execute &amp; Compress</text>
+        <rect x="18" y="30" width="590" height="78" rx="12" fill="#eff7f4" stroke="#8ec9b8"/>
+        <rect x="34" y="44" width="170" height="48" rx="10" fill="#ffffff" stroke="#008f6a"/>
+        <text x="119" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">ローカルAgentが実行</text>
+        <text x="119" y="78" text-anchor="middle" font-size="11" fill="#5e6a8a">現行Skill i-1 を装着</text>
+
+        <polygon points="214,68 234,68 234,63 244,72 234,81 234,76 214,76" fill="#008f6a"/>
+
+        <rect x="250" y="44" width="170" height="48" rx="10" fill="#008f6a" stroke="#008f6a"/>
+        <text x="335" y="62" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">成功率 ji-1 を計測</text>
+        <text x="335" y="78" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.85)">失敗だけを圧縮</text>
+
+        <polygon points="430,68 450,68 450,63 460,72 450,81 450,76 430,76" fill="#008f6a"/>
+
+        <rect x="466" y="44" width="132" height="48" rx="10" fill="#ffffff" stroke="#008f6a"/>
+        <text x="532" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Failure Report</text>
+        <text x="532" y="78" text-anchor="middle" font-size="10" fill="#5e6a8a">期待vs実際＋読込記録</text>
+
+        <!-- 注記 -->
+        <text x="34" y="102" font-size="10" fill="#5e6a8a">生ログには観測・思考・全Skill内容が混在 — Skill修正に必要な“ズレ”だけを抜き出す</text>
+
+        <!-- Step D -->
+        <text x="34" y="126" font-size="12" font-weight="900" fill="#008f6a">Step D: Evolve Skill（同じ失敗を集めて、壊さず直す）</text>
+        <rect x="18" y="134" width="590" height="246" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+
+        <!-- Cluster -->
+        <rect x="34" y="148" width="170" height="88" rx="10" fill="#eff7f4" stroke="#008f6a"/>
+        <text x="119" y="166" text-anchor="middle" font-size="11" font-weight="900" fill="#008f6a">Cluster Agent</text>
+        <text x="119" y="182" text-anchor="middle" font-size="11" fill="#1a1d2e">失敗報告を束ねる</text>
+        <text x="119" y="198" text-anchor="middle" font-size="10" fill="#5e6a8a">種類・失敗アサーションで</text>
+        <text x="119" y="212" text-anchor="middle" font-size="10" fill="#5e6a8a">小束は統合、Ci に絞る</text>
+
+        <polygon points="214,192 234,192 234,187 244,196 234,205 234,200 214,200" fill="#5e6a8a"/>
+
+        <!-- Analyze -->
+        <rect x="250" y="148" width="170" height="88" rx="10" fill="#f9fafb" stroke="#b9c0d4"/>
+        <text x="335" y="166" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">Analyze SubAgent ×Ci</text>
+        <text x="335" y="182" text-anchor="middle" font-size="10" fill="#1a1d2e">現行Skillと突き合わせ</text>
+        <text x="335" y="196" text-anchor="middle" font-size="10" fill="#5e6a8a">①読込漏れ ②内容不足</text>
+        <text x="335" y="210" text-anchor="middle" font-size="10" fill="#5e6a8a">③惜しいミス ④直せない</text>
+        <text x="335" y="224" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">→ Modify Note（優先度付き）</text>
+
+        <polygon points="430,192 450,192 450,187 460,196 450,205 450,200 430,200" fill="#5e6a8a"/>
+
+        <!-- Merge -->
+        <rect x="466" y="148" width="132" height="88" rx="10" fill="#1a1d2e" stroke="#1a1d2e"/>
+        <text x="532" y="166" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">Merge Agent</text>
+        <text x="532" y="182" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)">優先度順に適用</text>
+        <text x="532" y="196" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)">競合を解消</text>
+        <text x="532" y="210" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.7)">超えたら圧縮</text>
+        <text x="532" y="224" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">→ Skill i</text>
+
+        <!-- Guardrails -->
+        <rect x="34" y="248" width="560" height="64" rx="10" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="50" y="266" font-size="11" font-weight="700" fill="#7a3bce">膨張させない・壊さないためのガードレール</text>
+        <text x="50" y="282" font-size="10.5" fill="#1a1d2e">• 同じ失敗の束だけを1回で直す</text>
+        <text x="290" y="282" font-size="10.5" fill="#1a1d2e">• 長さ上限Lmax超えは圧縮</text>
+        <text x="50" y="296" font-size="10.5" fill="#1a1d2e">• 成功タスクを壊す変更は捨てる</text>
+        <text x="50" y="308" font-size="9.5" fill="#5e6a8a">盲目的に追記するとSkillが膨れて成功タスクまで悪化 — だから優先度と選抜が必要</text>
+
+        <rect x="34" y="316" width="560" height="54" rx="10" fill="#eff7f4" stroke="#8ec9b8"/>
+        <text x="310" y="332" text-anchor="middle" font-size="11" font-weight="900" fill="#008f6a">ループの出口: 最良版を選抜してデプロイ</text>
+        <text x="310" y="348" text-anchor="middle" font-size="11" fill="#1a1d2e">各周回で成功率 ji を再計測 → 最大の j* を持つSkill* を採用</text>
+        <text x="310" y="362" text-anchor="middle" font-size="10" fill="#5e6a8a">論文は5周。途中で失敗ゼロなら早期終了</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>若手の日報「失敗だけ」を要約</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>同じつまずきを束ね、原因を4種類で切り分け</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>赤入れは急所だけ。既にできている所は触らない</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ なぜ効くか</div>
+        <ul class="box-list">
+          <li>再発する穴にだけ手当て、偶発ミスは捨てる</li>
+          <li>成功タスクを壊さない＝後退しない</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ やってはいけない</div>
+        <ul class="box-list">
+          <li>失敗ログをそのままSkillに貼り付ける</li>
+          <li>上限なく追記して文脈を溢れさせる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

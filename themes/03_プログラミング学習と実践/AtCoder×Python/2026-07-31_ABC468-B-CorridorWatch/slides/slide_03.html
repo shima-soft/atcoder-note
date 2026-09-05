@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 B - 距離は引き算の絶対値</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方</span>
+    <h2 class="slide-title">見張れるのは「左右にDマスずつ」</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>距離は引き算の絶対値。左右どちらに離れていても同じ測り方でよい</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          cell[i].x = 98 + i*62  (cellWidth=56, gap=6)
+          centers = 126,188,250,312,374,436,498
+          見張りゾーン: cell0-2 → x=93, w=189 (right=282)
+          入力例1: M=7, D=1, S=".G...GG"
+        -->
+
+        <!-- 見張りゾーン（主役: マス2のガードマン） -->
+        <text x="188" y="52" text-anchor="middle" font-size="13" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">距離が1以下 → 監視される</text>
+        <rect x="93" y="62" width="189" height="72" rx="12" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2.5"/>
+
+        <!-- 1段目: 配置 S -->
+        <text x="14" y="106" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">配置S</text>
+
+        <rect x="98"  y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="126" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="160" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="188" y="106" text-anchor="middle" font-size="24" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="222" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="250" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">.</text>
+
+        <rect x="284" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="346" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="408" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="436" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="470" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="498" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <!-- マス番号 -->
+        <text x="14"  y="148" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス番号</text>
+        <text x="126" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="188" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="250" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="312" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="374" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="436" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+        <text x="498" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7</text>
+
+        <!-- 2段目: マス2からの距離 -->
+        <text x="14" y="186" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス2から</text>
+        <text x="14" y="200" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">の距離</text>
+
+        <rect x="98"  y="164" width="56" height="44" rx="9" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="126" y="193" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="160" y="164" width="56" height="44" rx="9" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="188" y="193" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">0</text>
+        <rect x="222" y="164" width="56" height="44" rx="9" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="250" y="193" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">1</text>
+
+        <rect x="284" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">2</text>
+        <rect x="346" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">3</text>
+        <rect x="408" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="436" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">4</text>
+        <rect x="470" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="498" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">5</text>
+
+        <!-- まとめ -->
+        <rect x="60" y="228" width="420" height="62" rx="12" fill="rgba(0,143,106,.1)" stroke="var(--green)" stroke-width="2"/>
+        <text x="270" y="252" text-anchor="middle" font-size="14" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス2から左右に1マスずつ = マス1〜3 を監視</text>
+        <text x="270" y="276" text-anchor="middle" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">距離 = 引き算の絶対値 → abs(x - i)</text>
+
+        <!-- 凡例 -->
+        <rect x="100" y="302" width="11" height="11" rx="2" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="116" y="311" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">距離D以下（監視される）</text>
+        <rect x="240" y="302" width="11" height="11" rx="2" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="256" y="311" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">距離D超（監視されない）</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 店舗を巡回する担当者の受け持ち範囲</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>担当者がいる店から、左右にD店ずつが受け持ち範囲</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>距離は「番号の差」— 左右どちらでも測り方は同じ</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>誰の受け持ちにもならない店が、今回の答え</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 距離の測り方</div>
+        <ul class="box-list">
+          <li>マス4とマス2の距離 → 4 − 2 = 2</li>
+          <li>マス2とマス4の距離 → 2 − 4 = −2 の絶対値で 2</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ ありがちな勘違い</div>
+        <ul class="box-list">
+          <li>右側だけ見張ると思ってしまう（左右どちらも見張る）</li>
+          <li>D = 0 のとき何も見張らないと思ってしまう</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

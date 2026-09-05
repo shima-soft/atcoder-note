@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><style>.code-card code{font-size:.69rem;line-height:1.36}</style></head><body><div class="slide surface"><div class="slide-header"><span class="label" style="background:var(--g-orange);color:#fff">コード③</span><h2 class="slide-title">ダイクストラ法（15行）</h2><p class="slide-sub">短い候補から取り出し、より短い経路を見つけたら更新する</p></div><div class="code-layout slide-body"><div class="code-card"><pre><code class="language-python">INF = 10**30
+dist = [INF] * (N + 2)
+dist[0] = 0
+queue = [(0, 0)]
+
+while queue:
+    current_dist, city = heapq.heappop(queue)
+    if current_dist != dist[city]:
+        continue
+
+    for next_city, cost in graph[city]:
+        new_dist = current_dist + cost
+        if new_dist < dist[next_city]:
+            dist[next_city] = new_dist
+            heapq.heappush(queue, (new_dist, next_city))</code></pre></div><div class="code-notes"><div class="biz-example"><div class="biz-title">3つの状態</div><div class="biz-step"><span class="snum" style="background:var(--orange)">dist</span><p>今わかっている最短距離</p></div><div class="biz-step"><span class="snum" style="background:var(--green)">heap</span><p>次に調べる距離の候補</p></div><div class="biz-step"><span class="snum" style="background:var(--blue)">cost</span><p>今の頂点から次への辺の重み</p></div></div><div class="note-box"><div class="box-title">古い候補を捨てる</div><ul class="box-list"><li><code>current_dist != dist[city]</code> なら、あとから短い経路が見つかった済みなのでスキップ</li></ul></div><div class="ok-box"><div class="box-title">距離の更新</div><ul class="box-list"><li>new_distが小さいときだけdistとheapを更新する</li></ul></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll())</script></body></html>
+

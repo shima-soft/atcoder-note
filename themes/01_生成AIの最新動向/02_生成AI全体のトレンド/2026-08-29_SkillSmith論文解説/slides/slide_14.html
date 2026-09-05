@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>用語解説</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SkillSmith</span><span class="term-reading">スキルスミス</span></div>
+        <p class="term-desc">本論文の手法。「スキル鍛冶屋」の意味。クラウドとローカルが協力してSkillを自動で作り鍛える枠組み。</p>
+        <a class="term-link" href="https://arxiv.org/abs/2608.08037" target="_blank">arxiv.org 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Agent Skill</span><span class="term-reading">エージェントスキル</span></div>
+        <p class="term-desc">環境ルールと手順をまとめた“職場マニュアル”。表紙SKILL.md＋別冊＋索引で構成。</p>
+        <a class="term-link" href="https://www.anthropic.com/engineering/skills" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SKILL.md</span><span class="term-reading">スキルエムディ</span></div>
+        <p class="term-desc">Skillの表紙ファイル。概要・共通指示・別冊へのポインタを持つ。上限400行。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">逐次開示</span><span class="term-reading">ちくじかいじ</span></div>
+        <p class="term-desc">Progressive Disclosure。最初は表紙だけ、必要な別冊だけ開く文脈節約の仕組み。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Cloud / Local Agent</span><span class="term-reading">クラウド / ローカルエージェント</span></div>
+        <p class="term-desc">前者は超大型LLMを社外で動かす方式、後者は小型SLMを端末内で動かす方式。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SLM / LLM</span><span class="term-reading">エスエルエム / エルエルエム</span></div>
+        <p class="term-desc">Small / Large Language Model。論文は35B未満をSLM、1兆超をLLMとして対比。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Qwen3.6-27B</span><span class="term-reading">クウェンさんてんろく</span></div>
+        <p class="term-desc">アリババのオープンSLM。27Bでも頭脳テストはOpus 4.5と互角だった。</p>
+        <a class="term-link" href="https://qwen.ai" target="_blank">qwen.ai 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Claude Opus 4.7</span><span class="term-reading">クロード オーパス</span></div>
+        <p class="term-desc">Anthropicの最上位クラウドLLM。論文ではCloud Agentの代表として登場。</p>
+        <a class="term-link" href="https://anthropic.com" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">ReAct</span><span class="term-reading">リアクト</span></div>
+        <p class="term-desc">観測→思考→行動をくり返すAgentの基本ループ。累積観測Oiが毎回LLMに送られる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">AppWorld</span><span class="term-reading">アップワールド</span></div>
+        <p class="term-desc">日々のアプリ操作を模した評価データ。メール・買物などをAPIで操作する。NormalとChallengeの2難易度。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">WorkBench</span><span class="term-reading">ワークベンチ</span></div>
+        <p class="term-desc">職場タスクの評価データ。カレンダー・分析・プロジェクト管理など。SkillSmithがクラウド超えした舞台。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SUSTech</span><span class="term-reading">サステック</span></div>
+        <p class="term-desc">南方科技大学（中国）。本論文の筆頭著者 Xinle Jiang らの所属。</p>
+        <a class="term-link" href="https://www.sustech.edu.cn" target="_blank">sustech.edu.cn 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

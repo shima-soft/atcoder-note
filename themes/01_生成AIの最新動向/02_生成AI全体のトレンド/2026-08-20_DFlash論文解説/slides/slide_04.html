@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>AIの記憶装置 KVキャッシュとは何か</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">前提知識</span>
+    <h2 class="slide-title">AIの「記憶装置」＝KVキャッシュとは何か</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>AIは文章を書きながら、これまでの内容を「メモ帳」に逐一書き留めている。このメモが KVキャッシュ</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="入力文章がKVキャッシュというメモ帳に記録される仕組み">
+        <text x="34" y="22" font-size="13" font-weight="900" fill="#5e6a8a">入力された文章（トークン列）</text>
+        <rect x="40" y="32" width="68" height="40" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="74" y="57" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">明日</text>
+        <rect x="118" y="32" width="68" height="40" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="152" y="57" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">会議</text>
+        <rect x="196" y="32" width="68" height="40" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="230" y="57" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">10時</text>
+        <rect x="274" y="32" width="50" height="40" rx="8" fill="none" stroke="#c9b3ec" stroke-dasharray="3 2"/>
+        <text x="299" y="57" text-anchor="middle" font-size="13" font-weight="700" fill="#7a3bce">…</text>
+
+        <path d="M74 76 L74 96" stroke="#5e6a8a" stroke-width="1.5" fill="none"/>
+        <polygon points="74,101 70,93 78,93" fill="#5e6a8a"/>
+        <path d="M152 76 L152 96" stroke="#5e6a8a" stroke-width="1.5" fill="none"/>
+        <polygon points="152,101 148,93 156,93" fill="#5e6a8a"/>
+        <path d="M230 76 L230 96" stroke="#5e6a8a" stroke-width="1.5" fill="none"/>
+        <polygon points="230,101 226,93 234,93" fill="#5e6a8a"/>
+        <text x="450" y="57" font-size="11" fill="#5e6a8a">1語ごとに書き込まれる</text>
+
+        <text x="34" y="122" font-size="13" font-weight="900" fill="#5e6a8a">KVキャッシュ（AIのメモ帳）</text>
+        <rect x="40" y="132" width="540" height="34" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="56" y="154" font-size="11" font-weight="700" fill="#5e6a8a">トークン</text>
+        <text x="180" y="154" font-size="11" font-weight="700" fill="#5e6a8a">Key（見出し）</text>
+        <text x="380" y="154" font-size="11" font-weight="700" fill="#5e6a8a">Value（中身）</text>
+
+        <rect x="40" y="166" width="540" height="40" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="56" y="191" font-size="12" fill="#1a1d2e">明日</text>
+        <text x="180" y="191" font-size="12" fill="#1a1d2e">いつの話か</text>
+        <text x="380" y="191" font-size="12" fill="#1a1d2e">「明日」という日付の情報</text>
+
+        <rect x="40" y="206" width="540" height="40" fill="#f7f8fb" stroke="#dde2ec"/>
+        <text x="56" y="231" font-size="12" fill="#1a1d2e">会議</text>
+        <text x="180" y="231" font-size="12" fill="#1a1d2e">何の予定か</text>
+        <text x="380" y="231" font-size="12" fill="#1a1d2e">「会議」という予定の種類</text>
+
+        <rect x="40" y="246" width="540" height="40" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="56" y="271" font-size="12" fill="#1a1d2e">10時</text>
+        <text x="180" y="271" font-size="12" fill="#1a1d2e">何時からか</text>
+        <text x="380" y="271" font-size="12" fill="#1a1d2e">「10時」という時刻の情報</text>
+
+        <rect x="20" y="308" width="580" height="102" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="340" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">新しい単語を1つ出すたび、このメモ帳を全部読み返す</text>
+        <text x="310" y="366" text-anchor="middle" font-size="12" fill="#5e6a8a">メモが多い（文章が長い）ほど、読み返す量も増える</text>
+        <text x="310" y="390" text-anchor="middle" font-size="12" fill="#7a3bce" font-weight="700">→ このメモ帳の中身を、後で「下書き役」にも直接渡す（次スライード以降）</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>会議の議事録係が、発言のたびに「誰が・何を」を書き留める</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>次に話すときは、その議事録を全部読み返してから話す</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>メモがあるおかげで、長い文章でも文脈を見失わない</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">このあと重要になる点</div>
+        <ul class="box-list">
+          <li>DFlashは、本体AIのメモ帳を下書き役に直接渡す発想</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

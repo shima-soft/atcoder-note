@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.title-slide { width:1280px; height:720px; display:flex; overflow:hidden; }
+.panel-dark {
+  width:38%;
+  background:#23101d;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2.2rem 2.3rem;
+  position:relative;
+  overflow:hidden;
+}
+.panel-dark::before {
+  content:'';
+  position:absolute; top:-100px; left:-80px;
+  width:380px; height:380px;
+  background:radial-gradient(circle, rgba(204,10,106,.30) 0%, transparent 65%);
+  pointer-events:none;
+}
+.panel-dark::after {
+  content:'';
+  position:absolute; bottom:-60px; right:-60px;
+  width:220px; height:220px;
+  background:radial-gradient(circle, rgba(232,64,154,.22) 0%, transparent 65%);
+  pointer-events:none;
+}
+.ep-badge { background:var(--g-pink); color:#fff; font-size:.68rem; font-weight:700; padding:.18rem .7rem; border-radius:99px; letter-spacing:.1em; margin-bottom:.9rem; position:relative; }
+.main-title { color:#fff; font-size:1.95rem; font-weight:900; line-height:1.25; margin-bottom:.55rem; position:relative; }
+.main-sub { color:rgba(255,255,255,.68); font-size:.82rem; margin-bottom:1.45rem; position:relative; line-height:1.5; }
+.count-badge {
+  display:flex;
+  gap:.55rem;
+  align-items:center;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  padding:.55rem .9rem;
+  position:relative;
+}
+.big-num { color:#e8409a; font-size:2.1rem; font-weight:900; line-height:1; }
+.count-label { color:rgba(255,255,255,.68); font-size:.75rem; line-height:1.4; text-align:left; }
+.panel-light { flex:1; background:var(--bg); display:flex; flex-direction:column; padding:2.2rem 2.8rem 1.8rem; }
+.point-section { flex:1; display:flex; flex-direction:column; justify-content:center; }
+.source-badge { display:inline-block; background:rgba(204,10,106,.1); color:var(--pink); font-size:.68rem; font-weight:700; padding:.18rem .7rem; border-radius:99px; margin-bottom:.9rem; width:fit-content; }
+.feature-name { font-size:1rem; color:var(--muted); font-weight:700; margin-bottom:.35rem; }
+.right-heading { font-size:1.1rem; font-weight:900; color:var(--text); margin-bottom:1rem; }
+.point-list { list-style:none; display:flex; flex-direction:column; gap:.65rem; margin-bottom:0; }
+.point-list li { display:flex; gap:.6rem; font-size:.88rem; color:var(--text); line-height:1.55; }
+.pnum { min-width:22px; height:22px; background:var(--g-pink); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; flex-shrink:0; margin-top:.05rem; }
+.bottom-info { display:flex; flex-direction:column; gap:.3rem; }
+.credit { font-size:.68rem; color:var(--muted); opacity:.78; line-height:1.5; margin-top:0; }
+</style>
+</head>
+<body>
+<div class="title-slide">
+  <div class="panel-dark">
+    <span class="ep-badge">WORK LOG</span>
+    <div class="main-title">Claude Code に<br>31本つくらせた</div>
+    <div class="main-sub">動画スライドを3か月半、<br>AIに作らせ続けた記録</div>
+    <div class="count-badge">
+      <span class="big-num">31</span>
+      <span class="count-label">エピソード<br>2026/4/18〜8/5</span>
+    </div>
+  </div>
+  <div class="panel-light">
+    <div class="point-section">
+      <span class="source-badge">🔧 自分の作業記録</span>
+      <div class="feature-name">解説ではありません。うまくいかなかった過程の記録です</div>
+      <div class="right-heading">Today's Points</div>
+      <ul class="point-list">
+        <li><span class="pnum">1</span>会話で指示していた間は、毎回ちがうものが返ってきた</li>
+        <li><span class="pnum">2</span>ルールを1枚のファイルに書き出したら、崩れる回数が減った</li>
+        <li><span class="pnum">3</span>目で見て確認するのをやめ、機械に測らせて、やっと安定した</li>
+      </ul>
+    </div>
+    <div class="bottom-info">
+      <p class="credit">記録対象: 自作リポジトリ yt_claude（2026年4月18日〜8月5日 / 全31エピソード）</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

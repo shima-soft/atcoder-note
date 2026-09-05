@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>KV注入が効く理由</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">核心技術</span>
+    <h2 class="slide-title">なぜ「KVに直接注入」だと情報が薄まらないのか</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>最初に1回だけメモを見せるか、机の上にメモ帳のコピーをずっと置くか、の違い</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="EAGLE-3とDFlashで本体情報の伝わり方を比較">
+        <!-- 左: EAGLE-3 -->
+        <rect x="20" y="20" width="270" height="270" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="155" y="46" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">EAGLE-3方式（入力に混ぜる）</text>
+        <rect x="45" y="58" width="80" height="28" rx="6" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="85" y="77" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">本体の情報</text>
+        <path d="M85 86 L85 100" stroke="#7a3bce" stroke-width="2" fill="none"/>
+        <polygon points="85,106 80,96 90,96" fill="#7a3bce"/>
+
+        <rect x="130" y="112" width="130" height="26" rx="6" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="195" y="130" text-anchor="middle" font-size="10" fill="#ffffff">層1（濃く残る）</text>
+        <rect x="130" y="146" width="130" height="26" rx="6" fill="#9d78d1" stroke="#9d78d1"/>
+        <text x="195" y="164" text-anchor="middle" font-size="10" fill="#ffffff">層2（少し薄い）</text>
+        <rect x="130" y="180" width="130" height="26" rx="6" fill="#c2acdf" stroke="#c2acdf"/>
+        <text x="195" y="198" text-anchor="middle" font-size="10" fill="#1a1d2e">層3（薄い）</text>
+        <rect x="130" y="214" width="130" height="26" rx="6" fill="#e2d7f2" stroke="#e2d7f2"/>
+        <text x="195" y="232" text-anchor="middle" font-size="10" fill="#5e6a8a">層4（かなり薄い）</text>
+        <rect x="130" y="248" width="130" height="26" rx="6" fill="#f4efff" stroke="#dde2ec"/>
+        <text x="195" y="266" text-anchor="middle" font-size="10" fill="#5e6a8a">層5（ほぼ届かない）</text>
+
+        <!-- 右: DFlash -->
+        <rect x="330" y="20" width="270" height="270" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="465" y="46" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">DFlash方式（KVに直接注入）</text>
+        <rect x="355" y="58" width="80" height="28" rx="6" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="395" y="77" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">本体の情報</text>
+
+        <path d="M400 86 L470 106" stroke="#7a3bce" stroke-width="1.5" fill="none"/>
+        <path d="M400 86 L470 140" stroke="#7a3bce" stroke-width="1.5" fill="none"/>
+        <path d="M400 86 L470 174" stroke="#7a3bce" stroke-width="1.5" fill="none"/>
+        <path d="M400 86 L470 208" stroke="#7a3bce" stroke-width="1.5" fill="none"/>
+        <path d="M400 86 L470 242" stroke="#7a3bce" stroke-width="1.5" fill="none"/>
+
+        <rect x="440" y="112" width="130" height="26" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="505" y="130" text-anchor="middle" font-size="10" fill="#ffffff">層1（KV注入）</text>
+        <rect x="440" y="146" width="130" height="26" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="505" y="164" text-anchor="middle" font-size="10" fill="#ffffff">層2（KV注入）</text>
+        <rect x="440" y="180" width="130" height="26" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="505" y="198" text-anchor="middle" font-size="10" fill="#ffffff">層3（KV注入）</text>
+        <rect x="440" y="214" width="130" height="26" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="505" y="232" text-anchor="middle" font-size="10" fill="#ffffff">層4（KV注入）</text>
+        <rect x="440" y="248" width="130" height="26" rx="6" fill="#008f6a" stroke="#008f6a"/>
+        <text x="505" y="266" text-anchor="middle" font-size="10" fill="#ffffff">層5（KV注入）</text>
+
+        <rect x="20" y="304" width="580" height="106" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="334" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">EAGLE-3は深い層ほど情報が薄まり、精度が頭打ちになりやすい</text>
+        <text x="310" y="360" text-anchor="middle" font-size="12" fill="#1a1d2e">DFlashはどの層でも同じ濃さで本体の情報を参照できる</text>
+        <text x="310" y="386" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">→ 下書き役を厚く（層を増や）しても精度が伸び続ける</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>EAGLE-3は最初に1回だけメモを見せられ、あとは記憶頼み</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>DFlashは机の上にメモ帳のコピーがずっとある</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効いていること</div>
+        <ul class="box-list">
+          <li>作業のどの段階でも本体の情報を同じ濃さで参照できる</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">実験でも裏付け</div>
+        <ul class="box-list">
+          <li>DFlashは層を増やすほど精度が伸びるが、EAGLE-3は頭打ちしやすい</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

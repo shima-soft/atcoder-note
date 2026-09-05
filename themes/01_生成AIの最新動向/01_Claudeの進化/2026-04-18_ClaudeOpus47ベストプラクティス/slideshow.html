@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Opus 4.8 プロンプトガイド</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+        :root {
+            --bg: #f9fafb;
+            --surface: #eff1f7;
+            --card: #ffffff;
+            --border: #dde2ec;
+            --text: #1a1d2e;
+            --muted: #5e6a8a;
+            --blue: #1a96c0;
+            --orange: #d96018;
+            --green: #008f6a;
+            --red: #c9162e;
+        }
+
+        html { font-size: 19.2px; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            display: none; /* JSで制御 */
+            flex-direction: column;
+            padding: 1.2rem 1.8rem 1rem;
+            background: var(--bg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide.surface { background: var(--surface); }
+
+        .slide-header { display: flex; flex-direction: column; gap: .3rem; margin-bottom: .6rem; }
+        .label {
+            display: inline-block;
+            padding: .15rem .6rem;
+            border-radius: 99px;
+            font-size: .72rem;
+            font-weight: 700;
+            width: fit-content;
+        }
+        .slide-title { font-size: 1.9rem; font-weight: 900; line-height: 1.2; color: var(--text); }
+        .slide-sub { font-size: .88rem; color: var(--muted); }
+
+        .hitokoto {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            border-left: 3px solid var(--blue);
+            padding-left: .7rem;
+            margin-bottom: 1rem;
+        }
+        .hitokoto .badge {
+            font-size: .65rem;
+            font-weight: 700;
+            color: #fff;
+            padding: .1rem .4rem;
+            border-radius: 99px;
+            white-space: nowrap;
+            background: var(--blue);
+        }
+        .hitokoto p { font-size: .9rem; font-weight: 700; color: var(--text); }
+
+        .slide-body { flex: 1; display: flex; overflow: hidden; }
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; flex: 1; }
+        .highlight-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1rem;
+            overflow: hidden;
+        }
+        .box-title { font-size: .8rem; font-weight: 700; margin-bottom: .25rem; }
+        .box-list { list-style: none; display: flex; flex-direction: column; gap: .1rem; }
+        .box-list li {
+            font-size: .84rem;
+            color: var(--text);
+            padding-left: .7rem;
+            position: relative;
+            line-height: 1.5;
+        }
+        .box-list li::before { content: '•'; position: absolute; left: 0; color: var(--muted); }
+
+        .command-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--card);
+            margin-top: .5rem;
+        }
+        .command-table th, .command-table td {
+            padding: .48rem .65rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+            font-size: .78rem;
+        }
+        .command-table th { background: var(--surface); color: var(--muted); font-weight: 900; }
+
+        /* Title Slide Specials */
+        .title-slide {
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #2ab8e0, #1a96c0);
+            color: white;
+        }
+        .title-slide .slide-title { color: white; font-size: 3.5rem; }
+        .title-slide .slide-sub { color: #e0e0e0; }
+        .title-slide .label { background: rgba(255,255,255,0.2); color: white; }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            background: rgba(255,255,255,0.8);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        button {
+            background: #2e3250;
+            color: #fff;
+            border: none;
+            padding: .5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #4a5080; }
+        button:disabled { opacity: .3; cursor: default; }
+        .slide-dots { display: flex; gap: .5rem; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; cursor: pointer; }
+        .dot.active { background: var(--blue); }
+        #info { font-weight: bold; font-size: 14px; }
+        
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 10px;
+            color: var(--muted);
+        }
+    </style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+    <div id="slideshow">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <span class="label">Prompt Engineering</span>
+            <h1 class="slide-title">Claude Opus 4.8<br>プロンプトガイド</h1>
+            <p class="slide-sub">新モデルの特性を理解し、最大限の能力を引き出すための最適化手法</p>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">概要</span>
+                <h2 class="slide-title">Claude Opus 4.8 の強み</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">主要な能力</h3>
+                        <ul class="box-list">
+                            <li>長期的なエージェントワーク</li>
+                            <li>高度な知識労働 (Knowledge Work)</li>
+                            <li>高度なビジョン・記憶タスク</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">特性</h3>
+                        <p>Opus 4.7のプロンプトでも動作しますが、特定の挙動（冗長性、ツール使用の傾向など）を最適化するための微調整が重要です。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Response Length & Verbosity -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">レスポンスと冗長性</span>
+                <h2 class="slide-title">回答の長さと冗長性の制御</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">挙動の傾向</h3>
+                        <p>タスクの複雑さに応じて回答の長さを自動調整します。単純な検索は短く、分析的な問いには非常に長く回答する傾向があります。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">最適化のコツ</h3>
+                        <ul class="box-list">
+                            <li><b>ポジティブな例示:</b> 望ましい簡潔さを示す例をプロンプトに含める。</li>
+                            <li><b>不要な情報の除外:</b> 「不可欠なコンテキストをスキップして、簡潔に答えて」と明示。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Effort & Thinking -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">思考の深さ</span>
+                <h2 class="slide-title">Effort と Thinking の制御</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">Effort パラメータの使い分け</h3>
+                        <table class="command-table">
+                            <tr><th>レベル</th><th>推奨用途</th></tr>
+                            <tr><td>xhigh</td><td>コーディング、エージェントワーク (推奨)</td></tr>
+                            <tr><td>high</td><td>知能を要するほとんどのタスク</td></tr>
+                            <tr><td>medium/low</td><td>コスト・速度優先の単純タスク</td></tr>
+                        </table>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">Adaptive Thinking</h3>
+                        <p>`thinking: {type: "adaptive"}` を有効化。<br><br>
+                        思考が過多な場合は、プロンプトで「思考は回答の質を向上させる場合にのみ使用し、それ以外は直接回答して」と指示。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Tool Use & Progress Updates -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">ツールと進捗</span>
+                <h2 class="slide-title">ツール使用と進捗の更新</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">ツール使用の傾向</h3>
+                        <p>推論を優先する傾向があるため、ツールを多く使わせたい場合は <b>high/xhigh effort</b> を設定し、明示的な指示を付与する。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">進捗報告の最適化</h3>
+                        <p>長時間の処理で高品質な更新を提供します。固定の「3回ごとに要約」などは削除し、プロンプトで「どのような形式で更新してほしいか」を具体的に記述するのが効果的です。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Instruction Following -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">指示への忠実性</span>
+                <h2 class="slide-title">より忠実な指示の遂行</h2>
+            </div>
+            <div class="slide-body">
+                <div class="highlight-box" style="margin-bottom: 1rem;">
+                    <h3 class="box-title">リテラルな解釈</h3>
+                    <p>指示を極めて文字通りに解釈します。勝手な一般化や推測をしないため、精度が高い反面、範囲の明示が必要です。</p>
+                </div>
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">対策</h3>
+                        <ul class="box-list">
+                            <li>「最初の項目だけに適用する」のではなく「全てのセクションに適用する」と明示。</li>
+                            <li>構造化されたプロンプトを使用。</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">注意点</h3>
+                        <p>指示を広範囲に適用させたい場合は、対象のスコープを明示的に宣言してください。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Tone & Style -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">トーンとスタイル</span>
+                <h2 class="slide-title">トーンと執筆スタイルの制御</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">デフォルトの傾向</h3>
+                        <p>直接的で意見のあるスタイル。バリデーション的な前置きを控え、絵文字の使用も最小限です。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">カスタマイズ</h3>
+                        <p>特定のブランドボイスや親しみやすさを求める場合は、具体的に指示します。<br><br>
+                        例: 「温かく協力的なトーンを使用してください。回答の前にユーザーの意図を認めてください。」</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Subagents -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">サブエージェント</span>
+                <h2 class="slide-title">サブエージェントの生成制御</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">デフォルトの挙動</h3>
+                        <p>以前のモデルに比べ、サブエージェントを生成する傾向が低くなっています。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">制御方法</h3>
+                        <ul class="box-list">
+                            <li><b>抑制:</b> 「一回のレスポンスで完結する作業（例: 関数リファクタリング）にはサブエージェントを生成しないで」</li>
+                            <li><b>促進:</b> 「複数のファイルを読み込むなど、並列処理が必要な場合は複数のサブエージェントを生成して」</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Design & Frontend -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">デザインとUI</span>
+                <h2 class="slide-title">デザインとフロントエンドのデフォルト</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">ハウススタイル</h3>
+                        <p>暖かなクリーム色 (`#F4F1EA`)、セリフ体、テラコッタ色のアクセントがデフォルトです。ダッシュボードやテック系には不向きな場合があります。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">推奨アプローチ</h3>
+                        <ul class="box-list">
+                            <li><b>具体的代替案の提示:</b> カラーコード、フォント、レイアウト構造を詳細に記述。</li>
+                            <li><b>選択肢の提示:</b> 4つの視覚的方向性を提案させ、ユーザーに選ばせる。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Coding & Review -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">コーディングとレビュー</span>
+                <h2 class="slide-title">コーディングとコードレビュー</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">対話型コーディング</h3>
+                        <p>ユーザーターン後の推論によりトークン消費が増える傾向があります。最初のターンで意図と制約を明確に伝えることが重要です。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">レビューの最適化</h3>
+                        <p><b>カバー率を優先</b>させる。<br>
+                        「重要度が高いものだけ」と制限せず、すべての問題（不確実なもの含む）を報告させ、自信レベルと推定重要度を付与させるのがベストです。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Computer Use -->
+        <div class="slide">
+            <div class="slide-header">
+                <span class="label" style="background: var(--blue);">Computer Use</span>
+                <h2 class="slide-title">Computer Use の最適化</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box">
+                        <h3 class="box-title">解像度の推奨</h3>
+                        <p>最大 2576px まで対応。性能とコストのバランスを考慮すると <b>1080p</b> が最適です。</p>
+                    </div>
+                    <div class="highlight-box">
+                        <h3 class="box-title">コスト削減</h3>
+                        <p>コストを重視する場合は 720p や 1366x768 も選択可能です。用途に合わせて実験を行ってください。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Summary -->
+        <div class="slide surface">
+            <div class="slide-header">
+                <span class="label" style="background: var(--orange);">まとめ</span>
+                <h2 class="slide-title">ベストプラクティスの要約</h2>
+            </div>
+            <div class="slide-body">
+                <div class="content-grid">
+                    <div class="highlight-box" style="grid-column: span 2;">
+                        <ul class="box-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <li><b>xhigh/high Effort</b> を基本に活用</li>
+                            <li><b>具体的・明示的</b>な指示（Scope, Tone, Design）</li>
+                            <li><b>ポジティブな例示</b>で挙動を制御</li>
+                            <li><b>リテラルな解釈</b>を前提とした構造化</li>
+                            <li>レビューは<b>カバー率優先</b>で実施</li>
+                            <li>UI設計は<b>具体的スペック</b>か<b>選択肢提示</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <button id="prev" onclick="changeSlide(-1)">前へ</button>
+        <div class="slide-dots" id="dots"></div>
+        <span id="info">1 / 12</span>
+        <button id="next" onclick="changeSlide(1)">次へ</button>
+    </div>
+
+    <div class="footer">Claude Opus 4.8 Prompting Guide / yt_claude</div>
+
+    <script>
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots');
+        const info = document.getElementById('info');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        // Initialize dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = i === 0 ? 'dot active' : 'dot';
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlides() {
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentIdx);
+            });
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === currentIdx);
+            });
+
+            info.textContent = `${currentIdx + 1} / ${slides.length}`;
+            prevBtn.disabled = currentIdx === 0;
+            nextBtn.disabled = currentIdx === slides.length - 1;
+        }
+
+        function changeSlide(delta) {
+            currentIdx = Math.max(0, Math.min(slides.length - 1, currentIdx + delta));
+            updateSlides();
+        }
+
+        function goToSlide(idx) {
+            currentIdx = idx;
+            updateSlides();
+        }
+
+        // Keyboard events
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+        });
+    </script>
+</body>
+</html>

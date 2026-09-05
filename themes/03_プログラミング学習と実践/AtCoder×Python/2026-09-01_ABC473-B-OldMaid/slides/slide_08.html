@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">やってみる</span>
+    <h2 class="slide-title">初めて見る7枚で、自分で解いてみる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>実際に捨てなくていい。数字ごとの枚数を数えて、奇数の数字を拾うだけ</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 出題（答えは伏せる） -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          カード card[i].x = 68 + i*62 (w=54, gap=8) → 68..440 (right=494)
+          答えは書かない（想起練習のため）
+        -->
+        <text x="280" y="32" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">問題: この7枚から、最後に残るカードの合計は？</text>
+
+        <!-- 出題のカード（全部同じ濃さ。どれが残るかは視聴者が決める） -->
+        <rect x="68"  y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="95"  y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">3</text>
+        <rect x="130" y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="157" y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">5</text>
+        <rect x="192" y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="219" y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">3</text>
+        <rect x="254" y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="281" y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">9</text>
+        <rect x="316" y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="343" y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">5</text>
+        <rect x="378" y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="405" y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">9</text>
+        <rect x="440" y="56" width="54" height="56" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="467" y="94" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e">9</text>
+
+        <!-- 数える枠（空欄。視聴者が埋める） -->
+        <text x="280" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">数字ごとの枚数を数えてみる</text>
+
+        <rect x="98"  y="166" width="110" height="72" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="153" y="192" text-anchor="middle" font-size="13" fill="#5e6a8a">数字 3</text>
+        <text x="153" y="222" text-anchor="middle" font-size="18" font-weight="900" fill="#a9b0c3">？枚</text>
+
+        <rect x="224" y="166" width="110" height="72" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="279" y="192" text-anchor="middle" font-size="13" fill="#5e6a8a">数字 5</text>
+        <text x="279" y="222" text-anchor="middle" font-size="18" font-weight="900" fill="#a9b0c3">？枚</text>
+
+        <rect x="350" y="166" width="110" height="72" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="405" y="192" text-anchor="middle" font-size="13" fill="#5e6a8a">数字 9</text>
+        <text x="405" y="222" text-anchor="middle" font-size="18" font-weight="900" fill="#a9b0c3">？枚</text>
+
+        <!-- 手順のリマインダ -->
+        <rect x="40" y="256" width="480" height="66" rx="12" fill="rgba(26,150,192,.05)" stroke="rgba(26,150,192,.3)" stroke-width="1.5"/>
+        <text x="60" y="280" font-size="13" font-weight="700" fill="#1a96c0">思い出す手順</text>
+        <text x="60" y="306" font-size="13" fill="#1a1d2e">枚数が奇数の数字だけを、その数字1つ分ずつ足す</text>
+
+        <!-- 答えは伏せる -->
+        <rect x="160" y="336" width="240" height="44" rx="10" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="280" y="364" text-anchor="middle" font-size="17" font-weight="900" fill="#a9b0c3">答え = ？</text>
+      </svg>
+    </div>
+
+    <!-- 右: 出題と支援 -->
+    <div class="info-col">
+
+      <div class="practice">
+        <div class="practice-title">✋ ここで動画を止めて、自分で解いてみてください</div>
+        <div class="practice-q">7
+3 5 3 9 5 9 9</div>
+        <p class="practice-note">答え合わせは次の「まとめ」で行います</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 詰まったときのヒント</div>
+        <ul class="box-list">
+          <li>出てくる数字は 3・5・9 の3種類だけ</li>
+          <li>それぞれ何枚あるかを数え、<strong>奇数枚</strong>の数字を探す</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 引っかかりやすいところ</div>
+        <ul class="box-list">
+          <li>9 が3枚あっても、答えに足すのは <strong>9 を1回だけ</strong></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>30秒でつかむ Recurrent Depth</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">OVERVIEW</span>
+    <h2 class="slide-title">30秒でつかむ Recurrent Depth</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>AIの層を積み増す代わりに、同じ層を何周もさせる — 考えを言葉にしないぶん速くて安いが、その考えは外から読めない</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">1</span>
+        <div class="card-title">何が報じられた？</div>
+        <p class="card-desc">OpenAI の次期モデル Astra が、Recurrent Depth という推論方式を使っていると報じられた。関係者情報にもとづく報道で、OpenAI の公式発表ではない。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">2</span>
+        <div class="card-title">Recurrent Depth とは</div>
+        <p class="card-desc">層を積み増す代わりに、同じ層のかたまりに答えを何度もくぐらせる。この「くぐらせる回数」を本編では周回と呼ぶ。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">3</span>
+        <div class="card-title">今までの考え方</div>
+        <p class="card-desc">これまでの賢くする手は2つ。層と学習量を増やすか、Chain of Thought で考えを長々と書き出させるか。周回はその3本目。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">4</span>
+        <div class="card-title">何がうれしい？</div>
+        <p class="card-desc">覚える重みは増えないので、記憶量も通信量も節約できる。公開研究では 3.5B のモデルが 50B 級の計算量で考えられた。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">5</span>
+        <div class="card-title">何を失う？</div>
+        <p class="card-desc">考えが言葉にならず数字のまま進むので、途中の思考を人が読めない。これを潜在推論と呼び、監視のしづらさが問題になっている。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-purple)">6</span>
+        <div class="card-title">今日のゴール</div>
+        <p class="card-desc">仕組みを図と数字で理解し、営業・事務の現場で「安くなること」と「確認が必要になること」を持ち帰る。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

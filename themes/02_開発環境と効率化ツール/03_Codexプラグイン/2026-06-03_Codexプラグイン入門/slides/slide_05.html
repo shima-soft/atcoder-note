@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">BUILD</span>
+    <h2 class="slide-title">自作は「plugin.json + SKILL.md」から始める</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>最初は小さな手順書を1つ包むだけで、プラグインの形になります</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg viewBox="0 0 600 360" width="100%" height="100%" role="img" aria-label="Plugin structure">
+        <rect x="58" y="34" width="484" height="292" rx="18" fill="#f9fafb" stroke="#dde2ec"/>
+        <text x="94" y="70" font-size="18" font-weight="900" fill="#1a1d2e">my-first-plugin/</text>
+        <rect x="95" y="96" width="220" height="62" rx="12" fill="#fff" stroke="#d96018" stroke-width="2"/>
+        <text x="112" y="121" font-size="14" font-weight="900" fill="#d96018">.codex-plugin/</text>
+        <text x="112" y="144" font-size="13" fill="#5e6a8a">plugin.json</text>
+        <rect x="95" y="180" width="220" height="82" rx="12" fill="#fff" stroke="#1a96c0" stroke-width="2"/>
+        <text x="112" y="206" font-size="14" font-weight="900" fill="#1a96c0">skills/hello/</text>
+        <text x="112" y="229" font-size="13" fill="#5e6a8a">SKILL.md</text>
+        <text x="112" y="249" font-size="12" fill="#5e6a8a">作業手順を書く</text>
+        <rect x="350" y="96" width="145" height="50" rx="12" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="422" y="127" text-anchor="middle" font-size="13" font-weight="900" fill="#1a96c0">名前・説明・場所</text>
+        <rect x="350" y="180" width="145" height="62" rx="12" fill="#fff7ed" stroke="#d96018"/>
+        <text x="422" y="205" text-anchor="middle" font-size="13" font-weight="900" fill="#d96018">いつ使うか</text>
+        <text x="422" y="226" text-anchor="middle" font-size="12" fill="#5e6a8a">手順と参照情報</text>
+        <text x="300" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">慣れたらMCP、Apps、hooks、marketplaceへ広げる</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="code-mini">
+{
+  "name": "my-first-plugin",
+  "version": "1.0.0",
+  "skills": "./skills/"
+}
+      </div>
+      <div class="biz-example">
+        <div class="biz-title">作る順番</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-orange)">1</span><p>まず1つの繰り返し作業を選ぶ</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-orange)">2</span><p>Skillとして手順を文章化する</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-orange)">3</span><p>plugin.jsonでパッケージ化する</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">最初に向いている題材</div>
+        <ul class="box-list">
+          <li>議事録要約の型</li>
+          <li>レビュー観点チェック</li>
+          <li>社内資料の作成手順</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

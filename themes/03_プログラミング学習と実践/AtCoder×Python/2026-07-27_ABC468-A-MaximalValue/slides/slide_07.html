@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 A - 用語解説</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .34rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .45rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .86rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .7rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .74rem; color: var(--muted); line-height: 1.45; }
+.term-link    {
+  font-size: .64rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .2rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+.term-desc code { font-size: .7rem; color: var(--orange); }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">数列</span>
+          <span class="term-reading">すうれつ</span>
+        </div>
+        <p class="term-desc">数を順番に並べたもの。売上表を日付順に並べたイメージで、順番そのものに意味がある。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/数列" target="_blank">Wikipedia: 数列 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">リスト</span>
+          <span class="term-reading">りすと</span>
+        </div>
+        <p class="term-desc">Python で複数の値を順番に持つ入れ物。<code>A[0]</code> のように 0 番から取り出す。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/tutorial/introduction.html#lists" target="_blank">Python ドキュメント: リスト 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">全探索</span>
+          <span class="term-reading">ぜんたんさく</span>
+        </div>
+        <p class="term-desc">考えられる場所を1つずつすべて調べる方法。今回は3つ組を端から端まで確認するだけで足りる。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">標準入力</span>
+          <span class="term-reading">ひょうじゅんにゅうりょく</span>
+        </div>
+        <p class="term-desc">プログラムにデータを流し込む仕組み。AtCoder ではテストケースがここから自動で渡される。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">input()</span>
+          <span class="term-reading">インプット</span>
+        </div>
+        <p class="term-desc">標準入力から1行を文字列として読み込む組み込み関数。AtCoder では毎回使う。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python ドキュメント: input 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">split()</span>
+          <span class="term-reading">スプリット</span>
+        </div>
+        <p class="term-desc">文字列を空白で切り分けてリストにするメソッド。「3 1 4」→「3」「1」「4」に分ける。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#str.split" target="_blank">Python ドキュメント: str.split 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">並んだ要素すべてに同じ変換をかける関数。<code>map(int, ...)</code> は「全部まとめて整数に直す」。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python ドキュメント: map 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">range()</span>
+          <span class="term-reading">レンジ</span>
+        </div>
+        <p class="term-desc">0 から指定した数の「手前まで」の連番を作る関数。<code>range(4)</code> は 0,1,2,3 の4回分。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#func-range" target="_blank">Python ドキュメント: range 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">and</span>
+          <span class="term-reading">アンド</span>
+        </div>
+        <p class="term-desc">2つの条件が「両方とも成り立つ」ときだけ真になる書き方。片方でも崩れると偽。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#boolean-operations-and-or-not" target="_blank">Python ドキュメント: ブール演算 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングサイト。毎週コンテストが開催され、初心者向けの ABC が入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

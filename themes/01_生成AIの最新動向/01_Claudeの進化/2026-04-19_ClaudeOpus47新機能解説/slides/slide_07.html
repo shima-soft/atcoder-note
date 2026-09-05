@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.compare-table table { font-size: .8rem; }
+.compare-table th { font-size: .75rem; }
+.badge-new {
+  display: inline-block;
+  background: var(--g-orange);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 700;
+  padding: .08rem .4rem;
+  border-radius: 99px;
+  margin-left: .3rem;
+  vertical-align: middle;
+}
+.badge-same {
+  display: inline-block;
+  background: rgba(94,106,138,.15);
+  color: var(--muted);
+  font-size: .6rem;
+  font-weight: 700;
+  padding: .08rem .4rem;
+  border-radius: 99px;
+  margin-left: .3rem;
+  vertical-align: middle;
+}
+.up { color: var(--blue); font-weight: 700; }
+.same { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">COMPARE</span>
+    <h2 class="slide-title">Opus 4.6 vs Opus 4.7 比較表</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>価格は据え置きで性能大幅アップ。新トークナイザーだけ注意</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:26%">項目</th>
+            <th style="width:32%">Opus 4.6（旧）</th>
+            <th style="width:32%">Opus 4.7（新）</th>
+            <th style="width:10%">変化</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>リリース日</strong></td>
+            <td>2026年1月</td>
+            <td>2026年4月16日</td>
+            <td><span class="badge-new">NEW</span></td>
+          </tr>
+          <tr>
+            <td><strong>最大画像解像度</strong></td>
+            <td>〜860px（長辺）</td>
+            <td>最大 2,576px（長辺）<br>約 3.75 メガピクセル</td>
+            <td class="up">3倍↑</td>
+          </tr>
+          <tr>
+            <td><strong>コーディングスコア</strong></td>
+            <td>基準値（100%）</td>
+            <td>+13% 向上</td>
+            <td class="up">+13%↑</td>
+          </tr>
+          <tr>
+            <td><strong>エフォートレベル</strong></td>
+            <td>min / low / high / max（4段階）</td>
+            <td>min / low / high / <strong>xhigh</strong> / max（5段階）</td>
+            <td><span class="badge-new">追加</span></td>
+          </tr>
+          <tr>
+            <td><strong>エージェント安定性</strong></td>
+            <td>標準</td>
+            <td>ツールエラー減少・自己復帰強化</td>
+            <td class="up">向上↑</td>
+          </tr>
+          <tr>
+            <td><strong>トークナイザー</strong></td>
+            <td>旧世代</td>
+            <td>新世代（同入力で 1.0〜1.35倍のトークン）</td>
+            <td><span class="badge-new">変更</span></td>
+          </tr>
+          <tr>
+            <td><strong>価格（API）</strong></td>
+            <td>入力 $5 / 出力 $25<br>（100万トークンあたり）</td>
+            <td>入力 $5 / 出力 $25<br>（100万トークンあたり）</td>
+            <td class="same">据置</td>
+          </tr>
+          <tr>
+            <td><strong>APIモデル名</strong></td>
+            <td>claude-opus-4-6</td>
+            <td>claude-opus-4-7</td>
+            <td><span class="badge-new">変更</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

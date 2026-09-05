@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astra の Recurrent Depth 解説 | 森の賢人</title>
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --purple: #7a3bce;
+  --blue: #1a96c0;
+  --green: #008f6a;
+  --orange: #d96018;
+  --red: #c9162e;
+  --header-h: 52px;
+  --sidebar-w: 220px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  z-index: 100;
+}
+.header-badge {
+  font-size: .68rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #9a5ce8, #7a3bce);
+  color: #fff;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.header-title { font-size: .9rem; font-weight: 900; color: var(--text); }
+.header-sub { font-size: .75rem; color: var(--muted); margin-left: auto; }
+.layout { display: flex; padding-top: var(--header-h); min-height: 100vh; }
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  padding: 1.2rem .8rem;
+  border-right: 1px solid var(--border);
+  background: var(--card);
+}
+.sidebar h3 {
+  font-size: .68rem; font-weight: 700; color: var(--muted);
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: .6rem; padding-left: .4rem;
+}
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: .15rem; }
+.nav-list a {
+  display: block; padding: .35rem .55rem; border-radius: 8px;
+  font-size: .78rem; color: var(--muted); text-decoration: none;
+  border-left: 3px solid transparent; transition: all .15s;
+}
+.nav-list a:hover { background: var(--surface); color: var(--text); }
+.nav-list a.active {
+  background: rgba(122,59,206,.08);
+  color: var(--purple);
+  border-left-color: var(--purple);
+  font-weight: 700;
+}
+.main { flex: 1; min-width: 0; max-width: 860px; padding: 2rem 2rem 3rem; overflow: hidden; }
+.hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--purple);
+  border-radius: 12px;
+  padding: 2rem 2.2rem;
+  margin-bottom: 2rem;
+}
+.hero-badge {
+  display: inline-block; background: rgba(122,59,206,.1); color: var(--purple);
+  font-size: .7rem; font-weight: 700; padding: .18rem .7rem;
+  border-radius: 99px; margin-bottom: .8rem;
+}
+.hero h1 { font-size: 1.8rem; font-weight: 900; line-height: 1.3; margin-bottom: .6rem; }
+.hero-meta { font-size: .78rem; color: var(--muted); margin-bottom: 1.1rem; }
+.hero-stats { display: flex; gap: .8rem; flex-wrap: wrap; }
+.stat-box {
+  background: var(--surface); border-radius: 10px; padding: .55rem .8rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.stat-num { font-size: 1.35rem; font-weight: 900; color: var(--purple); line-height: 1; }
+.stat-label { font-size: .72rem; color: var(--muted); line-height: 1.4; }
+.section { margin-bottom: 2.4rem; scroll-margin-top: calc(var(--header-h) + 16px); }
+.section-label {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: .5rem; padding: .15rem .6rem; border-radius: 99px;
+  background: rgba(122,59,206,.1); color: var(--purple);
+}
+.section h2 { font-size: 1.25rem; font-weight: 900; color: var(--text); margin-bottom: .5rem; line-height: 1.3; }
+.section-sub { font-size: .85rem; color: var(--muted); margin-bottom: 1rem; }
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; margin-bottom: 1rem; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: .9rem 1rem; }
+.card-title { font-size: .9rem; font-weight: 900; color: var(--text); margin-bottom: .25rem; }
+.card-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+.note-box {
+  background: rgba(122,59,206,.06);
+  border: 1px solid rgba(122,59,206,.15);
+  border-radius: 10px; padding: .75rem .9rem;
+  font-size: .82rem; color: var(--muted); line-height: 1.65;
+  margin-bottom: 1rem;
+}
+.note-box strong { color: var(--purple); }
+.warn-box {
+  background: rgba(201,22,46,.05);
+  border: 1px solid rgba(201,22,46,.16);
+  border-left: 4px solid var(--red);
+  border-radius: 10px; padding: .75rem .9rem;
+  font-size: .82rem; color: var(--muted); line-height: 1.65;
+  margin-bottom: 1rem;
+}
+.warn-box strong { color: var(--red); }
+.svg-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: .6rem; margin: 1rem 0; overflow-x: auto;
+}
+.svg-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.timestamp {
+  float: right; font-size: .7rem; font-weight: 700; color: var(--muted);
+  background: var(--surface); padding: .14rem .5rem; border-radius: 99px;
+}
+.guide-link {
+  display: inline-flex; align-items: center; gap: .35rem;
+  margin-top: .8rem; padding: .48rem .8rem; border-radius: 9px;
+  background: var(--purple); color: #fff; text-decoration: none;
+  font-size: .8rem; font-weight: 800;
+}
+.guide-link:hover { background: #6530ad; }
+.cmp-table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+.cmp-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.cmp-table th {
+  background: var(--surface); padding: .5rem .7rem; font-weight: 700;
+  color: var(--muted); border-bottom: 2px solid var(--border);
+  text-align: left; white-space: nowrap;
+}
+.cmp-table td {
+  padding: .55rem .7rem; border-bottom: 1px solid var(--border);
+  color: var(--text); line-height: 1.5; vertical-align: top;
+}
+.cmp-table tr:nth-child(even) td { background: rgba(239,241,247,.4); }
+.c-badge {
+  display: inline-block; padding: .1rem .5rem; border-radius: 99px;
+  font-size: .72rem; font-weight: 700; white-space: nowrap;
+}
+.debate-table td.side-a { border-left: 3px solid var(--purple); }
+.debate-table td.side-b { border-left: 3px solid var(--red); }
+.check-section { margin-top: 1rem; }
+details {
+  background: var(--surface); border-radius: 10px;
+  padding: .6rem .9rem; margin-bottom: .4rem; cursor: pointer;
+}
+details summary { font-size: .82rem; font-weight: 700; color: var(--text); }
+details p { font-size: .8rem; color: var(--muted); margin-top: .4rem; line-height: 1.6; }
+.glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+.term-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: .65rem .9rem; }
+.term-head { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; margin-bottom: .2rem; }
+.term-name { font-size: .86rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .7rem; color: var(--muted); }
+.term-desc { font-size: .76rem; color: var(--muted); line-height: 1.55; margin-bottom: .2rem; }
+.term-link { font-size: .65rem; color: var(--blue); text-decoration: none; }
+.term-link:hover { text-decoration: underline; }
+.source-list { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+.source-list a { color: var(--blue); text-decoration: none; font-weight: 700; }
+.source-list a:hover { text-decoration: underline; }
+.source-note { font-size: .76rem; color: var(--muted); }
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .main { width: 100%; padding: 1.2rem 1rem 2rem; }
+  .card-grid, .glossary-grid { grid-template-columns: 1fr; }
+  .header-sub { display: none; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-badge">ニュース解説</span>
+  <span class="header-title">Astra の Recurrent Depth 解説</span>
+  <span class="header-sub">2026年9月 | 森の賢人</span>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <h3>目次</h3>
+    <ul class="nav-list">
+      <li><a href="#overview">30秒でつかむ</a></li>
+      <li><a href="#facts">事実と報道の線引き</a></li>
+      <li><a href="#position">3本目の道</a></li>
+      <li><a href="#cot">書くほど高くつく</a></li>
+      <li><a href="#howitworks">仕組み</a></li>
+      <li><a href="#numbers">数字で確認</a></li>
+      <li><a href="#results">公開モデルの実測</a></li>
+      <li><a href="#tradeoff">読めなくなる代償</a></li>
+      <li><a href="#debate">論点</a></li>
+      <li><a href="#business">実務への影響</a></li>
+      <li><a href="#summary">まとめ</a></li>
+      <li><a href="#glossary">用語解説</a></li>
+      <li><a href="#sources">出典</a></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <div class="hero">
+      <span class="hero-badge">OpenAI / Astra — 報道解説</span>
+      <h1>AIが考えを「書き出さず」<br>頭の中だけで深く考える</h1>
+      <p class="hero-meta">OpenAI の次期モデル Astra が Recurrent Depth という推論方式を使っている、と The Information が2026年9月1日に報じました。仕組みそのものは公開済みの研究で確かめられているので、そちらを使って初学者向けに整理します。</p>
+      <div class="hero-stats">
+        <div class="stat-box"><span class="stat-num">16周</span><span class="stat-label">同じ層を<br>くぐる回数</span></div>
+        <div class="stat-box"><span class="stat-num">64層</span><span class="stat-label">4層×16周で<br>これだけの計算</span></div>
+        <div class="stat-box"><span class="stat-num">8層</span><span class="stat-label">それでも覚える<br>重みはこれだけ</span></div>
+      </div>
+    </div>
+
+    <section class="section" id="overview">
+      <span class="section-label">OVERVIEW</span>
+      <span class="timestamp">スライド 02</span>
+      <h2>30秒でつかむ Recurrent Depth</h2>
+      <p class="section-sub">AIの層を積み増す代わりに、同じ層を何周もさせる。考えを言葉にしないぶん速くて安いが、その考えは外から読めない。</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">何が報じられた？</div><p class="card-desc">OpenAI の次期モデル Astra が、Recurrent Depth という推論方式を使っていると報じられました。関係者情報にもとづく報道で、OpenAI の公式発表ではありません。</p></div>
+        <div class="card"><div class="card-title">Recurrent Depth とは</div><p class="card-desc">層を積み増す代わりに、同じ層のかたまりに答えを何度もくぐらせます。この「くぐらせる回数」を本記事では<strong>周回</strong>と呼びます。</p></div>
+        <div class="card"><div class="card-title">今までの考え方</div><p class="card-desc">これまで賢くする手は2つでした。層と学習量を増やすか、Chain of Thought で考えを長々と書き出させるか。周回はその3本目です。</p></div>
+        <div class="card"><div class="card-title">何がうれしい？</div><p class="card-desc">覚える重みが増えないので、記憶量も通信量も節約できます。公開研究では3.5Bのモデルが50B級の計算量で考えられました。</p></div>
+        <div class="card"><div class="card-title">何を失う？</div><p class="card-desc">考えが言葉にならず数字のまま進むので、途中の思考を人が読めません。これを<strong>潜在推論</strong>と呼び、監視のしづらさが問題になっています。</p></div>
+        <div class="card"><div class="card-title">このページのゴール</div><p class="card-desc">仕組みを図と数字で理解し、営業・事務の現場で「安くなること」と「確認が必要になること」を持ち帰れるようにします。</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="facts">
+      <span class="section-label">前提の確認</span>
+      <span class="timestamp">スライド 03</span>
+      <h2>どこまでが事実で、どこからが報道か</h2>
+      <p class="section-sub">Recurrent Depth という技術は論文もオープンモデルもある確かな話。Astra が使っているという部分だけが、まだ報道の段階です。</p>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead><tr><th>確度</th><th>内容</th><th>根拠</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="c-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">高 — 公開研究</span></td>
+              <td><strong>技術そのものは実在する。</strong>2025年に論文が出て学会に採択済み。Huginn-3.5B（最大50周）、Ouro 1.4B / 2.6B（4周）など、誰でも動かせるモデルが公開され、成績を第三者が再現できます。</td>
+              <td>arXiv:2502.05171 / ICML 2025</td>
+            </tr>
+            <tr>
+              <td><span class="c-badge" style="background:rgba(217,96,24,.12);color:var(--orange)">中 — 関係者情報</span></td>
+              <td><strong>Astra が採用、と報じられた。</strong>技術資料は公開されておらず、コスト削減の主張も報道ベースです。OpenAI は安全対策について説明し、研究者からは懸念の声が出ています。</td>
+              <td>The Information（2026年9月1日）</td>
+            </tr>
+            <tr>
+              <td><span class="c-badge" style="background:rgba(94,106,138,.12);color:var(--muted)">未確定</span></td>
+              <td><strong>中身の数字はわからない。</strong>何周まわすのか、モデルの大きさ、読める推論をどれだけ残すのか、一般提供の時期、実際の料金と速度——いずれも公表されていません。</td>
+              <td>2026年9月2日時点</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">
+        <strong>このページの進め方。</strong> 仕組みの図・計算の数字・効果の比較は、すべて公開済みの論文とオープンモデルから取っています。Astra 固有の話が出てくるところでは「報道では」と毎回ことわります。社内で共有するときは「OpenAI がそう言った」ではなく「そう報じられた」として伝えてください。
+      </div>
+    </section>
+
+    <section class="section" id="position">
+      <span class="section-label">位置づけ</span>
+      <span class="timestamp">スライド 04</span>
+      <h2>AIを賢くする「3本目の道」</h2>
+      <p class="section-sub">大きくする・書き出させる、に続く3本目。同じ層に何周もくぐらせて、深く考えさせます。</p>
+      <div class="svg-box"><div class="fig" data-slide="04"><svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="AIを賢くする3つの方法。3本目のRecurrent Depthだけを紫で強調">
+        <defs>
+          <marker id="ar-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a3bce"/>
+          </marker>
+        </defs>
+
+        <!-- ① モデルを大きくする（脇役・グレー） -->
+        <rect x="20" y="30" width="580" height="100" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="38" y="64" font-size="14" font-weight="900" fill="#5e6a8a">① モデルを大きくする</text>
+        <text x="38" y="86" font-size="11.5" fill="#5e6a8a">層と重みを積み増す</text>
+        <text x="38" y="106" font-size="11.5" fill="#5e6a8a">学習にも運用にもお金がかかる</text>
+        <text x="465" y="42" text-anchor="middle" font-size="10" fill="#5e6a8a">層を積み増す</text>
+        <rect x="380" y="46" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="58" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="70" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="82" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="94" width="170" height="9" fill="#c9cfdd"/>
+        <rect x="380" y="106" width="170" height="9" fill="#c9cfdd"/>
+
+        <!-- ② Chain of Thought（脇役・グレー） -->
+        <rect x="20" y="142" width="580" height="100" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="38" y="170" font-size="14" font-weight="900" fill="#5e6a8a">② Chain of Thought</text>
+        <text x="38" y="192" font-size="11.5" fill="#5e6a8a">考えを言葉で書き出させる</text>
+        <text x="38" y="212" font-size="11.5" fill="#5e6a8a">長いほど時間もお金もかかる</text>
+        <text x="456" y="168" text-anchor="middle" font-size="10" fill="#5e6a8a">画面に見える考え</text>
+        <rect x="356" y="176" width="200" height="24" rx="6" fill="#e5e8ef"/>
+        <text x="456" y="192" text-anchor="middle" font-size="11" fill="#1a1d2e">まず…だから…つまり…</text>
+        <text x="456" y="216" text-anchor="middle" font-size="10.5" fill="#5e6a8a">書き出した分だけ課金・待ち時間</text>
+
+        <!-- ③ Recurrent Depth（主役・紫） -->
+        <rect x="20" y="254" width="580" height="152" rx="14" fill="#f4efff" stroke="#7a3bce" stroke-width="2.5"/>
+        <text x="38" y="282" font-size="14.5" font-weight="900" fill="#1a1d2e">③ Recurrent Depth（周回する）</text>
+        <text x="38" y="304" font-size="11.5" fill="#5e6a8a">同じ層のかたまりに何周もくぐらせる</text>
+        <text x="38" y="324" font-size="11.5" fill="#5e6a8a">考えは言葉にならず内部の数字のまま</text>
+
+        <rect x="300" y="290" width="110" height="52" rx="10" fill="#7a3bce"/>
+        <text x="355" y="312" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">中核ブロック</text>
+        <text x="355" y="328" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">（同じ層）</text>
+        <path d="M 405 344 C 428 362, 428 376, 398 376 L 312 376 C 282 376, 282 362, 305 344"
+              fill="none" stroke="#7a3bce" stroke-width="2.5" marker-end="url(#ar-p)"/>
+        <text x="355" y="394" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">この1周を「周回」と呼ぶ</text>
+
+        <rect x="440" y="294" width="150" height="44" rx="8" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="515" y="312" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">重みは増やさず</text>
+        <text x="515" y="328" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">計算量だけ増やす</text>
+
+        <!-- 凡例 -->
+        <text x="310" y="422" text-anchor="middle" font-size="11" fill="#5e6a8a">紫＝今回の主役／グレー＝比較のための従来手法</text>
+      </svg></div></div>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">たとえるなら</div><p class="card-desc">①は担当者を増やして人海戦術で解く。②は考えを全部ホワイトボードに書き出す。③は同じ担当者が黙って何度も読み返す——それが周回です。</p></div>
+        <div class="card"><div class="card-title">3本目のうれしさと代償</div><p class="card-desc">覚える重みが増えないので機材が軽くて済み、難しい問題だけ周回を増やせます。引き換えに、黙って考えるぶん途中経過が読めません。</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="cot">
+      <span class="section-label">これまでの限界</span>
+      <span class="timestamp">スライド 05</span>
+      <h2>Chain of Thought は「書くほど高くつく」</h2>
+      <p class="section-sub">これまでは「もっと考えさせる」が「もっと書かせる」と同じ意味でした。書いた分だけ料金も待ち時間も増えます。</p>
+      <div class="svg-box"><div class="fig" data-slide="05"><svg width="620" height="410" viewBox="0 0 620 410" role="img" aria-label="Chain of Thoughtでは出力の大半が書き出した考えで占められ、3つのコストが生じる">
+        <text x="34" y="24" font-size="12" font-weight="900" fill="#5e6a8a">例: 1問に「考え800語＋答え200語」書き出したとき</text>
+
+        <rect x="20" y="36" width="580" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="58" text-anchor="middle" font-size="11.5" fill="#5e6a8a">答えを出す前に、この長さを毎回書き切る必要がある</text>
+
+        <rect x="50" y="70" width="47" height="34" rx="5" fill="#e5e8ef"/>
+        <text x="73" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e">質問</text>
+        <rect x="101" y="70" width="374" height="34" rx="5" fill="#c9cfdd"/>
+        <text x="288" y="90" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">書き出した考え 800語</text>
+        <rect x="479" y="70" width="91" height="34" rx="5" fill="#e5e8ef"/>
+        <text x="524" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e">答え 200語</text>
+
+        <line x1="101" y1="110" x2="475" y2="110" stroke="#7a3bce" stroke-width="2"/>
+        <text x="288" y="126" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7a3bce">全体の約7割が「考えを書く」ぶん</text>
+
+        <text x="34" y="170" font-size="12" font-weight="900" fill="#5e6a8a">書き出すことで生じる3つのコスト</text>
+
+        <rect x="20" y="180" width="186" height="124" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="34" y="200" width="24" height="24" rx="12" fill="#7a3bce"/>
+        <text x="46" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">1</text>
+        <text x="66" y="217" font-size="11.5" font-weight="900" fill="#1a1d2e">お金がかかる</text>
+        <text x="36" y="250" font-size="10.5" fill="#5e6a8a">書いた語の数だけ</text>
+        <text x="36" y="268" font-size="10.5" fill="#5e6a8a">料金が積み上がる</text>
+
+        <rect x="216" y="180" width="186" height="124" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="230" y="200" width="24" height="24" rx="12" fill="#7a3bce"/>
+        <text x="242" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">2</text>
+        <text x="262" y="217" font-size="11.5" font-weight="900" fill="#1a1d2e">待ち時間が伸びる</text>
+        <text x="232" y="250" font-size="10.5" fill="#5e6a8a">1語ずつ順に作るので</text>
+        <text x="232" y="268" font-size="10.5" fill="#5e6a8a">長く考えるほど遅い</text>
+
+        <rect x="412" y="180" width="186" height="124" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="426" y="200" width="24" height="24" rx="12" fill="#7a3bce"/>
+        <text x="438" y="216" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">3</text>
+        <text x="458" y="217" font-size="11.5" font-weight="900" fill="#1a1d2e">言葉の枠に入る</text>
+        <text x="428" y="250" font-size="10.5" fill="#5e6a8a">言葉にしにくい考えは</text>
+        <text x="428" y="268" font-size="10.5" fill="#5e6a8a">そもそも表現できない</text>
+
+        <rect x="20" y="320" width="580" height="76" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="348" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1a1d2e">「もっと考えさせる」＝「もっと書かせる」だった</text>
+        <text x="310" y="372" text-anchor="middle" font-size="11.5" fill="#5e6a8a">この結びつきを断ち切るのが Recurrent Depth</text>
+      </svg></div></div>
+      <div class="note-box">
+        <strong>現場でいうと。</strong> 提案書1本のAI利用料が、思考の長さで決まります。難しい依頼ほど返答を待つ時間が長くなり、その待ち時間の大半は、あなたが読まない下書きです。書き出す良さ（途中を人が読めて、どこで間違えたかを指摘できる）は確かにありますが、深く考えさせるほど必ず高く・遅くなるという限界がありました。
+      </div>
+      <div class="check-section">
+        <details><summary>Q. なぜ「書き出す」と遅くなるの？</summary><p>言葉は1語ずつ順番に作られるためです。800語の思考を書き出すなら、800回ぶんの生成を待つことになります。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="howitworks">
+      <span class="section-label">仕組み</span>
+      <span class="timestamp">スライド 06</span>
+      <h2>同じ層に何周もくぐらせる</h2>
+      <p class="section-sub">入口で言葉を数字に変え、その数字を同じ中核ブロックに何周もくぐらせて磨いてから、出口で言葉に戻します。</p>
+      <div class="svg-box"><div class="fig" data-slide="06"><svg width="620" height="420" viewBox="0 0 620 420" role="img" aria-label="入口・中核ブロック・出口の流れと、中核ブロックを周回する様子">
+        <defs>
+          <marker id="ar-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa4bd"/>
+          </marker>
+          <marker id="ar-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a3bce"/>
+          </marker>
+        </defs>
+
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">① 全体の流れ</text>
+
+        <rect x="20" y="64" width="72" height="50" rx="8" fill="#e5e8ef"/>
+        <text x="56" y="93" text-anchor="middle" font-size="11" fill="#1a1d2e">質問</text>
+        <line x1="96" y1="89" x2="108" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="114" y="54" width="112" height="70" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="170" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">入口 2層</text>
+        <text x="170" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">言葉→数字</text>
+        <line x1="230" y1="89" x2="240" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="246" y="44" width="144" height="90" rx="12" fill="#7a3bce"/>
+        <text x="318" y="76" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">中核ブロック</text>
+        <text x="318" y="93" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">4層</text>
+        <text x="318" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">ここを何周も</text>
+        <line x1="394" y1="89" x2="404" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="410" y="54" width="112" height="70" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="466" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">出口 2層</text>
+        <text x="466" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">数字→言葉</text>
+        <line x1="526" y1="89" x2="534" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="538" y="64" width="62" height="50" rx="8" fill="#e5e8ef"/>
+        <text x="569" y="93" text-anchor="middle" font-size="11" fill="#1a1d2e">答え</text>
+
+        <path d="M 386 136 C 414 178, 222 178, 250 136" fill="none" stroke="#7a3bce" stroke-width="2.5" marker-end="url(#ar-v)"/>
+        <text x="318" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">同じ4層を、何周もくぐらせる</text>
+
+        <text x="34" y="220" font-size="12" font-weight="900" fill="#5e6a8a">② 1周ごとに、内部の「考え」が磨かれていく</text>
+
+        <rect x="20" y="232" width="136" height="64" rx="10" fill="#e9ddfb"/>
+        <text x="88" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">1周目</text>
+        <text x="88" y="275" text-anchor="middle" font-size="11" fill="#1a1d2e">まだ ざっくり</text>
+
+        <rect x="166" y="232" width="136" height="64" rx="10" fill="#d5bff2"/>
+        <text x="234" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">2周目</text>
+        <text x="234" y="275" text-anchor="middle" font-size="11" fill="#1a1d2e">少し整ってくる</text>
+
+        <rect x="312" y="232" width="136" height="64" rx="10" fill="#b48ae4"/>
+        <text x="380" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">…途中</text>
+        <text x="380" y="275" text-anchor="middle" font-size="11" fill="#1a1d2e">だんだん確かに</text>
+
+        <rect x="458" y="232" width="136" height="64" rx="10" fill="#7a3bce"/>
+        <text x="526" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">16周目</text>
+        <text x="526" y="275" text-anchor="middle" font-size="11" fill="#ffffff">答えが定まる</text>
+
+        <text x="310" y="312" text-anchor="middle" font-size="10.5" fill="#5e6a8a">凡例: 色が濃いほど、内部の考えがはっきりしてきた状態</text>
+
+        <rect x="20" y="326" width="580" height="82" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="356" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1a1d2e">何周しても、覚えている重みは4層ぶんのまま</text>
+        <text x="310" y="382" text-anchor="middle" font-size="11.5" fill="#5e6a8a">増えるのは計算の回数だけ。だから機材を大きくせずに深く考えられる</text>
+      </svg></div></div>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">たとえるなら</div><p class="card-desc">入口＝依頼メールを要点メモに書き換える。中核＝同じメモを何度も読み返して詰める。出口＝固まった結論を文章にして返す。</p></div>
+        <div class="card"><div class="card-title">公開研究では</div><p class="card-desc">Huginn-3.5B は入口2層・中核4層・出口2層の構成。16〜128周が実用域で、64周あたりで成績が頭打ちになると報告されています。</p></div>
+      </div>
+      <div class="note-box">
+        <strong>ここがポイント。</strong> 周回の途中は数字のままで、言葉にはなりません。そして周回数は、答える直前に決められます——つまり簡単な質問は少なく、難しい質問は多く、同じモデルのまま調整できます。
+      </div>
+      <div class="check-section">
+        <details><summary>Q. 何周まわしても重みが増えないのはなぜ？</summary><p>毎回まったく同じ層を使い回しているからです。覚えている内容（重み）は1組だけで、それを繰り返し通しているだけなので、増えるのは計算の回数だけです。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="numbers">
+      <span class="section-label">数字で確認</span>
+      <span class="timestamp">スライド 07</span>
+      <h2>4層を16周まわすと、何層ぶんになるか</h2>
+      <p class="section-sub">4層 × 16周 ＝ 64層ぶんの計算。それでも覚えておく重みは8層ぶんのまま——ここがこの方式の全部です。</p>
+      <div class="svg-box"><div class="fig" data-slide="07"><svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="4層を16周まわしたときの計算量と重みの比較">
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">① 数字を入れて計算してみる（周回を16回にした場合）</text>
+
+        <rect x="20" y="32" width="580" height="180" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="40" y="62" font-size="12" fill="#5e6a8a">中核ブロックの層数</text>
+        <text x="350" y="62" font-size="13" font-weight="900" fill="#1a1d2e">4層</text>
+        <text x="40" y="90" font-size="12" fill="#5e6a8a">まわす回数（周回）</text>
+        <text x="350" y="90" font-size="13" font-weight="900" fill="#1a1d2e">16周</text>
+
+        <rect x="36" y="104" width="548" height="34" rx="8" fill="#f4efff"/>
+        <text x="310" y="126" text-anchor="middle" font-size="13.5" font-weight="900" fill="#7a3bce">4層 × 16周 ＝ 64層ぶんの計算</text>
+
+        <text x="40" y="162" font-size="12" fill="#5e6a8a">入口2層 ＋ 64層ぶん ＋ 出口2層</text>
+        <text x="350" y="162" font-size="13" font-weight="900" fill="#1a1d2e">＝ 実質68層ぶんの深さ</text>
+        <text x="40" y="192" font-size="12" fill="#5e6a8a">覚えておく重み（パラメータ）</text>
+        <text x="350" y="192" font-size="13" font-weight="900" fill="#7a3bce">2+4+2 ＝ 8層ぶんだけ</text>
+
+        <text x="34" y="238" font-size="12" font-weight="900" fill="#5e6a8a">② 同じ深さを、層を積んで作った場合との違い</text>
+
+        <rect x="20" y="248" width="580" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="36" y="282" font-size="11" font-weight="700" fill="#1a1d2e">Recurrent Depth</text>
+        <rect x="150" y="266" width="40" height="22" rx="5" fill="#7a3bce"/>
+        <text x="500" y="283" text-anchor="start" font-size="12" font-weight="900" fill="#7a3bce">重み 8層ぶん</text>
+
+        <text x="36" y="322" font-size="11" font-weight="700" fill="#5e6a8a">68層を積んだモデル</text>
+        <rect x="150" y="306" width="340" height="22" rx="5" fill="#c9cfdd"/>
+        <text x="500" y="323" text-anchor="start" font-size="12" fill="#5e6a8a">重み 68層ぶん</text>
+
+        <text x="310" y="348" text-anchor="middle" font-size="10.5" fill="#5e6a8a">凡例: バーの長さ＝覚えておく重みの量。考える深さはどちらも68層ぶん</text>
+
+        <rect x="20" y="368" width="580" height="52" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="399" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1a1d2e">重みは8層ぶんのまま、考える深さだけ8.5倍にできる</text>
+      </svg></div></div>
+      <div class="note-box">
+        <strong>たとえるなら。</strong> 68人の会議を1回開くのが「層を積む」やり方、4人で16回まわすのが「周回する」やり方です。かかる会議時間は同じでも、用意する席は8分の1で済みます。席が少なくて済むと、必要なメモリと通信量が小さくなり、同じ機材でより深く考えさせられます。
+      </div>
+      <div class="check-section">
+        <details><summary>Q. 「実質68層ぶん」はどう計算したの？</summary><p>入口2層＋（中核4層×16周＝64層ぶん）＋出口2層 ＝ 68層ぶんです。一方で覚えておく重みは 2＋4＋2 ＝ 8層ぶんだけ。深さは重みの8.5倍になります。</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <span class="section-label">効果</span>
+      <span class="timestamp">スライド 08</span>
+      <h2>小さいモデルが、大きいモデルに並ぶ</h2>
+      <p class="section-sub">周回すれば、覚えている重みが小さいままでも大きなモデル並みに答えられる——公開モデルで実際に確かめられています。</p>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table">
+          <thead><tr><th>モデル</th><th>覚える重み</th><th>周回</th><th>報告されている実力</th><th>出典</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Huginn-3.5B</strong></td><td>3.5B</td><td>最大50周</td><td>50B級モデル1回ぶんの計算量に相当。周回を増やすほど算数・コードの成績が伸びる</td><td>arXiv:2502.05171<br>ICML 2025</td></tr>
+            <tr><td><strong>Ouro-1.4B-Thinking</strong></td><td>1.4B</td><td>4周</td><td>4B級モデルと互角</td><td>arXiv:2510.25741</td></tr>
+            <tr><td><strong>Ouro-2.6B-Thinking</strong></td><td>2.6B</td><td>4周</td><td>算数・理科の複数課題で8B級モデルと同等以上</td><td>arXiv:2510.25741</td></tr>
+            <tr><td><strong>Astra（OpenAI）</strong></td><td>非公開</td><td>非公開</td><td>「小さいモデルを大きいモデルのように動かし、メモリと通信のコストを下げる」と報じられた</td><td>The Information<br>2026年9月1日 報道</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">読み方</div><p class="card-desc">「覚える重み」は機材の大きさを、「周回」は考える深さを決めます。この2つが切り離せたことが、この方式の成果です。</p></div>
+        <div class="card"><div class="card-title">注意したい点</div><p class="card-desc">周回はいくらでも効くわけではありません。Huginn-3.5B では64周あたりで成績が頭打ちになると報告されています。</p></div>
+      </div>
+      <div class="warn-box">
+        <strong>Astra の行だけ別物です。</strong> 上3行は誰でも検証できる公開モデルの実測値。Astra の行は関係者情報にもとづく報道で、数字は出ていません。
+      </div>
+    </section>
+
+    <section class="section" id="tradeoff">
+      <span class="section-label">トレードオフ</span>
+      <span class="timestamp">スライド 09</span>
+      <h2>速さと安さの引き換えに、考えが読めなくなる</h2>
+      <p class="section-sub">周回中の考えは言葉にならず数字のまま進みます。これを潜在推論と呼び、途中で何を考えたかを人が確認できなくなります。</p>
+      <div class="svg-box"><div class="fig" data-slide="09"><svg width="620" height="420" viewBox="0 0 620 420" role="img" aria-label="Chain of Thoughtは考えが文字で読めるが、Recurrent Depthは数字のままで読めない">
+        <text x="34" y="30" font-size="12" font-weight="900" fill="#5e6a8a">同じ問題を解いているときの「途中の考え」</text>
+
+        <rect x="20" y="44" width="280" height="250" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="160" y="68" text-anchor="middle" font-size="13" font-weight="900" fill="#5e6a8a">Chain of Thought</text>
+        <text x="160" y="88" text-anchor="middle" font-size="11" fill="#5e6a8a">考えが文字で出てくる</text>
+        <rect x="38" y="100" width="244" height="34" rx="8" fill="#eff1f7"/>
+        <text x="160" y="121" text-anchor="middle" font-size="11" fill="#1a1d2e">まず条件を整理すると…</text>
+        <rect x="38" y="142" width="244" height="34" rx="8" fill="#eff1f7"/>
+        <text x="160" y="163" text-anchor="middle" font-size="11" fill="#1a1d2e">つまり単価は300円</text>
+        <rect x="38" y="184" width="244" height="34" rx="8" fill="#eff1f7"/>
+        <text x="160" y="205" text-anchor="middle" font-size="11" fill="#1a1d2e">だから答えは…</text>
+        <rect x="38" y="232" width="244" height="44" rx="8" fill="#ffffff" stroke="#008f6a"/>
+        <text x="160" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">👀 人がそのまま読める</text>
+        <text x="160" y="266" text-anchor="middle" font-size="11" fill="#5e6a8a">間違いも指摘できる</text>
+
+        <rect x="320" y="44" width="280" height="250" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="2.5"/>
+        <text x="460" y="68" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">Recurrent Depth</text>
+        <text x="460" y="88" text-anchor="middle" font-size="11" fill="#5e6a8a">考えは数字のまま内部に残る</text>
+        <rect x="338" y="100" width="244" height="34" rx="8" fill="#e9ddfb"/>
+        <text x="460" y="121" text-anchor="middle" font-size="11" fill="#1a1d2e">0.83, -1.24, 0.07 …</text>
+        <rect x="338" y="142" width="244" height="34" rx="8" fill="#d5bff2"/>
+        <text x="460" y="163" text-anchor="middle" font-size="11" fill="#1a1d2e">1.02, 0.44, -0.91 …</text>
+        <rect x="338" y="184" width="244" height="34" rx="8" fill="#b48ae4"/>
+        <text x="460" y="205" text-anchor="middle" font-size="11" fill="#1a1d2e">0.15, 2.30, -0.06 …</text>
+        <rect x="338" y="232" width="244" height="44" rx="8" fill="#ffffff" stroke="#c9162e"/>
+        <text x="460" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">🚫 人には読めない</text>
+        <text x="460" y="266" text-anchor="middle" font-size="11" fill="#5e6a8a">どこで間違えたか追えない</text>
+
+        <text x="310" y="318" text-anchor="middle" font-size="12" font-weight="900" fill="#5e6a8a">なぜこれが問題になるのか</text>
+        <rect x="20" y="330" width="580" height="76" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="358" text-anchor="middle" font-size="11.5" fill="#1a1d2e">AIの危ない考えを見つける今の主な手段は「書かれた考えを読むこと」</text>
+        <text x="310" y="382" text-anchor="middle" font-size="11.5" fill="#1a1d2e">考えが言葉にならないと、その手段がそのままでは効かなくなる</text>
+      </svg></div></div>
+      <div class="warn-box">
+        <strong>なぜこれが問題になるのか。</strong> AIの危ない考えを見つける今の主な手段は「書かれた考えを読むこと」です。考えが言葉にならないと、その手段がそのままでは効かなくなります。研究者からは、潜在推論のモデルは考えを言葉にする必要がなく、監視の利点を失いうると指摘されています（arXiv:2507.11473）。
+      </div>
+      <div class="note-box">
+        <strong>現場でいうと。</strong> 今までは提案の根拠が下書きに残っていました。これからは結論だけが返ってきます。チェックの場所を「途中」から「結果」へ移す必要があります。
+      </div>
+    </section>
+
+    <section class="section" id="debate">
+      <span class="section-label">論点</span>
+      <span class="timestamp">スライド 10</span>
+      <h2>OpenAI の説明と、研究者の懸念</h2>
+      <p class="section-sub">争点はひとつ——監視性、つまり「AIの考えを外から読めること」を、どこまで手放してよいか。</p>
+      <div class="cmp-table-wrap">
+        <table class="cmp-table debate-table">
+          <thead><tr><th>論点</th><th>OpenAI の説明（報道より）</th><th>研究者の懸念</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>読める考えは<br>残るのか</strong></td>
+              <td class="side-a">監視に足りるだけの読める推論は Astra にも残る、と説明している</td>
+              <td class="side-b">潜在推論の割合が増えるほど、外から読める部分は減っていく</td>
+            </tr>
+            <tr>
+              <td><strong>追加の<br>安全対策は</strong></td>
+              <td class="side-a">検知の仕組みを追加した上で出荷すると説明している</td>
+              <td class="side-b">読めない考えに対して、検知が追いつく保証はない</td>
+            </tr>
+            <tr>
+              <td><strong>影響が<br>大きいのは</strong></td>
+              <td class="side-a" style="color:var(--muted)">報道では言及されていない</td>
+              <td class="side-b">制約の緩い実装が広まると、自律的に動くエージェントの監督が弱まる</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note-box">
+        <strong>押さえておきたいこと。</strong> この論点は Astra だけの話ではありません。周回して考える方式が広まるほど、業界全体で「考えが読める」という前提が崩れていきます。だから今回の報道は、性能のニュースであると同時に、安全のニュースとして扱われています。
+      </div>
+    </section>
+
+    <section class="section" id="business">
+      <span class="section-label">実務への影響</span>
+      <span class="timestamp">スライド 11</span>
+      <h2>私たちの仕事にどう効いてくるか</h2>
+      <p class="section-sub">安く・速く・手元で動くようになる代わりに、確認の場所が「途中の下書き」から「出てきた結果」へ移ります。</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">1. 利用料が思考の長さに比例しなくなる</div><p class="card-desc">深く考えさせても書き出す語が増えません。「難しい依頼ほど高くつく」という今の料金感覚が変わる可能性があります。</p></div>
+        <div class="card"><div class="card-title">2. 返ってくるのが速くなる</div><p class="card-desc">数百語の下書きを1語ずつ待つ必要がありません。見積の相談や議事録の要約が、待たずに返ってくる方向へ。</p></div>
+        <div class="card"><div class="card-title">3. 手元の機材で動く範囲が広がる</div><p class="card-desc">覚える重みが小さいので必要なメモリが少なく済みます。社外に出せない情報を、社内やPCの中で扱える幅が広がります。</p></div>
+        <div class="card"><div class="card-title">4. 根拠は「聞き直して」もらう</div><p class="card-desc">途中の考えが見えないぶん、結論だけが返ってきます。根拠・出典・前提は、こちらから明示的に質問して出させましょう。</p></div>
+        <div class="card"><div class="card-title">5. 検算と裏取りの比重が上がる</div><p class="card-desc">下書きを読んで途中で気づく、が使えなくなります。数字は自分で検算、事実は一次情報で裏取り、という手順を先に決めておきます。</p></div>
+        <div class="card"><div class="card-title">6. ただし今日から変わるわけではない</div><p class="card-desc">Astra はまだ一般提供されていません。今すぐ触れるのは Huginn や Ouro などの公開モデル。まずは仕組みだけ押さえておけば十分です。</p></div>
+      </div>
+      <a class="guide-link" href="flowchart.html">3問セルフ診断: 自分の業務では何を変えるべき？ →</a>
+    </section>
+
+    <section class="section" id="summary">
+      <span class="section-label">WRAP UP</span>
+      <span class="timestamp">スライド 12</span>
+      <h2>今日のまとめ</h2>
+      <p class="section-sub">層を積む代わりに同じ層を何周もさせる——安く深く考えられるようになった代わりに、その考えは外から読めなくなります。</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">報じられたこと</div><p class="card-desc">OpenAI の次期モデル Astra が Recurrent Depth を使っている、と The Information が報じました（2026年9月1日・関係者情報）。公式発表ではありません。</p></div>
+        <div class="card"><div class="card-title">仕組みは周回</div><p class="card-desc">入口で言葉を数字に変え、同じ中核ブロックに何周もくぐらせて磨き、出口で言葉に戻します。この1周が周回です。</p></div>
+        <div class="card"><div class="card-title">4層×16周＝64層ぶん</div><p class="card-desc">入口2＋64＋出口2で実質68層ぶんの深さ。それでも覚える重みは8層ぶんのまま。深さと機材の大きさが切り離せました。</p></div>
+        <div class="card"><div class="card-title">効果は公開モデルで実証済み</div><p class="card-desc">Huginn-3.5B は50周で50B級の計算量に相当。Ouro-2.6B は4周で8B級と同等以上。技術そのものは確かな話です。</p></div>
+        <div class="card"><div class="card-title">代償は監視性</div><p class="card-desc">周回中の考えは数字のままで人に読めません（潜在推論）。危ない考えを見つける今の手段が効きにくくなります。</p></div>
+        <div class="card"><div class="card-title">今できる備え</div><p class="card-desc">安く速くなるのは歓迎しつつ、根拠は聞き直す・数字は検算する。確認の場所を「途中」から「結果」へ移しておきましょう。</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="glossary">
+      <span class="section-label">GLOSSARY</span>
+      <span class="timestamp">スライド 13</span>
+      <h2>用語解説</h2>
+      <div class="glossary-grid">
+        <div class="term-card"><div class="term-head"><span class="term-name">Astra</span><span class="term-reading">アストラ</span></div><p class="term-desc">OpenAI の次期主要モデル。2026年9月時点で一般提供はされていない。</p><a class="term-link" href="https://openai.com" target="_blank">openai.com</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Recurrent Depth</span><span class="term-reading">リカレント デプス</span></div><p class="term-desc">同じ層のかたまりに何周もくぐらせて深く考えさせる方式。直訳は「くり返しの深さ」。</p><a class="term-link" href="https://arxiv.org/abs/2502.05171" target="_blank">arxiv.org</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">周回</span><span class="term-reading">しゅうかい</span></div><p class="term-desc">中核ブロックを1回くぐること。本記事ではこの回数を「周」と数える。論文では recurrence / loop。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Chain of Thought</span><span class="term-reading">チェーン オブ ソート</span></div><p class="term-desc">考えを言葉で書き出させて答えの精度を上げる方式。推論そのものではなく、推論のやり方の一つ（今の主流）。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">潜在推論</span><span class="term-reading">せんざいすいろん</span></div><p class="term-desc">Latent Reasoning。言葉にせず内部の数字のまま進む推論。人が途中を読めない。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">監視性</span><span class="term-reading">かんしせい</span></div><p class="term-desc">Monitorability。AIの考えを外から読んで確認できる性質。今のAI安全対策の土台になっている。</p><a class="term-link" href="https://arxiv.org/abs/2507.11473" target="_blank">arxiv.org</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">層</span><span class="term-reading">そう / レイヤー</span></div><p class="term-desc">AIが情報を一段ずつ処理する単位。工場の工程にあたる。積むほど深く考えられる。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">パラメータ</span><span class="term-reading">ぱらめーた</span></div><p class="term-desc">モデルが覚えている重み。本記事の「重み」はこれ。3.5B は35億個の意味。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Transformer</span><span class="term-reading">トランスフォーマー</span></div><p class="term-desc">今のAIの基本構造。層を積み重ねて作る。Recurrent Depth はその積み方を変えた工夫。</p></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Huginn-3.5B</span><span class="term-reading">フギン</span></div><p class="term-desc">Recurrent Depth を実際に確かめた公開モデル。誰でも動かせる。名前は北欧神話のカラス。</p><a class="term-link" href="https://huggingface.co/tomg-group-umd/huginn-0125" target="_blank">huggingface.co</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">Ouro</span><span class="term-reading">ウロ</span></div><p class="term-desc">周回する言語モデルの公開ファミリー。1.4B / 2.6B で数倍サイズ級に並んだ。</p><a class="term-link" href="https://arxiv.org/abs/2510.25741" target="_blank">arxiv.org</a></div>
+        <div class="term-card"><div class="term-head"><span class="term-name">The Information</span><span class="term-reading">ジ インフォメーション</span></div><p class="term-desc">米国のテック専門メディア。今回の Astra の報道元。会員制で一次記事は有料。</p><a class="term-link" href="https://www.theinformation.com" target="_blank">theinformation.com</a></div>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <span class="section-label">SOURCES</span>
+      <h2>出典</h2>
+      <ul class="source-list">
+        <li><a href="https://arxiv.org/abs/2502.05171" target="_blank">Jonas Geiping ほか「Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach」arXiv:2502.05171（ICML 2025）</a></li>
+        <li><a href="https://huggingface.co/tomg-group-umd/huginn-0125" target="_blank">Hugging Face: tomg-group-umd/huginn-0125（Huginn-3.5B）</a></li>
+        <li><a href="https://arxiv.org/abs/2510.25741" target="_blank">「Scaling Latent Reasoning via Looped Language Models」arXiv:2510.25741（Ouro）</a></li>
+        <li><a href="https://arxiv.org/abs/2507.11473" target="_blank">「Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety」arXiv:2507.11473</a></li>
+        <li><a href="https://www.theinformation.com" target="_blank">The Information: OpenAI の Astra が recurrent depth を採用（2026年9月1日 報道）</a></li>
+      </ul>
+      <p class="source-note" style="margin-top:.8rem">※ The Information の記事は会員制のため、本文は有料購読が必要です。本ページで「報道では」としている記述は、すべてこの報道にもとづきます。</p>
+    </section>
+  </main>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

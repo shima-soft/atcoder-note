@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>履歴と分業</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">結果③ 運用</span>
+    <h2 class="slide-title">履歴は“毒にも薬にも” — 苦手は分業で補う</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>履歴を溜めると弱いモデルは沈黙、長い仕事は分業（Plan-and-Act）で復活する</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="履歴管理と分業アーキテクチャ">
+        <!-- 左: 履歴スコープ -->
+        <text x="34" y="22" font-size="11" font-weight="900" fill="#5e6a8a">① 履歴スコープ：溜める（run）vs 毎回捨てる（task）</text>
+        <rect x="20" y="30" width="286" height="170" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <rect x="34" y="44" width="258" height="44" rx="8" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="163" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">独立タスク（Easy/Medium/Hard）では</text>
+        <text x="163" y="78" text-anchor="middle" font-size="11" fill="#5e6a8a">6/7モデルは差0.03以内＝ほぼ無影響</text>
+        <rect x="34" y="100" width="258" height="86" rx="8" fill="#fdecee" stroke="#c9162e"/>
+        <text x="163" y="120" text-anchor="middle" font-size="11" font-weight="900" fill="#c9162e">例外：Llama 3.1 8Bは暴落</text>
+        <text x="163" y="138" text-anchor="middle" font-size="11" fill="#1a1d2e">0.667 → <tspan fill="#c9162e" font-weight="900">0.192</tspan>（-71%）</text>
+        <text x="163" y="156" text-anchor="middle" font-size="11" fill="#5e6a8a">失敗ではなく“沈黙”。TFRも下がる</text>
+        <text x="163" y="174" text-anchor="middle" font-size="10" fill="#c9162e">→ 弱い子は過去の会話で迷子になる</text>
+
+        <!-- 右: アーキテクチャ -->
+        <text x="334" y="22" font-size="11" font-weight="900" fill="#5e6a8a">② アーキテクチャ：1人でやる vs 分業する</text>
+        <rect x="320" y="30" width="280" height="82" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="360" y="50" font-size="11" font-weight="700" fill="#5e6a8a">ReAct（1人）</text>
+        <rect x="334" y="58" width="252" height="36" rx="8" fill="#ede9fe" stroke="#7a3bce"/>
+        <text x="460" y="80" text-anchor="middle" font-size="11" fill="#7a3bce">考えて→1手打つ→結果見る…をループ</text>
+        <rect x="320" y="118" width="280" height="82" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="1.8"/>
+        <text x="360" y="138" font-size="11" font-weight="700" fill="#7a3bce">Plan-and-Act（分業）</text>
+        <rect x="334" y="146" width="252" height="36" rx="8" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="460" y="168" text-anchor="middle" font-size="11" fill="#ffffff">計画役→検証役→作業役（ReAct）が分担</text>
+
+        <!-- 下段: 効果 -->
+        <rect x="20" y="216" width="580" height="194" rx="14" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="310" y="242" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">いつ分業が効くのか？</text>
+        <!-- 左効果 -->
+        <rect x="36" y="252" width="260" height="128" rx="10" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="166" y="274" text-anchor="middle" font-size="11" font-weight="900" fill="#7a3bce">弱い作業役（Llama 8B）× 強い計画役</text>
+        <text x="166" y="294" text-anchor="middle" font-size="11" fill="#1a1d2e">平均 0.554 → <tspan fill="#008f6a" font-weight="900">0.718</tspan></text>
+        <text x="166" y="314" text-anchor="middle" font-size="11" fill="#1a1d2e">History 0.113 → <tspan fill="#008f6a" font-weight="900">0.650</tspan></text>
+        <text x="166" y="334" text-anchor="middle" font-size="11" fill="#1a1d2e">Cross 0.166 → <tspan fill="#008f6a" font-weight="900">0.450</tspan></text>
+        <text x="166" y="362" text-anchor="middle" font-size="10" fill="#5e6a8a">弱い子は“段取り”を任せると伸びる</text>
+
+        <!-- 右効果 -->
+        <rect x="320" y="252" width="260" height="128" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="450" y="274" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">強い作業役（Gemma 26B）は？</text>
+        <text x="450" y="294" text-anchor="middle" font-size="11" fill="#5e6a8a">単独の方が良いケースもあり</text>
+        <text x="450" y="314" text-anchor="middle" font-size="11" fill="#1a1d2e">Hard-Noise（60手の長丁場）では</text>
+        <text x="450" y="334" text-anchor="middle" font-size="11" fill="#1a1d2e">0.858 → <tspan fill="#008f6a" font-weight="900">0.950</tspan> で復活</text>
+        <text x="450" y="362" text-anchor="middle" font-size="10" fill="#5e6a8a">長い仕事は分業でコンテキスト分散</text>
+
+        <text x="310" y="400" text-anchor="middle" font-size="10" fill="#c9162e">※ 分業は呼び出し数が増える（コスト増）ので使いどころを見極める</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">歴</span><p>弱い新人：過去のメール全部を毎回読むと混乱して何もできなくなる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">分</span><p>分業：ベテランが段取りを作り、新人は1ステップずつ実行だけに集中</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 運用のコツ</div>
+        <ul class="box-list">
+          <li>弱いモデルや長期セッションは taskスコープ＋分業を検討</li>
+          <li>強いモデル×短いタスクは単独ReActで十分（全履歴を活かす）</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ やりがちな失敗</div>
+        <ul class="box-list">
+          <li>「履歴は多いほど良い」と溜め込み → Llamaは沈黙</li>
+          <li>何でも分業 → 強いモデルでは逆にECCが下がる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

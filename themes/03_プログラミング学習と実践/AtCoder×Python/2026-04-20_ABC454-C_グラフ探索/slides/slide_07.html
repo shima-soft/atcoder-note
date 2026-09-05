@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-wrap {
+  background: #282c34;
+  border-radius: 12px;
+  padding: .7rem 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+.code-wrap pre {
+  margin: 0;
+  font-size: .82rem;
+  line-height: 1.75;
+}
+.cx-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .4rem;
+}
+.cx-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+}
+.cx-label { font-size: .66rem; color: var(--muted); font-weight: 700; margin-bottom: .15rem; }
+.cx-val { font-size: .88rem; font-weight: 900; font-family: 'Consolas', monospace; }
+.cx-note { font-size: .7rem; color: var(--muted); margin-top: .1rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">BFS でノード1から到達可能なノードを数える</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>visited フラグで二度訪問を防ぎ、sum(visited) で到達ノード数を一発で集計</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード（13行） -->
+    <div class="diagram-box" style="flex-direction:column;align-items:stretch;padding:.7rem;">
+      <div class="code-wrap">
+        <pre><code class="language-python"># BFS
+visited = [False] * (N + 1)
+visited[1] = True
+queue = deque([1])
+
+while queue:
+    node = queue.popleft()
+    for next_node in graph[node]:
+        if not visited[next_node]:
+            visited[next_node] = True
+            queue.append(next_node)
+
+print(sum(visited))</code></pre>
+      </div>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">📌 各行の意味</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">visited[1] = True</code> — ノード1を「訪問済み」にしてキューへ</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p><code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">queue.popleft()</code> — キュー先頭のノードを取り出す（O(1)）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>未訪問の隣接ノードのみ <code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">visited=True</code> にしてキューへ追加</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">4</span>
+          <p><code style="font-family:Consolas;font-size:.78rem;background:#eff1f7;padding:.1rem .3rem;border-radius:4px;">sum(visited)</code> — True の数 = 到達ノード数を出力</p>
+        </div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.5rem .7rem;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.35rem;">⏱️ 計算量まとめ</div>
+        <div class="cx-grid">
+          <div class="cx-card">
+            <div class="cx-label">グラフ構築</div>
+            <div class="cx-val" style="color:var(--green);">O(M)</div>
+            <div class="cx-note">M本のエッジを1回追加</div>
+          </div>
+          <div class="cx-card">
+            <div class="cx-label">BFS探索</div>
+            <div class="cx-val" style="color:var(--green);">O(N+M)</div>
+            <div class="cx-note">各ノード・エッジを1回ずつ</div>
+          </div>
+          <div class="cx-card" style="grid-column:1/-1;">
+            <div class="cx-label">N=M=3×10⁵ → Python で間に合う上限</div>
+            <div class="cx-val" style="color:var(--orange);">≈ 6×10⁵ 回</div>
+            <div class="cx-note">Python 目安: N ≤ 10⁷ なら1秒以内 ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title">✅ deque を使う理由</div>
+        <ul class="box-list">
+          <li>list の pop(0) は O(N)、deque の popleft() は O(1)</li>
+          <li>BFS では先入れ先出しが必須 → deque 一択</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

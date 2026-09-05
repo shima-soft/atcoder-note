@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.section-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  margin-bottom: .5rem;
+}
+.section-title {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .4rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.section-content {
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.code-sample {
+  background: #f5f6fa;
+  border-left: 3px solid var(--orange);
+  padding: .5rem .7rem;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: .75rem;
+  color: #1a1d2e;
+  margin-top: .3rem;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.input-label { font-weight: 700; color: var(--muted); }
+.output-label { font-weight: 700; color: var(--green); }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">問題文・制約・入出力例</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">問題の本質</span>
+      <p>大きなシーケンスを構築せずに、K番目の要素を効率的に取得する</p>
+    </div>
+  </div>
+  <div class="slide-body" style="flex-direction:column;gap:.4rem;overflow-y:auto;">
+
+    <div class="section-block">
+      <div class="section-title">📝 問題の説明</div>
+      <div class="section-content">
+        N個のシーケンス A_1, A_2, ..., A_N が与えられます。各シーケンス A_i について、これをシーケンス B の末尾に C_i 回繰り返して追加します。このようにして作られた長いシーケンス B の K 番目の要素（1-indexed）を求めます。
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">⚙️ 制約</div>
+      <div class="section-content">
+        <div>• 1 ≤ N ≤ 2 × 10⁵</div>
+        <div>• Σ(L_i) ≤ 2 × 10⁵（全シーケンスの総長）</div>
+        <div>• 1 ≤ C_i ≤ 10⁹（繰り返し回数は最大10億）</div>
+        <div style="margin-top:.3rem;color:var(--muted);font-size:.76rem;">
+          💡 ポイント: C_i が大きいので、B 全体を構築することはできません（メモリ不足）
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">📌 入出力例（例1）</div>
+      <div class="section-content">
+        <div class="input-label">入力:</div>
+        <div class="code-sample">3 9<br>3 1 3 2<br>1 3<br>2 4 3<br>1 3 2</div>
+        <div style="margin-top:.3rem;color:var(--muted);font-size:.76rem;">
+          N=3, K=9 / A_1=[3,1,3], A_2=[2,4,3], A_3=[1,3,2] / C_1=1, C_2=3, C_3=2
+        </div>
+        <div class="output-label" style="margin-top:.3rem;">出力:</div>
+        <div class="code-sample">3</div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-title">🧮 手で追ってみる</div>
+      <div class="section-content">
+        <div>B = [3,1,3] + [2,4,3,2,4,3,2,4,3] + [1,3,2,1,3,2]</div>
+        <div style="margin-top:.2rem;font-family:'Monaco',monospace;font-size:.75rem;">
+          位置1～3 | 位置4～12 | 位置13～18
+        </div>
+        <div style="margin-top:.3rem;background:#fffbea;border-left:3px solid var(--yellow);padding:.4rem;border-radius:4px;font-size:.76rem;">
+          B[9] は位置4～12の中の9番目 = 3
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

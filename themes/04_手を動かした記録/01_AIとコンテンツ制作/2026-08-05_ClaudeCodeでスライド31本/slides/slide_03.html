@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">SETUP</span>
+    <h2 class="slide-title">AIに何をさせていたのか</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>1本の動画に、スライド・台本・Web公開版の一式が必要。その組み立てをAIに任せていました</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          box[i].x = 32 + i * 118  (boxWidth=92, gap=26, 送り幅=118)
+          box[i].right = 124 + i*118 → 124, 242, 360, 478
+          center[i] = 78, 196, 314, 432
+          矢印: x = 128+i*118 → 146+i*118  (y=120)
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="620" height="310" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <defs>
+            <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#9aa3bd"/>
+            </marker>
+          </defs>
+
+          <text x="250" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">1本つくるまでの流れ</text>
+          <text x="196" y="78" text-anchor="middle" font-size="9.5" font-weight="700" fill="#cc0a6a">今回の話はここ</text>
+
+          <!-- box0: 元ネタを読む（脇役） -->
+          <rect x="32" y="88" width="92" height="64" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="78" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">元ネタを読む</text>
+          <text x="78" y="131" text-anchor="middle" font-size="9" fill="#5e6a8a">記事や論文</text>
+
+          <!-- box1: スライド（主役） -->
+          <rect x="150" y="88" width="92" height="64" rx="10" fill="rgba(204,10,106,.10)" stroke="#cc0a6a" stroke-width="2.5"/>
+          <text x="196" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#cc0a6a">スライド</text>
+          <text x="196" y="131" text-anchor="middle" font-size="9" fill="#cc0a6a">1枚ずつHTML</text>
+
+          <!-- box2: 台本（脇役） -->
+          <rect x="268" y="88" width="92" height="64" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="314" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">台本</text>
+          <text x="314" y="131" text-anchor="middle" font-size="9" fill="#5e6a8a">話す言葉に直す</text>
+
+          <!-- box3: Web公開版（脇役） -->
+          <rect x="386" y="88" width="92" height="64" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="432" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">Web公開版</text>
+          <text x="432" y="131" text-anchor="middle" font-size="9" fill="#5e6a8a">読めるページ</text>
+
+          <!-- 矢印 -->
+          <line x1="128" y1="120" x2="144" y2="120" stroke="#9aa3bd" stroke-width="1.5" marker-end="url(#ar)"/>
+          <line x1="246" y1="120" x2="262" y2="120" stroke="#9aa3bd" stroke-width="1.5" marker-end="url(#ar)"/>
+          <line x1="364" y1="120" x2="380" y2="120" stroke="#9aa3bd" stroke-width="1.5" marker-end="url(#ar)"/>
+
+          <!-- 実数 -->
+          <text x="78"  y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#5e6a8a">31本</text>
+          <text x="196" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#cc0a6a">266枚</text>
+          <text x="314" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#5e6a8a">29本</text>
+          <text x="432" y="178" text-anchor="middle" font-size="12" font-weight="900" fill="#5e6a8a">22本</text>
+
+          <text x="250" y="204" text-anchor="middle" font-size="9" fill="#5e6a8a">3か月半で積み上がった実数</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 1本つくるのに必要なもの</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">1</span>
+            <p>スライド8〜13枚。図はすべて手描きの SVG</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">2</span>
+            <p>台本 約4,700字。スライド1枚ずつに対応させる</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">3</span>
+            <p>Web公開版。同じ図をもう一度ページに載せる</p>
+          </div>
+        </div>
+        <div class="ok-box" style="border-left-color:var(--pink)">
+          <div class="box-title">✅ AIに任せたかったこと</div>
+          <ul class="box-list">
+            <li>図の座標計算と、HTMLの組み立て</li>
+            <li>専門用語を初学者向けに言い換える作業</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ ここで最初の問題が起きました</div>
+          <ul class="box-list">
+            <li>同じように頼んでも、毎回ちがうものが返ってくる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

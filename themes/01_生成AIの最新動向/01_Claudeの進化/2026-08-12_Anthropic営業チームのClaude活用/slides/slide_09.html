@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card-grid { gap: .7rem; }
+.card-ex {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: .45rem .6rem;
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.card-ex b { color: var(--text); font-weight: 700; }
+.card { padding: .9rem 1rem; gap: .45rem; justify-content: center; }
+.card-head { display: flex; align-items: center; gap: .5rem; }
+.card-icon { font-size: 1.35rem; margin-bottom: 0; }
+.card-title { font-size: .92rem; line-height: 1.3; }
+.card-tag {
+  display: inline-block;
+  width: fit-content;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  background: rgba(26,150,192,.12);
+  color: var(--blue);
+}
+.card-note {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.5;
+  margin-top: .15rem;
+  padding-top: .4rem;
+  border-top: 1px dashed var(--border);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">STEP 6 — その場の依頼</span>
+    <h2 class="slide-title">仕組みを作らず、頼むだけで済むこと</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>「データ部門に頼んで待つ」だった調べものが、その場の一言で返ってくる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">📊</span>
+          <span class="card-title">使われ方の傾向を<br>その場で図にする</span>
+        </div>
+        <span class="card-tag">頼み方: 一言で足りる</span>
+        <div class="card-desc">「この重要顧客の利用の傾向が知りたい」と言われたら、読みやすい図つきの資料をその場で用意する。以前はデータ担当の順番待ちだった</div>
+        <div class="card-ex"><b>たとえば</b><br>「先月から利用が伸びた部署はどこか」を、依頼票を書かずにその場で図にして見せられる</div>
+        <div class="card-note">待ち時間がなくなり、会話が止まらない</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🔍</span>
+          <span class="card-title">気づかれていない<br>利用を洗い出す</span>
+        </div>
+        <span class="card-tag">担当分をまとめて点検</span>
+        <div class="card-desc">担当している会社を全部見て、すでに製品を使っているのに商談として登録されていない先を見つける。声をかけるべき相手が浮かび上がる</div>
+        <div class="card-ex"><b>たとえば</b><br>現場が試しに使い始めていたのに、営業側は誰も知らなかった。そんな会社が担当分から何社も出てくる</div>
+        <div class="card-note">「実は使われていた」を取りこぼさない</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">📣</span>
+          <span class="card-title">イベントに誘う<br>相手を選ぶ</span>
+        </div>
+        <span class="card-tag">専用の仕組みは作っていない</span>
+        <div class="card-desc">開催予定のWebセミナーに合いそうな会社は、と聞かれたその場で、利用状況と顧客管理の履歴を見比べ、社内の理想の顧客像に照らして点数を付ける</div>
+        <div class="card-ex"><b>たとえば</b><br>案内先リストを手作業で選ぶ数時間が、点数つきの候補一覧を確認する数分に変わる</div>
+        <div class="card-note">誘うべき担当者名まで出てくる</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

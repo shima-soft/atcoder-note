@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.company-badge {
+  display: inline-block;
+  padding: .1rem .55rem;
+  border-radius: 99px;
+  font-size: .7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.star-rating { letter-spacing: .05em; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">COMPARE</span>
+    <h2 class="slide-title">主要4社 4月アップデート 比較表</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>全社が「エージェント化・マルチモーダル・低コスト化」を同時に推進している</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:120px">会社</th>
+            <th style="width:180px">4月の主要リリース</th>
+            <th style="width:90px">重要度</th>
+            <th style="width:110px">コンテキスト</th>
+            <th>主な強み</th>
+            <th style="width:130px">推奨用途</th>
+            <th style="width:130px">API価格の目安</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="company-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">Anthropic</span>
+            </td>
+            <td>
+              <strong>Claude Opus 4.7</strong><br>
+              <span style="font-size:.72rem;color:var(--muted)">2026-04-16</span>
+            </td>
+            <td>
+              <span class="star-rating" style="color:#e8a020">★★★</span>
+            </td>
+            <td>200K トークン</td>
+            <td>エージェント安定化・ビジョン3倍・コーディング+13%・xhigh追加</td>
+            <td>長時間タスク自動化・コード生成・重要文書レビュー</td>
+            <td>
+              <span style="font-size:.76rem">入力 $5 / 出力 $25</span><br>
+              <span style="font-size:.68rem;color:var(--muted)">（1Mトークンあたり）</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="company-badge" style="background:rgba(16,163,127,.12);color:#10a37f">OpenAI</span>
+            </td>
+            <td>
+              <strong>o4-mini GA</strong><br>
+              <span style="font-size:.72rem;color:var(--muted)">2026-04-08 / 音声モデル2.0も同時公開</span>
+            </td>
+            <td>
+              <span class="star-rating" style="color:#e8a020">★★★</span>
+            </td>
+            <td>128K トークン</td>
+            <td>o3比コスト-40%・高精度推論・自然な音声AI対話</td>
+            <td>大量処理の日常業務自動化・音声インターフェース</td>
+            <td>
+              <span style="font-size:.76rem">入力 $1.1 / 出力 $4.4</span><br>
+              <span style="font-size:.68rem;color:var(--muted)">（1Mトークンあたり）</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="company-badge" style="background:rgba(217,96,24,.1);color:var(--orange)">Google</span>
+            </td>
+            <td>
+              <strong>Gemini 2.5 Pro GA</strong><br>
+              <span style="font-size:.72rem;color:var(--muted)">2026-04-22 / AI Studio刷新も同時</span>
+            </td>
+            <td>
+              <span class="star-rating" style="color:#e8a020">★★</span>
+            </td>
+            <td><strong style="color:var(--orange)">1M</strong> トークン</td>
+            <td>超長文脈処理・Google Workspace 連携・マルチモーダル</td>
+            <td>大量文書の一括分析・Googleサービス統合ワークフロー</td>
+            <td>
+              <span style="font-size:.76rem">入力 $7 / 出力 $21</span><br>
+              <span style="font-size:.68rem;color:var(--muted)">（1Mトークンあたり）</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="company-badge" style="background:rgba(24,119,242,.1);color:#1877f2">Meta AI</span>
+            </td>
+            <td>
+              <strong>Llama 4 Maverick API</strong><br>
+              <span style="font-size:.72rem;color:var(--muted)">2026-04-10 / SNS AI機能強化も同時</span>
+            </td>
+            <td>
+              <span class="star-rating" style="color:#e8a020">★★</span>
+            </td>
+            <td>128K トークン</td>
+            <td>オープンソース・商用利用フリー・社内自己ホスト可能</td>
+            <td>自社環境でのAI構築・コスト最小化・情報セキュリティ重視</td>
+            <td>
+              <strong style="color:#1877f2;font-size:.76rem">モデル無料 (OSS)</strong><br>
+              <span style="font-size:.68rem;color:var(--muted)">API利用は別途</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:.7rem;padding:.5rem .8rem;background:rgba(122,59,206,.06);border-radius:10px;border:1px solid rgba(122,59,206,.15)">
+        <p style="font-size:.76rem;color:var(--muted)">
+          <strong style="color:var(--purple)">📌 選び方の目安：</strong>
+          コスト重視なら <strong>o4-mini or Llama 4</strong> ／ 長文書分析なら <strong>Gemini 2.5 Pro</strong> ／ エージェント・コード生成なら <strong>Claude Opus 4.7</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

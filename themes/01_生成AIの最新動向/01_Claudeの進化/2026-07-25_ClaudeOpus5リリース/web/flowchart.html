@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考える深さ（エフォート）選びフロー</title>
+<style>
+:root { --bg:#f9fafb; --surface:#eff1f7; --card:#fff; --border:#dde2ec; --text:#1a1d2e; --muted:#5e6a8a; --blue:#1a96c0; --green:#008f6a; --orange:#d96018; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:2rem; line-height:1.7; }
+.wrap { max-width:860px; margin:0 auto; }
+.top { display:flex; align-items:center; gap:1rem; margin-bottom:1.4rem; }
+.back { color:var(--blue); text-decoration:none; border:1px solid var(--blue); border-radius:6px; padding:.25rem .65rem; font-size:.82rem; white-space:nowrap; }
+h1 { font-size:1.8rem; line-height:1.25; }
+.sub { color:var(--muted); margin:.4rem 0 1.2rem; font-size:.92rem; }
+.panel { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.2rem; margin-bottom:1rem; }
+.question { font-size:1.05rem; font-weight:900; margin-bottom:.8rem; }
+.choices { display:grid; grid-template-columns:repeat(2,1fr); gap:.7rem; }
+button { border:1px solid var(--border); background:var(--surface); border-radius:10px; padding:.75rem .8rem; cursor:pointer; text-align:left; font-weight:900; color:var(--text); font-family:inherit; font-size:.9rem; line-height:1.5; }
+button:hover { border-color:var(--blue); color:var(--blue); }
+button .hint { display:block; font-weight:400; font-size:.78rem; color:var(--muted); margin-top:.2rem; }
+button:hover .hint { color:var(--blue); }
+.result { display:none; border-left:4px solid var(--blue); }
+.result h2 { font-size:1.2rem; margin-bottom:.4rem; }
+.lv { font-family:'Consolas','Cascadia Code',monospace; background:#eef7fb; color:#116b88; padding:.1rem .45rem; border-radius:5px; }
+.note { color:var(--muted); font-size:.9rem; line-height:1.75; }
+.note strong { color:var(--text); }
+.scale { display:flex; gap:.35rem; margin:.9rem 0 .2rem; flex-wrap:wrap; }
+.scale span { flex:1; min-width:74px; text-align:center; font-size:.78rem; font-weight:900; padding:.4rem .2rem; border-radius:8px; border:1px solid #a5d9ea; color:#0d4a5c; background:#e8f4f9; }
+.scale span.s2 { background:#cfeaf3; }
+.scale span.s3 { background:#a5d9ea; border-color:#6ec4de; }
+.scale span.s4 { background:#6ec4de; border-color:var(--blue); }
+.scale span.s5 { background:var(--blue); border-color:var(--blue); color:#fff; }
+.scale-cap { display:flex; justify-content:space-between; font-size:.74rem; color:var(--muted); }
+.footer-note { background:var(--surface); border-radius:10px; padding:.8rem 1rem; font-size:.82rem; color:var(--muted); margin-top:1.2rem; }
+@media (max-width:720px) { body { padding:1rem; } .choices { grid-template-columns:1fr; } .top { align-items:flex-start; flex-direction:column; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a class="back" href="index.html">Web版へ戻る</a><h1>考える深さ（エフォート）選びフロー</h1></div>
+  <p class="sub">Claude Opus 5 は「考える深さ」を5段階で選べます。これから頼む仕事を選ぶと、最初に試す設定を表示します。</p>
+
+  <div class="scale">
+    <span>low</span>
+    <span class="s2">medium</span>
+    <span class="s3">high</span>
+    <span class="s4">xhigh</span>
+    <span class="s5">max</span>
+  </div>
+  <div class="scale-cap"><span>速い・安い</span><span>深い・高精度</span></div>
+
+  <section class="panel" style="margin-top:1.2rem">
+    <div class="question">これから Claude に頼む仕事は、どれに近いですか？</div>
+    <div class="choices">
+      <button onclick="showResult('routine')">定型のメール・議事録・要約<span class="hint">形が決まっていて、間違いにすぐ気づける</span></button>
+      <button onclick="showResult('research')">調査・資料づくり<span class="hint">情報を集めて、読める形にまとめたい</span></button>
+      <button onclick="showResult('critical')">契約書レビュー・提案書の精査<span class="hint">見落としが許されない、金額や責任が絡む</span></button>
+      <button onclick="showResult('multi')">複数工程をまとめて任せる<span class="hint">調べる→判断する→下書きまで一気に</span></button>
+    </div>
+  </section>
+
+  <section class="panel result" id="routine">
+    <h2>まずは <span class="lv">low</span> 〜 <span class="lv">medium</span></h2>
+    <p class="note">
+      形が決まっている仕事に深く考えさせても、品質はあまり変わりません。速さと費用を優先しましょう。<br>
+      Opus 5 は<strong>いちばん浅い low でも他社モデルより高いスコア</strong>を出しているので、定型業務ならこの範囲で十分なことが多いです。<br>
+      仕上がりが物足りないと感じたら medium に上げてください。
+    </p>
+  </section>
+
+  <section class="panel result" id="research">
+    <h2><span class="lv">medium</span> から始めて <span class="lv">high</span> へ</h2>
+    <p class="note">
+      調査やまとめ作業は、情報の取りこぼしが品質に直結します。medium で一度出させて、内容が浅ければ high に上げるのが効率的です。<br>
+      <strong>迷ったら medium から</strong>。これがいちばん失敗の少ない入り方です。
+    </p>
+  </section>
+
+  <section class="panel result" id="critical">
+    <h2>思い切って <span class="lv">xhigh</span> 〜 <span class="lv">max</span></h2>
+    <p class="note">
+      金額や責任が絡む仕事は、待ち時間と費用を払う価値があります。<br>
+      max では<strong>最上位モデル Fable 5 とわずか 0.5% 差</strong>まで迫ります。法務レビューの現場からは、Opus 4.8 と比べて<strong>26% 少ないトークンで同等品質</strong>という報告も出ています。<br>
+      ただし、最終確認と判断は必ず人が行ってください。
+    </p>
+  </section>
+
+  <section class="panel result" id="multi">
+    <h2><span class="lv">medium</span> で試し、詰まったら上げる</h2>
+    <p class="note">
+      Opus 5 は<strong>浅い設定でも他モデルより多くの業務を完遂</strong>します。まず medium で通し、途中で止まるようなら high 以上に上げましょう。<br>
+      任せる範囲は「調べる・まとめる・下書きまで」。<strong>送信や確定処理は人が行う</strong>、という線引きだけ守ってください。
+    </p>
+  </section>
+
+  <div class="footer-note">
+    深くするほどトークン消費と待ち時間が増えます。いつも max にするのではなく、仕事の重さで切り替えるのがコツです。<br>
+    出典: <a href="https://www.anthropic.com/news/claude-opus-5" target="_blank" style="color:var(--blue)">Anthropic 公式ブログ「Introducing Claude Opus 5」</a>（2026年7月24日公開）
+  </div>
+</main>
+<script>
+function showResult(id) {
+  document.querySelectorAll('.result').forEach(el => el.style.display = 'none');
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.summary-layout {
+  flex: 1;
+  display: flex;
+  gap: .8rem;
+  overflow: hidden;
+}
+.summary-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.summary-right {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.action-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .7rem .9rem;
+  display: flex;
+  gap: .7rem;
+  align-items: flex-start;
+  flex: 1;
+}
+.action-num {
+  min-width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .88rem; font-weight: 900; color: #fff;
+  flex-shrink: 0;
+}
+.action-body {}
+.action-title {
+  font-size: .86rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .2rem;
+}
+.action-detail {
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.action-code {
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  background: rgba(26,150,192,.08);
+  color: var(--blue);
+  border-radius: 6px;
+  padding: .15rem .5rem;
+  display: inline-block;
+  margin-top: .2rem;
+}
+.recap-box {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+  border-radius: 14px;
+  padding: .7rem .9rem;
+}
+.recap-title {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: .45rem;
+}
+.recap-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+.recap-list li {
+  font-size: .76rem;
+  color: var(--text);
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.5;
+}
+.recap-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: 700;
+}
+.cta-box {
+  background: var(--g-blue);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  text-align: center;
+}
+.cta-text {
+  font-size: .84rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.5;
+}
+.cta-sub {
+  font-size: .72rem;
+  color: rgba(255,255,255,.75);
+  margin-top: .3rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">WRAP UP</span>
+    <h2 class="slide-title">まとめ — 今日から試せる3つのアクション</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>3点の設定変更で、Claude Opus 4.7 の真の実力を引き出せる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="summary-layout">
+      <div class="summary-left">
+        <div class="action-card">
+          <span class="action-num" style="background:var(--g-blue)">1</span>
+          <div class="action-body">
+            <div class="action-title">エフォート設定を「xhigh」に変える</div>
+            <div class="action-detail">
+              ほとんどの作業でコストと品質のベストバランス。最初の設定として迷ったらこれ一択。
+              難しい問題は max に、簡単な確認は low/medium に使い分けよう。
+            </div>
+            <span class="action-code">effort: "xhigh"</span>
+          </div>
+        </div>
+        <div class="action-card">
+          <span class="action-num" style="background:var(--g-green)">2</span>
+          <div class="action-body">
+            <div class="action-title">thinking_budget の指定を削除する</div>
+            <div class="action-detail">
+              Opus 4.7 はアダプティブ思考で問題の難しさを自動判定する。
+              固定予算の手動設定は不要になった — 削除するだけで自動最適化してくれる。
+            </div>
+            <span class="action-code">thinking_budget の行を削除</span>
+          </div>
+        </div>
+        <div class="action-card">
+          <span class="action-num" style="background:var(--g-orange)">3</span>
+          <div class="action-body">
+            <div class="action-title">タスクを「走り切れる仕様書」として最初に伝える</div>
+            <div class="action-detail">
+              「何を・どのレベルまで・何をしないか」を最初に全部書く。
+              途中で都度確認するより、最初の1回で完結させる方がコストも品質も良くなる。
+            </div>
+            <span class="action-code">① 全体像 ② 成功基準 ③ 除外事項</span>
+          </div>
+        </div>
+      </div>
+      <div class="summary-right">
+        <div class="recap-box">
+          <div class="recap-title">📚 今日学んだこと</div>
+          <ul class="recap-list">
+            <li>Opus 4.7 は新しい「癖」があり移行チューニングが必要</li>
+            <li>エフォート設定（low〜max）で思考深さを制御</li>
+            <li>アダプティブ思考で thinking_budget は不要に</li>
+            <li>4.7はレスポンスが短め・ツール使用が慎重に</li>
+            <li>Auto モードで朝セット→通知受取の自律化が可能</li>
+            <li>エンジニアとして扱い最初に包括的に指示する</li>
+          </ul>
+        </div>
+        <div class="cta-box">
+          <div class="cta-text">✨ まず1つのルーティン作業を<br>Claudeに任せてみよう</div>
+          <div class="cta-sub">プログラミング知識は不要。<br>「包括的な指示 + xhigh + Auto mode」で始めてみよう</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

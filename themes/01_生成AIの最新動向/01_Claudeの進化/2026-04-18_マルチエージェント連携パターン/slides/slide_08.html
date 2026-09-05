@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(204,10,106,.12);color:var(--pink)">PATTERN 05</span>
+    <h2 class="slide-title">Shared State</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>全AIが「共有ノート」に書き込み・読み出しを行い、中央管理なしで協力する</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 355" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif"><defs data-se-magic="1"><style data-se-magic-style="1">
+      .magic-component { --magic-stroke: rgba(255,255,255,.55); }
+      .magic-component .magic-base { vector-effect: non-scaling-stroke; }
+      .magic-component .magic-rim { vector-effect: non-scaling-stroke; }
+    </style><linearGradient id="magic-grad-mo42hy2x_v" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2x_v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2x_v" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2y_w" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2y_w" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2y_w" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2y_x" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffebf3" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffdbea" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffb8d4" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2y_x" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2y_x" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d66693" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2y_y" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f6f4f4" stop-opacity="1"></stop><stop offset="46%" stop-color="#eeecec" stop-opacity="1"></stop><stop offset="100%" stop-color="#dddada" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2y_y" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2y_y" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#a69696" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter><linearGradient id="magic-grad-mo42hy2z_z" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffebf3" stop-opacity="1"></stop><stop offset="46%" stop-color="#ffdbea" stop-opacity="1"></stop><stop offset="100%" stop-color="#ffb8d4" stop-opacity="1"></stop></linearGradient><linearGradient id="magic-gloss-mo42hy2z_z" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"></stop><stop offset="38%" stop-color="#ffffff" stop-opacity="0.0288"></stop><stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop></linearGradient><filter id="magic-shadow-mo42hy2z_z" x="-30%" y="-30%" width="180%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="1.4" stdDeviation="1.6" flood-color="#d66693" flood-opacity="0.1"></feDropShadow><feDropShadow dx="0" dy="0.3" stdDeviation="0.4" flood-color="#ffffff" flood-opacity="0.04"></feDropShadow></filter></defs><line x1="409.3" y1="213.6" x2="449" y2="253.3" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+          <defs>
+            <marker id="arrowPk" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#cc0a6a"></path>
+            </marker>
+          </defs>
+
+          <!-- 中央: Shared State Store -->
+          <g data-magic="1" data-magic-id="mo42hy2z_z" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22179.4%22%20y%3D%22128%22%20width%3D%22235.1%22%20height%3D%2292.4%22%20rx%3D%2214%22%20fill%3D%22%23fff0f6%22%20stroke%3D%22%23cc0a6a%22%20stroke-width%3D%222.2%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="179.4" y="128" width="235.1" height="92.4" rx="14.8" fill="url(#magic-grad-mo42hy2z_z)" stroke="rgba(255,163,200,0.95)" stroke-width="2.1" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2z_z)" ry="14.8"></rect><rect x="179.4" y="128" width="235.1" height="92.4" rx="14" fill="url(#magic-gloss-mo42hy2z_z)" stroke="none" stroke-width="2.2" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="179.4" y="128" width="235.1" height="92.4" rx="14" fill="none" stroke="rgba(255,174,207,0.06)" stroke-width="1.785" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="295" y="157" text-anchor="middle" font-size="14" font-weight="700" fill="#cc0a6a">Shared State Store</text>
+          <text x="295" y="176" text-anchor="middle" font-size="10.5" fill="#5e6a8a">共有知識ベース（永続ストア）</text>
+          <text x="295" y="196" text-anchor="middle" font-size="9.5" fill="#5e6a8a">論文要約 / 業界動向 / 特許データ / 統合レポート…</text>
+
+          <!-- Agent 1: 文献調査 AI (左上) -->
+          <g data-magic="1" data-magic-id="mo42hy2x_v" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2215%22%20y%3D%2233.5%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="15" y="33.5" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2x_v)" stroke="rgba(210,208,208,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2x_v)" ry="10"></rect><rect x="15" y="33.5" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2x_v)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="15" y="33.5" width="150" height="55" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90" y="56.5" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">文献調査 AI</text>
+          <text x="90" y="74.5" text-anchor="middle" font-size="9.5" fill="#5e6a8a">論文・研究レポート収集</text>
+
+          <!-- Agent 2: 業界分析 AI (右上) -->
+          <g data-magic="1" data-magic-id="mo42hy2y_w" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22425%22%20y%3D%2233.5%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="425" y="33.5" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2y_w)" stroke="rgba(210,208,208,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2y_w)" ry="10"></rect><rect x="425" y="33.5" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2y_w)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="425" y="33.5" width="150" height="55" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="500" y="56.5" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">業界分析 AI</text>
+          <text x="500" y="74.5" text-anchor="middle" font-size="9.5" fill="#5e6a8a">市場・競合トレンド分析</text>
+
+          <!-- Agent 3: 特許調査 AI (左下) -->
+          <g data-magic="1" data-magic-id="mo42hy2y_y" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%2215%22%20y%3D%22256%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff%22%20stroke%3D%22%23dde2ec%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="15" y="256" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2y_y)" stroke="rgba(210,208,208,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2y_y)" ry="10"></rect><rect x="15" y="256" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2y_y)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="15" y="256" width="150" height="55" rx="10" fill="none" stroke="rgba(215,214,214,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="90" y="279" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">特許調査 AI</text>
+          <text x="90" y="297" text-anchor="middle" font-size="9.5" fill="#5e6a8a">特許・IP情報の収集</text>
+
+          <!-- Agent 4: 統合レポート AI (右下) -->
+          <g data-magic="1" data-magic-id="mo42hy2y_x" data-magic-theme="flowchart-clean" data-magic-src="%3Crect%20x%3D%22425%22%20y%3D%22256%22%20width%3D%22150%22%20height%3D%2255%22%20rx%3D%2210%22%20fill%3D%22%23fff0f6%22%20stroke%3D%22%23cc0a6a%22%20stroke-width%3D%221.5%22%20style%3D%22cursor%3A%20pointer%3B%22%3E%3C%2Frect%3E" class="magic-component"><rect x="425" y="256" width="150" height="55" rx="10" fill="url(#magic-grad-mo42hy2y_x)" stroke="rgba(255,163,200,0.95)" stroke-width="1.3" class="magic-base" data-magic-role="base" data-se-ignore="1" stroke-linejoin="round" stroke-linecap="round" filter="url(#magic-shadow-mo42hy2y_x)" ry="10"></rect><rect x="425" y="256" width="150" height="55" rx="10" fill="url(#magic-gloss-mo42hy2y_x)" stroke="none" stroke-width="1.5" class="magic-highlight" data-magic-role="highlight" data-se-ignore="1" pointer-events="none" opacity="0.2"></rect><rect x="425" y="256" width="150" height="55" rx="10" fill="none" stroke="rgba(255,174,207,0.06)" stroke-width="1.105" class="magic-rim" data-magic-role="rim" data-se-ignore="1" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></rect></g>
+          <text x="500" y="279" text-anchor="middle" font-size="11" font-weight="700" fill="#cc0a6a">統合レポート AI</text>
+          <text x="500" y="297" text-anchor="middle" font-size="9.5" fill="#5e6a8a">全情報をまとめて出力</text>
+
+          <!-- 双方向矢印: Agent 1 ↔ Store -->
+          
+          
+
+          <!-- 双方向矢印: Agent 2 ↔ Store -->
+          
+          
+
+          <!-- 双方向矢印: Agent 3 ↔ Store -->
+          <line x1="139.9" y1="256.4" x2="179.4" y2="216.9" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line><line x1="394.8" y1="128" x2="434" y2="88.8" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+          <line x1="188.1" y1="220.4" x2="153.8" y2="254.7" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line><line x1="452.9" y1="88.8" x2="413.3" y2="128.4" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+
+          <!-- 双方向矢印: Agent 4 ↔ Store -->
+          <line x1="153.8" y1="88" x2="191.8" y2="126" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+          <line x1="435.2" y1="255.6" x2="401.9" y2="222.3" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line><line x1="183" y1="132" x2="141.5" y2="90.5" stroke="#cc0a6a" stroke-width="1.7" marker-end="url(#arrowPk)"></line>
+
+          <!-- 読み書きラベル -->
+          <text x="132.7" y="119" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+          <text x="452.5" y="123.4" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+          <text x="135.6" y="234.9" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+          <text x="459.1" y="234.9" text-anchor="middle" font-size="8.5" fill="#cc0a6a" font-weight="600">読み書き</text>
+
+          <!-- 特徴テキスト -->
+          <text x="295" y="348" text-anchor="middle" font-size="14.5" fill="#5e6a8a">単一障害点がなく、どのAIがダウンしても他が引き続き稼働できる</text>
+        </svg>
+      </div>
+
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">💼 実務シナリオ: 市場調査レポート自動生成</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--pink)">1</span>
+            <p>文献・業界・特許の各調査AIが独立して情報を収集しStoreに書き込み</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--pink)">2</span>
+            <p>他のAIの書き込み内容をリアルタイムに参照しながら調査を深掘り</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--pink)">3</span>
+            <p>統合レポートAIがStore全体を読み込み、1本の報告書を生成</p>
+          </div>
+        </div>
+
+        <div class="ok-box">
+          <div class="box-title">✅ 使えるシーン</div>
+          <ul class="box-list">
+            <li>各AIがリアルタイムに互いの発見を参照したい場合</li>
+            <li>単一障害点を排除したい高可用性が必要な構成</li>
+          </ul>
+        </div>
+
+        <div class="ng-box">
+          <div class="box-title">⚠️ 失敗パターン</div>
+          <ul class="box-list">
+            <li>終了条件がない → 「誰かが書いたら自分も書く」の無限ループ</li>
+            <li>同じ調査を複数AIが重複実行しコストが膨らむ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

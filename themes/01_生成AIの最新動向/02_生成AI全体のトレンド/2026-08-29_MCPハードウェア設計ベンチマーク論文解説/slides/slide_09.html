@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>設定で天国と地獄</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">結果② 設定</span>
+    <h2 class="slide-title">設定で天国と地獄 — 説明書は“詳しいほど”勝つ</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>プロンプト例は諸刃の剣。ツール説明を削ると全モデルで失敗が2倍に</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="プロンプトとツール説明の影響">
+        <!-- 左: プロンプト -->
+        <text x="34" y="22" font-size="11" font-weight="900" fill="#5e6a8a">① プロンプト4種を比較（ReAct）</text>
+        <rect x="20" y="30" width="286" height="170" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="52" font-size="11" font-weight="700" fill="#1a1d2e">none / basic / MD(見出し付き) / few-shot(例付き)</text>
+        <rect x="34" y="64" width="258" height="42" rx="8" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="163" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">MDが5/7モデルで最良（でも差は0.04以内）</text>
+        <text x="163" y="96" text-anchor="middle" font-size="10" fill="#5e6a8a">整形は小さく効く</text>
+
+        <rect x="34" y="118" width="258" height="66" rx="8" fill="#fdecee" stroke="#c9162e"/>
+        <text x="163" y="138" text-anchor="middle" font-size="11" font-weight="900" fill="#c9162e">few-shotは“諸刃”で暴落あり</text>
+        <text x="163" y="156" text-anchor="middle" font-size="9.5" fill="#1a1d2e">Gemma31B 0.956→<tspan fill="#c9162e" font-weight="900">0.571</tspan>　E4B 0.731→<tspan fill="#c9162e" font-weight="900">0.179</tspan></text>
+        <text x="163" y="172" text-anchor="middle" font-size="10" fill="#5e6a8a">何もしない“沈黙”が増える（EVCRもTFRも下がる）</text>
+
+        <!-- 右: ツール説明 -->
+        <text x="334" y="22" font-size="11" font-weight="900" fill="#5e6a8a">② ツール説明の詳しさ（約2000トークン差）</text>
+        <rect x="320" y="30" width="280" height="170" rx="12" fill="#ffffff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="460" y="54" text-anchor="middle" font-size="11" font-weight="900" fill="#7a3bce">包括的（comprehensive）が圧勝</text>
+        <rect x="334" y="64" width="252" height="52" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="460" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">失敗率TFRが全モデルでほぼ半減</text>
+        <text x="460" y="98" text-anchor="middle" font-size="11" fill="#5e6a8a">パラメータ意味・制約・失敗条件を明記</text>
+        <rect x="334" y="126" width="252" height="48" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="460" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">ベスト設定の83%が包括的を選ぶ</text>
+        <text x="460" y="160" text-anchor="middle" font-size="11" fill="#7a3bce" font-weight="700">42ケース中35ケース</text>
+
+        <!-- 下段: 業務教訓 -->
+        <rect x="20" y="216" width="580" height="194" rx="14" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="310" y="244" text-anchor="middle" font-size="13" font-weight="900" fill="#1a1d2e">明日から使える教訓</text>
+        <rect x="40" y="258" width="260" height="68" rx="10" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="170" y="282" text-anchor="middle" font-size="11" font-weight="900" fill="#7a3bce">説明書はケチらない</text>
+        <text x="170" y="302" text-anchor="middle" font-size="11" fill="#1a1d2e">1ツール1文ではなく、引数の意味と</text>
+        <text x="170" y="318" text-anchor="middle" font-size="11" fill="#1a1d2e">NG例まで書く。トークンは安い</text>
+
+        <rect x="320" y="258" width="260" height="68" rx="10" fill="#ffffff" stroke="#c9162e"/>
+        <text x="450" y="282" text-anchor="middle" font-size="11" font-weight="900" fill="#c9162e">例は“相性”を見る</text>
+        <text x="450" y="302" text-anchor="middle" font-size="11" fill="#1a1d2e">few-shotはモデルにより沈黙を誘発</text>
+        <text x="450" y="318" text-anchor="middle" font-size="11" fill="#1a1d2e">必ず本番データでA/Bテストする</text>
+
+        <rect x="40" y="338" width="540" height="48" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="310" y="360" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">事務フローに置き換えると「マニュアルを1行で済ませる vs 手順とNG例まで書く」の差</text>
+        <text x="310" y="378" text-anchor="middle" font-size="11" fill="#7a3bce" font-weight="700">→ 2000トークン削って得するものはほぼない</text>
+
+        <text x="34" y="420" font-size="10" fill="#5e6a8a">■紫枠＝主役の結論　■赤枠＝要注意</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">説</span><p>「端子を作って」だけ vs 「部品acme:core:topに、in向き・幅1のclkを。存在しない部品ならエラー」まで書く</p></div>
+        <div class="biz-step"><span class="snum" style="background:#c9162e">例</span><p>新人研修で“良い例”を見せすぎて、例と違う依頼では固まる部下のようなもの</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 今日からできること</div>
+        <ul class="box-list">
+          <li>MCPツールのdescriptionは包括的に — 削らない</li>
+          <li>few-shotを使うならターゲットモデルで必ず検証</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 失敗パターン</div>
+        <ul class="box-list">
+          <li>「トークン節約」で説明を1文に → 失敗2倍で本末転倒</li>
+          <li>他モデルで成功した例をそのまま流用 → 沈黙の罠</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

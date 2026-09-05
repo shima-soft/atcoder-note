@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">キー戦略②</span>
+    <h2 class="slide-title">二分探索で K の所属シーケンスを見つける</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">定番パターン</span>
+      <p>ソート済みの累積和に対して二分探索を使って O(log N) で位置を特定</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <svg viewBox="0 0 420 320" style="width:100%;height:100%;max-width:420px;">
+        <!-- タイトル -->
+        <text x="210" y="25" font-size="14" font-weight="700" text-anchor="middle" fill="#1a1d2e">
+          二分探索で「K はどこ？」
+        </text>
+
+        <!-- 累積和配列 -->
+        <text x="10" y="50" font-size="10" font-weight="700" fill="#5e6a8a">
+          cumsum = [3, 12, 18]
+        </text>
+
+        <!-- K=9 のケース -->
+        <text x="10" y="75" font-size="11" font-weight="700" fill="#1a1d2e">
+          探索: K = 9
+        </text>
+
+        <!-- ステップ1 -->
+        <rect x="10" y="90" width="400" height="50" fill="#e8f5f0" stroke="var(--green)" stroke-width="2" rx="6"/>
+        <text x="20" y="107" font-size="10" font-weight="700" fill="var(--green)">
+          Step 1: 二分探索開始
+        </text>
+        <text x="20" y="122" font-size="9" fill="#1a1d2e">
+          左=0, 右=2 / mid=1
+        </text>
+        <text x="20" y="133" font-size="9" fill="#1a1d2e">
+          cumsum[1] = 12 ≥ 9 → 右を詰める (右=0)
+        </text>
+
+        <!-- ステップ2 -->
+        <rect x="10" y="145" width="400" height="50" fill="#e8f5f0" stroke="var(--green)" stroke-width="2" rx="6"/>
+        <text x="20" y="162" font-size="10" font-weight="700" fill="var(--green)">
+          Step 2: 探索継続
+        </text>
+        <text x="20" y="177" font-size="9" fill="#1a1d2e">
+          左=0, 右=0 / mid=0
+        </text>
+        <text x="20" y="188" font-size="9" fill="#1a1d2e">
+          cumsum[0] = 3 &lt; 9 → 左を進める (左=1)
+        </text>
+
+        <!-- ステップ3 -->
+        <rect x="10" y="200" width="400" height="50" fill="#fff8e8" stroke="var(--orange)" stroke-width="2" rx="6"/>
+        <text x="20" y="217" font-size="10" font-weight="700" fill="var(--orange)">
+          Step 3: 探索完了
+        </text>
+        <text x="20" y="232" font-size="9" fill="#1a1d2e">
+          左 &gt; 右 で終了 → インデックス = 1 (A[1])
+        </text>
+        <text x="20" y="243" font-size="9" fill="#1a1d2e">
+          👉 K=9 は A[1] (2番目のシーケンス) に属する
+        </text>
+
+        <!-- 複雑度 -->
+        <rect x="10" y="258" width="400" height="50" fill="rgba(26,150,192,.08)" stroke="var(--blue)" stroke-width="1" rx="6"/>
+        <text x="20" y="275" font-size="10" font-weight="700" fill="var(--blue)">
+          計算量: O(log N)
+        </text>
+        <text x="20" y="288" font-size="9" fill="#1a1d2e">
+          N ≤ 2×10⁵ でも log N ≈ 18 — 数十回のループで終了
+        </text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 二分探索の役割</div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">1</div>
+          <p>累積和は「右肩上がり」の配列</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">2</div>
+          <p>K を二分探索で探す = 「K 以上の最小インデックスを見つける」</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">3</div>
+          <p>そのインデックスが「K が属するシーケンス」</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 二分探索の利点</div>
+        <ul class="box-list">
+          <li>計算量 O(log N)：高速</li>
+          <li>N が最大 2×10⁵ でも安全</li>
+          <li>定番パターンなので実装簡単</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 実装時の注意</div>
+        <ul class="box-list">
+          <li>左右の境界条件を正確に</li>
+          <li>インデックスのズレに注意</li>
+          <li>累積和の最後の要素を超えないか確認</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

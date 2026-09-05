@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>新しさはエンコーダーなし設計</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">ARCHITECTURE</span>
+    <h2 class="slide-title">新しさはエンコーダーなし設計</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>画像や音声を別の専門部署で翻訳せず、LLM本体に近い場所へ直接渡す</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="Gemma 4 12Bのエンコーダーなし設計">
+        <rect x="20" y="40" width="250" height="150" rx="16" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="145" y="72" text-anchor="middle" font-size="18" font-weight="900" fill="#1a1d2e">従来のマルチモーダル</text>
+        <rect x="45" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="90" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">画像</text>
+        <rect x="155" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="200" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">音声</text>
+        <path d="M90 147 L90 168 M200 147 L200 168" stroke="#5e6a8a" stroke-width="2"/>
+        <rect x="45" y="168" width="200" height="42" rx="10" fill="#fff7ed" stroke="#d96018"/>
+        <text x="145" y="195" text-anchor="middle" font-size="14" font-weight="700" fill="#d96018">別エンコーダーで変換</text>
+
+        <rect x="350" y="40" width="250" height="150" rx="16" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="475" y="72" text-anchor="middle" font-size="18" font-weight="900" fill="#1a1d2e">Gemma 4 12B</text>
+        <rect x="375" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="420" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">画像</text>
+        <rect x="485" y="105" width="90" height="42" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="530" y="132" text-anchor="middle" font-size="14" fill="#1a1d2e">音声</text>
+        <path d="M420 147 L460 208 M530 147 L500 208" stroke="#7a3bce" stroke-width="3"/>
+        <rect x="380" y="208" width="190" height="48" rx="12" fill="#7a3bce"/>
+        <text x="475" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">LLM本体へ直接入力</text>
+
+        <rect x="95" y="275" width="430" height="80" rx="16" fill="#fff" stroke="#dde2ec"/>
+        <text x="310" y="308" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e">ねらい: 低メモリ・低遅延・チューニングしやすさ</text>
+        <text x="310" y="338" text-anchor="middle" font-size="14" fill="#5e6a8a">Vision: 35M embedder / Audio: 16kHz音声を40msフレームで投影</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">仕組みを日常で例えると</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">旧</span><p>画像係・音声係が内容を翻訳してから本部へ報告</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">新</span><p>本部が最初から画像・音声の材料を受け取って考える</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">効きやすいポイント</div>
+        <ul class="box-list">
+          <li>別エンコーダー分のメモリと待ち時間を減らしやすい</li>
+          <li>LoRAなどの追加学習で全体を一体的に調整しやすい</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">誤解しやすい点</div>
+        <ul class="box-list">
+          <li>エンコーダーなしでも、軽量な埋め込み処理は存在する</li>
+          <li>小型化しても、長い動画や音声はメモリ負荷が上がる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

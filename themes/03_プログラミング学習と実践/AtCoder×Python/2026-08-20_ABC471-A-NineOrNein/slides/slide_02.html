@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .5rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .3rem;
+  letter-spacing: .03em;
+}
+.prob-card p {
+  font-size: .85rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.prob-card p strong {
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .55rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .12rem;
+}
+.meta-card ul li {
+  font-size: .82rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .18rem .55rem;
+  font-size: .8rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+  display: inline-block;
+  margin-bottom: .2rem;
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .55rem 1rem;
+  flex: 1;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .8rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .25rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .25rem .8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .75rem;
+}
+.sample-table td.correct {
+  color: var(--green);
+  font-weight: 900;
+}
+.sample-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">ABC471 A — Nine or Nein</h2>
+  </div>
+  <div class="slide-body">
+
+    <!-- 問題文 -->
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p>正の整数 <strong>A</strong>・<strong>B</strong> が与えられます。
+         「<strong>A＋B</strong>」「<strong>A－B</strong>」「<strong>A×B</strong>」「<strong>A÷B</strong>」の4つの計算結果のうち、
+         <strong>どれか1つでも 9 に等しければ "Nine"</strong>、どれも9でなければ <strong>"Nein"</strong> を出力してください。</p>
+    </div>
+
+    <!-- 制約 + 入力形式 -->
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約（入力の範囲）</h4>
+        <ul>
+          <li>1 ≤ A ≤ 100</li>
+          <li>1 ≤ B ≤ 100</li>
+          <li>A・Bはすべて整数</li>
+        </ul>
+        <p class="hint">→ 数が小さいのでループは不要。4つの式を計算するだけでよいと分かる</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力の形式</h4>
+        <code>A B</code>
+        <p class="hint" style="margin-top:.35rem">1行に A と B が空白区切りで与えられる</p>
+        <p class="hint">例: <code style="font-size:.72rem">16 7</code> → A=16, B=7</p>
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="sample-card">
+      <h4>📊 入出力例で確認</h4>
+      <table class="sample-table">
+        <tr>
+          <th style="width:110px">入力</th>
+          <th style="width:80px">出力</th>
+          <th>なぜそうなる？</th>
+        </tr>
+        <tr>
+          <td>16 7</td>
+          <td class="correct">Nine</td>
+          <td class="note">16 − 7 = 9 が一致</td>
+        </tr>
+        <tr>
+          <td>66 7</td>
+          <td>Nein</td>
+          <td class="note">73・59・462・9.43… — どの式も9にならない</td>
+        </tr>
+        <tr>
+          <td>9 1</td>
+          <td class="correct">Nine</td>
+          <td class="note">9 × 1 = 9 が一致</td>
+        </tr>
+        <tr>
+          <td>9 9</td>
+          <td>Nein</td>
+          <td class="note">18・0・81・1 — どれも9にならない</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC469 D: The Big Two - 実装と計算量</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">実装と計算量</span>
+      <h2 class="class-title">効率的な実装のポイント</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>計算量を抑えるための分類とカウント</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <p style="text-align: center; font-weight: 900; margin: 0;">
+          計算量のまとめ<br>
+          <span style="font-size: 2rem; color: var(--green);">O(N + M)</span>
+        </p>
+      </div>
+      <div class="info-col">
+        <div>
+          <h4>実装のステップ</h4>
+          <ol style="padding-left: 1.2rem; font-size: 0.85rem;">
+            <li>各試合 $i$ について $freq[A_i] += 1, freq[B_i] += 1$ を計算</li>
+            <li>プレイヤーを $freq$ に基づいてグループ分け</li>
+            <li>$Z$ を含むペアを数える</li>
+            <li>$S_{large}$ を軸にして他の $y$ を走査</li>
+            <li>$S_{mid}$ の間で「一度も決勝のペアになっていない」ものを数える</li>
+          </ol>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ ポイント</div>
+          <ul class="box-list">
+            <li style="margin-bottom: 0.5rem;">$S_{large}$ のサイズが小さいことを利用して、$N$ 回の走査に抑える</li>
+            <li style="margin-bottom: 0.5rem;">「一度も決勝のペアになっていない」は、入力のセットをハッシュマップ等で管理することで高速判定可能</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li style="margin-bottom: 0.5rem;">$S_{mid}$ のペアを数える際、重複（同じペアを2回数えること）に注意する</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

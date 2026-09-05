@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css">
+<style>.flow { flex:1; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.5rem; display:flex; align-items:center; justify-content:center; }</style></head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">CHOICE GUIDE</span>
+    <h2 class="slide-title">どの自動化を選ぶ？</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>「文脈を残すか」「毎回独立か」「CIで動かすか」で選ぶ</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="flow">
+      <svg viewBox="0 0 1060 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5e6a8a"/></marker></defs>
+        <rect x="430" y="26" width="200" height="58" rx="14" fill="#eef8fc" stroke="#1a96c0" stroke-width="2"/>
+        <text x="530" y="51" text-anchor="middle" font-size="15" font-weight="900" fill="#1a96c0">自動化したい作業</text>
+        <text x="530" y="71" text-anchor="middle" font-size="12" fill="#5e6a8a">まず目的で分ける</text>
+        <line x1="530" y1="84" x2="530" y2="124" stroke="#5e6a8a" stroke-width="2" marker-end="url(#a)"/>
+        <polygon points="530,120 670,175 530,230 390,175" fill="#fff" stroke="#1a96c0" stroke-width="2"/>
+        <text x="530" y="170" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">同じ会話の文脈を</text>
+        <text x="530" y="190" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">残したい？</text>
+        <line x1="390" y1="175" x2="236" y2="175" stroke="#5e6a8a" stroke-width="2" marker-end="url(#a)"/>
+        <text x="310" y="163" font-size="12" font-weight="900" fill="#008f6a">YES</text>
+        <rect x="46" y="146" width="190" height="58" rx="12" fill="#eef8fc" stroke="#1a96c0" stroke-width="2"/>
+        <text x="141" y="171" text-anchor="middle" font-size="15" font-weight="900" fill="#1a96c0">Thread automation</text>
+        <text x="141" y="191" text-anchor="middle" font-size="12" fill="#5e6a8a">見守り・継続レビュー</text>
+        <line x1="670" y1="175" x2="820" y2="175" stroke="#5e6a8a" stroke-width="2" marker-end="url(#a)"/>
+        <text x="736" y="163" font-size="12" font-weight="900" fill="#c9162e">NO</text>
+        <polygon points="900,120 1030,175 900,230 770,175" fill="#fff" stroke="#008f6a" stroke-width="2"/>
+        <text x="900" y="170" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">GitHub Actionsや</text>
+        <text x="900" y="190" text-anchor="middle" font-size="15" font-weight="900" fill="#1a1d2e">CIで動かす？</text>
+        <line x1="900" y1="230" x2="900" y2="292" stroke="#5e6a8a" stroke-width="2" marker-end="url(#a)"/>
+        <text x="918" y="264" font-size="12" font-weight="900" fill="#008f6a">YES</text>
+        <rect x="786" y="300" width="228" height="58" rx="12" fill="#f0faf6" stroke="#008f6a" stroke-width="2"/>
+        <text x="900" y="325" text-anchor="middle" font-size="15" font-weight="900" fill="#008f6a">codex exec / GitHub Action</text>
+        <text x="900" y="345" text-anchor="middle" font-size="12" fill="#5e6a8a">CIレビュー・自動修正案</text>
+        <line x1="770" y1="175" x2="680" y2="312" stroke="#5e6a8a" stroke-width="2" marker-end="url(#a)"/>
+        <text x="715" y="252" font-size="12" font-weight="900" fill="#c9162e">NO</text>
+        <rect x="440" y="300" width="240" height="58" rx="12" fill="#fff8e8" stroke="#a86a00" stroke-width="2"/>
+        <text x="560" y="325" text-anchor="middle" font-size="15" font-weight="900" fill="#a86a00">Standalone automation</text>
+        <text x="560" y="345" text-anchor="middle" font-size="12" fill="#5e6a8a">日次・週次の独立点検</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</body></html>

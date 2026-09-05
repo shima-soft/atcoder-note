@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC472 D - Bomber Mad 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">アルゴリズム解説 (2)</span>
+      <h2 class="slide-title">全マスから調べるのは間に合わない</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>50万 × 50万 ＝ 約2,500億。「逆から」考えれば探索は1回でいい</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <svg viewBox="0 0 620 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- NGカード -->
+          <rect x="24" y="36" width="572" height="158" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <rect x="32" y="52" width="4" height="126" fill="var(--red)"/>
+          <text x="52" y="68" text-anchor="start" font-size="16.5" font-weight="bold" fill="var(--red)">❌ 直球アプローチ：各空マスから個別にBFS</text>
+          <rect x="52" y="86" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="167" y="120" text-anchor="middle" font-size="15" fill="var(--text)">空マス 最大50万個</text>
+          <text x="300" y="121" text-anchor="middle" font-size="20" font-weight="bold" fill="var(--muted)">×</text>
+          <rect x="318" y="86" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="433" y="120" text-anchor="middle" font-size="15" fill="var(--text)">1回の探索 最大50万歩</text>
+          <text x="52" y="172" text-anchor="start" font-size="18" font-weight="bold" fill="var(--red)">＝ 最悪 約2,500億ステップ</text>
+
+          <!-- 転換の矢印 -->
+          <path d="M 310 202 L 310 220" stroke="var(--orange)" stroke-width="3" fill="none" marker-end="url(#arrow-o)"/>
+          <text x="330" y="220" text-anchor="start" font-size="14" font-weight="bold" fill="var(--orange)">発想の転換：向きを逆に</text>
+
+          <!-- OKカード -->
+          <rect x="24" y="232" width="572" height="158" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <rect x="32" y="248" width="4" height="126" fill="var(--green)"/>
+          <text x="52" y="264" text-anchor="start" font-size="16.5" font-weight="bold" fill="var(--green)">⭕ 多始点BFS：安全マス側から同時に広げる</text>
+          <rect x="52" y="282" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="167" y="316" text-anchor="middle" font-size="15" fill="var(--text)">出発点＝全安全マス</text>
+          <text x="300" y="317" text-anchor="middle" font-size="20" font-weight="bold" fill="var(--muted)">＋</text>
+          <rect x="318" y="282" width="230" height="54" rx="10" fill="var(--bg)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="433" y="316" text-anchor="middle" font-size="15" fill="var(--text)">探索はたった1回</text>
+          <text x="52" y="368" text-anchor="start" font-size="18" font-weight="bold" fill="var(--green)">＝ 約50万ステップで全マス確定</text>
+
+          <!-- 下段メモ -->
+          <text x="24" y="408" text-anchor="start" font-size="13.5" fill="var(--muted)">Python目安：O(N²) が耐えられるのは N ≤ 3,000。今回は N（マス数）≤ 50万。</text>
+
+          <defs>
+            <marker id="arrow-o" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+              <path d="M0,0 L0,7 L7,3.5 Z" fill="var(--orange)"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <h4 style="margin:0 0 .3rem 0;font-size:.78rem">💡 例えるなら</h4>
+          <p style="font-size:.82rem;line-height:1.55">全国50万件の配送先それぞれから「最寄りの倉庫までの距離」を、<strong>1件ずつ地図を舐めて</strong>調べるのは非現実的。<strong>倉庫全部から同時に塗り広げれば</strong>、地図1枚分の作業で済む。</p>
+        </div>
+        <div class="ng-box">
+          <div class="box-title" style="color:var(--red)">⚠️ 直球アプローチの計算量</div>
+          <ul class="box-list">
+            <li>マスごとにBFS → 最悪 O((HW)<sup>2</sup>) ≒ 2,500億ステップ</li>
+            <li>制限時間2秒では絶対に終わらない</li>
+          </ul>
+        </div>
+        <div class="ok-box">
+          <div class="box-title" style="color:var(--green)">✅ 気づき</div>
+          <ul class="box-list">
+            <li>知りたいのは「最寄りの安全マスまでの距離」だけ</li>
+            <li>出発点を安全マス側にすれば、探索は<strong>1回でよい</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

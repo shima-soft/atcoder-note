@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.term-link    {
+  font-size: .65rem;
+  color: var(--blue);
+  text-decoration: none;
+  margin-top: auto;
+  padding-top: .25rem;
+  align-self: flex-start;
+  white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+.term-desc code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 .25rem;
+  font-family: 'Consolas','Courier New',monospace;
+  font-size: .72rem;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">シミュレーション</span>
+          <span class="term-reading">シミュレーション</span>
+        </div>
+        <p class="term-desc">問題文の手順をそのままプログラムで再現する解き方。確実だが、回数が多いと時間が足りなくなる。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">TLE</span>
+          <span class="term-reading">ティーエルイー</span>
+        </div>
+        <p class="term-desc">Time Limit Exceeded の略。実行時間の制限を超えて不正解になること。今回の制限は2秒。</p>
+        <a class="term-link" href="https://atcoder.jp/contests/abc469/tasks/abc469_c" target="_blank">問題ページ（実行時間制限） 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">計算量</span>
+          <span class="term-reading">けいさんりょう</span>
+        </div>
+        <p class="term-desc">N が増えたとき処理回数がどう増えるかの目安。O(N) は N に比例。Python では 1000万回あたりが2秒の目安。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">不変量</span>
+          <span class="term-reading">ふへんりょう</span>
+        </div>
+        <p class="term-desc">操作を繰り返しても崩れない関係式。今回の「手持ちの当たり = k − 引いたはずれの数」がそれにあたる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/ループ不変条件" target="_blank">Wikipedia: ループ不変条件 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">添字</span>
+          <span class="term-reading">そえじ</span>
+        </div>
+        <p class="term-desc">文字列やリストの「何番目か」を表す番号。Python は0から数えるので、人が数える位置にするには +1 する。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/tutorial/introduction.html#strings" target="_blank">Python ドキュメント: 文字列 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">sys.stdin.read</span>
+          <span class="term-reading">システムスタンダードインリード</span>
+        </div>
+        <p class="term-desc">標準入力をまとめて1回で読み込む関数。<code>input()</code> を何十万回も呼ぶより圧倒的に速い。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python ドキュメント: sys.stdin 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">str.join</span>
+          <span class="term-reading">ストリング ジョイン</span>
+        </div>
+        <p class="term-desc">リストの中身を区切り文字でつないで1つの文字列にする。大量の行を一度に出力するときの定番。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#str.join" target="_blank">Python ドキュメント: str.join 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本の競技プログラミングサイト。毎週コンテストがあり、初心者向けの ABC が入門に最適。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

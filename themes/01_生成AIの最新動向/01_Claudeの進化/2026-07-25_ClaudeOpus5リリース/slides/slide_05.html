@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">SELF-VERIFY</span>
+    <h2 class="slide-title">自分で答え合わせをして直す</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>「できました」で終わらせず、自分で試し、間違いを見つけ、直してから返してくるようになった</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          box[i].x = 20 + i * 140  (boxWidth=110, gap=30, 送り幅=140)
+          center[i] = 75, 215, 355   最右ボックス右端 = 300+110 = 410
+          結果バッジ: x=420 w=64 (center=452, 右端484)
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="640" height="320" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <!-- BEFORE -->
+          <text x="20" y="30" font-size="10" font-weight="700" fill="#5e6a8a">BEFORE（これまでのモデル）</text>
+          <rect x="20"  y="40" width="110" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <text x="75"  y="64" text-anchor="middle" font-size="10" fill="#5e6a8a">作業する</text>
+          <text x="145" y="65" text-anchor="middle" font-size="14" fill="#5e6a8a">→</text>
+          <rect x="160" y="40" width="110" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <text x="215" y="64" text-anchor="middle" font-size="10" fill="#5e6a8a">できたと判断</text>
+          <text x="285" y="65" text-anchor="middle" font-size="14" fill="#5e6a8a">→</text>
+          <rect x="300" y="40" width="110" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <text x="355" y="64" text-anchor="middle" font-size="10" fill="#5e6a8a">そのまま提出</text>
+          <rect x="420" y="40" width="64" height="40" rx="8" fill="#fdeaec" stroke="#c9162e" stroke-width="1"/>
+          <text x="452" y="64" text-anchor="middle" font-size="10" font-weight="700" fill="#c9162e">不具合</text>
+
+          <!-- 区切り -->
+          <line x1="20" y1="100" x2="484" y2="100" stroke="#dde2ec" stroke-width="1" stroke-dasharray="4 4"/>
+
+          <!-- AFTER -->
+          <text x="20" y="125" font-size="10" font-weight="700" fill="#1a96c0">AFTER（Opus 5）</text>
+          <rect x="20"  y="135" width="110" height="40" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="75"  y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">作業する</text>
+          <text x="145" y="160" text-anchor="middle" font-size="14" fill="#1a96c0">→</text>
+          <rect x="160" y="135" width="110" height="40" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="215" y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">自分で点検</text>
+          <text x="285" y="160" text-anchor="middle" font-size="14" fill="#1a96c0">→</text>
+          <rect x="300" y="135" width="110" height="40" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="355" y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">直してから提出</text>
+          <rect x="420" y="135" width="64" height="40" rx="8" fill="rgba(0,143,106,.12)" stroke="#008f6a" stroke-width="1"/>
+          <text x="452" y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">完了</text>
+
+          <!-- 戻りループ -->
+          <path d="M 215,178 C 215,200 75,200 75,180" fill="none" stroke="#1a96c0" stroke-width="1.5"/>
+          <polygon points="70,181 80,181 75,173" fill="#1a96c0"/>
+          <text x="145" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#1a96c0">問題があれば自分で戻ってやり直す</text>
+
+          <!-- 補足 -->
+          <text x="250" y="240" text-anchor="middle" font-size="9" fill="#5e6a8a">※ 検証と修正の往復を、指示されなくても自分で回すようになった</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 Anthropic が公開した実例</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>図面から3Dモデルを作る課題。ただし図面は直接見られない</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>Opus 5 は形を読み取るプログラムを自作して情報を取り出した</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>他モデルが5回試しても解けなかった課題を、何度も成功させた</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 業務での効果</div>
+          <ul class="box-list">
+            <li>Web制作では、スマホ幅での表示崩れを自分で見つけて修正</li>
+            <li>不具合の見た目ではなく、原因そのものを直せる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>点検の往復が増えるぶん、時間と費用はかかる</li>
+            <li>最終確認は人が行う、という前提は変わらない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">失敗アプローチ</span>
+    <h2 class="slide-title">なぜ「グリッドをそのまま作る」はダメなのか？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>マスは最大 9×10¹⁰ 個。作るだけでメモリも時間も足りない — 制約が「マス単位で扱うな」と教えてくれる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="グリッドをそのまま作ると9×10の10乗マスになり破綻する図">
+        <!-- グリッド本体 -->
+        <rect x="170" y="50" width="180" height="180" rx="6" fill="#ffffff" stroke="#dde2ec" stroke-width="2"/>
+        <line x1="206" y1="50" x2="206" y2="230" stroke="#dde2ec"/>
+        <line x1="242" y1="50" x2="242" y2="230" stroke="#dde2ec"/>
+        <line x1="278" y1="50" x2="278" y2="230" stroke="#dde2ec"/>
+        <line x1="170" y1="86" x2="350" y2="86" stroke="#dde2ec"/>
+        <line x1="170" y1="122" x2="350" y2="122" stroke="#dde2ec"/>
+        <line x1="170" y1="158" x2="350" y2="158" stroke="#dde2ec"/>
+        <text x="322" y="110" text-anchor="middle" font-size="14" fill="#5e6a8a">⋯</text>
+        <text x="224" y="205" text-anchor="middle" font-size="14" fill="#5e6a8a">⋮</text>
+        <text x="322" y="205" text-anchor="middle" font-size="14" fill="#5e6a8a">⋱</text>
+        <!-- 寸法ラベル -->
+        <text x="260" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">列 3×10⁵ 本</text>
+        <text x="158" y="145" text-anchor="end" font-size="14" font-weight="700" fill="#1a1d2e">行 3×10⁵ 本</text>
+        <!-- 矢印 -->
+        <defs>
+          <marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5e6a8a"/></marker>
+        </defs>
+        <line x1="260" y1="236" x2="260" y2="262" stroke="#5e6a8a" stroke-width="2" marker-end="url(#ar3)"/>
+        <!-- マス総数 -->
+        <rect x="70" y="270" width="380" height="46" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+        <text x="260" y="299" text-anchor="middle" font-size="16" font-weight="800" fill="#1a1d2e">マスの数 = 3×10⁵ × 3×10⁵ = 9×10¹⁰ 個</text>
+        <!-- NGボックス -->
+        <rect x="40" y="340" width="230" height="70" rx="12" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="155" y="369" text-anchor="middle" font-size="13" font-weight="800" fill="#c9162e">❌ メモリに乗らない</text>
+        <text x="155" y="390" text-anchor="middle" font-size="12" fill="#5e6a8a">bool でも約 90 GB 必要</text>
+        <rect x="290" y="340" width="230" height="70" rx="12" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="405" y="369" text-anchor="middle" font-size="13" font-weight="800" fill="#c9162e">❌ 時間も足りない</text>
+        <text x="405" y="390" text-anchor="middle" font-size="12" fill="#5e6a8a">塗る回数 最大 9×10¹⁰ 回</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+      <div class="ng-box">
+        <div class="box-title">⚠️ ありがちな失敗</div>
+        <ul class="box-list">
+          <li>N×N の二次元リストを作る → 作った瞬間に <code>MemoryError</code></li>
+          <li>クエリごとに全マスを数え直す → 1 回 O(N²) で即 TLE</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">⏱ 数の感覚</div>
+        <ul class="box-list">
+          <li>Python が 1 秒にこなせるのは約 10⁷ 回の処理</li>
+          <li>9×10¹⁰ 回はおよそ 9,000 秒 — 制限 2 秒の 4,500 倍</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 正解への気づき</div>
+        <ul class="box-list">
+          <li>マスを 1 個ずつ管理しない — <strong>行・列単位</strong>で考える</li>
+          <li>行と列が覚えるのは「<strong>最後に塗られた時刻</strong>」だけでいい（次のスライド）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

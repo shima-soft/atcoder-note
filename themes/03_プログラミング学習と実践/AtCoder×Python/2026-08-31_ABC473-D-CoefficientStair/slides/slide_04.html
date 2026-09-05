@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">素朴なやり方の限界</span>
+    <h2 class="slide-title">総当たりでは、候補のほとんどが最後に外れる</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>調べる候補は (2×10⁵)⁹ 通り。対して答えは最大 3×10⁵ 個しかない</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: SVG -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 300">
+        <text x="280" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">❌ 素朴な多重ループ（A1〜A9を決めてから最後に検算）</text>
+
+        <!-- 位置1 -->
+        <rect x="15" y="36" width="110" height="40" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="70" y="53" text-anchor="middle" font-size="10" fill="#5e6a8a">位置1</text>
+        <text x="70" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">A1: 0〜K</text>
+
+        <path d="M 125 56 L 133 56" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao3)"/>
+
+        <!-- 位置2 -->
+        <rect x="135" y="36" width="110" height="40" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="190" y="53" text-anchor="middle" font-size="10" fill="#5e6a8a">位置2</text>
+        <text x="190" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">A2: 0〜K/2</text>
+
+        <path d="M 245 56 L 253 56" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao3)"/>
+
+        <!-- ... -->
+        <text x="275" y="62" text-anchor="middle" font-size="18" fill="#5e6a8a">・・・</text>
+
+        <path d="M 295 56 L 303 56" stroke="#d96018" stroke-width="1.5" fill="none" marker-end="url(#ao3)"/>
+
+        <!-- 位置9 -->
+        <rect x="305" y="36" width="110" height="40" rx="8" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="360" y="53" text-anchor="middle" font-size="10" fill="#5e6a8a">位置9</text>
+        <text x="360" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace">A9: 0〜?</text>
+
+        <path d="M 415 56 L 423 56" stroke="#c9162e" stroke-width="1.5" fill="none" marker-end="url(#ar3)"/>
+
+        <!-- 検算 -->
+        <rect x="425" y="36" width="120" height="40" rx="8" fill="rgba(201,22,46,.07)" stroke="#c9162e" stroke-width="1.5"/>
+        <text x="485" y="53" text-anchor="middle" font-size="10" font-weight="700" fill="#c9162e">最後に検算</text>
+        <text x="485" y="67" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">A10は割り切れる?</text>
+
+        <!-- 区切り線 -->
+        <line x1="15" y1="96" x2="545" y2="96" stroke="#dde2ec" stroke-width="1"/>
+
+        <!-- 候補数と答え数の比較（棒の長さでは表せない桁差なので、数字を並べる） -->
+        <text x="280" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">調べる候補の数と、実際の答えの数を比べてみる</text>
+
+        <rect x="15" y="134" width="258" height="86" rx="10" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.35)" stroke-width="1.5"/>
+        <text x="144" y="166" text-anchor="middle" font-size="12" fill="#c9162e">調べる候補（N = 10 のとき最大）</text>
+        <text x="144" y="201" text-anchor="middle" font-size="20" font-weight="900" fill="#c9162e">(2×10⁵)⁹ 通り</text>
+
+        <rect x="287" y="134" width="258" height="86" rx="10" fill="rgba(0,143,106,.06)" stroke="rgba(0,143,106,.35)" stroke-width="1.5"/>
+        <text x="416" y="166" text-anchor="middle" font-size="12" fill="#008f6a">条件を満たす数列（保証された上限）</text>
+        <text x="416" y="201" text-anchor="middle" font-size="20" font-weight="900" fill="#008f6a">3×10⁵ 個以下</text>
+
+        <text x="280" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#c9162e">桁がまるで違う — 候補のほとんどは答えにならない</text>
+
+        <defs>
+          <marker id="ao3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#d96018"/>
+          </marker>
+          <marker id="ar3" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#c9162e"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ 素朴なやり方</div>
+        <ul class="box-list">
+          <li>位置1から順に 0〜K を総当たりし、最後の位置で割り切れるかだけを確認する</li>
+          <li>N = 10 なら組み合わせ数は最大 (2×10⁵)⁹ 通り</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ 何が無駄なのか</div>
+        <ul class="box-list">
+          <li>条件を満たす数列は最大でも 3×10⁵ 個。候補のほとんどは答えにならない</li>
+          <li>それでも最後の位置まで進めてから「外れ」と分かる</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 制約が教えてくれること</div>
+        <ul class="box-list">
+          <li>N ≤ 10 は「全探索してよい」の合図。ただし枝の刈り方が要る</li>
+          <li>K ≤ 2×10⁵ なので、残りの値ごとに表を持てる大きさに収まる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

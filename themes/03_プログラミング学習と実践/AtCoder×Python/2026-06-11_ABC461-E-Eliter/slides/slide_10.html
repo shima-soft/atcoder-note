@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; flex: 1; }
+.term-link {
+  font-size: .65rem; color: var(--blue); text-decoration: none;
+  margin-top: auto; align-self: flex-start; white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">BIT（Fenwick Tree）</span>
+          <span class="term-reading">ビット / フェニックツリー</span>
+        </div>
+        <p class="term-desc">「件数の増減」と「先頭からの累計」をどちらも O(log N) でこなす集計表。売上台帳の小計欄のデータ構造版。本問では行用・列用の 2 本を使った。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/フェニック木" target="_blank">Wikipedia: フェニック木 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">クエリ</span>
+          <span class="term-reading">query</span>
+        </div>
+        <p class="term-desc">「この処理をして」という指示・問い合わせの 1 件。本問では「行を黒に」「列を白に」の 2 種類が最大 3×10⁵ 件届く。1 件あたりの処理を速くするのが腕の見せ所。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/クエリ" target="_blank">Wikipedia: クエリ 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">O 記法</span>
+          <span class="term-reading">オーきほう / Big-O notation</span>
+        </div>
+        <p class="term-desc">アルゴリズムの計算量（実行時間の増え方）を表す記法。本問の解法は O(Q log Q) — クエリ数 Q に対してほぼ比例でしか増えない。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/ランダウの記号" target="_blank">Wikipedia: ランダウの記号 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">TLE</span>
+          <span class="term-reading">ティーエルイー / Time Limit Exceeded</span>
+        </div>
+        <p class="term-desc">実行時間制限超過。本問の制限は 2 秒で、グリッドを素直にシミュレートする解法は確実に TLE になる。制約から「速い解法を要求されている」と読み取る。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">AtCoder 公式 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">標準入力</span>
+          <span class="term-reading">ひょうじゅんにゅうりょく</span>
+        </div>
+        <p class="term-desc">プログラムにデータを渡す基本の入り口。競プロではここから問題の入力が流れてくる。キーボード入力やファイルからの流し込みも同じ仕組み。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">sys.stdin.readline</span>
+          <span class="term-reading">シス・スタンダードイン・リードライン</span>
+        </div>
+        <p class="term-desc">Python で標準入力を高速に読む方法。<code>input()</code> より数倍速い。本問のように入力が 3×10⁵ 行を超える問題では必須のテクニック。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python公式: sys.stdin 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">リストなどの各要素に同じ関数をまとめて適用する Python の組み込み関数。<code>map(int, input().split())</code> は「空白区切りの文字列を全部 int に変換」の定型句。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python公式: map 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本最大級の競技プログラミングサイト。毎週土曜夜の ABC（Beginner Contest）は初学者の腕試しに最適。E 問題は中級者へのステップアップ問題。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

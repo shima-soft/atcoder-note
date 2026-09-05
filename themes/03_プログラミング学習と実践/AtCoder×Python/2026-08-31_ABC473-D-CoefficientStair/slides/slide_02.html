@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .7rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title {
+  font-size: .82rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.sec-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.ci {
+  font-family: 'Consolas', monospace;
+  background: rgba(217,96,24,.08);
+  color: var(--orange);
+  padding: .05rem .3rem;
+  border-radius: 4px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.constraint-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .28rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .78rem;
+  color: var(--text);
+}
+.constraint-row:last-child { border-bottom: none; }
+.cvar {
+  font-family: 'Consolas', monospace;
+  font-weight: 700;
+  color: var(--orange);
+  min-width: 66px;
+  flex-shrink: 0;
+}
+.hint-box {
+  background: rgba(217,96,24,.06);
+  border: 1px solid rgba(217,96,24,.2);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+  font-size: .74rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin-top: auto;
+}
+.io-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .74rem;
+  margin-top: .2rem;
+}
+.io-table th {
+  background: var(--surface);
+  padding: .22rem .35rem;
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+}
+.io-table td {
+  padding: .26rem .35rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Consolas', monospace;
+  vertical-align: middle;
+}
+.io-table tr:last-child td { border-bottom: none; }
+.io-note {
+  font-size: .7rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-top: .35rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">重み i × A_i の合計がちょうど K になる数列を全部探す</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「1つ見つける」ではなく「条件を満たす数列を辞書順で全部出力する」問題</p>
+    </div>
+  </div>
+
+  <div class="body-grid slide-body">
+    <!-- 問題文 -->
+    <div class="section-card">
+      <div class="sec-label">問題文（噛み砕き版）</div>
+      <div class="sec-title">求めるもの</div>
+      <div class="sec-body">
+        非負整数からなる長さ <span class="ci">N</span> の数列<br>
+        <span class="ci">A=(A_1, A_2, ..., A_N)</span> を考える。<br><br>
+        位置 <span class="ci">i</span> に「重み <span class="ci">i</span>」を掛けて<br>
+        全部足すと、ちょうど <span class="ci">K</span> になる<br>
+        ものを <strong>辞書順で小さいほうから<br>すべて出力</strong>する。
+      </div>
+      <div class="hint-box">
+        💡 条件を満たす数列は最大 3×10⁵ 個であることが保証されている（安心して全列挙してよい）
+      </div>
+    </div>
+
+    <!-- 制約 -->
+    <div class="section-card">
+      <div class="sec-label">制約</div>
+      <div class="sec-title">変数の意味と範囲</div>
+      <div style="margin-top:.1rem;">
+        <div class="constraint-row">
+          <span class="cvar">N</span>
+          <span>数列の長さ（1 以上 10 以下）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">K</span>
+          <span>目標の合計値（1 以上 2×10⁵ 以下）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">出力数</span>
+          <span>条件を満たす数列は 3×10⁵ 個以下</span>
+        </div>
+      </div>
+      <div class="hint-box">
+        ⚠️ <strong>N が最大 10 というかなりの小ささ</strong>が最大のヒント。「全探索してよい」という出題者からのメッセージ
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="section-card">
+      <div class="sec-label">入出力例</div>
+      <div class="sec-title">サンプルで確認</div>
+      <table class="io-table">
+        <tr>
+          <th>例</th><th>入力 (N K)</th><th>出力（先頭/全体）</th>
+        </tr>
+        <tr>
+          <td>1</td><td>3 8</td><td>0 1 2 …（全10行）</td>
+        </tr>
+        <tr>
+          <td>2</td><td>1 200000</td><td>200000（1行のみ）</td>
+        </tr>
+      </table>
+      <div class="io-note">
+        <strong>例1の確認:</strong> (0,1,2) は 0×1+1×2+2×3=0+2+6=8 となり条件を満たす。これより辞書順で小さい数列はないので1行目。<br><br>
+        <strong>例2の確認:</strong> N=1 のときは A_1=K しかありえないので、答えは常に1個だけになる。
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

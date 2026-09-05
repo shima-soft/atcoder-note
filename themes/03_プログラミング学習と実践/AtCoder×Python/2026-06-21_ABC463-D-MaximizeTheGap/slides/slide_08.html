@@ -1,0 +1,11 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><style>.code-card code{font-size:.78rem;line-height:1.55}</style></head><body><div class="slide surface"><div class="slide-header"><span class="label" style="background:var(--g-orange);color:#fff">コード①</span><h2 class="slide-title">入力と右端ソート（11行）</h2><p class="slide-sub">まず、1回だけ必要な前処理を済ませる</p></div><div class="code-layout slide-body"><div class="code-card"><pre><code class="language-python">import sys
+
+input = sys.stdin.readline
+N, K = map(int, input().split())
+
+cloths = []
+for _ in range(N):
+    L, R = map(int, input().split())
+    cloths.append((L, R))
+
+cloths.sort(key=lambda cloth: cloth[1])</code></pre></div><div class="code-notes"><div class="biz-example"><div class="biz-title">読みどころ</div><div class="biz-step"><span class="snum" style="background:var(--orange)">1</span><p>N枚の [L, R] をタプルで保存</p></div><div class="biz-step"><span class="snum" style="background:var(--green)">2</span><p>key で2要素目の R を指定</p></div><div class="biz-step"><span class="snum" style="background:var(--blue)">3</span><p>右端の昇順が貪欲法の土台</p></div></div><div class="note-box"><div class="box-title">ここは O(N log N)</div><ul class="box-list"><li>ソートは二分探索の外で1回だけ</li><li>判定のたびに並べ替えない</li></ul></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll())</script></body></html>

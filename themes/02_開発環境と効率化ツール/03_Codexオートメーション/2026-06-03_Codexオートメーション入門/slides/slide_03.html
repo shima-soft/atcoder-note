@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"></head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">AUTOMATION TYPES</span>
+    <h2 class="slide-title">Thread automationとStandalone automation</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>同じ会話に戻るならThread、毎回独立した点検ならStandalone</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <svg viewBox="0 0 620 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5e6a8a"/></marker>
+        </defs>
+        <rect x="30" y="42" width="250" height="270" rx="16" fill="#eef8fc" stroke="#1a96c0" stroke-width="2"/>
+        <text x="155" y="78" text-anchor="middle" font-size="18" font-weight="900" fill="#1a96c0">Thread automation</text>
+        <rect x="70" y="112" width="170" height="44" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="155" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">同じ会話</text>
+        <line x1="155" y1="160" x2="155" y2="205" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arr)"/>
+        <rect x="70" y="210" width="170" height="48" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="155" y="232" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">前回の文脈を</text>
+        <text x="155" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">引き継ぐ</text>
+        <rect x="340" y="42" width="250" height="270" rx="16" fill="#f0faf6" stroke="#008f6a" stroke-width="2"/>
+        <text x="465" y="78" text-anchor="middle" font-size="18" font-weight="900" fill="#008f6a">Standalone automation</text>
+        <rect x="380" y="112" width="170" height="44" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="465" y="140" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">毎回新規実行</text>
+        <line x1="465" y1="160" x2="465" y2="205" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arr)"/>
+        <rect x="380" y="210" width="170" height="48" rx="10" fill="#fff" stroke="#dde2ec"/>
+        <text x="465" y="232" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">結果はTriageへ</text>
+        <text x="465" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">独立して並ぶ</text>
+        <text x="155" y="342" text-anchor="middle" font-size="13" fill="#5e6a8a">例: デプロイ完了まで見守る</text>
+        <text x="465" y="342" text-anchor="middle" font-size="13" fill="#5e6a8a">例: 毎週PRを点検する</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">業務での選び方</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">1</span><p>進行中の1件を追うならThread</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">2</span><p>毎回同じ点検をするならStandalone</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">3</span><p>複数プロジェクトに回すならStandalone</p></div>
+      </div>
+      <div class="ok-box"><div class="box-title">使えるシーン</div><ul class="box-list"><li>長いレビューや調査を同じ会話で継続</li><li>週次・日次の棚卸しを別実行として管理</li></ul></div>
+      <div class="ng-box"><div class="box-title">失敗パターン</div><ul class="box-list"><li>独立点検なのにThreadで文脈が増え続ける</li><li>継続判断が必要なのにStandaloneで毎回説明し直す</li></ul></div>
+    </div>
+  </div>
+</div>
+</body></html>

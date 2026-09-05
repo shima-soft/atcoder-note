@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>Skillの中身 表紙と必要だけ開く別冊</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">核心</span>
+    <h2 class="slide-title">Skillの中身とは — 1枚の表紙と必要だけ開く別冊</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>Skill = 表紙SKILL.md＋別冊群＋索引。最初は表紙だけ、合図が来たら別冊を1冊だけ開く — 分厚い手順書を毎回広げない工夫</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="Skill構造と逐次開示の仕組み">
+        <!-- 定義 -->
+        <rect x="18" y="18" width="590" height="36" rx="8" fill="#1a1d2e"/>
+        <text x="310" y="35" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">定義: Skill S = ( M , R , C )</text>
+        <text x="310" y="48" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.75)">M:表紙 SKILL.md　R:別冊 {rj}　C:索引 {κj} いつ開くかの条件</text>
+
+        <!-- 左: 構造 -->
+        <rect x="18" y="64" width="290" height="204" rx="12" fill="#f4efff" stroke="#7a3bce" stroke-width="1.8"/>
+        <text x="163" y="84" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">Skill の棚</text>
+
+        <!-- M -->
+        <rect x="34" y="92" width="258" height="48" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="163" y="110" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">M: SKILL.md（表紙）400行以内</text>
+        <text x="163" y="126" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)">概要・共通手順・別冊への索引</text>
+
+        <!-- R1 -->
+        <rect x="34" y="150" width="122" height="56" rx="10" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="95" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">r1: メール別冊</text>
+        <text x="95" y="182" text-anchor="middle" font-size="10" fill="#5e6a8a">250行以内</text>
+        <text x="95" y="196" text-anchor="middle" font-size="10" fill="#7a3bce">κ1: 「送信・予約」</text>
+
+        <!-- R2 -->
+        <rect x="170" y="150" width="122" height="56" rx="10" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="231" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">r2: 買物別冊</text>
+        <text x="231" y="182" text-anchor="middle" font-size="10" fill="#5e6a8a">250行以内</text>
+        <text x="231" y="196" text-anchor="middle" font-size="10" fill="#7a3bce">κ2: 「カート・決済」</text>
+
+        <!-- R3 -->
+        <rect x="34" y="214" width="122" height="40" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="95" y="232" text-anchor="middle" font-size="11" fill="#1a1d2e">r3: 設定別冊</text>
+        <text x="95" y="246" text-anchor="middle" font-size="10" fill="#5e6a8a">κ3: 「表示・マスク」</text>
+
+        <rect x="170" y="214" width="122" height="40" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="231" y="232" text-anchor="middle" font-size="11" fill="#1a1d2e">…</text>
+        <text x="231" y="246" text-anchor="middle" font-size="10" fill="#5e6a8a">必要に応じて追加</text>
+
+        <!-- 右: 動作 -->
+        <rect x="318" y="64" width="290" height="204" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="463" y="84" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">動くとき（逐次開示）</text>
+
+        <!-- Step 1 -->
+        <rect x="334" y="92" width="258" height="40" rx="10" fill="#eff1f7" stroke="#b9c0d4"/>
+        <text x="353" y="114" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">①</text>
+        <text x="463" y="108" text-anchor="middle" font-size="11" fill="#1a1d2e">まず M だけ読む</text>
+        <text x="463" y="122" text-anchor="middle" font-size="10" fill="#5e6a8a">全体像と索引を把握</text>
+
+        <polygon points="463,138 458,128 468,128" fill="#5e6a8a"/>
+        <line x1="463" y1="132" x2="463" y2="144" stroke="#5e6a8a" stroke-width="1.6"/>
+
+        <!-- Step 2 -->
+        <rect x="334" y="148" width="258" height="40" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="353" y="170" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">②</text>
+        <text x="463" y="164" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">条件κjが一致したら別冊rjを1冊だけ読む</text>
+        <text x="463" y="178" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)">例: 「メールを送って」→ r1だけ</text>
+
+        <polygon points="463,194 458,184 468,184" fill="#5e6a8a"/>
+        <line x1="463" y1="188" x2="463" y2="200" stroke="#5e6a8a" stroke-width="1.6"/>
+
+        <!-- Step 3 -->
+        <rect x="334" y="204" width="258" height="48" rx="10" fill="#eff7f4" stroke="#8ec9b8"/>
+        <text x="353" y="226" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">③</text>
+        <text x="463" y="222" text-anchor="middle" font-size="11" fill="#1a1d2e">タスクに必要な知識だけが文脈に載る</text>
+        <text x="463" y="238" text-anchor="middle" font-size="10" fill="#5e6a8a">使わない別冊は読まない＝節約</text>
+
+        <!-- 比較 -->
+        <rect x="18" y="280" width="590" height="72" rx="12" fill="#f9fafb" stroke="#dde2ec"/>
+        <text x="34" y="298" font-size="11" font-weight="900" fill="#1a1d2e">なぜ文脈を節約できるのか — 全部載せとの比較</text>
+        <!-- Prompt way -->
+        <rect x="34" y="306" width="272" height="36" rx="8" fill="#fdecee" stroke="#e8b0b8"/>
+        <text x="170" y="320" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">Prompt: 毎回全知識を載せる</text>
+        <text x="170" y="334" text-anchor="middle" font-size="10" fill="#5e6a8a">10タスク分を毎回 → 狭い文脈では溢れる</text>
+
+        <text x="316" y="328" text-anchor="middle" font-size="14" fill="#5e6a8a">vs</text>
+
+        <rect x="334" y="306" width="258" height="36" rx="8" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="463" y="320" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">Skill: 必要な1冊だけ</text>
+        <text x="463" y="334" text-anchor="middle" font-size="10" fill="#5e6a8a">使う分だけ → 小さなAIでも読める</text>
+
+        <rect x="18" y="364" width="590" height="52" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="382" font-size="10.5" font-weight="700" fill="#1a1d2e">補足: Anthropic Agent Skills と同じ形式（SKILL.md＋references）</text>
+        <text x="34" y="400" font-size="10" fill="#5e6a8a">人手で書く前提だったSkillを、クラウドAIが代わりに書き現場の失敗で育てる — 初の自動化</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>表紙＝目次と共通注意。まずここだけ読む</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>「メール案件だ」→メール別冊だけ開く</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>買物別冊は閉じたまま。机が散らからない</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 狙い</div>
+        <ul class="box-list">
+          <li>読む量＝使う分だけ。27Bの狭い文脈でも溢れない</li>
+          <li>別冊は並列で作れる・差し替えも容易</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 失敗パターン</div>
+        <ul class="box-list">
+          <li>索引κが曖昧だと必要な別冊が開かれない</li>
+          <li>→ Evolutionで索引も一緒に直す</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

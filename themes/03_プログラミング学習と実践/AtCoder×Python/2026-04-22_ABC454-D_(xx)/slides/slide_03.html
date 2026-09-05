@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">失敗アプローチ</span>
+    <h2 class="slide-title">なぜ「全操作を試す」はダメなのか？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「どう変換するか」を探すと無限ループにはまる。「何が変わらないか」に目を向けよう</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: SVG図 -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 440" class="">
+        <!-- 無限ループ図 -->
+        <text x="290" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#5e6a8a" class="">全操作を試す → 無限ループ</text>
+
+        <!-- 状態ボックス A -->
+        <rect x="48.5" y="60.4" width="130" height="42" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5" class=""></rect>
+        <text x="114.2" y="75.4" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace" class="">(xx)x</text>
+        <text x="113.5" y="93.4" text-anchor="middle" font-size="12" fill="#5e6a8a" class="">状態 A</text>
+
+        <!-- 矢印1: 操作1 (xx)→xx -->
+        <path d="M 230 76 L 270 76" stroke="#d96018" stroke-width="1.8" fill="none" marker-end="url(#arr-o)" class="" transform="translate(-51.5,5.4)"></path>
+        <text x="198.5" y="71.6" text-anchor="middle" font-size="10" fill="#d96018" class="">操作1</text>
+
+        <!-- 状態ボックス B -->
+        <rect x="218.5" y="60.4" width="130" height="42" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5" class=""></rect>
+        <text x="283.5" y="75.4" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace" class="">xxx</text>
+        <text x="283.5" y="93.4" text-anchor="middle" font-size="12" fill="#5e6a8a" class="">中間状態</text>
+
+        <!-- 矢印2: 操作2 xx→(xx) -->
+        <path d="M 400 76 L 440 76" stroke="#1a96c0" stroke-width="1.8" fill="none" marker-end="url(#arr-b)" class="" transform="translate(-51.5,5.4)"></path>
+        <text x="368.3" y="73.7" text-anchor="middle" font-size="10" fill="#1a96c0" class="">操作2</text>
+
+        <!-- 状態ボックス C -->
+        <rect x="388.5" y="60.4" width="130" height="42" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.5" class=""></rect>
+        <text x="453.5" y="75.4" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e" font-family="Consolas,monospace" class="">x(xx)</text>
+        <text x="453.5" y="93.4" text-anchor="middle" font-size="12" fill="#5e6a8a" class="">別の状態</text>
+
+        <!-- 逆方向矢印（ループ） -->
+        <path d="M 505 97 C 505 130 335 130 335 97" stroke="#c9162e" stroke-width="1.5" stroke-dasharray="5,3" fill="none" marker-end="url(#arr-r)" class="" transform="translate(-51.5,5.4)"></path>
+        <text x="368.5" y="153.4" text-anchor="middle" font-size="14" fill="#c9162e" class="">また操作1で戻れる！</text>
+
+        <!-- セパレーター -->
+        <line x1="30" y1="175" x2="550" y2="175" stroke="#dde2ec" stroke-width="1" class=""></line>
+
+        <!-- BFS爆発図 -->
+        <text x="290" y="200" text-anchor="middle" font-size="16" font-weight="700" fill="#5e6a8a" class="">BFS で全状態を探すと…</text>
+
+        <!-- 木構造 -->
+        <!-- Root -->
+        <rect x="240" y="215" width="100" height="34" rx="8" fill="#fff7f0" stroke="#d96018" stroke-width="1.5" class=""></rect>
+        <text x="290" y="229" text-anchor="middle" font-size="12" font-weight="700" fill="#d96018" font-family="Consolas,monospace" class="">(xx)x</text>
+        <text x="290" y="244" text-anchor="middle" font-size="12" fill="#5e6a8a" class="">初期状態</text>
+
+        <!-- Level 1 -->
+        <line x1="270" y1="249" x2="190" y2="278" stroke="#dde2ec" stroke-width="1.2" class=""></line>
+        <line x1="310" y1="249" x2="390" y2="278" stroke="#dde2ec" stroke-width="1.2" class=""></line>
+        <rect x="140" y="278" width="100" height="30" rx="7" fill="#fff" stroke="#dde2ec" class=""></rect>
+        <text x="190" y="297" text-anchor="middle" font-size="12" font-family="Consolas,monospace" fill="#1a1d2e" class="">xxx</text>
+        <rect x="340" y="278" width="100" height="30" rx="7" fill="#fff" stroke="#dde2ec" class=""></rect>
+        <text x="390" y="297" text-anchor="middle" font-size="12" font-family="Consolas,monospace" fill="#1a1d2e" class="">(xx)x</text>
+
+        <!-- Level 2 -->
+        <line x1="170" y1="308" x2="100" y2="338" stroke="#dde2ec" stroke-width="1.2" class=""></line>
+        <line x1="210" y1="308" x2="280" y2="338" stroke="#dde2ec" stroke-width="1.2" class=""></line>
+        <rect x="50" y="338" width="100" height="30" rx="7" fill="#fff" stroke="#dde2ec" class=""></rect>
+        <text x="100" y="357" text-anchor="middle" font-size="12" font-family="Consolas,monospace" fill="#1a1d2e" class="">x(xx)</text>
+        <rect x="230" y="338" width="100" height="30" rx="7" fill="#fff" stroke="#dde2ec" class=""></rect>
+        <text x="280" y="357" text-anchor="middle" font-size="12" font-family="Consolas,monospace" fill="#1a1d2e" class="">(xxx)</text>
+
+        <!-- 爆発表示 -->
+        <text x="100" y="388" text-anchor="middle" font-size="20" fill="#c9162e" class="">⋮</text>
+        <text x="280" y="388" text-anchor="middle" font-size="20" fill="#c9162e" class="">⋮</text>
+        <text x="420" y="338" text-anchor="middle" font-size="20" fill="#c9162e" class="">⋮</text>
+
+        <!-- 重複チェック説明 -->
+        <rect x="350" y="345" width="200" height="50" rx="10" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.3)" stroke-width="1" class=""></rect>
+        <text x="450" y="364" text-anchor="middle" font-size="14" fill="#c9162e" class="">同じ状態が何度も登場</text>
+        <text x="450" y="386" text-anchor="middle" font-size="14" fill="#c9162e" class="">→ 無限ループのリスク！</text>
+
+        <!-- 矢印マーカー定義 -->
+        <defs class="">
+          <marker id="arr-o" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto" class="">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#d96018" class=""></path>
+          </marker>
+          <marker id="arr-b" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto" class="">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#1a96c0" class=""></path>
+          </marker>
+          <marker id="arr-r" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="6" markerHeight="6" orient="auto" class="">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#c9162e" class=""></path>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="ng-box">
+        <div class="box-title">❌ NG: 操作を全通り試す（全探索）</div>
+        <ul class="box-list">
+          <li>操作1と操作2は互いに逆 → <code>(xx)</code>→<code>xx</code>→<code>(xx)</code>と無限ループ</li>
+          <li>「訪問済み管理」が必要だが、状態数が爆発する</li>
+          <li>文字列長が最大 200万 → とても全状態は探せない</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">❌ NG: 操作の順番を工夫する</div>
+        <ul class="box-list">
+          <li>どの操作をいつ使えばいいか、判断する基準がない</li>
+          <li>「A → B への最短経路」を求める問題ではない</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">💡 発想転換：不変量を探す</div>
+        <ul class="box-list">
+          <li>「どう変換するか」ではなく「何が変わらないか」を考える</li>
+          <li>変換操作で変わらない性質 = <strong>不変量</strong></li>
+          <li>A と B の不変量が同じなら変換可能！</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

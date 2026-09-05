@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>用語解説</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">MCP</span><span class="term-reading">エムシーピー</span></div>
+        <p class="term-desc">Model Context Protocol。AIと外部ツールを繋ぐ共通規格。USBのように差し替え可能にする。</p>
+        <a class="term-link" href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">ECC</span><span class="term-reading">イーシーシー</span></div>
+        <p class="term-desc">Expected Call Coverage。やるべき操作を何%やり切れたか。高いほど良い。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">EVCR / TFR</span><span class="term-reading">エクストラ / フェイル率</span></div>
+        <p class="term-desc">余計な操作率と失敗率。どちらも低いほど良い。ノイズで増えやすい。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">NCA</span><span class="term-reading">エヌシーエー</span></div>
+        <p class="term-desc">No-Call Accuracy。やらなくていい時に止まれた率。断る勇気を測る。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">ReAct</span><span class="term-reading">リアクト</span></div>
+        <p class="term-desc">考えて→1手打つ→結果を見るを繰り返す、1人で回す定番エージェント方式。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Plan-and-Act</span><span class="term-reading">プランアンドアクト</span></div>
+        <p class="term-desc">計画役・検証役・作業役に分業する方式。弱いモデルや長期作業で有効。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">VLNV</span><span class="term-reading">ブイエルエヌブイ</span></div>
+        <p class="term-desc">Vendor/Library/Name/Version。部品の住所のような識別子。例 acme:core:top:1.0。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Ollama</span><span class="term-reading">オラマ</span></div>
+        <p class="term-desc">ローカルPCでLLMを手軽に動かすツール。今回は4bit量子化で省メモリ化。</p>
+        <a class="term-link" href="https://ollama.com" target="_blank">ollama.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">量子化 4bit</span><span class="term-reading">りょうしか</span></div>
+        <p class="term-desc">モデルの重みを軽く圧縮する技術。精度を少し落としてメモリを大幅に節約。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">包括的ツール説明</span><span class="term-reading">ほうかつてき</span></div>
+        <p class="term-desc">引数の意味・制約・失敗条件まで書いた詳しい説明書。今回2,000トークンの差。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Few-shot</span><span class="term-reading">フューショット</span></div>
+        <p class="term-desc">良い例を数個見せて教える手法。相性が悪いと逆に沈黙を招く諸刃の剣。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Kactus2</span><span class="term-reading">カクタスツー</span></div>
+        <p class="term-desc">IP-XACT準拠のオープンなハード設計ツール。本研究の再現元の概念的参照先。</p>
+        <a class="term-link" href="https://github.com/kactus2/kactus2dev" target="_blank">github.com/kactus2 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

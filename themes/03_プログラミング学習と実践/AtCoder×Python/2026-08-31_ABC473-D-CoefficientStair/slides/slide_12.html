@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">深さ優先探索</span>
+          <span class="term-reading">ふかさゆうせんたんさく / DFS</span>
+        </div>
+        <p class="term-desc">1つの枝を行き止まりまで先に進めてから次の枝に戻る探索方法。本問では「位置ごとに値を決める」処理をこの順番で行う。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/深さ優先探索" target="_blank">Wikipedia: 深さ優先探索 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">動的計画法</span>
+          <span class="term-reading">どうてきけいかくほう / DP</span>
+        </div>
+        <p class="term-desc">同じ計算を繰り返さないよう、途中結果を表に記録しながら解く手法。本問では reach[idx][rem] の表がこれにあたる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/動的計画法" target="_blank">Wikipedia: 動的計画法 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">枝刈り</span>
+          <span class="term-reading">えだきり / pruning</span>
+        </div>
+        <p class="term-desc">探索の途中で「この先は答えにならない」と分かった枝を、最後まで進めずに切り捨てる工夫。無駄な計算を大幅に減らせる。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/バックトラック" target="_blank">Wikipedia: バックトラック 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">辞書式順序</span>
+          <span class="term-reading">じしょしきじゅんじょ / lexicographic order</span>
+        </div>
+        <p class="term-desc">辞書の単語の並び方のように、先頭の要素から順に比較して大小を決める順序。数列を先頭から比較して小さい方を先に出力する。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/辞書式順序" target="_blank">Wikipedia: 辞書式順序 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">sys.stdin.readline</span>
+          <span class="term-reading">シス・スタンダードイン・リードライン</span>
+        </div>
+        <p class="term-desc">Python で高速に標準入力を読み込む方法。<code>input()</code>より速く、出力行数が多い本問のような問題で有効。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python公式: sys.stdin 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">str.join()</span>
+          <span class="term-reading">ストリング・ジョイン</span>
+        </div>
+        <p class="term-desc">リストの要素を指定した区切り文字でつなげて1つの文字列にするメソッド。大量の行を1回でまとめて出力するのに使う。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#str.join" target="_blank">Python公式: str.join 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body></html>

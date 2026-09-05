@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.pattern-cols {
+  display: flex;
+  gap: 1.2rem;
+  flex: 1;
+  overflow: hidden;
+}
+.diagram-box {
+  flex: 0 0 52%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .4rem;
+}
+.info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow: hidden;
+}
+.biz-example {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .8rem;
+}
+.biz-example .biz-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.biz-step {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .2rem;
+}
+.snum {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.biz-step p {
+  font-size: .82rem;
+  color: var(--text);
+}
+.ok-box, .ng-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .5rem .8rem;
+}
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.box-title {
+  font-size: .8rem;
+  font-weight: 700;
+  margin-bottom: .2rem;
+}
+.box-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.box-list li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.box-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">SUMMARY</span>
+    <h2 class="slide-title">まとめ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>イベントソートとカウント管理で効率的に解ける</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 280" class="">
+        <!-- タイトル -->
+        <text x="260" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e" class="">今日学んだこと</text>
+        <!-- ポイント1 -->
+        <rect x="30" y="45" width="460" height="60" rx="8" fill="rgba(217,96,24,.06)" stroke="#d96018" stroke-width="1.5" class=""></rect>
+        <text x="50" y="65" font-size="12" font-weight="700" fill="#d96018" class="">1. イベントソートの発想</text>
+        <text x="50" y="85" font-size="11" fill="#1a1d2e" class="">「時間変化する状態」は「イベント」として整理すると効率的に解ける</text>
+        <!-- ポイント2 -->
+        <rect x="30" y="115" width="460" height="60" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="1.5" class=""></rect>
+        <text x="50" y="135" font-size="12" font-weight="700" fill="#008f6a" class="">2. カウント管理の技法</text>
+        <text x="50" y="155" font-size="11" fill="#1a1d2e" class="">「何個あるか」と「いくつあるか」を追跡するだけで種類数を維持できる</text>
+        <!-- ポイント3 -->
+        <rect x="30" y="185" width="460" height="60" rx="8" fill="rgba(122,59,206,.06)" stroke="#7a3bce" stroke-width="1.5" class=""></rect>
+        <text x="50" y="205" font-size="12" font-weight="700" fill="#7a3bce" class="">3. O(N+M)の計算量</text>
+        <text x="50" y="225" font-size="11" fill="#1a1d2e" class="">データの量に比例した時間で処理できる、実用上重要な計算量</text>
+        <!-- 応用 -->
+        <rect x="110" y="255" width="300" height="20" rx="4" fill="rgba(217,96,24,.1)" stroke="#d96018" stroke-width="1" class=""></rect>
+        <text x="260" y="269" text-anchor="middle" font-size="10" font-weight="700" fill="#d96018" class="">→ この発想は様々な問題に応用できる！</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🎯 本日の学び</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>問題文の言葉に引っ張われず、データの構造を見抜くことが大切</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>シンプルなアルゴリズムでも、適切に適用すれば強力</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>制約条件から計算量を逆算する癖をつける</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 次にやること</div>
+        <ul class="box-list">
+          <li>他のABC問題でもイベントソートを試す</li>
+          <li>カウント管理の問題をもっと練習する</li>
+          <li>計算量の見積もりを毎回確認する</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ よくある失敗</div>
+        <ul class="box-list">
+          <li>力ずくで解いてTLEになる</li>
+          <li>制約条件を見落としてしまう</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

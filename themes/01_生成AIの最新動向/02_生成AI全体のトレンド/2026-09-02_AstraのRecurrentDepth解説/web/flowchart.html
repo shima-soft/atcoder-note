@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周回型AIが来たら、何を変えるべきか — セルフ診断</title>
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --purple: #7a3bce;
+  --green: #008f6a;
+  --orange: #d96018;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  line-height: 1.7;
+}
+.wrap { width: min(760px, calc(100% - 2rem)); margin: 0 auto; padding: 2rem 0 3rem; }
+.back { color: var(--purple); text-decoration: none; font-size: .85rem; font-weight: 800; }
+.hero { margin: 1rem 0 1.2rem; }
+.badge { display: inline-block; padding: .18rem .65rem; border-radius: 99px; color: var(--purple); background: rgba(122,59,206,.1); font-size: .72rem; font-weight: 800; }
+h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); line-height: 1.25; margin: .55rem 0 .4rem; }
+.lead { color: var(--muted); margin: 0; }
+.progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: 1.2rem 0; }
+.step { height: 6px; border-radius: 99px; background: var(--border); }
+.step.active { background: var(--purple); }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: clamp(1.2rem, 4vw, 2rem); box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.qnum { color: var(--purple); font-size: .75rem; font-weight: 900; letter-spacing: .06em; }
+h2 { font-size: 1.25rem; line-height: 1.4; margin: .35rem 0 .9rem; }
+.qhint { font-size: .82rem; color: var(--muted); margin: -.5rem 0 .9rem; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+button { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); padding: .8rem; font: inherit; font-weight: 800; cursor: pointer; }
+button:hover, button:focus-visible { border-color: var(--purple); background: rgba(122,59,206,.08); outline: none; }
+.result { display: none; }
+.result.show { display: block; }
+.result h2 { color: var(--green); }
+.result-card { background: rgba(0,143,106,.07); border-left: 4px solid var(--green); border-radius: 10px; padding: .8rem 1rem; margin: .8rem 0; }
+.caution { background: rgba(217,96,24,.08); border-left: 4px solid var(--orange); border-radius: 10px; padding: .8rem 1rem; color: var(--muted); font-size: .86rem; }
+.actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
+.actions a, .actions button { display: inline-flex; text-decoration: none; padding: .55rem .85rem; border-radius: 9px; font-size: .82rem; font-weight: 800; }
+.primary { background: var(--purple); color: #fff; border: 0; }
+.secondary { background: #fff; color: var(--purple); border: 1px solid var(--purple); }
+@media (max-width: 560px) { .choices { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="back" href="index.html">← 解説ページへ戻る</a>
+  <header class="hero">
+    <span class="badge">3問セルフ診断</span>
+    <h1>周回型AIが来たら、<br>あなたの業務は何を変えるべきか</h1>
+    <p class="lead">Recurrent Depth が広まると、AIの「途中の考え」が読めなくなります。3問答えると、いま優先して手を打つべきことが出ます。</p>
+  </header>
+
+  <div class="progress">
+    <div class="step active"></div><div class="step"></div><div class="step"></div>
+  </div>
+
+  <section class="panel">
+    <div class="question" data-step="1">
+      <div class="qnum">QUESTION 1 / 3</div>
+      <h2>AIが作ったものを、社外に出しますか？</h2>
+      <p class="qhint">提案書・見積・お客様への回答文など、相手に届くものかどうか。</p>
+      <div class="choices">
+        <button data-answer="external">社外に出す</button>
+        <button data-answer="internal">社内の下書き止まり</button>
+      </div>
+    </div>
+
+    <div class="question" data-step="2" hidden>
+      <div class="qnum">QUESTION 2 / 3</div>
+      <h2>AIの「考えている途中の文章」を読んでいますか？</h2>
+      <p class="qhint">答えにたどり着くまでの説明を、確認材料として実際に読むかどうか。</p>
+      <div class="choices">
+        <button data-answer="reads">よく読んでいる</button>
+        <button data-answer="skips">ほとんど読まない</button>
+      </div>
+    </div>
+
+    <div class="question" data-step="3" hidden>
+      <div class="qnum">QUESTION 3 / 3</div>
+      <h2>いま一番効かせたいのはどちらですか？</h2>
+      <p class="qhint">周回型AIは前者に強く効きます。後者は確認の設計しだいです。</p>
+      <div class="choices">
+        <button data-answer="cost">コストと速さ</button>
+        <button data-answer="quality">品質と正確さ</button>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="qnum">RESULT</div>
+      <h2 id="result-title"></h2>
+      <div class="result-card" id="result-body"></div>
+      <div class="caution"><strong>共通の注意:</strong> Astra はまだ一般提供されていません。今すぐ試せるのは Huginn や Ouro などの公開モデルです。ここで出た備えは、周回型AIが実際に届いたときのための準備であり、今日の運用を急いで変える必要はありません。</div>
+      <div class="actions">
+        <button class="primary" id="reset">最初から診断する</button>
+        <a class="secondary" href="index.html#business">実務への影響を読む</a>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const answers = {};
+const questions = [...document.querySelectorAll('.question')];
+const steps = [...document.querySelectorAll('.step')];
+const result = document.getElementById('result');
+
+function showStep(step) {
+  questions.forEach(q => { q.hidden = Number(q.dataset.step) !== step; });
+  steps.forEach((bar, i) => bar.classList.toggle('active', i < step));
+}
+
+function showResult() {
+  questions.forEach(q => { q.hidden = true; });
+  steps.forEach(bar => bar.classList.add('active'));
+  const title = document.getElementById('result-title');
+  const body = document.getElementById('result-body');
+  if (answers[1] === 'external' && answers[2] === 'reads') {
+    title.textContent = '最優先: 確認の手順を作り直す';
+    body.textContent = '今あなたは「途中の考えを読む」ことで品質を担保しています。周回型AIではその材料が消えるので、その担保がまるごと外れます。根拠・出典・前提をこちらから聞き返す質問を定型化し、結論だけを見て判断できるチェック項目に置き換えてください。';
+  } else if (answers[1] === 'external' && answers[2] === 'skips') {
+    title.textContent = '最優先: 結果の検算ルールを先に決める';
+    body.textContent = '社外に出すものを、途中を読まずに通しています。周回型AIで速く安くなるほど、この流れは増えます。数字は自分で検算、事実は一次情報で裏取り——出す前に必ず通す関門を、いま文章にしておいてください。';
+  } else if (answers[3] === 'cost') {
+    title.textContent = '素直に恩恵を受けられる立場です';
+    body.textContent = '社内の下書き用途でコストと速さを求めるなら、周回型AIの利点がそのまま効きます。深く考えさせても書き出す語が増えないので、「難しい依頼ほど高くつく」感覚が変わります。まずは今の用途の料金と待ち時間を記録しておくと、変化が測れます。';
+  } else {
+    title.textContent = '根拠を聞き返すプロンプトを用意しましょう';
+    body.textContent = '社内利用でも品質を重視するなら、途中の考えが見えない前提で組み立て直す価値があります。「その数字の出どころは」「前提として何を置いたか」を必ず追加で質問する型を作り、チームで共有してください。';
+  }
+  result.classList.add('show');
+}
+
+document.querySelectorAll('[data-answer]').forEach(button => {
+  button.addEventListener('click', () => {
+    const step = Number(button.closest('.question').dataset.step);
+    answers[step] = button.dataset.answer;
+    if (step < 3) showStep(step + 1); else showResult();
+  });
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  Object.keys(answers).forEach(key => delete answers[key]);
+  result.classList.remove('show');
+  showStep(1);
+});
+</script>
+</body>
+</html>

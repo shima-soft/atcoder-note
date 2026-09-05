@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方</span>
+    <h2 class="slide-title">どんな N でも、境目は N ÷ 2 のところ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>N は必ず偶数なので、前半と後半はいつも N ÷ 2 個ずつに分かれる</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- SVG: N=8 と N=10 で同じ規則が成り立つことを示す -->
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 350" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          上段 N=8  box[i].x = 76 + i*49 (w=44, gap=5) → 76..419 (right=463)、境目 x=269
+          下段 N=10 box[i].x = 52 + i*44 (w=40, gap=4) → 52..448 (right=488)、境目 x=270
+        -->
+
+        <!-- === 上段: N = 8 === -->
+        <text x="270" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例1: N = 8 → 後半は 8 ÷ 2 = 4個</text>
+
+        <g>
+          <rect x="76"  y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="125" y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="174" y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="223" y="34" width="44" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="16" font-weight="900" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="98"  y="59">1</text>
+          <text x="147" y="59">3</text>
+          <text x="196" y="59">7</text>
+          <text x="245" y="59">8</text>
+        </g>
+        <g>
+          <rect x="272" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="321" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="370" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="419" y="34" width="44" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="16" font-weight="900" text-anchor="middle" fill="#d96018" font-family="'Noto Sans JP',sans-serif">
+          <text x="294" y="59">4</text>
+          <text x="343" y="59">2</text>
+          <text x="392" y="59">5</text>
+          <text x="441" y="59">6</text>
+        </g>
+        <line x1="269" y1="28" x2="269" y2="78" stroke="#d96018" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="269" y="94" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018" font-family="'Noto Sans JP',sans-serif">4個目と5個目の間</text>
+
+        <!-- === 下段: N = 10 === -->
+        <text x="270" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">入力例3: N = 10 → 後半は 10 ÷ 2 = 5個</text>
+
+        <g>
+          <rect x="52"  y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="96"  y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="140" y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="184" y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+          <rect x="228" y="138" width="40" height="38" rx="7" fill="#fff" stroke="#dde2ec" stroke-width="1.5"/>
+        </g>
+        <g font-size="14" font-weight="900" text-anchor="middle" fill="#a9b0c3" font-family="'Noto Sans JP',sans-serif">
+          <text x="72"  y="162">31</text>
+          <text x="116" y="162">41</text>
+          <text x="160" y="162">59</text>
+          <text x="204" y="162">26</text>
+          <text x="248" y="162">53</text>
+        </g>
+        <g>
+          <rect x="272" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="316" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="360" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="404" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+          <rect x="448" y="138" width="40" height="38" rx="7" fill="rgba(217,96,24,.12)" stroke="#d96018" stroke-width="2.5"/>
+        </g>
+        <g font-size="14" font-weight="900" text-anchor="middle" fill="#d96018" font-family="'Noto Sans JP',sans-serif">
+          <text x="292" y="162">58</text>
+          <text x="336" y="162">97</text>
+          <text x="380" y="162">93</text>
+          <text x="424" y="162">23</text>
+          <text x="468" y="162">84</text>
+        </g>
+        <line x1="270" y1="132" x2="270" y2="182" stroke="#d96018" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="270" y="198" text-anchor="middle" font-size="11" font-weight="700" fill="#d96018" font-family="'Noto Sans JP',sans-serif">5個目と6個目の間</text>
+
+        <!-- === 共通の規則 === -->
+        <text x="270" y="230" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">どちらも境目はちょうど真ん中 — 規則は1つだけ</text>
+
+        <rect x="60" y="244" width="420" height="94" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2"/>
+        <text x="270" y="278" text-anchor="middle" font-size="17" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">後半の先頭 = N ÷ 2 ＋ 1 番目</text>
+        <text x="270" y="314" text-anchor="middle" font-size="17" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">後半の個数 = N ÷ 2 個</text>
+      </svg>
+    </div>
+
+    <!-- 右カラム -->
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 売上リストの下半期集計で考える</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>12か月分の売上を<strong>前半6か月・後半6か月</strong>に区切る</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>下半期（<strong>7月〜12月</strong>）の6か月だけを取り出す</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>取り出した6つを順に足して<strong>合計を出す</strong></p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 手作業をそのまま手順にできる</div>
+        <ul class="box-list">
+          <li>N が何であっても、やることは<strong>「N ÷ 2 ＋ 1 番目から最後まで足す」</strong>だけ</li>
+          <li>N が偶数と決まっているので、割り切れない心配はない</li>
+        </ul>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ いちばん小さい N でも同じ</div>
+        <ul class="box-list">
+          <li>入力例2 は N = 2。後半は 2 ÷ 2 = <strong>1個</strong>だけ</li>
+          <li>2番目の 100 がそのまま答えになる（1 は使わない）</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

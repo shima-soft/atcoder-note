@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(217,96,24,.1);
+  border: 1px solid rgba(217,96,24,.25);
+  border-radius: 10px;
+  padding: .45rem .8rem;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--orange);
+}
+.step-badge .num {
+  min-width: 22px; height: 22px;
+  background: var(--g-orange);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+}
+.answer-box {
+  background: rgba(0,143,106,.08);
+  border: 1px solid rgba(0,143,106,.3);
+  border-radius: 14px;
+  padding: .6rem .9rem;
+}
+.answer-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: .4rem;
+}
+.answer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  margin-bottom: .35rem;
+}
+.a-icon {
+  min-width: 22px; height: 22px;
+  background: var(--green);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.a-text {
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.a-text strong { color: var(--green); font-weight: 700; }
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">SOLUTION</span>
+    <h2 class="slide-title">集合（Set）で重複と抜けを一発チェック</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>着ている服の番号を「重複なし集合」に入れると、Q1・Q2の両方が要素数を比較するだけで解ける</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <!-- 左: Set操作の図 -->
+      <div class="diagram-box">
+        <svg viewBox="0 0 500 330" width="480" xmlns="http://www.w3.org/2000/svg" class="" style="width: 60000px; height: 500px;">
+          <!--
+            Step1: 配列 F=[1,2,4] → Set={1,2,4}
+            Step2: len(S)=3 == N=3? → Q1 Yes
+            Step3: len(S)=3 == M=4? → Q2 No
+          -->
+          <defs class="">
+            <marker id="arrG2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" class="">
+              <path d="M0,0 L0,6 L8,3 z" fill="#008f6a" class=""></path>
+            </marker>
+            <marker id="arrO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" class="">
+              <path d="M0,0 L0,6 L8,3 z" fill="#d96018" class=""></path>
+            </marker>
+          </defs>
+
+          <!-- Step1: 配列 -->
+          <text x="20" y="18" font-size="11" font-weight="700" fill="#5e6a8a" class="">STEP 1：配列 F を集合に変換</text>
+
+          <!-- F配列 -->
+          <text x="25" y="40" font-size="10" fill="#5e6a8a" class="">F = [</text>
+          <!-- box[i].x = 62 + i*52  boxWidth=44 gap=8 -->
+          <rect x="62" y="26" width="44" height="28" rx="6" fill="rgba(217,96,24,.15)" stroke="#d96018" stroke-width="2" class=""></rect>
+          <text x="84" y="44" text-anchor="middle" font-size="14" font-weight="900" fill="#d96018" class="">1</text>
+          <rect x="114" y="26" width="44" height="28" rx="6" fill="rgba(217,96,24,.15)" stroke="#d96018" stroke-width="2" class=""></rect>
+          <text x="136" y="44" text-anchor="middle" font-size="14" font-weight="900" fill="#d96018" class="">2</text>
+          <rect x="166" y="26" width="44" height="28" rx="6" fill="rgba(217,96,24,.15)" stroke="#d96018" stroke-width="2" class=""></rect>
+          <text x="188" y="44" text-anchor="middle" font-size="14" font-weight="900" fill="#d96018" class="">4</text>
+          <text x="215" y="40" font-size="10" fill="#5e6a8a" class="">]</text>
+
+          <!-- 変換矢印 -->
+          <text x="253" y="44" font-size="12" fill="#5e6a8a" text-anchor="middle" class="">→</text>
+
+          <!-- Set -->
+          <text x="270" y="22" font-size="10" fill="#008f6a" font-weight="700" class="">Set S</text>
+          <ellipse cx="330" cy="40" rx="70" ry="22" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2" class=""></ellipse>
+          <text x="300" y="44" font-size="13" font-weight="900" fill="#008f6a" class="">1</text>
+          <text x="327" y="44" font-size="13" font-weight="900" fill="#008f6a" class="">2</text>
+          <text x="354" y="44" font-size="13" font-weight="900" fill="#008f6a" class="">4</text>
+
+          <!-- len(S) -->
+          <text x="416" y="22" font-size="10" fill="#5e6a8a" class="">要素数</text>
+          <rect x="408" y="26" width="74" height="28" rx="8" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="2" class=""></rect>
+          <text x="445" y="44" text-anchor="middle" font-size="14" font-weight="900" fill="#008f6a" class="">len(S) = 3</text>
+
+          <!-- 区切り -->
+          <line x1="10" y1="75" x2="490" y2="75" stroke="#dde2ec" stroke-width="1" stroke-dasharray="5,4" class=""></line>
+
+          <!-- Step2: Q1判定 -->
+          <text x="20" y="95" font-size="11" font-weight="700" fill="#5e6a8a" class="">STEP 2：Q1「全員バラバラ？」→ len(S) == N？</text>
+
+          <!-- len(S)=3 box -->
+          <rect x="30" y="105" width="96" height="34" rx="8" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="2" class=""></rect>
+          <text x="78" y="126" text-anchor="middle" font-size="13" font-weight="900" fill="#008f6a" class="">len(S) = 3</text>
+
+          <!-- == -->
+          <text x="143" y="127" font-size="16" font-weight="900" fill="#1a1d2e" text-anchor="middle" class="">==</text>
+
+          <!-- N=3 box -->
+          <rect x="160" y="105" width="96" height="34" rx="8" fill="rgba(217,96,24,.15)" stroke="#d96018" stroke-width="2" class=""></rect>
+          <text x="208" y="126" text-anchor="middle" font-size="13" font-weight="900" fill="#d96018" class="">N = 3</text>
+
+          <!-- → Yes -->
+          <text x="273" y="127" font-size="14" fill="#5e6a8a" text-anchor="middle" class="">→</text>
+          <rect x="288" y="105" width="80" height="34" rx="8" fill="rgba(0,143,106,.2)" stroke="#008f6a" stroke-width="2" class=""></rect>
+          <text x="328" y="126" text-anchor="middle" font-size="14" font-weight="900" fill="#008f6a" class="">✓ Yes</text>
+
+          <text x="380" y="118" font-size="10" fill="#5e6a8a" class="">3 == 3</text>
+          <text x="380" y="131" font-size="10" fill="#5e6a8a" class="">重複なし！</text>
+
+          <!-- 区切り -->
+          <line x1="10" y1="158" x2="490" y2="158" stroke="#dde2ec" stroke-width="1" stroke-dasharray="5,4" class=""></line>
+
+          <!-- Step3: Q2判定 -->
+          <text x="20" y="178" font-size="11" font-weight="700" fill="#5e6a8a" class="">STEP 3：Q2「全種類カバー？」→ len(S) == M？</text>
+
+          <!-- len(S)=3 box -->
+          <rect x="30" y="188" width="96" height="34" rx="8" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="2" class=""></rect>
+          <text x="78" y="209" text-anchor="middle" font-size="13" font-weight="900" fill="#008f6a" class="">len(S) = 3</text>
+
+          <!-- == -->
+          <text x="143" y="210" font-size="16" font-weight="900" fill="#1a1d2e" text-anchor="middle" class="">==</text>
+
+          <!-- M=4 box -->
+          <rect x="160" y="188" width="96" height="34" rx="8" fill="rgba(201,22,46,.15)" stroke="#c9162e" stroke-width="2" class=""></rect>
+          <text x="208" y="209" text-anchor="middle" font-size="13" font-weight="900" fill="#c9162e" class="">M = 4</text>
+
+          <!-- → No -->
+          <text x="273" y="210" font-size="14" fill="#5e6a8a" text-anchor="middle" class="">→</text>
+          <rect x="288" y="188" width="80" height="34" rx="8" fill="rgba(201,22,46,.15)" stroke="#c9162e" stroke-width="2" class=""></rect>
+          <text x="328" y="209" text-anchor="middle" font-size="14" font-weight="900" fill="#c9162e" class="">✗ No</text>
+
+          <text x="380" y="201" font-size="10" fill="#5e6a8a" class="">3 ≠ 4</text>
+          <text x="380" y="214" font-size="10" fill="#5e6a8a" class="">服3が未着用！</text>
+
+          <!-- まとめ枠 -->
+          <rect x="10" y="242" width="480" height="80" rx="10" fill="rgba(0,143,106,.06)" stroke="rgba(0,143,106,.3)" stroke-width="1.5" class=""></rect>
+          <text x="250" y="262" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a" class="">集合の要素数を2回比較するだけで両問に答えられる！</text>
+          <text x="250" y="280" text-anchor="middle" font-size="10" fill="#5e6a8a" class="">set(F) で重複が自動除去される。あとはサイズを見るだけ。</text>
+          <text x="60" y="305" text-anchor="middle" font-size="11" fill="#d96018" font-weight="700" class="">len(S) == N</text>
+          <text x="60" y="318" text-anchor="middle" font-size="9" fill="#5e6a8a" class="">→ Q1 の答え</text>
+          <line x1="120" y1="305" x2="180" y2="305" stroke="#dde2ec" stroke-width="1" class=""></line>
+          <text x="250" y="305" text-anchor="middle" font-size="11" fill="#1a1d2e" class="">どちらも同じ集合 S を使う</text>
+          <line x1="320" y1="305" x2="380" y2="305" stroke="#dde2ec" stroke-width="1" class=""></line>
+          <text x="450" y="305" text-anchor="middle" font-size="11" fill="#d96018" font-weight="700" class="">len(S) == M</text>
+          <text x="450" y="318" text-anchor="middle" font-size="9" fill="#5e6a8a" class="">→ Q2 の答え</text>
+        </svg>
+      </div>
+      <!-- 右: 解説 -->
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">💡 身近な例で考えてみよう</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">1</span>
+            <p>全社員のIDカードの番号を「重複なしリスト」に転記する</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">2</span>
+            <p>リストの件数 == 社員数？ → 全員別人か確認（Q1）</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-orange)">3</span>
+            <p>リストの件数 == 部署数？ → 全部署に人がいるか確認（Q2）</p>
+          </div>
+        </div>
+        <div class="answer-box">
+          <div class="answer-title">✅ 集合（Set）とは？</div>
+          <div class="answer-row">
+            <span class="a-icon">S</span>
+            <span class="a-text"><strong>重複を自動で取り除く</strong>データ構造。<br>[1, 2, 4] → {1, 2, 4}（3要素）</span>
+          </div>
+          <div class="answer-row">
+            <span class="a-icon">N</span>
+            <span class="a-text">len(S)==N なら全員が<strong>異なる服</strong>を着ている</span>
+          </div>
+          <div class="answer-row">
+            <span class="a-icon">M</span>
+            <span class="a-text">len(S)==M なら<strong>全種類の服</strong>が登場している</span>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ この解法の良い点</div>
+          <ul class="box-list">
+            <li>コード3行で完結する</li>
+            <li>O(N) — データが100倍増えても100倍しか増えない</li>
+            <li>Q1とQ2で同じ集合 S を使い回せる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

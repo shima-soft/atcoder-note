@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css">
+<style>
+.overview-layout { display:grid; grid-template-columns: 1fr 1fr; gap: .9rem; flex:1; }
+.big-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:.9rem 1rem; }
+.big-title { font-size:.96rem; font-weight:900; margin-bottom:.45rem; }
+.big-text { font-size:.82rem; color:var(--muted); line-height:1.65; }
+.flow-row { display:flex; align-items:center; gap:.42rem; margin-top:.55rem; }
+.flow-chip { flex:1; background:rgba(26,150,192,.09); border:1px solid rgba(26,150,192,.22); border-radius:10px; padding:.45rem; text-align:center; font-size:.76rem; font-weight:800; }
+.arrow { color:var(--muted); font-weight:900; }
+</style></head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">OVERVIEW</span>
+    <h2 class="slide-title">Codexオートメーションとは？</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>人が毎回頼んでいた確認作業を、Codexが決まった間隔で見に行く仕組み</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="overview-layout">
+      <div class="big-card">
+        <div class="big-title">今まで: 思い出した人が確認する</div>
+        <p class="big-text">CIの失敗、PRのレビュー、定期レポート、古いドキュメント確認。忙しいほど後回しになり、問題が見つかるのが遅れます。</p>
+        <div class="flow-row">
+          <div class="flow-chip" style="background:rgba(201,22,46,.06);border-color:rgba(201,22,46,.2)">人が気づく</div>
+          <span class="arrow">→</span>
+          <div class="flow-chip" style="background:rgba(201,22,46,.06);border-color:rgba(201,22,46,.2)">Codexに頼む</div>
+          <span class="arrow">→</span>
+          <div class="flow-chip" style="background:rgba(201,22,46,.06);border-color:rgba(201,22,46,.2)">確認する</div>
+        </div>
+      </div>
+      <div class="big-card">
+        <div class="big-title">これから: Codexが定期的に見回る</div>
+        <p class="big-text">予定したタイミングでCodexが起動し、報告すべきことがあればTriageや同じスレッドに知らせます。何もなければ静かに終わります。</p>
+        <div class="flow-row">
+          <div class="flow-chip">予定</div>
+          <span class="arrow">→</span>
+          <div class="flow-chip">確認</div>
+          <span class="arrow">→</span>
+          <div class="flow-chip">報告または終了</div>
+        </div>
+      </div>
+      <div class="big-card">
+        <div class="big-title">業務例: 営業資料の毎週点検</div>
+        <p class="big-text">「毎週月曜に価格表と資料リンクのズレを確認し、差分があれば一覧化する」と設定。担当者は結果だけ見ればよくなります。</p>
+      </div>
+      <div class="big-card">
+        <div class="big-title">大事な前提: 自動化は権限設計とセット</div>
+        <p class="big-text">無人で動くからこそ、どこまで読めるか、どこを書けるか、ネットワークやアプリ操作を許すかを先に決めます。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

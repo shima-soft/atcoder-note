@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC468 B - 足し算では数えられない</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: center;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">つまずきポイント</span>
+    <h2 class="slide-title">見張り範囲の「足し算」では数えられない</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">注意</span>
+      <p>範囲は重なることがある。マスごとに1回だけ判定すれば二重に数えずに済む</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          cell[i].x = 56 + i*62  (cellWidth=56, gap=6)
+          centers = 84,146,208,270,332,394,456
+          パネル1: y=16..156 / パネル2: y=174..314
+          入力例1: M=7, D=1, S=".G...GG"
+        -->
+
+        <!-- ▼ NG パネル -->
+        <rect x="16" y="16" width="508" height="140" rx="12" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.25)" stroke-width="1.5"/>
+        <text x="36" y="42" font-size="14" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">❌ 見張れるマス数を足し算する → 3 + 3 + 2 = 8</text>
+
+        <rect x="56"  y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="84"  y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="118" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="146" y="85" text-anchor="middle" font-size="18" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="180" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="208" y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="242" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="270" y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="304" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="332" y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="366" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="394" y="85" text-anchor="middle" font-size="18" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="428" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="456" y="85" text-anchor="middle" font-size="18" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <rect x="56"  y="104" width="180" height="13" rx="6" fill="rgba(217,96,24,.16)" stroke="var(--orange)" stroke-width="1"/>
+        <text x="146" y="114" text-anchor="middle" font-size="10" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス2 → 3マス</text>
+        <rect x="304" y="104" width="180" height="13" rx="6" fill="rgba(217,96,24,.16)" stroke="var(--orange)" stroke-width="1"/>
+        <text x="394" y="114" text-anchor="middle" font-size="10" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス6 → 3マス</text>
+        <rect x="366" y="121" width="118" height="13" rx="6" fill="rgba(217,96,24,.16)" stroke="var(--orange)" stroke-width="1"/>
+        <text x="425" y="131" text-anchor="middle" font-size="10" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス7 → 2マス</text>
+
+        <text x="36" y="149" font-size="11" font-weight="700" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">マス6・7が二重にカウントされている（合計8 ＞ 7マス）</text>
+
+        <!-- ▼ OK パネル -->
+        <rect x="16" y="174" width="508" height="140" rx="12" fill="rgba(0,143,106,.07)" stroke="rgba(0,143,106,.28)" stroke-width="1.5"/>
+        <text x="36" y="200" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">⭕ マスごとに「見られているか」を判定する</text>
+
+        <rect x="56"  y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="84"  y="251" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="118" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="146" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="180" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="208" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="242" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="270" y="251" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="304" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="332" y="251" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="366" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="394" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="428" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="456" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <text x="84"  y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="146" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="208" y="284" text-anchor="middle" font-size="11" fill="var(--orange)" font-weight="900" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="270" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="332" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="394" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+        <text x="456" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7</text>
+
+        <text x="270" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">マス3 は マス2 のガードマンから距離1 → 監視されている</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 担当エリアが重なっている店をどう数えるか</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>担当者ごとの受け持ち店数を足すと、重複分が二重に乗る</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>店側から「誰か担当がいるか」を1回だけ確認する</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>この見方なら、重なっていても数え間違えない</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ マスごとに見るメリット</div>
+        <ul class="box-list">
+          <li>範囲が重なっても1回しか数えない</li>
+          <li>端からはみ出した分も自然に無視できる</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ 足し算方式のつまずき</div>
+        <ul class="box-list">
+          <li>重なりを引く計算が必要になり複雑化する</li>
+          <li>端で範囲が切れる分も別途調整が必要</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

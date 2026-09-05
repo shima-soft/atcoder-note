@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC469 D: The Big Two - 制約の読み解き</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+      <h2 class="slide-title">制約から考える解法の枠組み</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>O(N) か O(M) の効率的な処理が必須</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <p style="text-align: center; font-weight: 900; margin: 0;">
+          制約の規模<br>
+          <span style="font-size: 2rem; color: var(--orange);">N, M ≤ 200,000</span>
+        </p>
+      </div>
+      <div class="info-col">
+        <div>
+          <h4>制約が示すこと</h4>
+          <p style="font-size: 0.85rem;">
+            - 2重ループ（$O(N^2)$ や $O(M^2)$）は実行時間制限 2s を超える。<br>
+            - プレイヤーの全ペアを調べたり、全試合を毎回走査したりするのは不可。<br>
+            - 各プレイヤーまたは各試合に対して、一度程度の計算で処理を終える必要がある。
+          </p>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 採用すべきアプローチ</div>
+          <ul class="box-list">
+            <li>各プレイヤーの「決勝進出回数」をカウントする</li>
+            <li>「良い条件」を満たすパターンを数学的に整理する</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 避けるべきアプローチ</div>
+          <ul class="box-list">
+            <li>全てのペア $(x, y)$ を全探索する</li>
+            <li>毎試合ごとに全プレイヤーをチェックする</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

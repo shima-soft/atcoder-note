@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+/* highlight.js が読み込めなかったときも暗背景で読めるようにする */
+pre code { color: #abb2bf; }
+.code-panel {
+  flex: 0 0 50%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .98rem;
+  line-height: 1.72;
+}
+.run-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 14px;
+  padding: .5rem .8rem;
+}
+.run-io {
+  font-family: 'Consolas', monospace;
+  font-size: .8rem;
+  color: var(--text);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: .25rem .5rem;
+  margin-top: .2rem;
+  white-space: pre;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">全体で14行、for文2つだけ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>1つ目のforで数え、2つ目のforで奇数の箱だけ足す。この2段構えで完成</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — abc473b.py</div>
+      <pre><code class="language-python">N = int(input())
+A = list(map(int, input().split()))
+
+count = [0] * 101
+
+for a in A:
+    count[a] += 1
+
+answer = 0
+for v in range(1, 101):
+    if count[v] % 2 == 1:
+        answer += v
+
+print(answer)</code></pre>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 1行ずつ読むと</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><code>A = list(map(int, ...))</code> でカードの数字を整数のリストにする</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p><code>count[a] += 1</code> で、そのカードの数字の箱に印を1つ足す</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p><code>count[v] % 2 == 1</code> が成り立つ数字 v だけ、answer に足す</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ つまずきやすいところ</div>
+        <ul class="box-list">
+          <li><code>[0] * 101</code> は「0が101個」。<code>[0] * 100</code> だと数字100の箱がなくエラーになる</li>
+          <li><code>range(1, 101)</code> は1から100まで。終わりの101は含まれない</li>
+          <li><code>%</code> は割ったあまり。<code>% 2 == 1</code> で「奇数かどうか」を判定できる</li>
+        </ul>
+      </div>
+      <div class="run-box">
+        <div class="box-title">▶ 入力例1を流したときの動き</div>
+        <div class="run-io">入力:  8
+       2 7 1 8 2 8 1 8
+count: [1]=2 [2]=2 [7]=1 [8]=3
+奇数:  7, 8
+出力:  15</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

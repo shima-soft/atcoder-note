@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: flex-start;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">アルゴリズム</span>
+    <h2 class="slide-title">Xでソート → 最小Yを追跡</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">計算量</span>
+      <p>O(N log N) — Python で N ≤ 50万 なら間に合う</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!-- Step 1: Sort -->
+        <rect x="18" y="8" width="240" height="90" rx="10" fill="rgba(217,96,24,.08)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="138" y="30" text-anchor="middle" font-size="13" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">ステップ1: X座標でソート</text>
+        <!-- Before -->
+        <text x="30" y="54" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">ソート前:</text>
+        <rect x="100" y="42" width="50" height="22" rx="4" fill="white" stroke="#dde2ec"/>
+        <text x="125" y="58" text-anchor="middle" font-size="10" fill="#1a1d2e" font-family="'Consolas',monospace">(2,1)</text>
+        <rect x="156" y="42" width="50" height="22" rx="4" fill="white" stroke="#dde2ec"/>
+        <text x="181" y="58" text-anchor="middle" font-size="10" fill="#1a1d2e" font-family="'Consolas',monospace">(1,3)</text>
+        <rect x="212" y="42" width="50" height="22" rx="4" fill="white" stroke="#dde2ec"/>
+        <text x="237" y="58" text-anchor="middle" font-size="10" fill="#1a1d2e" font-family="'Consolas',monospace">(3,2)</text>
+        <!-- Arrow -->
+        <text x="138" y="80" text-anchor="middle" font-size="16" fill="var(--orange)">↓</text>
+        <!-- After -->
+        <text x="30" y="86" font-size="11" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">ソート後:</text>
+        <rect x="100" y="74" width="50" height="22" rx="4" fill="rgba(0,143,106,.1)" stroke="var(--green)"/>
+        <text x="125" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e" font-family="'Consolas',monospace">(1,3)</text>
+        <rect x="156" y="74" width="50" height="22" rx="4" fill="rgba(0,143,106,.1)" stroke="var(--green)"/>
+        <text x="181" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e" font-family="'Consolas',monospace">(2,1)</text>
+        <rect x="212" y="74" width="50" height="22" rx="4" fill="rgba(0,143,106,.1)" stroke="var(--green)"/>
+        <text x="237" y="90" text-anchor="middle" font-size="10" fill="#1a1d2e" font-family="'Consolas',monospace">(3,2)</text>
+
+        <!-- Step 2: Scan -->
+        <rect x="282" y="8" width="240" height="90" rx="10" fill="rgba(26,150,192,.08)" stroke="var(--blue)" stroke-width="1.5"/>
+        <text x="402" y="30" text-anchor="middle" font-size="13" font-weight="900" fill="var(--blue)" font-family="'Noto Sans JP',sans-serif">ステップ2: 左から順に走査</text>
+        <text x="294" y="52" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">minY = ∞（初期値）</text>
+        <text x="294" y="70" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">各点の Y ≤ minY か判定</text>
+        <text x="294" y="88" font-size="11" fill="var(--blue)" font-weight="700" font-family="'Noto Sans JP',sans-serif">YES → カウント +1、YでminYを更新</text>
+
+        <!-- Step 3: Trace -->
+        <rect x="18" y="112" width="504" height="220" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+        <text x="270" y="134" text-anchor="middle" font-size="13" font-weight="900" fill="var(--text)" font-family="'Noto Sans JP',sans-serif">ステップ3: 入力例1でトレース</text>
+
+        <!-- Table header -->
+        <rect x="30" y="144" width="490" height="24" rx="4" fill="var(--surface)"/>
+        <text x="80" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">順番</text>
+        <text x="160" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">点 (X, Y)</text>
+        <text x="260" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">minY（処理前）</text>
+        <text x="350" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">Y ≤ minY?</text>
+        <text x="440" y="160" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">結果</text>
+
+        <!-- Row 1 -->
+        <text x="80" y="186" text-anchor="middle" font-size="11" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="160" y="186" text-anchor="middle" font-size="11" fill="#1a1d2e" font-family="'Consolas',monospace">(1, 3)</text>
+        <text x="260" y="186" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Consolas',monospace">∞</text>
+        <text x="350" y="186" text-anchor="middle" font-size="11" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">3 ≤ ∞ ✓</text>
+        <text x="440" y="186" text-anchor="middle" font-size="11" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">カウント +1</text>
+
+        <!-- Row 2 -->
+        <rect x="30" y="194" width="490" height="26" rx="0" fill="rgba(239,241,247,.5)"/>
+        <text x="80" y="212" text-anchor="middle" font-size="11" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="160" y="212" text-anchor="middle" font-size="11" fill="#1a1d2e" font-family="'Consolas',monospace">(2, 1)</text>
+        <text x="260" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Consolas',monospace">3</text>
+        <text x="350" y="212" text-anchor="middle" font-size="11" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">1 ≤ 3 ✓</text>
+        <text x="440" y="212" text-anchor="middle" font-size="11" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">カウント +1</text>
+
+        <!-- Row 3 -->
+        <text x="80" y="238" text-anchor="middle" font-size="11" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="160" y="238" text-anchor="middle" font-size="11" fill="#1a1d2e" font-family="'Consolas',monospace">(3, 2)</text>
+        <text x="260" y="238" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Consolas',monospace">1</text>
+        <text x="350" y="238" text-anchor="middle" font-size="11" fill="var(--red)" font-weight="700" font-family="'Noto Sans JP',sans-serif">2 ≤ 1 ✗</text>
+        <text x="440" y="238" text-anchor="middle" font-size="11" fill="var(--red)" font-weight="700" font-family="'Noto Sans JP',sans-serif">スキップ</text>
+
+        <!-- Result -->
+        <rect x="120" y="260" width="300" height="50" rx="10" fill="rgba(0,143,106,.1)" stroke="var(--green)" stroke-width="2"/>
+        <text x="270" y="282" text-anchor="middle" font-size="12" fill="var(--green)" font-weight="700" font-family="'Noto Sans JP',sans-serif">最終結果: カウント = 2</text>
+        <text x="270" y="300" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">i=1, 2 の2点が条件を満たす</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 アルゴリズムの流れ（3ステップ）</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>全ポイントを <strong>X座標の昇順</strong>にソートする</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>左から順に処理し、<strong>minY（最小Y）</strong>を追跡する</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>各点の Y ≤ minY ならカウントし、minY を更新</p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 計算量まとめ</div>
+        <ul class="box-list">
+          <li>ソート: O(N log N)</li>
+          <li>走査: O(N)</li>
+          <li>合計: <strong>O(N log N)</strong></li>
+          <li>Python で N ≤ 50万 なら間に合う</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 注意点</div>
+        <ul class="box-list">
+          <li>X座標はすべて異なる（順列なので）</li>
+          <li>minY の更新は判定<strong>後</strong>に行う</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>ローカルAI導入の現実的な流れ</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">WORKFLOW</span>
+    <h2 class="slide-title">ローカルAI導入の現実的な流れ</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>まずはGUIで試し、効果が見えたらAPIサーバーやクラウド展開へ広げる</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="導入ワークフロー">
+        <rect x="35" y="65" width="150" height="92" rx="14" fill="#fff" stroke="#7a3bce" stroke-width="2"/>
+        <text x="110" y="98" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e">1. 試す</text>
+        <text x="110" y="127" text-anchor="middle" font-size="13" fill="#5e6a8a">LM Studio</text>
+        <text x="110" y="146" text-anchor="middle" font-size="13" fill="#5e6a8a">Ollama</text>
+
+        <rect x="235" y="65" width="150" height="92" rx="14" fill="#fff" stroke="#1a96c0" stroke-width="2"/>
+        <text x="310" y="98" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e">2. 業務検証</text>
+        <text x="310" y="127" text-anchor="middle" font-size="13" fill="#5e6a8a">会議音声</text>
+        <text x="310" y="146" text-anchor="middle" font-size="13" fill="#5e6a8a">資料画像</text>
+
+        <rect x="435" y="65" width="150" height="92" rx="14" fill="#fff" stroke="#008f6a" stroke-width="2"/>
+        <text x="510" y="98" text-anchor="middle" font-size="17" font-weight="900" fill="#1a1d2e">3. 連携</text>
+        <text x="510" y="127" text-anchor="middle" font-size="13" fill="#5e6a8a">LiteRT-LM</text>
+        <text x="510" y="146" text-anchor="middle" font-size="13" fill="#5e6a8a">OpenAI互換API</text>
+
+        <path d="M190 111 H225" stroke="#5e6a8a" stroke-width="3" marker-end="url(#arrow)"/>
+        <path d="M390 111 H425" stroke="#5e6a8a" stroke-width="3" marker-end="url(#arrow)"/>
+
+        <rect x="90" y="235" width="440" height="100" rx="16" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="310" y="267" text-anchor="middle" font-size="18" font-weight="900" fill="#1a1d2e">判断基準</text>
+        <text x="310" y="299" text-anchor="middle" font-size="14" fill="#5e6a8a">社外に出せない資料を扱う価値があるか</text>
+        <text x="310" y="321" text-anchor="middle" font-size="14" fill="#5e6a8a">16GB級環境で速度と品質が許容範囲か</text>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#5e6a8a"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">営業・事務職で試すなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>会議録音を30秒以内に切り、文字起こし精度を確認</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>提案資料のスクショから改善案を出す</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>社内FAQをローカルで下書き生成する</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">試しやすい導線</div>
+        <ul class="box-list">
+          <li>LM Studio / Ollama / Google AI Edge Gallery</li>
+          <li>LiteRT-LM CLIでOpenAI互換APIサーバー化</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">先に確認すること</div>
+        <ul class="box-list">
+          <li>音声は最大30秒、動画は最大60秒（1fps想定）</li>
+          <li>機密データ運用は社内ルールとログ保存設定を確認</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

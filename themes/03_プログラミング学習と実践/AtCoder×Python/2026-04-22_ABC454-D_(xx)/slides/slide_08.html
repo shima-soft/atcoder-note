@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-desc    { font-size: .76rem; color: var(--muted); line-height: 1.5; flex: 1; }
+.term-link    {
+  font-size: .65rem; color: var(--blue); text-decoration: none;
+  margin-top: auto; align-self: flex-start; white-space: nowrap;
+}
+.term-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">スタック</span>
+          <span class="term-reading">stack</span>
+        </div>
+        <p class="term-desc">後から入れたものを最初に取り出すデータ構造（LIFO）。Python のリストで <code>append</code>/<code>pop</code> を使って実現する。皿を積み上げるイメージ。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/スタック" target="_blank">Wikipedia: スタック 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">正規形</span>
+          <span class="term-reading">せいきけい / canonical form</span>
+        </div>
+        <p class="term-desc">変換操作を繰り返してたどり着く「これ以上変えられない標準の形」。同じ正規形を持つ文字列どうしは互いに変換可能。</p>
+        
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">LIFO</span>
+          <span class="term-reading">ライフォ</span>
+        </div>
+        <p class="term-desc">Last In, First Out（後入れ先出し）の略。スタックの動作原則で、最後に追加した要素を最初に取り出す。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/スタック" target="_blank">Wikipedia: スタック 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">不変量</span>
+          <span class="term-reading">ふへんりょう / invariant</span>
+        </div>
+        <p class="term-desc">操作を何回行っても変わらない性質のこと。「不変量が同じ = 変換可能」という考え方は競プロで頻出。</p>
+        <a class="term-link" href="https://ja.wikipedia.org/wiki/不変量" target="_blank">Wikipedia: 不変量 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">list.append()</span>
+          <span class="term-reading">アペンド</span>
+        </div>
+        <p class="term-desc">Python リストの末尾に要素を追加するメソッド。スタックへの「積む（push）」操作に使う。計算量 O(1)。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/tutorial/datastructures.html#more-on-lists" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">list.pop()</span>
+          <span class="term-reading">ポップ</span>
+        </div>
+        <p class="term-desc">Python リストの末尾から要素を取り出すメソッド。スタックからの「取り出す（pop）」操作に使う。計算量 O(1)。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/tutorial/datastructures.html#more-on-lists" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">テストケース</span>
+          <span class="term-reading">test case</span>
+        </div>
+        <p class="term-desc">問題の入力と期待される出力の組。競プロでは T 個のテストケースをまとめて処理することが多い。</p>
+        
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">str.rstrip()</span>
+          <span class="term-reading">アールストリップ</span>
+        </div>
+        <p class="term-desc">文字列末尾の空白・改行を取り除くメソッド。<code>sys.stdin.readline</code> は行末の <code>\n</code> を含むため必須。</p>
+        <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#str.rstrip" target="_blank">Python公式ドキュメント 🔗</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+</body></html>

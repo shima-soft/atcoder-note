@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>なぜローカルは弱いのか 92%は社内ルールを知らなかっただけ</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">原因分析</span>
+    <h2 class="slide-title">91.7%の失敗は「やり方を知らなかった」だけ</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>頭脳テストは互角。仕事で負ける原因は「環境ルールと操作手順」が抜けていたこと — 手書きメモで26/33件が直った</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="失敗原因の内訳と頭脳テストの比較">
+        <!-- 上段: 頭脳テストは互角 -->
+        <text x="34" y="24" font-size="12" font-weight="900" fill="#5e6a8a">① 頭脳テストは互角（Qwen3.6-27B vs Claude Opus 4.5）</text>
+        <rect x="20" y="30" width="580" height="76" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <!-- ヘッダ -->
+        <text x="110" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a">ベンチマーク</text>
+        <text x="260" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a">Qwen3.6-27B</text>
+        <text x="390" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a">Opus 4.5</text>
+        <text x="510" y="50" text-anchor="middle" font-size="10" font-weight="700" fill="#5e6a8a">差</text>
+        <line x1="20" y1="58" x2="600" y2="58" stroke="#dde2ec"/>
+
+        <text x="110" y="72" text-anchor="middle" font-size="11" fill="#1a1d2e">SWE-bench</text>
+        <text x="260" y="72" text-anchor="middle" font-size="11" fill="#1a1d2e">77.2</text>
+        <text x="390" y="72" text-anchor="middle" font-size="11" fill="#1a1d2e">80.9</text>
+        <text x="510" y="72" text-anchor="middle" font-size="11" fill="#5e6a8a">-3.7</text>
+
+        <text x="110" y="88" text-anchor="middle" font-size="11" fill="#1a1d2e">Terminal-Bench</text>
+        <text x="260" y="88" text-anchor="middle" font-size="11" fill="#1a1d2e">59.3</text>
+        <text x="390" y="88" text-anchor="middle" font-size="11" fill="#1a1d2e">59.3</text>
+        <text x="510" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">±0.0</text>
+
+        <text x="110" y="102" text-anchor="middle" font-size="11" fill="#1a1d2e">GPQA Diamond</text>
+        <text x="260" y="102" text-anchor="middle" font-size="11" fill="#1a1d2e">87.8</text>
+        <text x="390" y="102" text-anchor="middle" font-size="11" fill="#1a1d2e">87.0</text>
+        <text x="510" y="102" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">+0.8</text>
+
+        <!-- 下段: 失敗内訳 -->
+        <text x="34" y="126" font-size="12" font-weight="900" fill="#5e6a8a">② ローカルAgentの失敗36件を分解（AppWorld-Normal）</text>
+        <rect x="20" y="134" width="580" height="134" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+
+        <!-- バー: 知識不足 91.7% -->
+        <text x="34" y="158" font-size="11" font-weight="700" fill="#1a1d2e">知識不足</text>
+        <text x="34" y="172" font-size="11" fill="#5e6a8a">ルール・手順なし</text>
+        <rect x="126" y="148" width="360" height="26" rx="6" fill="#7a3bce"/>
+        <text x="306" y="165" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">33件 91.7%</text>
+
+        <!-- 内訳: ルール 52.8% と手順 38.9% -->
+        <rect x="126" y="180" width="206" height="18" rx="4" fill="#c9b3ec"/>
+        <text x="229" y="193" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">ルール欠如 19件 52.8%</text>
+        <rect x="338" y="180" width="152" height="18" rx="4" fill="#e9ddfb"/>
+        <text x="414" y="193" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">手順欠如 14件 38.9%</text>
+
+        <!-- 能力不足 8.3% -->
+        <text x="34" y="218" font-size="11" font-weight="700" fill="#1a1d2e">能力不足</text>
+        <text x="34" y="232" font-size="11" fill="#5e6a8a">書式・推論ミス</text>
+        <rect x="126" y="210" width="32" height="26" rx="6" fill="#c9cfdd"/>
+        <text x="142" y="227" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">3件</text>
+        <text x="168" y="227" font-size="11" fill="#5e6a8a">8.3%</text>
+
+        <text x="34" y="252" font-size="11" fill="#5e6a8a">→ 大きなモデルは広い知識を丸暗記しているが、小さなモデルは社内ルールが抜け落ちる</text>
+
+        <!-- 改善 -->
+        <rect x="20" y="276" width="580" height="74" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="296" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">手書きメモを渡したら？ — 26/33件がその場で直った</text>
+        <rect x="40" y="306" width="170" height="28" rx="8" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="125" y="324" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">ルール 15/19 復活</text>
+        <rect x="225" y="306" width="170" height="28" rx="8" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="310" y="324" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">手順 11/14 復活</text>
+        <rect x="410" y="306" width="170" height="28" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="495" y="324" text-anchor="middle" font-size="11" fill="#5e6a8a">能力 1/3 のみ</text>
+
+        <!-- 具体例 -->
+        <rect x="20" y="360" width="580" height="56" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="378" font-size="11" font-weight="700" fill="#1a1d2e">具体例: パスワードが ●●●● で隠れていても「メモ欄に平文がある」というルール</text>
+        <text x="34" y="396" font-size="11" fill="#5e6a8a">ローカルは「見えない＝使えない」と誤解して別手段を探して迷子に。クラウドはルールを知っていて即成功。</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>新人（ローカル）は一般教養テストは満点</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>でも「見積は稟議→承認→発注」の順、を知らず失敗</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>一枚の手順書を渡せば8割直る</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 重要示唆</div>
+        <ul class="box-list">
+          <li>再学習不要。外から知識を“差し込む”だけで直る</li>
+          <li>小さいモデル＝頭が悪い、ではない</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 落とし穴</div>
+        <ul class="box-list">
+          <li>大きいモデルほど偶然知っているだけで、教えていない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

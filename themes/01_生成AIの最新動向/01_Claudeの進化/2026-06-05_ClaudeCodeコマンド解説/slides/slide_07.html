@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">REVIEW</span>
+    <h2 class="slide-title">出す前は「差分・レビュー・安全確認」</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>作ったあとに見るコマンドを決めておくと、うっかりミスを減らせます。</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="レビュー前の流れ">
+        <rect x="55" y="55" width="510" height="320" rx="22" fill="#f9fafb" stroke="#dde2ec"/>
+        <rect x="100" y="105" width="420" height="55" rx="12" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="135" y="140" font-size="21" font-weight="800" fill="#1a1d2e">/diff</text>
+        <text x="250" y="140" font-size="18" fill="#5e6a8a">まず変更点を目で見る</text>
+        <path d="M310 168 V205" stroke="#1a96c0" stroke-width="4" marker-end="url(#arrow)"/>
+        <rect x="100" y="215" width="420" height="55" rx="12" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="135" y="250" font-size="21" font-weight="800" fill="#1a1d2e">/code-review</text>
+        <text x="300" y="250" font-size="18" fill="#5e6a8a">正しさと整理を確認</text>
+        <path d="M310 278 V315" stroke="#1a96c0" stroke-width="4" marker-end="url(#arrow)"/>
+        <rect x="100" y="325" width="420" height="55" rx="12" fill="#eaf7fc" stroke="#1a96c0"/>
+        <text x="135" y="360" font-size="21" font-weight="800" fill="#1a1d2e">/security-review</text>
+        <text x="340" y="360" font-size="18" fill="#5e6a8a">安全面のリスクを見る</text>
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a96c0"/></marker></defs>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="ok-box">
+        <div class="box-title">出荷前の基本セット</div>
+        <ul class="box-list">
+          <li><code>/diff</code>: 何が変わったかを見る</li>
+          <li><code>/code-review</code>: バグや改善点を見る</li>
+          <li><code>/review</code>: PRを読む</li>
+          <li><code>/security-review</code>: セキュリティ差分を見る</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">修正まで任せるなら</div>
+        <ul class="box-list">
+          <li><code>/code-review --fix</code> で指摘の反映まで依頼できる</li>
+          <li>大きな修正は、先にレビューだけ出すのが安心</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">失敗パターン</div>
+        <ul class="box-list">
+          <li>差分を見ないまま提出する</li>
+          <li>安全確認を機能確認と同じものとして扱う</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

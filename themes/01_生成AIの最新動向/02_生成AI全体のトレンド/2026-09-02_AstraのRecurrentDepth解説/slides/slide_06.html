@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>Recurrent Depth の仕組み</title>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">仕組み</span>
+    <h2 class="slide-title">同じ層に何周もくぐらせる</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>入口で言葉を数字に変え、その数字を同じ中核ブロックに何周もくぐらせて磨いてから、出口で言葉に戻す</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="420" viewBox="0 0 620 420" role="img" aria-label="入口・中核ブロック・出口の流れと、中核ブロックを周回する様子">
+        <defs>
+          <marker id="ar-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa4bd"/>
+          </marker>
+          <marker id="ar-v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a3bce"/>
+          </marker>
+        </defs>
+
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">① 全体の流れ</text>
+
+        <rect x="20" y="64" width="72" height="50" rx="8" fill="#e5e8ef"/>
+        <text x="56" y="93" text-anchor="middle" font-size="11" fill="#1a1d2e">質問</text>
+        <line x1="96" y1="89" x2="108" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="114" y="54" width="112" height="70" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="170" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">入口 2層</text>
+        <text x="170" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">言葉→数字</text>
+        <line x1="230" y1="89" x2="240" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="246" y="44" width="144" height="90" rx="12" fill="#7a3bce"/>
+        <text x="318" y="76" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">中核ブロック</text>
+        <text x="318" y="93" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">4層</text>
+        <text x="318" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">ここを何周も</text>
+        <line x1="394" y1="89" x2="404" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="410" y="54" width="112" height="70" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="466" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">出口 2層</text>
+        <text x="466" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">数字→言葉</text>
+        <line x1="526" y1="89" x2="534" y2="89" stroke="#9aa4bd" stroke-width="2" marker-end="url(#ar-g)"/>
+
+        <rect x="538" y="64" width="62" height="50" rx="8" fill="#e5e8ef"/>
+        <text x="569" y="93" text-anchor="middle" font-size="11" fill="#1a1d2e">答え</text>
+
+        <path d="M 386 136 C 414 178, 222 178, 250 136" fill="none" stroke="#7a3bce" stroke-width="2.5" marker-end="url(#ar-v)"/>
+        <text x="318" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#7a3bce">同じ4層を、何周もくぐらせる</text>
+
+        <text x="34" y="220" font-size="12" font-weight="900" fill="#5e6a8a">② 1周ごとに、内部の「考え」が磨かれていく</text>
+
+        <rect x="20" y="232" width="136" height="64" rx="10" fill="#e9ddfb"/>
+        <text x="88" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">1周目</text>
+        <text x="88" y="275" text-anchor="middle" font-size="11" fill="#1a1d2e">まだ ざっくり</text>
+
+        <rect x="166" y="232" width="136" height="64" rx="10" fill="#d5bff2"/>
+        <text x="234" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">2周目</text>
+        <text x="234" y="275" text-anchor="middle" font-size="11" fill="#1a1d2e">少し整ってくる</text>
+
+        <rect x="312" y="232" width="136" height="64" rx="10" fill="#b48ae4"/>
+        <text x="380" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#1a1d2e">…途中</text>
+        <text x="380" y="275" text-anchor="middle" font-size="11" fill="#1a1d2e">だんだん確かに</text>
+
+        <rect x="458" y="232" width="136" height="64" rx="10" fill="#7a3bce"/>
+        <text x="526" y="260" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">16周目</text>
+        <text x="526" y="275" text-anchor="middle" font-size="11" fill="#ffffff">答えが定まる</text>
+
+        <text x="310" y="312" text-anchor="middle" font-size="10.5" fill="#5e6a8a">凡例: 色が濃いほど、内部の考えがはっきりしてきた状態</text>
+
+        <rect x="20" y="326" width="580" height="82" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="356" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1a1d2e">何周しても、覚えている重みは4層ぶんのまま</text>
+        <text x="310" y="382" text-anchor="middle" font-size="11.5" fill="#5e6a8a">増えるのは計算の回数だけ。だから機材を大きくせずに深く考えられる</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>入口＝依頼メールを要点メモに書き換える</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>中核＝同じメモを何度も読み返して詰める</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>出口＝固まった結論を文章にして返す</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ ここがポイント</div>
+        <ul class="box-list">
+          <li>周回の途中は数字のまま。言葉にはならない</li>
+          <li>周回数は答える直前に決められる</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">📖 公開研究では</div>
+        <ul class="box-list">
+          <li>Huginn-3.5B は 入口2層・中核4層・出口2層</li>
+          <li>16〜128周が実用域。64周あたりで頭打ち</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

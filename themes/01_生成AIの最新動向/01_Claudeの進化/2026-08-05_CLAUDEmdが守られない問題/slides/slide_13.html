@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card { padding: .7rem .8rem; justify-content: center; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Claude Code</span>
+          <span class="term-reading">クロード コード</span>
+        </div>
+        <p class="term-desc">日本語で頼むとファイルを直接読み書きしてくれる AI。今回の制作環境そのもの。</p>
+        <a class="term-link" href="https://www.claude.com/product/claude-code" target="_blank">claude.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">CLAUDE.md</span>
+          <span class="term-reading">クロード エムディー</span>
+        </div>
+        <p class="term-desc">Claude Code が毎回読む指示書。職場でいう「業務マニュアルの表紙」にあたる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Anthropic</span>
+          <span class="term-reading">アンソロピック</span>
+        </div>
+        <p class="term-desc">Claude を開発した米国の AI 安全研究企業（2021年設立）。</p>
+        <a class="term-link" href="https://www.anthropic.com" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Markdown</span>
+          <span class="term-reading">マークダウン</span>
+        </div>
+        <p class="term-desc">記号だけで見出しや箇条書きを表す書式。指示書もこの形式のただのテキスト。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">コンテキスト</span>
+          <span class="term-reading">コンテキスト</span>
+        </div>
+        <p class="term-desc">AI が一度に読める情報の量。増やしすぎると、個々の指示の存在感が薄まる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">エージェント</span>
+          <span class="term-reading">エージェント</span>
+        </div>
+        <p class="term-desc">AI が自分で判断しながら複数の作業を進める働き方。有能な代行者のイメージ。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ヘッドレスChrome</span>
+          <span class="term-reading">ヘッドレス クローム</span>
+        </div>
+        <p class="term-desc">画面を出さずに動く Chrome。人が見る代わりに、描いて測るために使う。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">SVG</span>
+          <span class="term-reading">エスブイジー</span>
+        </div>
+        <p class="term-desc">拡大してもぼやけない図の形式。文字も図形も座標で指定して描く。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">viewBox</span>
+          <span class="term-reading">ビューボックス</span>
+        </div>
+        <p class="term-desc">SVG の「用紙サイズ」。この外にはみ出した部分は表示されない。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">px（ピクセル）</span>
+          <span class="term-reading">ピクセル</span>
+        </div>
+        <p class="term-desc">画面上の長さの単位。1px は点1つぶん。今回の「2px のはみ出し」の px。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">終了コード</span>
+          <span class="term-reading">しゅうりょうコード</span>
+        </div>
+        <p class="term-desc">プログラムが返す合否の番号。0 が成功。「0件まで直す」の判定に使える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Lint</span>
+          <span class="term-reading">リント</span>
+        </div>
+        <p class="term-desc">書き方の誤りを機械的に見つける仕組み。文書でいう校正ツールにあたる。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

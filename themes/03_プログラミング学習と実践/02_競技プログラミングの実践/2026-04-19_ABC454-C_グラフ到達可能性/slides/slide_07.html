@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">BFS（幅優先探索）</span>
+          <span class="term-reading">ビーエフエス / Breadth-First Search</span>
+        </div>
+        <p class="term-desc">グラフをノード1に近い順（幅）に探索するアルゴリズム。キューを使って実装する。最短経路や到達可能性の検出に使われる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">有向グラフ</span>
+          <span class="term-reading">ゆうこうグラフ / Directed Graph</span>
+        </div>
+        <p class="term-desc">辺に「向き」があるグラフ。A→B の辺はあっても B→A はないことがある。本問ではアイテム交換ルールを辺として表現した。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">DFS（深さ優先探索）</span>
+          <span class="term-reading">ディーエフエス / Depth-First Search</span>
+        </div>
+        <p class="term-desc">グラフを「できる限り深く」辿り、行き詰まったら戻るアルゴリズム。スタックまたは再帰で実装。BFS と同様に到達可能性を調べられる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">隣接リスト</span>
+          <span class="term-reading">りんせつリスト / Adjacency List</span>
+        </div>
+        <p class="term-desc">グラフの辺を「各ノードの隣接ノードリスト」として表現するデータ構造。メモリ効率がよく、BFS・DFS の標準的な実装に使われる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">O記法（計算量）</span>
+          <span class="term-reading">オーきほう / Big-O Notation</span>
+        </div>
+        <p class="term-desc">処理ステップ数の「おおよその増え方」を表す記法。O(N+M) は「データ数 N と M に比例した時間で終わる」を意味し、実用的に高速と言える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+        <p class="term-desc">日本最大の競技プログラミングプラットフォーム。ABC（AtCoder Beginner Contest）は毎週開催される初心者向けコンテスト。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

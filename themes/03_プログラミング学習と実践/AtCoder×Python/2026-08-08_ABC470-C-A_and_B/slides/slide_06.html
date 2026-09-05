@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABC470 C - A and B 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <style>
+    pre code.hljs { background: transparent !important; padding: 0 !important; }
+    .code-container {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">コード全体・計算量まとめ</span>
+      <h2 class="slide-title">実装と計算量の確認</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>ビットを配列で管理し、クエリごとに $O(1)$ で更新する</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="code-container">
+        <pre><code class="language-python"># 各ビットの状態を配列で管理
+bits_A = [int((A >> i) & 1) for i in range(30)]
+bits_B = [int((B >> i) & 1) for i in range(30)]
+
+# クエリ処理
+for _ in range(Q):
+    t, idx = map(int, input().split())
+    if t == 1:
+        bits_A[idx] = 1 - bits_A[idx]
+    else:
+        bits_B[idx] = 1 - bits_B[idx]
+
+# 結果の合成
+ans_A = 0
+for i in range(30):
+    ans_A |= (bits_A[i] << i)
+
+ans_B = 0
+for i in range(30):
+    ans_B |= (bits_B[i] << i)
+
+print(ans_A)
+print(ans_B)</code></pre>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <h4 style="margin:0">📊 計算量の確認</h4>
+        <p>クエリ数 Q に対して、各クエリを O(1) で処理します。</p>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ Pythonでの実行上限</div>
+          <ul class="box-list">
+          <li>全体計算量: O(Q)</li>
+          <li>Pythonの目安: 10^7（1000万）程度</li>
+          <li>本問題 (Q=10^5): 余裕を持って間に合います</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

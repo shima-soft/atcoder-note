@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card { padding: 1.1rem 1.2rem; gap: .55rem; justify-content: center; }
+.card-title { font-size: .95rem; }
+.card-role {
+  display: inline-block;
+  padding: .1rem .55rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  width: fit-content;
+  background: rgba(26,150,192,.12);
+  color: var(--blue);
+}
+.card-bad, .card-good {
+  font-size: .78rem;
+  line-height: 1.55;
+  padding: .4rem .6rem;
+  border-radius: 8px;
+}
+.card-bad  { background: rgba(94,106,138,.08); color: var(--muted); }
+.card-good { background: rgba(26,150,192,.08); color: var(--text); }
+.card-good b { color: var(--blue); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">BIZ</span>
+    <h2 class="slide-title">同じ考え方を、営業・事務の仕事に置き換えると</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>「丁寧に確認して」と頼むのをやめ、確認したかを数えられる形にして渡す</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">💼</span>
+        <span class="card-role">営業</span>
+        <div class="card-title">提案書の数字を毎回検算する</div>
+        <div class="card-bad">✕ 「金額に間違いがないか確認して」— 確認したかを誰も判定できない</div>
+        <div class="card-good">⭕ 明細の合計と総額を突き合わせる<b>チェック表を作らせ、提出前に必ず通す</b>。不一致0件が提出の条件</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <span class="card-role">事務</span>
+        <div class="card-title">名簿・台帳の乱れを先に洗う</div>
+        <div class="card-bad">✕ 「表記ゆれに気をつけて」— 何をもって整ったのかが決まらない</div>
+        <div class="card-good">⭕ 重複・空欄・全角半角の混在を<b>一覧で出す手順を作らせる</b>。件数が0になるまで直す</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🗂</span>
+        <span class="card-role">共通</span>
+        <div class="card-title">合格条件を先に決めておく</div>
+        <div class="card-bad">✕ 指示を細かくするほど良くなる、とは限らない</div>
+        <div class="card-good">⭕ 「何が満たされたら完成か」を<b>数えられる言葉にする</b>のが、いちばん効く指示になる</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

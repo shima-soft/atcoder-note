@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC469 D: The Big Two - アルゴリズム解説3</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <div class="slide surface">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">アルゴリズム解説</span>
+      <h2 class="slide-title">効率的にカウントする戦略</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>「強力なプレイヤー」を軸に、他のプレイヤーを走査する</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <p style="text-align: center; font-weight: 900; margin: 0;">
+          計算量を抑えるための分類<br>
+          <span style="font-size: 1.2rem; color: var(--muted);">
+            $Z$ (完璧) $\rightarrow$ 全員とOK<br>
+            $S_{large}$ (強力) $\rightarrow$ 全員を走査<br>
+            $S_{mid}$ (標準) $\rightarrow$ 特別な判定
+          </span>
+        </p>
+      </div>
+      <div class="info-col">
+        <div>
+          <h4>なぜこれで間に合うのか</h4>
+          <p style="font-size: 0.85rem;">
+            - **$Z$ への対応**: $|Z|$ 個のプレイヤーについて、一律に「全員とOK」と数える。<br>
+            - **$S_{large}$ への対応**: $S_{large}$ に属するプレイヤーは、合計の出現回数が $M$ を超えないため、その数は非常に少ない（最大でも数個）。そのため、これらを軸にして $N$ 回の走査を行うのは高速です。<br>
+            - **$S_{mid}$ への対応**: $|P_x| = M/2$ のとき、$P_x \cup P_y$ が全域を覆うには $P_y$ との重複がゼロである必要があります。これは「$x$ と $y$ が同時に決勝に進んだことがない」ことと同値です。
+          </p>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 判定のポイント</div>
+          <ul class="box-list">
+            <li>重複を避けるため、$x < y$ かつ $x$ が強力な方のときだけカウントする</li>
+            <li>ペアの重複カウントを正確に管理する</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 失敗パターン</div>
+          <ul class="box-list">
+            <li>全てのペアを $(P_x \cup P_y)$ の和集合判定で回すと $O(N^2)$ になり間に合わない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

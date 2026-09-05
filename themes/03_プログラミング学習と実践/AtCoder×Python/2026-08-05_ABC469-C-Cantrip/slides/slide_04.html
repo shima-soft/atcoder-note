@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: flex-start;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">気づき①</span>
+    <h2 class="slide-title">1歩進むと手持ちはどう変わる？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>捨てて1枚、引いて1枚 — 差が出るのは x を引いたときだけ</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          ケース①: x=18  w=240 (right=258) / 小箱 x = 28 + i*76 (w=68, gap=8)  center = 62,138,214
+          ケース②: x=282 w=240 (right=522) / 小箱 x = 292 + i*76               center = 326,402,478
+        -->
+
+        <!-- ケース①: 当たりを引いた（脇役・グレー） -->
+        <rect x="18" y="22" width="240" height="190" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="138" y="50" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">ケース① 次に引いたのが o</text>
+
+        <rect x="28" y="68" width="68" height="60" rx="8" fill="#f9fafb" stroke="#dde2ec" stroke-width="1"/>
+        <text x="62" y="90" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">捨てる</text>
+        <text x="62" y="114" text-anchor="middle" font-size="17" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">−1</text>
+
+        <rect x="104" y="68" width="68" height="60" rx="8" fill="#f9fafb" stroke="#dde2ec" stroke-width="1"/>
+        <text x="138" y="90" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">o を引く</text>
+        <text x="138" y="114" text-anchor="middle" font-size="17" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">+1</text>
+
+        <rect x="180" y="68" width="68" height="60" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="214" y="90" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">合計</text>
+        <text x="214" y="114" text-anchor="middle" font-size="17" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">±0</text>
+
+        <text x="138" y="158" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">当たりを1枚使い、当たりが1枚戻る</text>
+        <text x="138" y="184" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">手持ちの当たり枚数は変わらない</text>
+
+        <!-- ケース②: はずれを引いた（主役・オレンジ） -->
+        <rect x="282" y="22" width="240" height="190" rx="10" fill="rgba(217,96,24,.07)" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="402" y="50" text-anchor="middle" font-size="14" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">ケース② 次に引いたのが x</text>
+
+        <rect x="292" y="68" width="68" height="60" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+        <text x="326" y="90" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">捨てる</text>
+        <text x="326" y="114" text-anchor="middle" font-size="17" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">−1</text>
+
+        <rect x="368" y="68" width="68" height="60" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+        <text x="402" y="90" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">x を引く</text>
+        <text x="402" y="114" text-anchor="middle" font-size="17" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">+0</text>
+
+        <rect x="444" y="68" width="68" height="60" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="478" y="90" text-anchor="middle" font-size="11" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">合計</text>
+        <text x="478" y="114" text-anchor="middle" font-size="17" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">−1</text>
+
+        <text x="402" y="158" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">当たりを1枚使い、戻ってこない</text>
+        <text x="402" y="184" text-anchor="middle" font-size="12" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">手持ちの当たりが1枚減る</text>
+
+        <!-- 結論の式 -->
+        <rect x="60" y="238" width="420" height="90" rx="10" fill="rgba(217,96,24,.08)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="270" y="272" text-anchor="middle" font-size="15" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">手持ちの当たり = k −（引いたはずれの個数）</text>
+        <text x="270" y="302" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">最初の k 個も「引いた」と数えれば、この式は常に成り立つ</text>
+
+        <!-- 止まる条件 -->
+        <rect x="60" y="352" width="420" height="110" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+        <text x="270" y="386" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)" font-family="'Noto Sans JP',sans-serif">止まるのは 手持ちの当たり = 0 になったとき</text>
+        <text x="270" y="416" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">= はずれをちょうど k 個引いた瞬間</text>
+        <text x="270" y="444" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">その「k個目のはずれの位置」が、そのまま食べた個数になる</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 1歩の内訳（3つに分けて見る）</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>手持ちの当たりを1枚捨てる（<strong>−1</strong>）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>列の先頭を1個引く（当たりなら <strong>+1</strong>）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>差し引きで減るのは <strong>x を引いた回だけ</strong></p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ ここが今日の核心</div>
+        <ul class="box-list">
+          <li>当たりの枚数 = k − 引いたはずれの数</li>
+          <li>k は途中で変わらない定数</li>
+          <li>だから追うのは「はずれの個数」だけでいい</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 見落としやすい点</div>
+        <ul class="box-list">
+          <li>手持ちの袋は最初から最後まで k 枚のまま</li>
+          <li>どの袋を捨てるかは結果に影響しない</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

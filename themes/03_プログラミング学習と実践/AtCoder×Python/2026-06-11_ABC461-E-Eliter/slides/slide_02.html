@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .7rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title {
+  font-size: .82rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.sec-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.op-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .3rem .5rem;
+  background: var(--surface);
+  border-radius: 8px;
+  font-size: .78rem;
+  margin-bottom: .2rem;
+}
+.op-num {
+  min-width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 700;
+  flex-shrink: 0;
+  color: #fff;
+}
+.ci {
+  font-family: 'Consolas', monospace;
+  background: rgba(217,96,24,.08);
+  color: var(--orange);
+  padding: .05rem .3rem;
+  border-radius: 4px;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.constraint-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .78rem;
+  color: var(--text);
+}
+.constraint-row:last-child { border-bottom: none; }
+.cvar {
+  font-family: 'Consolas', monospace;
+  font-weight: 700;
+  color: var(--orange);
+  min-width: 60px;
+  flex-shrink: 0;
+}
+.hint-box {
+  background: rgba(217,96,24,.06);
+  border: 1px solid rgba(217,96,24,.2);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+  font-size: .76rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin-top: auto;
+}
+.io-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .76rem;
+  margin-top: .2rem;
+}
+.io-table th {
+  background: var(--surface);
+  padding: .25rem .4rem;
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+}
+.io-table td {
+  padding: .26rem .4rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Consolas', monospace;
+  vertical-align: middle;
+}
+.io-table tr:last-child td { border-bottom: none; }
+.ans { font-weight: 900; color: var(--orange); }
+.io-note {
+  font-size: .72rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-top: .3rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">行を黒く塗る・列を白く塗る — 黒マスの数を毎回答える</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>同じ行や列が何度も塗り直される。「後から塗った色で上書き」がこの問題の主役</p>
+    </div>
+  </div>
+
+  <div class="body-grid slide-body">
+    <!-- 問題文 -->
+    <div class="section-card">
+      <div class="sec-label">問題文（噛み砕き版）</div>
+      <div class="sec-title">2種類の塗りつぶしクエリ</div>
+      <div class="sec-body">
+        N×N のグリッドがあり、最初は<strong>全マス白</strong>。<br>
+        Q 個のクエリを順番に処理する。
+      </div>
+      <div class="op-row">
+        <span class="op-num" style="background:#1a1d2e">黒</span>
+        <span><span class="ci">1 R</span> … 上から R 行目を<strong>全部黒</strong>に塗る</span>
+      </div>
+      <div class="op-row">
+        <span class="op-num" style="background:var(--blue)">白</span>
+        <span><span class="ci">2 C</span> … 左から C 列目を<strong>全部白</strong>に塗る</span>
+      </div>
+      <div class="sec-body" style="margin-top:.2rem;">
+        各クエリの処理が終わるたびに、<br>
+        グリッド内の<strong>黒いマスの個数</strong>を出力する。
+      </div>
+      <div class="hint-box">
+        💡 黒く塗った行の上から白い列が重なることも、その逆もある。<strong>常に後から塗った色が勝つ</strong>。
+      </div>
+    </div>
+
+    <!-- 制約 -->
+    <div class="section-card">
+      <div class="sec-label">制約</div>
+      <div class="sec-title">変数の意味と範囲</div>
+      <div style="margin-top:.15rem;">
+        <div class="constraint-row">
+          <span class="cvar">N</span>
+          <span>グリッドの一辺（1 以上 3×10⁵ 以下）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">Q</span>
+          <span>クエリの個数（1 以上 3×10⁵ 以下）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">R, C</span>
+          <span>塗る行・列の番号（1〜N）</span>
+        </div>
+        <div class="constraint-row">
+          <span class="cvar">制限</span>
+          <span>実行時間 2 秒</span>
+        </div>
+      </div>
+      <div class="hint-box">
+        ⚠️ マスの総数は最大 <strong>3×10⁵ × 3×10⁵ = 9×10¹⁰ 個</strong>。<br>
+        グリッドをそのまま配列で持つのは<strong>不可能</strong>という強いヒント。
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="section-card">
+      <div class="sec-label">入出力例</div>
+      <div class="sec-title">例1: N=3、4 クエリ</div>
+      <table class="io-table">
+        <tr>
+          <th>クエリ</th><th>意味</th><th>黒マス数</th>
+        </tr>
+        <tr>
+          <td>1 1</td><td>1行目を黒に</td><td class="ans">3</td>
+        </tr>
+        <tr>
+          <td>1 3</td><td>3行目を黒に</td><td class="ans">6</td>
+        </tr>
+        <tr>
+          <td>2 2</td><td>2列目を白に</td><td class="ans">4</td>
+        </tr>
+        <tr>
+          <td>1 1</td><td>1行目をもう一度黒に</td><td class="ans">5</td>
+        </tr>
+      </table>
+      <div class="io-note">
+        3つ目で 1・3 行目の黒が 1 個ずつ消えて 6−2=<strong>4</strong>。<br>
+        4つ目は白かった 1 マスだけ黒に戻って 4+1=<strong>5</strong>。<br><br>
+        <strong>例2:</strong> 真っ白なグリッドの列を白く塗っても <strong>0</strong> のまま。
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

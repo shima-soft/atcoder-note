@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.summary-stack {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.summary-stack .card {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: .85rem;
+  padding: .8rem 1.2rem;
+}
+/* 番号バッジはカード枠に対して縦中央 */
+.summary-stack > .card > .card-num {
+  margin-bottom: 0;
+  align-self: center;
+  flex-shrink: 0;
+}
+.card-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  min-width: 0;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+.card-head .card-icon { font-size: 1.5rem; line-height: 1; margin-bottom: 0; flex-shrink: 0; }
+.try-box {
+  width: 40%;
+  flex-shrink: 0;
+  background: rgba(26,150,192,.08);
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  font-size: .78rem;
+  color: var(--blue);
+  font-weight: 700;
+  line-height: 1.55;
+}
+.try-box .try-label {
+  display: block;
+  font-size: .68rem;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: .15rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">まとめ — 今日から試せること</h2>
+    <p class="slide-sub">Claude Opus 5 の進化を、明日の仕事に活かすための3つのアクション</p>
+  </div>
+  <div class="slide-body">
+    <div class="summary-stack">
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">1</span>
+        <div class="card-main">
+          <div class="card-head">
+            <span class="card-icon">🔁</span>
+            <div class="card-title">いつものモデルを Opus 5 に切り替える</div>
+          </div>
+          <div class="card-desc">料金は Opus 4.8 と同じ 入力 $5 / 出力 $25。まずは1週間、いつもの仕事をそのまま任せて、手戻りの回数を比べてみましょう</div>
+        </div>
+        <div class="try-box">
+          <span class="try-label">言い方の例</span>
+          「先月の請求データを突き合わせて、差異を一覧にして」
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--blue)">2</span>
+        <div class="card-main">
+          <div class="card-head">
+            <span class="card-icon">🎛️</span>
+            <div class="card-title">大事な仕事だけ「深さ」を上げる</div>
+          </div>
+          <div class="card-desc">日々のメールは low〜medium、提案書のレビューや契約書チェックは max。同じモデルのまま、考える深さだけを使い分けます</div>
+        </div>
+        <div class="try-box">
+          <span class="try-label">使い分けの例</span>
+          日次のメール = low ／ 契約書レビュー = max
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--purple)">3</span>
+        <div class="card-main">
+          <div class="card-head">
+            <span class="card-icon">🤖</span>
+            <div class="card-title">多工程の仕事をまるごと任せる</div>
+          </div>
+          <div class="card-desc">「リストを分析して→危ない先を選んで→連絡文の下書きまで作って」と一度に依頼。最後の確認と送信だけは必ず人が行いましょう</div>
+        </div>
+        <div class="try-box">
+          <span class="try-label">任せる範囲の例</span>
+          調べる・まとめる・下書きまで（送信は人）
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

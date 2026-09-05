@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 54%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .76rem;
+  line-height: 1.62;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード①</span>
+    <h2 class="slide-title">入力と BIT（時刻カウント表）の準備（20 行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>行用と列用、2 本の BIT を用意する。中身は「足す・引く・累計を出す」の 3 機能だけ</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — 入力 + BIT の道具立て</div>
+      <pre><code class="language-python">import sys
+input = sys.stdin.readline
+
+N, Q = map(int, input().split())
+size = Q + 2
+row_bit = [0] * (size + 1)
+col_bit = [0] * (size + 1)
+
+def bit_add(bit, i, x):
+    i += 1
+    while i <= size:
+        bit[i] += x
+        i += i & (-i)
+def bit_sum(bit, i):
+    i += 1
+    s = 0
+    while i > 0:
+        s += bit[i]
+        i -= i & (-i)
+    return s</code></pre>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 それぞれの役割</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><code>row_bit</code> ＝ 行を黒く塗った時刻の集計表<br><code>col_bit</code> ＝ 列を白く塗った時刻の集計表</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p><code>bit_add(表, 時刻, x)</code> … その時刻の件数を x だけ増減</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p><code>bit_sum(表, 時刻)</code> … 時刻 0〜t の累計件数を返す</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 実装のコツ</div>
+        <ul class="box-list">
+          <li>時刻は 0〜Q を使うので、表の長さは <code>Q + 2</code> で確保</li>
+          <li>冒頭の <code>i += 1</code> は「時刻 0」も表で扱うためのずらし（BIT は 1 始まり）</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <div class="box-title">📝 i &amp; (-i) について</div>
+        <ul class="box-list">
+          <li>2 進数で「担当ブロック」を渡り歩くテクニック。仕組みは後回しでOK、<strong>使い方を覚えるのが先</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

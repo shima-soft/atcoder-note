@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.15);color:var(--purple)">AGENT</span>
+    <h2 class="slide-title">長時間タスクを安定して任せられる</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>「複数時間かかる調査・作業」をClaudeに丸投げできるようになった。途中で止まりにくい</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          エージェント処理フロー図（縦型ステップ）
+          ボックス幅: 240, 高さ: 34, gap: 12
+          x中心: 220, 各ボックス x=100
+          viewBox: 0 0 440 260
+        -->
+        <svg viewBox="0 0 440 260" width="580" height="260" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="220" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Opus 4.7 のエージェント処理フロー</text>
+
+          <!-- ステップ 1 -->
+          <rect x="90" y="32" width="260" height="34" rx="8" fill="rgba(122,59,206,.12)" stroke="#7a3bce" stroke-width="1.2"/>
+          <text x="220" y="53" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3bce">① 指示受信 — 「競合他社を10社調査して」</text>
+
+          <!-- 矢印 -->
+          <text x="220" y="78" text-anchor="middle" font-size="14" fill="#7a3bce">↓</text>
+
+          <!-- ステップ 2 -->
+          <rect x="90" y="84" width="260" height="34" rx="8" fill="rgba(122,59,206,.08)" stroke="#7a3bce" stroke-width="1.2"/>
+          <text x="220" y="105" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3bce">② Web検索ツールを呼び出して情報収集</text>
+
+          <!-- 矢印 -->
+          <text x="220" y="130" text-anchor="middle" font-size="14" fill="#7a3bce">↓</text>
+
+          <!-- エラー復帰（Opus 4.7の強み） -->
+          <rect x="60" y="136" width="160" height="30" rx="6" fill="rgba(201,22,46,.07)" stroke="#c9162e" stroke-width="1"/>
+          <text x="140" y="155" text-anchor="middle" font-size="9" fill="#c9162e">❌ ツールエラー発生</text>
+          <path d="M 220 151 L 240 151 L 240 181 L 220 181" fill="none" stroke="#1a96c0" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="290" y="148" text-anchor="middle" font-size="9" font-weight="700" fill="#1a96c0">自動で</text>
+          <text x="290" y="161" text-anchor="middle" font-size="9" font-weight="700" fill="#1a96c0">リトライ</text>
+
+          <!-- ステップ 3 -->
+          <rect x="90" y="172" width="260" height="34" rx="8" fill="rgba(122,59,206,.08)" stroke="#7a3bce" stroke-width="1.2"/>
+          <text x="220" y="193" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3bce">③ 結果を整理してレポート生成</text>
+
+          <!-- 矢印 -->
+          <text x="220" y="218" text-anchor="middle" font-size="14" fill="#7a3bce">↓</text>
+
+          <!-- 完成 -->
+          <rect x="120" y="224" width="200" height="28" rx="8" fill="rgba(0,143,106,.15)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="220" y="243" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">✅ 完成 — 途中停止なしで完走</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 営業チームの活用例</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--purple)">1</span>
+            <p>「新規提案先の業界トレンドを調べてA4一枚にまとめて」と依頼</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--purple)">2</span>
+            <p>Claudeが複数の情報源を検索・整理・執筆まで数時間かけて実行</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--purple)">3</span>
+            <p>途中でエラーが発生しても自分で修正して最後まで完走する</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ Opus 4.7で強化された点</div>
+          <ul class="box-list">
+            <li>ツール呼び出しミスが減り、より長い処理でも安定</li>
+            <li>失敗した際に原因を分析して別の方法で再挑戦</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ やってしまいがちな失敗</div>
+          <ul class="box-list">
+            <li>指示が曖昧だとゴールがずれる — 「何を」「どんな形式で」まで指定する</li>
+            <li>長時間処理は途中経過確認の仕組みを設けると安心</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

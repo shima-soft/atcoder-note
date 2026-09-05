@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">FLAGS</span>
+    <h2 class="slide-title">CLIオプションは「範囲・モデル・権限」を決める</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>起動時の旗印として、Claudeにどこまで見せるか、どう動かすかを指定します。</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">1</span>
+        <div class="card-title"><code>--add-dir</code></div>
+        <p class="card-desc">追加フォルダを読めるようにする。複数リポジトリをまたぐ調査で便利。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">2</span>
+        <div class="card-title"><code>--model</code></div>
+        <p class="card-desc">使うモデルを指定する。重い設計相談と軽い確認で使い分ける。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">3</span>
+        <div class="card-title"><code>--permission-mode</code></div>
+        <p class="card-desc">権限確認のモードを指定。大きな変更前は <code>plan</code> が安心。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">4</span>
+        <div class="card-title"><code>--allowedTools</code></div>
+        <p class="card-desc">許可済みツールを追加。毎回聞かれる読み取り系操作を減らせる。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">5</span>
+        <div class="card-title"><code>--max-turns</code></div>
+        <p class="card-desc">自動処理の往復回数を制限。CIやスクリプトで止めどころを作る。</p>
+      </div>
+      <div class="card">
+        <span class="card-num" style="background:var(--g-blue)">6</span>
+        <div class="card-title"><code>--output-format json</code></div>
+        <p class="card-desc">結果をJSONで受け取る。後続のプログラムに渡す時に使いやすい。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

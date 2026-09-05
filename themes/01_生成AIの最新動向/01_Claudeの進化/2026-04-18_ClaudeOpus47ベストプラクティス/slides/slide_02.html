@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.intro-layout {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+.intro-left {
+  flex: 0 0 48%;
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+.intro-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.analogy-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+}
+.analogy-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .6rem;
+  letter-spacing: .05em;
+}
+.compare-row {
+  display: flex;
+  gap: .6rem;
+  margin-bottom: .5rem;
+}
+.compare-item {
+  flex: 1;
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.compare-item.before {
+  background: rgba(201,22,46,.06);
+  border: 1px solid rgba(201,22,46,.2);
+}
+.compare-item.after {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+}
+.compare-badge {
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+  width: fit-content;
+}
+.compare-item.before .compare-badge { background: rgba(201,22,46,.15); color: var(--red); }
+.compare-item.after  .compare-badge { background: rgba(26,150,192,.15); color: var(--blue); }
+.compare-main {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.compare-desc {
+  font-size: .75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.def-box {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+  border-radius: 14px;
+  padding: .7rem 1rem;
+}
+.def-text {
+  font-size: .84rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+.def-text strong { color: var(--blue); font-weight: 700; }
+.reason-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .55rem .9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  flex: 1;
+}
+.reason-num {
+  min-width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--g-blue);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.reason-title {
+  font-size: .8rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: .15rem;
+}
+.reason-desc {
+  font-size: .75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">INTRO</span>
+    <h2 class="slide-title">Opus 4.7 とは？</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>コーディング・AIエージェントタスクに最も強い最新の公開モデル。ただし使い方の「慣らし」が必要</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="intro-layout">
+      <div class="intro-left">
+        <div class="analogy-box">
+          <div class="analogy-title">🔧 モデル交換のリアル</div>
+          <div class="compare-row">
+            <div class="compare-item before">
+              <span class="compare-badge">❌ よくある誤解</span>
+              <div class="compare-main">4.6を4.7に置き換えるだけ</div>
+              <div class="compare-desc">同じプロンプトをそのまま使ったら<br>動作が変わって戸惑うことがある</div>
+            </div>
+            <div class="compare-item after">
+              <span class="compare-badge">✅ 正しいアプローチ</span>
+              <div class="compare-main">新しい「癖」に合わせてチューニング</div>
+              <div class="compare-desc">数点の設定を調整するだけで<br>4.7の真の実力を引き出せる</div>
+            </div>
+          </div>
+          <div class="def-box">
+            <div class="def-text">
+              <strong>Claude Opus 4.7</strong>は新しいトークナイザーと
+              進化した推論パターンを持つ。そのため<br>
+              Opus 4.6のプロンプトを<strong>そのまま使うと最適でない</strong>場合がある。
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="intro-right">
+        <div style="font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.1rem;letter-spacing:.05em">移行時に知っておくべき3つのこと</div>
+        <div class="reason-card">
+          <span class="reason-num">1</span>
+          <div>
+            <div class="reason-title">新しいトークナイザーで処理方式が変わった</div>
+            <div class="reason-desc">テキストの分割方法が更新され、より効率的に処理できるようになった反面、同じプロンプトへの応答が若干変化することがある</div>
+          </div>
+        </div>
+        <div class="reason-card">
+          <span class="reason-num">2</span>
+          <div>
+            <div class="reason-title">推論パターンが進化した</div>
+            <div class="reason-desc">より柔軟に「考える」ようになった。問題の難しさに応じて自動で思考の深さを変える「アダプティブ思考」を採用</div>
+          </div>
+        </div>
+        <div class="reason-card">
+          <span class="reason-num">3</span>
+          <div>
+            <div class="reason-title">デフォルト動作が変わった</div>
+            <div class="reason-desc">レスポンスの冗長性が低下し、ツール使用も慎重になった。「エフォート設定」という新機能で動作を細かく制御できる</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

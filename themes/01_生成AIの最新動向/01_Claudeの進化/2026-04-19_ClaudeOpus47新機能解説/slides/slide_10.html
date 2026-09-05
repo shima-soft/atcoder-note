@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .45rem;
+  flex: 1;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Anthropic</span>
+          <span class="term-reading">アンソロピック</span>
+        </div>
+        <p class="term-desc">Claudeを開発した米国のAI安全研究企業（2021年設立）。元OpenAIチームが創業。</p>
+        <a class="term-link" href="https://anthropic.com" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Claude Opus 4.7</span>
+          <span class="term-reading">クロード オーパス フォーポイントセブン</span>
+        </div>
+        <p class="term-desc">Anthropicが2026年4月16日に公開した最新の高性能AIモデル。</p>
+        <a class="term-link" href="https://anthropic.com/claude" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">トークン</span>
+          <span class="term-reading">トークン</span>
+        </div>
+        <p class="term-desc">AIが文章を処理する際の最小単位。日本語1文字≒1〜3トークン。APIの料金計算の基準。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">API</span>
+          <span class="term-reading">エーピーアイ</span>
+        </div>
+        <p class="term-desc">アプリケーション間の「連携口」。開発者がClaudeをシステムに組み込む際に使う仕組み。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">エージェント</span>
+          <span class="term-reading">エージェント</span>
+        </div>
+        <p class="term-desc">AIが自律的に複数のタスクをこなす働き方。人間が逐一指示しなくても、自分で判断して動く。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ベンチマーク</span>
+          <span class="term-reading">ベンチマーク</span>
+        </div>
+        <p class="term-desc">AIの性能を測るテスト。競技の採点のようなもので、モデルの能力を客観的に比較する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">トークナイザー</span>
+          <span class="term-reading">トークナイザー</span>
+        </div>
+        <p class="term-desc">文章をトークンに分割する処理機構。世代が変わると同じ文章でもトークン数が変化する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">マルチモーダル</span>
+          <span class="term-reading">マルチモーダル</span>
+        </div>
+        <p class="term-desc">テキスト・画像・音声など複数の種類の情報を扱えるAIの能力。「多感覚AI」とも言える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Claude Code</span>
+          <span class="term-reading">クロード コード</span>
+        </div>
+        <p class="term-desc">AnthropicのClaude AIを使ったコーディング支援ツール。プログラマーの開発作業をサポートする。</p>
+        <a class="term-link" href="https://claude.ai/code" target="_blank">claude.ai/code 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">SHIFT</span>
+    <h2 class="slide-title">変わったのは、合否を決める人</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>作り方も指示の言葉も変えていない。変えたのは「誰が合格を決めるか」だけ</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          box[i].x = 26 + i * 116  (boxWidth=100, gap=16, 送り幅=116)
+          x = 26, 142, 258, 374   center = 76, 192, 308, 424   right = 126, 242, 358, 474
+          上段 BEFORE: y=70 h=62 / 下段 AFTER: y=204 h=62
+          viewBox: 0 0 500 330
+        -->
+        <svg viewBox="0 0 500 330" width="600" height="396" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">同じ作業、判定者だけを変える</text>
+
+          <!-- BEFORE（脇役） -->
+          <text x="26" y="58" text-anchor="start" font-size="12" font-weight="700" fill="#5e6a8a">BEFORE — 人が判定する</text>
+          <rect x="26" y="70" width="100" height="62" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="76" y="97" text-anchor="middle" font-size="11.5" fill="#5e6a8a">スライドを</text>
+          <text x="76" y="113" text-anchor="middle" font-size="11.5" fill="#5e6a8a">作る</text>
+          <polygon points="128,95 128,107 140,101" fill="#c8cede"/>
+          <rect x="142" y="70" width="100" height="62" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="192" y="97" text-anchor="middle" font-size="11.5" fill="#5e6a8a">👀 目で</text>
+          <text x="192" y="113" text-anchor="middle" font-size="11.5" fill="#5e6a8a">確認する</text>
+          <polygon points="244,95 244,107 256,101" fill="#c8cede"/>
+          <rect x="258" y="70" width="100" height="62" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="308" y="97" text-anchor="middle" font-size="11.5" fill="#5e6a8a">たぶん</text>
+          <text x="308" y="113" text-anchor="middle" font-size="11.5" fill="#5e6a8a">大丈夫と判断</text>
+          <polygon points="360,95 360,107 372,101" fill="#c8cede"/>
+          <rect x="374" y="70" width="100" height="62" rx="8" fill="#fdf2f3" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="424" y="97" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c9162e">公開後に</text>
+          <text x="424" y="113" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c9162e">ずれに気づく</text>
+
+          <!-- AFTER（主役） -->
+          <text x="26" y="192" text-anchor="start" font-size="12" font-weight="700" fill="#1a96c0">AFTER — ツールが判定する</text>
+          <rect x="26" y="204" width="100" height="62" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="76" y="231" text-anchor="middle" font-size="11.5" fill="#5e6a8a">スライドを</text>
+          <text x="76" y="247" text-anchor="middle" font-size="11.5" fill="#5e6a8a">作る</text>
+          <polygon points="128,229 128,241 140,235" fill="#1a96c0"/>
+          <rect x="142" y="204" width="100" height="62" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="192" y="231" text-anchor="middle" font-size="11.5" fill="#1a1d2e">📐 ツールで</text>
+          <text x="192" y="247" text-anchor="middle" font-size="11.5" fill="#1a1d2e">測る</text>
+          <polygon points="244,229 244,241 256,235" fill="#1a96c0"/>
+          <rect x="258" y="204" width="100" height="62" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="308" y="231" text-anchor="middle" font-size="11.5" fill="#1a1d2e">ERROR 3件</text>
+          <text x="308" y="247" text-anchor="middle" font-size="11.5" fill="#1a1d2e">数字で出る</text>
+          <polygon points="360,229 360,241 372,235" fill="#1a96c0"/>
+          <rect x="374" y="204" width="100" height="62" rx="8" fill="rgba(26,150,192,.14)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="424" y="231" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a96c0">その場で</text>
+          <text x="424" y="247" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a96c0">直して再検査</text>
+
+          <text x="250" y="306" text-anchor="middle" font-size="11.5" fill="#5e6a8a">作り方は変えていない。変えたのは「合格の決め方」だけ</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 何が入れ替わったか</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>判定の基準が「なんとなく」から「1px 単位の実測値」になった</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>気づく時点が「公開したあと」から「作った直後」に前倒しされた</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>直す相手が人ではなく Claude 自身になり、指摘の往復が消えた</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 副産物</div>
+          <ul class="box-list">
+            <li>過去31本ぶんもまとめて検査できる（全件チェックのオプション付き）</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 万能ではない</div>
+          <ul class="box-list">
+            <li>測れるのは位置と大きさだけ。伝わるかどうかは人が見る</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

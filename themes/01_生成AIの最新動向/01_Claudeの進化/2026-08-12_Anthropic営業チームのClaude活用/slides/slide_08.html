@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">STEP 5 — ふりかえり</span>
+    <h2 class="slide-title">商談を採点して、次に練習する1点を教えてもらう</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>録音と社内の台本を突き合わせ、良かった点・直す点・合否・次の課題を成績表にする</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左（材料・脇役）: x=22 w=146 (right=168) / y=76, 180
+          中央（Claude）  : x=212 w=110 (right=322)
+          右（主役・青）  : x=356 w=132 (right=488)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">商談のあと、その場で採点してもらう</text>
+
+          <!-- 左: 材料（脇役） -->
+          <rect x="22" y="76" width="146" height="68" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="95" y="105" text-anchor="middle" font-size="12.5" fill="#5e6a8a">商談の文字起こし</text>
+          <text x="95" y="123" text-anchor="middle" font-size="12.5" fill="#5e6a8a">（Gong の記録）</text>
+          <rect x="22" y="180" width="146" height="68" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="95" y="209" text-anchor="middle" font-size="12.5" fill="#5e6a8a">社内の商談台本</text>
+          <text x="95" y="227" text-anchor="middle" font-size="12.5" fill="#5e6a8a">（何を聞くか）</text>
+
+          <path d="M168 110 L182 110 L182 162 L192 162" fill="none" stroke="#c8cede" stroke-width="1.2"/>
+          <path d="M168 214 L182 214 L182 162 L192 162" fill="none" stroke="#c8cede" stroke-width="1.2"/>
+          <polygon points="192,154 206,162 192,170" fill="#5e6a8a"/>
+
+          <!-- 中央: Claude（脇役） -->
+          <rect x="212" y="128" width="110" height="68" rx="9" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="267" y="157" text-anchor="middle" font-size="13" fill="#5e6a8a">Claude が</text>
+          <text x="267" y="176" text-anchor="middle" font-size="13" fill="#5e6a8a">突き合わせる</text>
+
+          <polygon points="332,154 346,162 332,170" fill="#1a96c0"/>
+
+          <!-- 右: 成績表（主役） -->
+          <rect x="356" y="64" width="132" height="268" rx="12" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="422" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">通話ごとの成績表</text>
+          <text x="372" y="134" font-size="12" fill="#1a1d2e">よかった点 3つ</text>
+          <text x="372" y="166" font-size="12" fill="#1a1d2e">直すべき点 3つ</text>
+          <text x="372" y="198" font-size="12" fill="#1a1d2e">基準を満たしたか</text>
+          <text x="372" y="230" font-size="12" fill="#1a1d2e">合格 / 不合格</text>
+          <text x="372" y="266" font-size="12" font-weight="700" fill="#1a96c0">次に練習する 1つ</text>
+          <text x="372" y="296" font-size="11" fill="#5e6a8a">＝最優先で直す1点</text>
+
+          <text x="95" y="290" text-anchor="middle" font-size="12" fill="#5e6a8a">毎回の商談が</text>
+          <text x="95" y="310" text-anchor="middle" font-size="12" fill="#5e6a8a">練習の材料になる</text>
+
+          <text x="250" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">上司のレビュー待ちではなく、その日のうちに直せる</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 成績表に載ること</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>うまくできた点を3つ、直したほうがよい点を3つ</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>社内基準に照らして、合格か不合格かをはっきり出す</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>次に練習することを1つだけ指定する。あれこれ言わない</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 初回の面談だけの話ではない</div>
+          <ul class="box-list">
+            <li>採用面接・窓口対応・研修の練習など、台本がある会話ならそのまま応用できる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 前提</div>
+          <ul class="box-list">
+            <li>「良い会話とは何か」を社内で言葉にしていないと採点できない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

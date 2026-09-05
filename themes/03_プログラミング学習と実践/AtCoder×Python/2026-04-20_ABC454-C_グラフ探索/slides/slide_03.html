@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-block {
+  background: #282c34;
+  border-radius: 10px;
+  padding: .6rem .8rem;
+  overflow: hidden;
+}
+.code-block pre {
+  margin: 0;
+  font-size: .76rem;
+  line-height: 1.6;
+}
+.tlebox {
+  background: rgba(201,22,46,.08);
+  border: 1px solid rgba(201,22,46,.3);
+  border-radius: 10px;
+  padding: .5rem .8rem;
+}
+.tlebox .box-title { color: var(--red); }
+.warn-row {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .82rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin-bottom: .3rem;
+}
+.warn-row:last-child { margin-bottom: 0; }
+.wnum {
+  min-width: 22px; height: 22px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700;
+  flex-shrink: 0; margin-top: .05rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">失敗アプローチ</span>
+    <h2 class="slide-title">「繰り返しチェック」はなぜ遅いか？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「変化があるうちは何度でも全交換リストを見直す」は O(N×M) になりTLEになる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード図 -->
+    <div class="diagram-box" style="flex-direction:column;gap:.6rem;align-items:stretch;padding:.8rem;">
+      <div style="font-size:.72rem;font-weight:700;color:var(--muted);margin-bottom:.2rem;">ナイーブな実装イメージ</div>
+      <div class="code-block">
+        <pre><code class="language-python">items = {1}         # 最初はアイテム1だけ
+changed = True
+
+while changed:      # 変化がなくなるまで繰り返す
+    changed = False
+    for a, b in trades:
+        if a in items and b not in items:
+            items.add(b)
+            changed = True  # また変化した
+
+print(len(items))</code></pre>
+      </div>
+      <div style="background:rgba(201,22,46,.07);border:1px solid rgba(201,22,46,.25);border-radius:10px;padding:.5rem .8rem;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--red);margin-bottom:.3rem;">⚠️ 計算量の問題</div>
+        <div style="font-size:.8rem;color:var(--text);line-height:1.6;">
+          アイテムは最大 <strong>N回</strong> 追加される<br>
+          1回の追加ごとに <strong>M件</strong> の全交換を再確認<br>
+          → 合計 <strong style="color:var(--red);">N × M = 9 × 10¹⁰ 回</strong><br>
+          → Python は 1秒に約 10⁷〜10⁸ 回なので<br>
+          　 <strong style="color:var(--red);">1000秒以上かかる</strong> → TLE 💀
+        </div>
+      </div>
+    </div>
+
+    <!-- 右: 説明カラム -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">💼 仕事で例えると</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>社員名簿（M人分）を先頭から全部確認する</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>1人でも「新しく連絡できる人」が見つかったらまた先頭から確認</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>もう誰も増えなくなるまで何度も繰り返す</p>
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);margin-top:.3rem;">
+          → 社員数が30万人いたら何十億回も確認することに…
+        </div>
+      </div>
+
+      <div class="tlebox">
+        <div class="box-title">❌ TLEになる理由まとめ</div>
+        <ul class="box-list">
+          <li>N=M=3×10⁵ のとき N×M = 9×10¹⁰ 操作</li>
+          <li>Python の実行可能上限は約 10⁷（1秒）</li>
+          <li>N ≤ 3000 ならO(N²)でも通るが、今回は10万倍以上大きい</li>
+        </ul>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title">💡 「同じ場所を2度見ない」発想が必要</div>
+        <ul class="box-list">
+          <li>一度確認したアイテムは二度と繰り返さないアルゴリズムを使う</li>
+          <li>→ BFS（幅優先探索）で O(N+M) に改善できる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

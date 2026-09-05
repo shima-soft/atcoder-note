@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wrap-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: .8rem; flex: 1; overflow: hidden;
+}
+.wrap-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .9rem 1rem;
+  display: flex; flex-direction: column; gap: .45rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.wc-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--g-orange); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 900; flex-shrink: 0;
+}
+.wc-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.wc-body { font-size: .8rem; color: var(--muted); line-height: 1.65; flex: 1; }
+.wc-tag {
+  display: inline-block; background: rgba(217,96,24,.1); color: var(--orange);
+  font-size: .68rem; font-weight: 700; padding: .12rem .5rem;
+  border-radius: 99px; width: fit-content;
+}
+.pattern-box {
+  background: rgba(26,150,192,.06); border: 1px solid rgba(26,150,192,.2);
+  border-radius: 12px; padding: .6rem .9rem;
+}
+.pb-label { font-size: .68rem; font-weight: 700; color: var(--blue); margin-bottom: .3rem; }
+.pb-flow {
+  display: flex; align-items: center; gap: .4rem; flex-wrap: wrap;
+  font-size: .82rem; font-weight: 700; color: var(--text);
+}
+.pb-arrow { color: var(--muted); font-size: 1rem; }
+.pb-step {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: .2rem .6rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">まとめ</span>
+    <h2 class="slide-title">解法パターンの整理</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「上下固定 → 1次元の問題」＋「単調性 → 尺取り法」の合わせ技が本問の肝</p>
+    </div>
+  </div>
+  <div class="slide-body" style="flex-direction:column;gap:.7rem;">
+    <div class="wrap-grid">
+      <div class="wrap-card">
+        <div class="wc-num">1</div>
+        <div class="wc-title">上下の固定（次元削減）</div>
+        <div class="wc-body">
+          長方形の行範囲 (u,d) を固定することで、
+          列ごとの和 A[j] を計算し、<strong>1次元配列上の区間和問題</strong>
+          に帰着させる。<br><br>
+          全組み合わせ O(H²) は最大 125,250 通りで余裕。
+        </div>
+        <span class="wc-tag">次元削減</span>
+      </div>
+      <div class="wrap-card">
+        <div class="wc-num">2</div>
+        <div class="wc-title">単調性と尺取り法</div>
+        <div class="wc-body">
+          グリッドの値は 0 or 1 なので A[j] ≥ 0。
+          累積和 B は<strong>単調非減少</strong>になる。<br><br>
+          → 2ポインタ（r₁, r₂）を前方向にのみ進める
+          <strong>尺取り法</strong>で O(W) でカウント可能。
+        </div>
+        <span class="wc-tag">2ポインタ</span>
+      </div>
+      <div class="wrap-card">
+        <div class="wc-num">3</div>
+        <div class="wc-title">全体で O(H²W)</div>
+        <div class="wc-body">
+          H,W ≤ 500 の制約下で<br>
+          O(H²W) ≈ <strong>1.25×10⁸</strong> 回の操作。<br><br>
+          単純な O(H²W²) に比べて<br>
+          <strong>約 500 倍の高速化</strong>を達成。
+        </div>
+        <span class="wc-tag">計算量</span>
+      </div>
+    </div>
+    <div class="pattern-box">
+      <div class="pb-label">🔁 今回の解法パターン（競プロ頻出）</div>
+      <div class="pb-flow">
+        <span class="pb-step">2次元グリッド</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">1次元に次元削減</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">非負→単調性を確認</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step">尺取り法で O(N)</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step" style="border-color:var(--orange);color:var(--orange);">O(H²W) で AC</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

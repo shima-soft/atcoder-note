@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">ANATOMY</span>
+    <h2 class="slide-title">中身は3種類: Skill・App・MCP</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>Skillは手順書、Appは外部サービスの窓口、MCPは専用ツールの接続口です</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg viewBox="0 0 600 360" width="100%" height="100%" role="img" aria-label="Codex plugin parts">
+        <defs>
+          <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#5e6a8a"/>
+          </marker>
+        </defs>
+        <rect x="210" y="22" width="180" height="58" rx="14" fill="#eaf7fc" stroke="#1a96c0" stroke-width="2"/>
+        <text x="300" y="56" text-anchor="middle" font-size="19" font-weight="900" fill="#1a96c0">Plugin</text>
+        <line x1="300" y1="80" x2="300" y2="118" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arrow3)"/>
+        <rect x="45" y="128" width="150" height="86" rx="14" fill="#fff" stroke="#1a96c0" stroke-width="2"/>
+        <text x="120" y="160" text-anchor="middle" font-size="18" font-weight="900" fill="#1a96c0">Skill</text>
+        <text x="120" y="185" text-anchor="middle" font-size="13" fill="#5e6a8a">作業手順書</text>
+        <rect x="225" y="128" width="150" height="86" rx="14" fill="#fff" stroke="#008f6a" stroke-width="2"/>
+        <text x="300" y="160" text-anchor="middle" font-size="18" font-weight="900" fill="#008f6a">App</text>
+        <text x="300" y="185" text-anchor="middle" font-size="13" fill="#5e6a8a">外部窓口</text>
+        <rect x="405" y="128" width="150" height="86" rx="14" fill="#fff" stroke="#d96018" stroke-width="2"/>
+        <text x="480" y="160" text-anchor="middle" font-size="18" font-weight="900" fill="#d96018">MCP</text>
+        <text x="480" y="185" text-anchor="middle" font-size="13" fill="#5e6a8a">専用ツール接続</text>
+        <line x1="300" y1="118" x2="120" y2="128" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arrow3)"/>
+        <line x1="300" y1="118" x2="300" y2="128" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arrow3)"/>
+        <line x1="300" y1="118" x2="480" y2="128" stroke="#5e6a8a" stroke-width="2" marker-end="url(#arrow3)"/>
+        <rect x="75" y="260" width="450" height="52" rx="14" fill="#f9fafb" stroke="#dde2ec"/>
+        <text x="300" y="282" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">Codexは必要な部品を読み込み、会話や作業で使う</text>
+        <text x="300" y="304" text-anchor="middle" font-size="12" fill="#5e6a8a">プラグイン = 部品をまとめて配るパッケージ</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">業務で置き換えると</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-blue)">1</span><p>Skill: 社内マニュアル</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-green)">2</span><p>App: 他部署への連絡窓口</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-orange)">3</span><p>MCP: 専門ソフトの操作端末</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">使えるシーン</div>
+        <ul class="box-list">
+          <li>同じ作業手順を何度も使う</li>
+          <li>外部サービスの情報を参照したい</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">混同しやすい点</div>
+        <ul class="box-list">
+          <li>Skill単体は手順、Pluginは配布パッケージ</li>
+          <li>AppやMCPは認証・設定が必要な場合がある</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

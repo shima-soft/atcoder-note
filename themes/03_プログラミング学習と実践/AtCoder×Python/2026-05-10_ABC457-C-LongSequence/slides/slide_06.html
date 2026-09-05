@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">最後のステップ</span>
+    <h2 class="slide-title">シーケンス内での位置を計算</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">モジュロ演算</span>
+      <p>シーケンス内で相対位置を計算し、繰り返しに対応する</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <svg viewBox="0 0 420 320" style="width:100%;height:100%;max-width:420px;">
+        <!-- タイトル -->
+        <text x="210" y="25" font-size="14" font-weight="700" text-anchor="middle" fill="#1a1d2e">
+          相対位置の計算
+        </text>
+
+        <!-- K=9 の例 -->
+        <text x="10" y="50" font-size="11" font-weight="700" fill="#1a1d2e">
+          K = 9 → A[1] に属することが判明
+        </text>
+
+        <!-- 位置関係 -->
+        <rect x="10" y="65" width="400" height="80" fill="#f5f6fa" stroke="var(--border)" stroke-width="1" rx="6"/>
+        <text x="20" y="82" font-size="10" font-weight="700" fill="#5e6a8a">
+          位置の内訳:
+        </text>
+        <text x="20" y="98" font-size="9" font-family="Monaco" fill="#1a1d2e">
+          cumsum[0] = 3 (A[0] の終了位置)
+        </text>
+        <text x="20" y="110" font-size="9" font-family="Monaco" fill="#1a1d2e">
+          K = 9 (探索対象)
+        </text>
+        <text x="20" y="122" font-size="9" font-family="Monaco" fill="var(--green)">
+          相対位置 = K - cumsum[0] = 9 - 3 = 6
+        </text>
+        <text x="20" y="135" font-size="9" fill="#5e6a8a">
+          → A[1] の 6番目の要素を取得
+        </text>
+
+        <!-- モジュロ演算 -->
+        <rect x="10" y="150" width="400" height="80" fill="rgba(0,143,106,.08)" stroke="var(--green)" stroke-width="1" rx="6"/>
+        <text x="20" y="167" font-size="10" font-weight="700" fill="var(--green)">
+          Step 1: A[1] 内でのインデックス
+        </text>
+        <text x="20" y="183" font-size="9" font-family="Monaco" fill="#1a1d2e">
+          L[1] = 3 (A[1] の長さ)
+        </text>
+        <text x="20" y="195" font-size="9" font-family="Monaco" fill="#1a1d2e">
+          相対位置 = 6, C[1] = 3 (繰り返し回数)
+        </text>
+        <text x="20" y="207" font-size="9" font-family="Monaco" fill="var(--green)">
+          インデックス = (6 - 1) % 3 = 5 % 3 = 2
+        </text>
+        <text x="20" y="220" font-size="9" fill="#5e6a8a">
+          → A[1][2] (0-indexed) を取得
+        </text>
+
+        <!-- 答え -->
+        <rect x="10" y="235" width="400" height="70" fill="rgba(217,96,24,.1)" stroke="var(--orange)" stroke-width="2" rx="6"/>
+        <text x="20" y="253" font-size="11" font-weight="700" fill="var(--orange)">
+          答え: A[1][2] = 3
+        </text>
+        <text x="20" y="268" font-size="9" fill="#1a1d2e">
+          B[9] = 3 ✓ （正解）
+        </text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">📍 計算ステップ</div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">1</div>
+          <p><strong>所属シーケンスを確定</strong><br>二分探索で idx = 1</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">2</div>
+          <p><strong>相対位置を計算</strong><br>pos = K - cumsum[idx-1]</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--g-orange);">3</div>
+          <p><strong>シーケンス内インデックス</strong><br>result_idx = (pos - 1) % L[idx]</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 実装のコツ</div>
+        <ul class="box-list">
+          <li>0-indexed と 1-indexed の区別</li>
+          <li>cumsum[idx-1] で「前のシーケンスまでの合計」</li>
+          <li>(pos - 1) % L で 0-indexed に変換</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ よくあるミス</div>
+        <ul class="box-list">
+          <li>% を忘れて K-cumsum をそのまま使う</li>
+          <li>インデックスのズレで WA</li>
+          <li>cumsum の初期値漏れ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

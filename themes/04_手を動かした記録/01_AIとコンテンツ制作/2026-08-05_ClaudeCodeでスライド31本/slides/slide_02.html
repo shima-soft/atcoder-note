@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">WHY</span>
+    <h2 class="slide-title">いつもと違う回です</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>31本つくって分かったのは、「〇〇について」より「〇〇をやった」のほうが届くということでした</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左box(主役): x=30  w=200 → right=230, center=130
+          右box(脇役): x=270 w=200 → right=470, center=370
+          gap = 270 - 230 = 40
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="620" height="310" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">同じくらいの手間でつくった2本</text>
+
+          <!-- 左: 手を動かした記録（主役） -->
+          <text x="130" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#cc0a6a">手を動かした記録</text>
+          <rect x="30" y="70" width="200" height="110" rx="12" fill="rgba(204,10,106,.10)" stroke="#cc0a6a" stroke-width="2.5"/>
+          <text x="130" y="132" text-anchor="middle" font-size="40" font-weight="900" fill="#cc0a6a">約1万</text>
+          <text x="130" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#cc0a6a">回 再生</text>
+          <text x="130" y="198" text-anchor="middle" font-size="10" fill="#5e6a8a">自分の環境で動かした</text>
+
+          <!-- 右: 読めない論文の解説（脇役） -->
+          <text x="370" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">読めない論文の解説</text>
+          <rect x="270" y="70" width="200" height="110" rx="12" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="370" y="132" text-anchor="middle" font-size="40" font-weight="900" fill="#5e6a8a">27</text>
+          <text x="370" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">回 再生</text>
+          <text x="370" y="198" text-anchor="middle" font-size="10" fill="#5e6a8a">AIに読ませて再構成した</text>
+
+          <text x="250" y="228" text-anchor="middle" font-size="9" fill="#5e6a8a">※ 自分のチャンネルの実測値（2026年8月時点）</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 この2本で何が違ったか</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">1</span>
+            <p>記録は検索から人が来る。1年後も同じ言葉で探される</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">2</span>
+            <p>解説は旬を過ぎると読まれない。しかも競合が先にいた</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">3</span>
+            <p>かけた時間はほぼ同じ。違ったのは「何を」作ったか</p>
+          </div>
+        </div>
+        <div class="ok-box" style="border-left-color:var(--pink)">
+          <div class="box-title">✅ だから今回は記録にしました</div>
+          <ul class="box-list">
+            <li>自分が実際に手を動かしたことだけを出す</li>
+            <li>詰まった箇所を消さずに残す</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 先に断っておくと</div>
+          <ul class="box-list">
+            <li>うまくいった話ではありません。3回、同じところで転びました</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

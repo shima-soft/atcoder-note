@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 46%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .8rem;
+  line-height: 1.75;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .45rem;
+}
+.sum-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .5rem .7rem;
+}
+.sum-card .sum-title { font-size: .68rem; font-weight: 700; color: var(--muted); margin-bottom: .2rem; }
+.sum-val { font-size: .95rem; font-weight: 900; color: var(--text); font-family: 'Consolas', monospace; }
+.sum-sub { font-size: .7rem; color: var(--muted); margin-top: .1rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">二分探索 + 出力・計算量まとめ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>lo + (hi − lo + 1) // 2 で「右寄り mid」を使い、lo=hi になったとき答えが lo に収まる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — 二分探索 + 出力</div>
+      <pre><code class="language-python">lo = 1
+hi = max(A) + K
+while lo < hi:
+    mid = lo + (hi - lo + 1) // 2
+    if ok(mid):
+        lo = mid
+    else:
+        hi = mid - 1
+
+print(lo)</code></pre>
+    </div>
+
+    <!-- 右: まとめ -->
+    <div class="info-col">
+      <div class="summary-grid">
+        <div class="sum-card">
+          <div class="sum-title">探索範囲</div>
+          <div class="sum-val">1 〜 max(A)+K</div>
+          <div class="sum-sub">答えの上限は全操作を i=1 に集中した値</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">ループ回数</div>
+          <div class="sum-val">≈ 61 回</div>
+          <div class="sum-sub">log₂(2×10¹⁸) ≈ 61</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">判定1回の計算量</div>
+          <div class="sum-val">O(N)</div>
+          <div class="sum-sub">全要素を1度スキャン</div>
+        </div>
+        <div class="sum-card">
+          <div class="sum-title">全体の計算量</div>
+          <div class="sum-val">O(N × 61)</div>
+          <div class="sum-sub">N ≤ 2×10⁵ → 約 1200 万回</div>
+        </div>
+      </div>
+      <div class="ok-box" style="margin-top:.5rem;">
+        <div class="box-title">✅ 右寄り mid を使う理由</div>
+        <ul class="box-list">
+          <li>ok なら <code>lo = mid</code>（lo を上げる）</li>
+          <li>mid = (lo+hi)//2 だと lo=1, hi=2 のとき mid=1 のまま無限ループ</li>
+          <li><code>lo + (hi-lo+1)//2</code> なら mid=2 になり必ず進む ✓</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ Python の実行可能上限</div>
+        <ul class="box-list">
+          <li>O(N log V): N=2×10⁵ × 61 ≈ 1200 万回</li>
+          <li>O(N log N) は N ≤ 5×10⁵ が目安なので余裕あり</li>
+          <li>Python でも時間制限 2 秒以内に収まる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>AI秘書の二つの置き場所 クラウドとローカル</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">背景</span>
+    <h2 class="slide-title">AI秘書の二つの置き場所 — クラウドとローカル</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>外部の優秀な秘書に毎回資料を丸ごと送るか、社内の若手に社内で完結させるか — 前者は速いが漏れる・課金される</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="クラウドとローカル二つの展開モード比較">
+        <!-- タイトル -->
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">二つの展開モード</text>
+
+        <!-- クラウド側ゾーン -->
+        <rect x="18" y="30" width="290" height="320" rx="14" fill="#fdecee" stroke="#e8b0b8"/>
+        <text x="163" y="50" text-anchor="middle" font-size="13" font-weight="900" fill="#c9162e">クラウドAgent</text>
+        <text x="163" y="64" text-anchor="middle" font-size="11" fill="#5e6a8a">外部の超大型LLMを使う</text>
+
+        <!-- クラウド: 端末 -->
+        <rect x="38" y="78" width="250" height="62" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="163" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">端末側</text>
+        <text x="163" y="116" text-anchor="middle" font-size="12" fill="#1a1d2e">Controller + 環境</text>
+        <text x="163" y="132" text-anchor="middle" font-size="11" fill="#5e6a8a">メール・カレンダー・ファイル</text>
+
+        <!-- 矢印 上り: Oi を送信 -->
+        <rect x="88" y="150" width="150" height="28" rx="8" fill="#fdecee" stroke="#c9162e"/>
+        <text x="163" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">累積観測 Oi を毎回送信</text>
+        <polygon points="163,184 158,174 168,174" fill="#c9162e"/>
+        <!-- 下り: action -->
+        <polygon points="163,196 158,206 168,206" fill="#1a96c0"/>
+        <rect x="88" y="206" width="150" height="28" rx="8" fill="#eaf6fb" stroke="#1a96c0"/>
+        <text x="163" y="224" text-anchor="middle" font-size="11" font-weight="700" fill="#1a96c0">次の行動 ai を返す</text>
+
+        <!-- クラウドLLM -->
+        <rect x="38" y="246" width="250" height="52" rx="10" fill="#1a1d2e" stroke="#1a1d2e"/>
+        <text x="163" y="266" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">クラウドLLM（巨大）</text>
+        <text x="163" y="284" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.7)">1兆パラメータ超・社外</text>
+
+        <!-- クラウド懸念タグ -->
+        <rect x="58" y="310" width="110" height="26" rx="8" fill="#ffffff" stroke="#c9162e"/>
+        <text x="113" y="327" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">情報が外に出る</text>
+        <rect x="178" y="310" width="92" height="26" rx="8" fill="#ffffff" stroke="#c9162e"/>
+        <text x="224" y="327" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">毎回課金</text>
+
+        <!-- ローカル側ゾーン -->
+        <rect x="318" y="30" width="290" height="320" rx="14" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="463" y="50" text-anchor="middle" font-size="13" font-weight="900" fill="#7a3bce">ローカルAgent</text>
+        <text x="463" y="64" text-anchor="middle" font-size="11" fill="#5e6a8a">端末内の小型SLMを使う</text>
+
+        <!-- ローカル: 統合ボックス -->
+        <rect x="338" y="78" width="250" height="86" rx="10" fill="#ffffff" stroke="#7a3bce" stroke-width="2.2"/>
+        <text x="463" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">端末内で完結</text>
+        <text x="463" y="116" text-anchor="middle" font-size="12" fill="#1a1d2e">Controller + 環境 + SLM</text>
+        <text x="463" y="132" text-anchor="middle" font-size="11" fill="#5e6a8a">Qwen3.6-27Bなど 35B以下</text>
+        <text x="463" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">Oi は外に出ない</text>
+
+        <!-- ループ矢印 ローカル内部 -->
+        <path d="M 588 110 C 600 110, 600 140, 588 140" stroke="#7a3bce" stroke-width="2" fill="none" marker-end="none"/>
+        <polygon points="588,142 593,132 583,132" fill="#7a3bce"/>
+
+        <!-- ローカル利点タグ -->
+        <rect x="348" y="176" width="110" height="26" rx="8" fill="#ffffff" stroke="#008f6a"/>
+        <text x="403" y="193" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">漏れない</text>
+        <rect x="468" y="176" width="110" height="26" rx="8" fill="#ffffff" stroke="#008f6a"/>
+        <text x="523" y="193" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">追加課金なし</text>
+
+        <rect x="338" y="216" width="250" height="52" rx="10" fill="#eff7f4" stroke="#8ec9b8"/>
+        <text x="463" y="236" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">しかし成功率は36%どまり</text>
+        <text x="463" y="254" text-anchor="middle" font-size="11" fill="#5e6a8a">クラウド 94% に対して</text>
+
+        <rect x="338" y="278" width="250" height="58" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="463" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">なぜ？ → 次のスライドで原因を分解</text>
+        <text x="463" y="316" text-anchor="middle" font-size="11" fill="#5e6a8a">頭は悪くないのに仕事で負ける</text>
+
+        <!-- 凡例 -->
+        <rect x="22" y="368" width="576" height="48" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="40" y="387" font-size="11" font-weight="700" fill="#1a1d2e">たとえるなら</text>
+        <text x="40" y="404" font-size="10.5" fill="#5e6a8a">クラウド＝外部コンサルに毎回ファイルを送る</text>
+        <text x="320" y="404" font-size="10.5" fill="#5e6a8a">ローカル＝社内の若手に社内で任せる（漏れないが疎い）</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>クラウド秘書：本社の超ベテラン。毎回FAXで資料丸ごと送る</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>ローカル秘書：支店の若手。資料は外に出さないが暗黙ルールに弱い</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ ローカルの狙い</div>
+        <ul class="box-list">
+          <li>顧客名・見積額が外に出ない</li>
+          <li>1回ごとのAPI課金が不要</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ クラウドの代償</div>
+        <ul class="box-list">
+          <li>累積観測Oiに私物情報が含まれる</li>
+          <li>多段階タスクは呼び出し回数＝課金が膨らむ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

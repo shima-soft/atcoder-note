@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">AGENT 1</span>
+    <h2 class="slide-title">CLAUDE.md コンプライアンス確認</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>プロジェクトのルールブックを読み、コードがそれに従っているかを自動で判定する</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左（ルール・脇役）: x=20 w=170 (right=190)
+          中央（Claude）    : x=210 w=100 (right=310)
+          右（判定・主役）  : x=330 w=150 (right=480)
+          viewBox: 0 0 500 420
+        -->
+        <svg viewBox="0 0 500 420" width="600" height="504" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1d2e">プロジェクトのルールとコードを突き合わせる</text>
+
+          <!-- 左: CLAUDE.md のルール（脇役） -->
+          <text x="105" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#5e6a8a">CLAUDE.md のルール</text>
+          <rect x="20" y="76" width="170" height="52" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="105" y="108" text-anchor="middle" font-size="12.5" fill="#5e6a8a">命名規則は camelCase</text>
+          <rect x="20" y="140" width="170" height="52" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="105" y="172" text-anchor="middle" font-size="12.5" fill="#5e6a8a">テストは必須</text>
+          <rect x="20" y="204" width="170" height="52" rx="9" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="105" y="236" text-anchor="middle" font-size="12.5" fill="#5e6a8a">セキュリティ関数は認証必須</text>
+
+          <polygon points="196,171 206,179 196,187" fill="#5e6a8a"/>
+
+          <!-- 中央: Claude（脇役） -->
+          <rect x="210" y="140" width="100" height="58" rx="9" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="260" y="174" text-anchor="middle" font-size="14" fill="#5e6a8a">Claude が突合</text>
+
+          <polygon points="316,162 328,170 316,178" fill="#1a96c0"/>
+
+          <!-- 右: 判定結果（主役） -->
+          <rect x="330" y="76" width="160" height="216" rx="12" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2.5"/>
+          <text x="410" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#1a96c0">判定結果</text>
+          <text x="348" y="142" font-size="12" fill="#1a1d2e">✓ 命名規則 OK</text>
+          <text x="348" y="172" font-size="12" fill="#c9162e">✗ テスト未追加</text>
+          <text x="348" y="202" font-size="12" fill="#1a1d2e">✓ 認証チェック済</text>
+          <text x="348" y="238" font-size="12" font-weight="700" fill="#1a96c0">信頼度: 85 / 100</text>
+          <text x="348" y="262" font-size="11" fill="#5e6a8a">GitHub にコメント投稿</text>
+
+          <!-- 説明テキスト -->
+          <text x="250" y="330" text-anchor="middle" font-size="13" fill="#1a1d2e">プロジェクト固有のルールを守っているか</text>
+          <text x="250" y="356" text-anchor="middle" font-size="13" fill="#1a1d2e">5つのエージェントの中で最も実用的</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 事務・営業に置き換えると</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>会社の「マニュアル通りにやっているか」をAIが自動でチェックしてくれる</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>クレジットカード申請は承認フロー経由か、領収書は添付されているか</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>ルール違反があれば、該当箇所と修正内容の提案まで表示される</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ こんな場面で使える</div>
+          <ul class="box-list">
+            <li>チームで共通のコーディング規約があるプロジェクト</li>
+            <li>新人が書いたコードが規約通りか素早く確認したいとき</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>CLAUDE.md にルールが書かれていないと検証できない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

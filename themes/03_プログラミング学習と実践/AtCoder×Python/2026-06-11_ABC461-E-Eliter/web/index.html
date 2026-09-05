@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABC461 E問題 E-liter — 後勝ち判定 + BIT で解く | AtCoder×Python</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --red: #c9162e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  line-height: 1.8;
+}
+
+/* ─── ヘッダー ─── */
+header {
+  position: fixed; top: 0; left: 0; right: 0; height: 52px;
+  background: #1a1d2e; color: #fff;
+  display: flex; align-items: center; gap: .8rem;
+  padding: 0 1.2rem; z-index: 100;
+}
+.h-badge {
+  background: linear-gradient(135deg, #e87030, #d96018);
+  color: #fff; font-size: .7rem; font-weight: 700;
+  padding: .15rem .7rem; border-radius: 99px; white-space: nowrap;
+}
+header h1 { font-size: .92rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ─── レイアウト ─── */
+.layout { display: flex; max-width: 1100px; margin: 0 auto; padding-top: 52px; }
+nav.sidebar {
+  width: 220px; flex-shrink: 0;
+  position: sticky; top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+  padding: 1.2rem .6rem 1.2rem 1rem;
+}
+nav.sidebar .nav-title {
+  font-size: .68rem; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; padding-left: .6rem;
+}
+nav.sidebar a {
+  display: block; padding: .35rem .6rem;
+  font-size: .8rem; color: var(--muted); text-decoration: none;
+  border-left: 3px solid transparent; border-radius: 0 6px 6px 0;
+  transition: all .15s;
+}
+nav.sidebar a:hover { color: var(--text); background: var(--surface); }
+nav.sidebar a.active {
+  border-left-color: var(--orange);
+  background: rgba(217,96,24,.07);
+  color: var(--orange); font-weight: 700;
+}
+main { flex: 1; max-width: 820px; padding: 2rem; min-width: 0; }
+
+/* ─── セクション ─── */
+section { margin-bottom: 3rem; scroll-margin-top: 70px; }
+.sec-label {
+  display: inline-block;
+  background: linear-gradient(135deg, #e87030, #d96018);
+  color: #fff; font-size: .7rem; font-weight: 700;
+  padding: .15rem .7rem; border-radius: 99px; margin-bottom: .5rem;
+}
+section h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: .3rem; }
+.timestamp { font-size: .76rem; color: var(--muted); margin-bottom: 1rem; }
+.lead {
+  background: var(--card); border-left: 4px solid var(--orange);
+  border-radius: 0 10px 10px 0;
+  padding: .7rem 1rem; font-size: .92rem; margin-bottom: 1.2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.2rem 1.4rem; margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.card h3 { font-size: 1.02rem; font-weight: 900; margin-bottom: .5rem; }
+.card p, .card li { font-size: .88rem; color: var(--text); }
+.card ul { padding-left: 1.3rem; margin: .4rem 0; }
+.muted { color: var(--muted); }
+.diagram {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1rem; margin-bottom: 1rem;
+  display: flex; justify-content: center;
+}
+.diagram svg { width: 100%; max-width: 620px; height: auto; }
+code:not(.hljs) {
+  font-family: 'Consolas', monospace;
+  background: rgba(217,96,24,.08); color: var(--orange);
+  padding: .05rem .35rem; border-radius: 4px; font-size: .85em;
+}
+.ok-line { color: var(--green); font-weight: 700; }
+.ng-line { color: var(--red); font-weight: 700; }
+
+table.web-table {
+  width: 100%; border-collapse: collapse; font-size: .85rem; margin: .6rem 0;
+  background: var(--card); border-radius: 10px; overflow: hidden;
+}
+.web-table th {
+  background: var(--surface); padding: .4rem .7rem; text-align: left;
+  font-size: .76rem; color: var(--muted); border-bottom: 2px solid var(--border);
+}
+.web-table td { padding: .45rem .7rem; border-bottom: 1px solid var(--border); }
+.web-table tr:last-child td { border-bottom: none; }
+.web-table .ans { font-weight: 900; color: var(--orange); }
+
+/* ─── セルフチェック ─── */
+details.selfcheck {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: .6rem .9rem; margin-top: .8rem;
+}
+details.selfcheck summary {
+  font-size: .82rem; font-weight: 700; color: var(--blue); cursor: pointer;
+}
+details.selfcheck .q { font-size: .84rem; margin-top: .6rem; font-weight: 700; }
+details.selfcheck .a { font-size: .82rem; color: var(--muted); margin: .2rem 0 .4rem; }
+
+/* ─── ACコード ─── */
+.ac-code-block {
+  border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden; margin: 1rem 0; background: var(--card);
+}
+.ac-code-header {
+  display: flex; align-items: center; gap: .6rem;
+  background: var(--surface); padding: .4rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename { font-family: 'Consolas', monospace; font-size: .82rem; color: var(--muted); flex: 1; }
+.ac-badge { font-size: .72rem; color: var(--green); font-weight: 700; }
+.copy-btn {
+  font-size: .72rem; font-weight: 700; padding: .2rem .6rem;
+  border-radius: 6px; border: 1px solid var(--orange); color: var(--orange);
+  background: transparent; cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: .8rem 1rem; overflow-x: auto; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; font-size: .82rem; line-height: 1.65; }
+
+/* ─── 用語解説 ─── */
+.glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.term-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: .7rem .9rem;
+  display: flex; flex-direction: column; gap: .2rem;
+}
+.term-head { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.term-name { font-size: .92rem; font-weight: 900; }
+.term-reading { font-size: .72rem; color: var(--muted); }
+.term-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; flex: 1; }
+.term-link { font-size: .7rem; color: var(--blue); text-decoration: none; margin-top: .3rem; align-self: flex-start; }
+.term-link:hover { text-decoration: underline; }
+
+footer {
+  text-align: center; font-size: .76rem; color: var(--muted);
+  padding: 2rem 1rem 3rem;
+}
+footer a { color: var(--blue); }
+
+@media (max-width: 800px) {
+  nav.sidebar { display: none; }
+  main { padding: 1.2rem; }
+  .glossary-grid { grid-template-columns: 1fr; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<header>
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="h-badge">AtCoder×Python</span>
+  <h1>ABC461 E問題 E-liter — 後勝ち判定 + BIT で解く</h1>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="nav-title">目次</div>
+    <a href="#overview">問題を読み解く</a>
+    <a href="#fail">失敗アプローチ</a>
+    <a href="#idea1">気づき① 後勝ち</a>
+    <a href="#idea2">気づき② 差分更新</a>
+    <a href="#bit">BIT で数える</a>
+    <a href="#code1">コード① 道具立て</a>
+    <a href="#code2">コード② クエリ処理</a>
+    <a href="#accode">AC コード全文</a>
+    <a href="#summary">解法パターンの整理</a>
+    <a href="#glossary">用語解説</a>
+  </nav>
+
+  <main>
+    <!-- ══════════ 問題概要 ══════════ -->
+    <section id="overview">
+      <span class="sec-label">問題を読み解く</span>
+      <h2>行を黒く塗る・列を白く塗る — 黒マスの数を毎回答える</h2>
+      <div class="timestamp">▶ 動画 0:00〜（オープニング）・1:30〜（問題解説）</div>
+      <div class="lead">同じ行や列が何度も塗り直される。「後から塗った色で上書き」がこの問題の主役です。</div>
+
+      <div class="card">
+        <h3>問題文（噛み砕き版）</h3>
+        <p>N×N のグリッドがあり、最初は<strong>全マス白</strong>。Q 個のクエリを順番に処理します。</p>
+        <ul>
+          <li><code>1 R</code> … 上から R 行目を<strong>全部黒</strong>に塗る</li>
+          <li><code>2 C</code> … 左から C 列目を<strong>全部白</strong>に塗る</li>
+        </ul>
+        <p>各クエリの処理が終わるたびに、グリッド内の<strong>黒いマスの個数</strong>を出力します。</p>
+        <p class="muted" style="margin-top:.4rem">出典: <a href="https://atcoder.jp/contests/abc461/tasks/abc461_e" target="_blank">AtCoder ABC461 E - E-liter</a>（配点 475 点 / 実行時間制限 2 秒）</p>
+      </div>
+
+      <div class="card">
+        <h3>制約</h3>
+        <ul>
+          <li><code>N</code> … グリッドの一辺（1 以上 3×10⁵ 以下）</li>
+          <li><code>Q</code> … クエリの個数（1 以上 3×10⁵ 以下）</li>
+          <li><code>R, C</code> … 塗る行・列の番号（1〜N）</li>
+        </ul>
+        <p>⚠️ マスの総数は最大 <strong>3×10⁵ × 3×10⁵ = 9×10¹⁰ 個</strong>。グリッドをそのまま配列で持つのは<strong>不可能</strong>という強いヒントです。</p>
+      </div>
+
+      <div class="card">
+        <h3>入出力例（例1: N=3、4 クエリ）</h3>
+        <table class="web-table">
+          <tr><th>クエリ</th><th>意味</th><th>黒マス数</th></tr>
+          <tr><td><code>1 1</code></td><td>1行目を黒に</td><td class="ans">3</td></tr>
+          <tr><td><code>1 3</code></td><td>3行目を黒に</td><td class="ans">6</td></tr>
+          <tr><td><code>2 2</code></td><td>2列目を白に</td><td class="ans">4</td></tr>
+          <tr><td><code>1 1</code></td><td>1行目をもう一度黒に</td><td class="ans">5</td></tr>
+        </table>
+        <p class="muted">3つ目で 1・3 行目の黒が 1 個ずつ消えて 6−2=4。4つ目は白かった 1 マスだけ黒に戻って 4+1=5。<br>
+        <strong>例2:</strong> 真っ白なグリッドの列を白く塗っても 0 のまま。</p>
+      </div>
+
+      <details class="selfcheck">
+        <summary>📝 理解度セルフチェック</summary>
+        <p class="q">Q1. クエリ「2 C」で黒マスが増えることはある？</p>
+        <p class="a">A1. ない。白く塗る操作なので黒マスは減るか変わらないかのどちらか。</p>
+        <p class="q">Q2. 制約から読み取れる「禁止事項」は？</p>
+        <p class="a">A2. マスの総数が最大 9×10¹⁰ 個なので、グリッドを二次元配列でそのまま持つこと（メモリ的に不可能）。</p>
+      </details>
+    </section>
+
+    <!-- ══════════ 失敗アプローチ ══════════ -->
+    <section id="fail">
+      <span class="sec-label">失敗アプローチ</span>
+      <h2>なぜ「グリッドをそのまま作る」はダメなのか？</h2>
+      <div class="timestamp">▶ 動画 3:30〜</div>
+      <div class="lead">マスは最大 9×10¹⁰ 個。作るだけでメモリも時間も足りない — 制約が「マス単位で扱うな」と教えてくれます。</div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="グリッドをそのまま作ると9×10の10乗マスになり破綻する図">
+          <!-- グリッド本体 -->
+          <rect x="170" y="50" width="180" height="180" rx="6" fill="#ffffff" stroke="#dde2ec" stroke-width="2"/>
+          <line x1="206" y1="50" x2="206" y2="230" stroke="#dde2ec"/>
+          <line x1="242" y1="50" x2="242" y2="230" stroke="#dde2ec"/>
+          <line x1="278" y1="50" x2="278" y2="230" stroke="#dde2ec"/>
+          <line x1="170" y1="86" x2="350" y2="86" stroke="#dde2ec"/>
+          <line x1="170" y1="122" x2="350" y2="122" stroke="#dde2ec"/>
+          <line x1="170" y1="158" x2="350" y2="158" stroke="#dde2ec"/>
+          <text x="322" y="110" text-anchor="middle" font-size="14" fill="#5e6a8a">⋯</text>
+          <text x="224" y="205" text-anchor="middle" font-size="14" fill="#5e6a8a">⋮</text>
+          <text x="322" y="205" text-anchor="middle" font-size="14" fill="#5e6a8a">⋱</text>
+          <!-- 寸法ラベル -->
+          <text x="260" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">列 3×10⁵ 本</text>
+          <text x="158" y="145" text-anchor="end" font-size="14" font-weight="700" fill="#1a1d2e">行 3×10⁵ 本</text>
+          <!-- 矢印 -->
+          <defs>
+            <marker id="ar3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#5e6a8a"/></marker>
+          </defs>
+          <line x1="260" y1="236" x2="260" y2="262" stroke="#5e6a8a" stroke-width="2" marker-end="url(#ar3)"/>
+          <!-- マス総数 -->
+          <rect x="70" y="270" width="380" height="46" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+          <text x="260" y="299" text-anchor="middle" font-size="16" font-weight="800" fill="#1a1d2e">マスの数 = 3×10⁵ × 3×10⁵ = 9×10¹⁰ 個</text>
+          <!-- NGボックス -->
+          <rect x="40" y="340" width="230" height="70" rx="12" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="155" y="369" text-anchor="middle" font-size="13" font-weight="800" fill="#c9162e">❌ メモリに乗らない</text>
+          <text x="155" y="390" text-anchor="middle" font-size="12" fill="#5e6a8a">bool でも約 90 GB 必要</text>
+          <rect x="290" y="340" width="230" height="70" rx="12" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5"/>
+          <text x="405" y="369" text-anchor="middle" font-size="13" font-weight="800" fill="#c9162e">❌ 時間も足りない</text>
+          <text x="405" y="390" text-anchor="middle" font-size="12" fill="#5e6a8a">塗る回数 最大 9×10¹⁰ 回</text>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h3>⚠️ ありがちな失敗</h3>
+        <ul>
+          <li><span class="ng-line">N×N の二次元リストを作る</span> → 作った瞬間に <code>MemoryError</code></li>
+          <li><span class="ng-line">クエリごとに全マスを数え直す</span> → 1 回 O(N²) で即 TLE</li>
+        </ul>
+        <p class="muted" style="margin-top:.4rem">⏱ 数の感覚: Python が 1 秒にこなせるのは約 10⁷ 回。9×10¹⁰ 回はおよそ 9,000 秒 — 制限 2 秒の 4,500 倍です。</p>
+        <p style="margin-top:.4rem"><span class="ok-line">✅ 正解への気づき:</span> マスを 1 個ずつ管理しない — <strong>行・列単位</strong>で考える。行と列が覚えるのは「<strong>最後に塗られた時刻</strong>」だけでいい。</p>
+      </div>
+    </section>
+
+    <!-- ══════════ 気づき① ══════════ -->
+    <section id="idea1">
+      <span class="sec-label">気づき①</span>
+      <h2>マスの色は「行と列、どちらが後に塗られたか」で決まる</h2>
+      <div class="timestamp">▶ 動画 5:00〜</div>
+      <div class="lead">グリッドの代わりに、行と列の「最後に塗られた時刻」だけを覚える — メモリは O(N) で済みます。</div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="行の黒塗り時刻と列の白塗り時刻の比較でマスの色が決まる図">
+          <defs>
+            <marker id="ar4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d96018"/></marker>
+          </defs>
+          <!-- 列ラベル -->
+          <text x="166" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a96c0">列4</text>
+          <text x="166" y="60" text-anchor="middle" font-size="12" fill="#1a96c0">時刻5に白</text>
+          <!-- 5x5グリッド -->
+          <rect x="40" y="70" width="180" height="180" fill="#ffffff" stroke="#dde2ec" stroke-width="2"/>
+          <line x1="76" y1="70" x2="76" y2="250" stroke="#dde2ec"/>
+          <line x1="112" y1="70" x2="112" y2="250" stroke="#dde2ec"/>
+          <line x1="148" y1="70" x2="148" y2="250" stroke="#dde2ec"/>
+          <line x1="184" y1="70" x2="184" y2="250" stroke="#dde2ec"/>
+          <line x1="40" y1="106" x2="220" y2="106" stroke="#dde2ec"/>
+          <line x1="40" y1="142" x2="220" y2="142" stroke="#dde2ec"/>
+          <line x1="40" y1="178" x2="220" y2="178" stroke="#dde2ec"/>
+          <line x1="40" y1="214" x2="220" y2="214" stroke="#dde2ec"/>
+          <!-- 行2の黒帯 -->
+          <rect x="40" y="106" width="180" height="36" fill="#1a1d2e"/>
+          <!-- 列4の白帯 -->
+          <rect x="148" y="70" width="36" height="180" fill="#ffffff" stroke="#1a96c0" stroke-width="2" stroke-dasharray="5 3"/>
+          <!-- 交差マス -->
+          <rect x="148" y="106" width="36" height="36" fill="#ffffff" stroke="#d96018" stroke-width="3"/>
+          <text x="166" y="130" text-anchor="middle" font-size="18" font-weight="900" fill="#d96018">?</text>
+          <!-- 行ラベル -->
+          <text x="32" y="128" text-anchor="end" font-size="12" font-weight="700" fill="#1a1d2e">行2</text>
+          <text x="232" y="128" font-size="12" fill="#1a1d2e">⬛ 時刻3に黒</text>
+          <!-- 比較ボックスへの矢印 -->
+          <line x1="188" y1="120" x2="292" y2="110" stroke="#d96018" stroke-width="2" marker-end="url(#ar4)"/>
+          <!-- ケースA -->
+          <rect x="300" y="70" width="240" height="88" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+          <text x="420" y="107" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1d2e">行の時刻 3 ＜ 列の時刻 5</text>
+          <text x="420" y="131" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">白く塗った方が後 → 白</text>
+          <!-- ケースB -->
+          <rect x="300" y="190" width="240" height="88" rx="12" fill="#eff1f7" stroke="#dde2ec"/>
+          <text x="420" y="227" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1d2e">行の時刻 6 ＞ 列の時刻 5</text>
+          <text x="420" y="251" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1d2e">黒く塗った方が後 → 黒</text>
+          <!-- まとめボックス -->
+          <rect x="40" y="300" width="500" height="110" rx="12" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="290" y="336" text-anchor="middle" font-size="14" font-weight="800" fill="#008f6a">✅ 持つのは時刻だけ — グリッドは持たない</text>
+          <text x="290" y="359" text-anchor="middle" font-size="12" fill="#1a1d2e">row_time[r] ＝ 行 r を最後に黒く塗った時刻</text>
+          <text x="290" y="383" text-anchor="middle" font-size="12" fill="#1a1d2e">col_time[c] ＝ 列 c を最後に白く塗った時刻</text>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h3>💼 身近な例え</h3>
+        <p>共有ファイルの上書き保存と同じ。誰が何を書いても、<strong>最後に保存した内容</strong>だけが残ります。</p>
+        <ul style="margin-top:.4rem">
+          <li>覚える配列は <code>row_time</code> と <code>col_time</code> の 2 本だけ — メモリ <strong>O(N)</strong></li>
+          <li>塗り直しは「時刻を新しい値に書き換える」だけで O(1)</li>
+          <li>時刻はクエリ番号 t（1, 2, 3, …）。「まだ一度も塗られていない」は<strong>時刻 0</strong> として扱う</li>
+        </ul>
+      </div>
+
+      <details class="selfcheck">
+        <summary>📝 理解度セルフチェック</summary>
+        <p class="q">Q1. row_time[r]=4、col_time[c]=9 のとき、マス (r, c) の色は？</p>
+        <p class="a">A1. 白。列の白塗り（時刻9）の方が行の黒塗り（時刻4）より後だから。</p>
+        <p class="q">Q2. 一度も塗られていない行と列が交差するマスの色は？</p>
+        <p class="a">A2. 白。両方とも時刻 0 で「行の時刻 ＞ 列の時刻」が成り立たないため、初期状態の白のまま。</p>
+      </details>
+    </section>
+
+    <!-- ══════════ 気づき② ══════════ -->
+    <section id="idea2">
+      <span class="sec-label">気づき②</span>
+      <h2>総数は数え直さない — 増減だけを足し引きする</h2>
+      <div class="timestamp">▶ 動画 7:00〜</div>
+      <div class="lead">変わるのは「いま塗った 1 行・1 列」だけ。そこで増えた数・減った数だけ合計に反映します。</div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="サンプル1を増減だけで追う図">
+          <text x="280" y="30" text-anchor="middle" font-size="15" font-weight="800" fill="#1a1d2e">サンプル1（N=3）を増減だけで追う</text>
+          <text x="30" y="56" font-size="11" fill="#5e6a8a">クエリ</text>
+          <text x="312" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a">盤面</text>
+          <text x="405" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a">増減</text>
+          <text x="490" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a">合計</text>
+
+          <!-- 時刻1: 行1を黒 → +3 → 3 -->
+          <rect x="20" y="68" width="520" height="80" rx="10" fill="#f7f8fb" stroke="#dde2ec"/>
+          <circle cx="44" cy="108" r="14" fill="#d96018"/>
+          <text x="44" y="112" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">1</text>
+          <text x="68" y="101" font-size="13" font-weight="700" fill="#1a1d2e">行1を黒に塗る</text>
+          <text x="68" y="123" font-size="11" fill="#5e6a8a">入力: 1 1</text>
+          <rect x="282" y="78" width="60" height="60" fill="#ffffff" stroke="#dde2ec"/>
+          <rect x="282" y="78" width="60" height="20" fill="#1a1d2e"/>
+          <line x1="282" y1="98" x2="342" y2="98" stroke="#dde2ec"/>
+          <line x1="282" y1="118" x2="342" y2="118" stroke="#dde2ec"/>
+          <line x1="302" y1="78" x2="302" y2="138" stroke="#dde2ec"/>
+          <line x1="322" y1="78" x2="322" y2="138" stroke="#dde2ec"/>
+          <rect x="375" y="94" width="60" height="28" rx="14" fill="rgba(0,143,106,.12)" stroke="#008f6a"/>
+          <text x="405" y="113" text-anchor="middle" font-size="13" font-weight="800" fill="#008f6a">+3</text>
+          <text x="490" y="115" text-anchor="middle" font-size="20" font-weight="900" fill="#d96018">3</text>
+
+          <!-- 時刻2: 行3を黒 → +3 → 6 -->
+          <rect x="20" y="156" width="520" height="80" rx="10" fill="#f7f8fb" stroke="#dde2ec"/>
+          <circle cx="44" cy="196" r="14" fill="#d96018"/>
+          <text x="44" y="200" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">2</text>
+          <text x="68" y="189" font-size="13" font-weight="700" fill="#1a1d2e">行3を黒に塗る</text>
+          <text x="68" y="211" font-size="11" fill="#5e6a8a">入力: 1 3</text>
+          <rect x="282" y="166" width="60" height="60" fill="#ffffff" stroke="#dde2ec"/>
+          <rect x="282" y="166" width="60" height="20" fill="#1a1d2e"/>
+          <rect x="282" y="206" width="60" height="20" fill="#1a1d2e"/>
+          <line x1="282" y1="186" x2="342" y2="186" stroke="#dde2ec"/>
+          <line x1="282" y1="206" x2="342" y2="206" stroke="#dde2ec"/>
+          <line x1="302" y1="166" x2="302" y2="226" stroke="#dde2ec"/>
+          <line x1="322" y1="166" x2="322" y2="226" stroke="#dde2ec"/>
+          <rect x="375" y="182" width="60" height="28" rx="14" fill="rgba(0,143,106,.12)" stroke="#008f6a"/>
+          <text x="405" y="201" text-anchor="middle" font-size="13" font-weight="800" fill="#008f6a">+3</text>
+          <text x="490" y="203" text-anchor="middle" font-size="20" font-weight="900" fill="#d96018">6</text>
+
+          <!-- 時刻3: 列2を白 → -2 → 4 -->
+          <rect x="20" y="244" width="520" height="80" rx="10" fill="#f7f8fb" stroke="#dde2ec"/>
+          <circle cx="44" cy="284" r="14" fill="#1a96c0"/>
+          <text x="44" y="288" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">3</text>
+          <text x="68" y="277" font-size="13" font-weight="700" fill="#1a1d2e">列2を白に塗る</text>
+          <text x="68" y="299" font-size="11" fill="#5e6a8a">入力: 2 2</text>
+          <rect x="282" y="254" width="60" height="60" fill="#ffffff" stroke="#dde2ec"/>
+          <rect x="282" y="254" width="20" height="20" fill="#1a1d2e"/>
+          <rect x="322" y="254" width="20" height="20" fill="#1a1d2e"/>
+          <rect x="282" y="294" width="20" height="20" fill="#1a1d2e"/>
+          <rect x="322" y="294" width="20" height="20" fill="#1a1d2e"/>
+          <line x1="282" y1="274" x2="342" y2="274" stroke="#dde2ec"/>
+          <line x1="282" y1="294" x2="342" y2="294" stroke="#dde2ec"/>
+          <line x1="302" y1="254" x2="302" y2="314" stroke="#dde2ec"/>
+          <line x1="322" y1="254" x2="322" y2="314" stroke="#dde2ec"/>
+          <rect x="375" y="270" width="60" height="28" rx="14" fill="rgba(201,22,46,.1)" stroke="#c9162e"/>
+          <text x="405" y="289" text-anchor="middle" font-size="13" font-weight="800" fill="#c9162e">−2</text>
+          <text x="490" y="291" text-anchor="middle" font-size="20" font-weight="900" fill="#d96018">4</text>
+
+          <!-- 時刻4: 行1を黒 → +1 → 5 -->
+          <rect x="20" y="332" width="520" height="80" rx="10" fill="#f7f8fb" stroke="#dde2ec"/>
+          <circle cx="44" cy="372" r="14" fill="#d96018"/>
+          <text x="44" y="376" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff">4</text>
+          <text x="68" y="365" font-size="13" font-weight="700" fill="#1a1d2e">行1をもう一度黒に</text>
+          <text x="68" y="387" font-size="11" fill="#5e6a8a">入力: 1 1</text>
+          <rect x="282" y="342" width="60" height="60" fill="#ffffff" stroke="#dde2ec"/>
+          <rect x="282" y="342" width="60" height="20" fill="#1a1d2e"/>
+          <rect x="282" y="382" width="20" height="20" fill="#1a1d2e"/>
+          <rect x="322" y="382" width="20" height="20" fill="#1a1d2e"/>
+          <line x1="282" y1="362" x2="342" y2="362" stroke="#dde2ec"/>
+          <line x1="282" y1="382" x2="342" y2="382" stroke="#dde2ec"/>
+          <line x1="302" y1="342" x2="302" y2="402" stroke="#dde2ec"/>
+          <line x1="322" y1="342" x2="322" y2="402" stroke="#dde2ec"/>
+          <rect x="375" y="358" width="60" height="28" rx="14" fill="rgba(0,143,106,.12)" stroke="#008f6a"/>
+          <text x="405" y="377" text-anchor="middle" font-size="13" font-weight="800" fill="#008f6a">+1</text>
+          <text x="490" y="379" text-anchor="middle" font-size="20" font-weight="900" fill="#d96018">5</text>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h3>📐 増減の式</h3>
+        <ul>
+          <li>行 R を黒に → 行はまるごと黒になる: <strong>増加 = N −（直前にその行で黒かった数）</strong></li>
+          <li>列 C を白に → 列はまるごと白になる: <strong>減少 =（直前にその列で黒かった数）</strong></li>
+        </ul>
+        <p style="margin-top:.5rem"><span class="ok-line">✅ 「直前に黒かった数」も時刻で分かる:</span></p>
+        <ul>
+          <li>行 R の黒マス数 = 行 R の時刻より<strong>前</strong>に白塗りされた列の本数（行の黒が上書きして勝っている分）</li>
+          <li>列 C の黒マス数 = 列 C の時刻より<strong>後</strong>に黒塗りされた行の本数（列の白の上に塗られた分）</li>
+        </ul>
+        <p class="muted" style="margin-top:.4rem">⚠️ ただし毎回全行・全列を見て数えると 1 回 O(N) — 合計 9×10¹⁰ 回で TLE。高速に数える道具が必要 → 次の BIT へ。</p>
+      </div>
+
+      <details class="selfcheck">
+        <summary>📝 理解度セルフチェック</summary>
+        <p class="q">Q1. 黒い行をもう一度黒く塗ったとき、増加分はいくつ？</p>
+        <p class="a">A1. その行で白かったマスの数だけ増える。全部黒のままなら増加 0（N − N = 0）。</p>
+        <p class="q">Q2. サンプル1の 3 つ目のクエリで「−2」になった理由は？</p>
+        <p class="a">A2. 2 列目で黒かったのは 1 行目と 3 行目の 2 マスだけだったから。</p>
+      </details>
+    </section>
+
+    <!-- ══════════ BIT ══════════ -->
+    <section id="bit">
+      <span class="sec-label">道具を選ぶ</span>
+      <h2>「時刻◯より前は何本？」を BIT で一瞬で数える</h2>
+      <div class="timestamp">▶ 動画 9:00〜</div>
+      <div class="lead">BIT は「件数の追加・削除」と「先頭からの累計」を両方 O(log Q) でこなす集計表です。</div>
+
+      <div class="diagram">
+        <svg viewBox="0 0 560 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BITで時刻4より前に白塗りされた列の本数を数える図">
+          <!-- 質問 -->
+          <rect x="40" y="24" width="480" height="40" rx="10" fill="rgba(217,96,24,.07)" stroke="#d96018" stroke-width="1.5"/>
+          <text x="280" y="49" text-anchor="middle" font-size="14" font-weight="800" fill="#d96018">Q. 時刻4より前に白く塗られた列は何本？（N=5）</text>
+
+          <!-- 各列の最終白塗り時刻 -->
+          <rect x="40" y="84" width="88" height="44" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+          <text x="84" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列1</text>
+          <text x="84" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">時刻7</text>
+          <rect x="136" y="84" width="88" height="44" rx="8" fill="#ffffff" stroke="#dde2ec"/>
+          <text x="180" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列2</text>
+          <text x="180" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">時刻5</text>
+          <rect x="232" y="84" width="88" height="44" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="2"/>
+          <text x="276" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列3</text>
+          <text x="276" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">時刻0</text>
+          <rect x="328" y="84" width="88" height="44" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="2"/>
+          <text x="372" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列4</text>
+          <text x="372" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">時刻0</text>
+          <rect x="424" y="84" width="88" height="44" rx="8" fill="rgba(0,143,106,.06)" stroke="#008f6a" stroke-width="2"/>
+          <text x="468" y="100" text-anchor="middle" font-size="11" fill="#5e6a8a">列5</text>
+          <text x="468" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">時刻2</text>
+
+          <!-- タイムライン -->
+          <rect x="50" y="150" width="215" height="70" rx="8" fill="rgba(0,143,106,.08)"/>
+          <text x="157" y="166" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">時刻4より前</text>
+          <line x1="50" y1="190" x2="510" y2="190" stroke="#5e6a8a" stroke-width="2"/>
+          <circle cx="70" cy="178" r="7" fill="#1a96c0"/>
+          <circle cx="180" cy="178" r="7" fill="#1a96c0"/>
+          <circle cx="345" cy="178" r="7" fill="#1a96c0"/>
+          <circle cx="455" cy="178" r="7" fill="#1a96c0"/>
+          <line x1="70" y1="185" x2="70" y2="195" stroke="#5e6a8a"/>
+          <line x1="125" y1="185" x2="125" y2="195" stroke="#5e6a8a"/>
+          <line x1="180" y1="185" x2="180" y2="195" stroke="#5e6a8a"/>
+          <line x1="235" y1="185" x2="235" y2="195" stroke="#5e6a8a"/>
+          <line x1="290" y1="185" x2="290" y2="195" stroke="#5e6a8a"/>
+          <line x1="345" y1="185" x2="345" y2="195" stroke="#5e6a8a"/>
+          <line x1="400" y1="185" x2="400" y2="195" stroke="#5e6a8a"/>
+          <line x1="455" y1="185" x2="455" y2="195" stroke="#5e6a8a"/>
+          <line x1="510" y1="185" x2="510" y2="195" stroke="#5e6a8a"/>
+          <text x="70" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">0</text>
+          <text x="125" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">1</text>
+          <text x="180" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">2</text>
+          <text x="235" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">3</text>
+          <text x="290" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">4</text>
+          <text x="345" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">5</text>
+          <text x="400" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">6</text>
+          <text x="455" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">7</text>
+          <text x="510" y="212" text-anchor="middle" font-size="11" fill="#5e6a8a">8</text>
+
+          <!-- 答え -->
+          <rect x="40" y="240" width="480" height="36" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.5"/>
+          <text x="280" y="263" text-anchor="middle" font-size="13" font-weight="800" fill="#008f6a">A. 3本（列3・列4・列5）— BIT なら O(log Q) で即答</text>
+
+          <!-- BIT表 -->
+          <rect x="40" y="300" width="480" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+          <text x="280" y="322" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">BIT（時刻カウント表）のイメージ</text>
+          <text x="92" y="349" text-anchor="end" font-size="11" fill="#5e6a8a">件数</text>
+          <text x="92" y="381" text-anchor="end" font-size="11" fill="#5e6a8a">累計</text>
+          <rect x="98" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="144" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="190" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="236" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="282" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="328" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="374" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="420" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="466" y="332" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <text x="121" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">2</text>
+          <text x="167" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+          <text x="213" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">1</text>
+          <text x="259" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+          <text x="305" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+          <text x="351" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">1</text>
+          <text x="397" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+          <text x="443" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">1</text>
+          <text x="489" y="349" text-anchor="middle" font-size="12" fill="#1a1d2e">0</text>
+          <rect x="98" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="144" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="190" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="236" y="364" width="46" height="26" fill="rgba(217,96,24,.1)" stroke="#d96018" stroke-width="2"/>
+          <rect x="282" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="328" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="374" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="420" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <rect x="466" y="364" width="46" height="26" fill="#f7f8fb" stroke="#dde2ec"/>
+          <text x="121" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">2</text>
+          <text x="167" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">2</text>
+          <text x="213" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">3</text>
+          <text x="259" y="381" text-anchor="middle" font-size="12" font-weight="800" fill="#d96018">3</text>
+          <text x="305" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">3</text>
+          <text x="351" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">4</text>
+          <text x="397" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">4</text>
+          <text x="443" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">4</text>
+          <text x="489" y="381" text-anchor="middle" font-size="12" fill="#5e6a8a">5</text>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h3>💼 身近な例え: 売上台帳の小計欄</h3>
+        <p>日付ごとの件数に小計を付けておけば「◯日までの累計」が一瞬で答えられる。BIT はその台帳のデータ構造版です。</p>
+        <ul style="margin-top:.4rem">
+          <li>ある時刻の件数を <strong>+1 / −1</strong> する（塗り直し＝古い時刻を −1、新しい時刻に +1）— O(log Q)</li>
+          <li>先頭からある時刻までの<strong>累計</strong>を出す — O(log Q)</li>
+          <li>本問では<strong>行用と列用の 2 本</strong>を用意。「時刻 t より後」は「全体 N − 時刻 t までの累計」で求める</li>
+        </ul>
+      </div>
+
+      <details class="selfcheck">
+        <summary>📝 理解度セルフチェック</summary>
+        <p class="q">Q1. 列2（時刻5）をもう一度白く塗った（新しい時刻9）。BIT への操作は？</p>
+        <p class="a">A1. 時刻5の件数を −1、時刻9の件数を +1（時刻の引っ越し）。</p>
+        <p class="q">Q2. 「時刻 t より後に黒塗りされた行の本数」を式で書くと？</p>
+        <p class="a">A2. N − bit_sum(row_bit, t)。全体から「時刻 t まで」の累計を引く。</p>
+      </details>
+    </section>
+
+    <!-- ══════════ コード① ══════════ -->
+    <section id="code1">
+      <span class="sec-label">コード①</span>
+      <h2>入力と BIT（時刻カウント表）の準備（20 行）</h2>
+      <div class="timestamp">▶ 動画 11:00〜</div>
+      <div class="lead">行用と列用、2 本の BIT を用意する。中身は「足す・引く・累計を出す」の 3 機能だけ。</div>
+
+      <div class="ac-code-block">
+        <div class="ac-code-header">
+          <span class="ac-filename">abc461_e.py（前半）</span>
+          <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        <pre><code class="language-python">import sys
+input = sys.stdin.readline
+
+N, Q = map(int, input().split())
+size = Q + 2
+row_bit = [0] * (size + 1)
+col_bit = [0] * (size + 1)
+
+def bit_add(bit, i, x):
+    i += 1
+    while i &lt;= size:
+        bit[i] += x
+        i += i &amp; (-i)
+def bit_sum(bit, i):
+    i += 1
+    s = 0
+    while i &gt; 0:
+        s += bit[i]
+        i -= i &amp; (-i)
+    return s</code></pre>
+      </div>
+
+      <div class="card">
+        <h3>🔍 それぞれの役割</h3>
+        <ul>
+          <li><code>row_bit</code> ＝ 行を黒く塗った時刻の集計表 / <code>col_bit</code> ＝ 列を白く塗った時刻の集計表</li>
+          <li><code>bit_add(表, 時刻, x)</code> … その時刻の件数を x だけ増減</li>
+          <li><code>bit_sum(表, 時刻)</code> … 時刻 0〜t の累計件数を返す</li>
+          <li>時刻は 0〜Q を使うので表の長さは <code>Q + 2</code> で確保。冒頭の <code>i += 1</code> は「時刻 0」も表で扱うためのずらし（BIT は 1 始まり）</li>
+          <li><code>i &amp; (-i)</code> は 2 進数で「担当ブロック」を渡り歩くテクニック。仕組みは後回しで OK、<strong>使い方を覚えるのが先</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════ コード② ══════════ -->
+    <section id="code2">
+      <span class="sec-label">コード②</span>
+      <h2>クエリ処理 — 増減を足し引きして即出力（20 行）</h2>
+      <div class="timestamp">▶ 動画 13:00〜</div>
+      <div class="lead">「前回時刻 old を調べる → 今の黒マス数を BIT で出す → 時刻を t に引っ越す」が両クエリ共通の型です。</div>
+
+      <div class="ac-code-block">
+        <div class="ac-code-header">
+          <span class="ac-filename">abc461_e.py（後半）</span>
+          <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        <pre><code class="language-python">row_time = [0] * (N + 1)
+col_time = [0] * (N + 1)
+bit_add(row_bit, 0, N)
+bit_add(col_bit, 0, N)
+total = 0
+for t in range(1, Q + 1):
+    typ, x = map(int, input().split())
+    if typ == 1:
+        old = row_time[x]
+        total += N - bit_sum(col_bit, old - 1)
+        bit_add(row_bit, old, -1)
+        bit_add(row_bit, t, 1)
+        row_time[x] = t
+    else:
+        old = col_time[x]
+        total -= N - bit_sum(row_bit, old)
+        bit_add(col_bit, old, -1)
+        bit_add(col_bit, t, 1)
+        col_time[x] = t
+    print(total)</code></pre>
+      </div>
+
+      <div class="card">
+        <h3>🔍 処理の流れ</h3>
+        <ul>
+          <li><strong>行を黒に（typ == 1）:</strong> 今の黒マス数 = <code>bit_sum(col_bit, old - 1)</code>（時刻 old より<strong>前</strong>に白塗りされた列の本数）。<code>total += N − 黒マス数</code> で増加分を加算</li>
+          <li><strong>列を白に（else）:</strong> 消える黒 = <code>N - bit_sum(row_bit, old)</code>（時刻 old より<strong>後</strong>に黒塗りされた行の本数）</li>
+          <li>どちらも最後に時刻の引っ越し: old の件数を −1、t に +1</li>
+          <li>初期値は「全行・全列が時刻 0」— だから最初に時刻 0 へ N 件ずつ登録</li>
+        </ul>
+        <p style="margin-top:.5rem">⏱ <strong>計算量:</strong> 1 クエリ O(log Q) × Q 回 = <strong>O(Q log Q)</strong> ≈ 540 万回。O(N log N) 級は N ≤ 5×10⁵ が目安 → Q = 3×10⁵ なら Python でも間に合う（不安なら PyPy 提出）。</p>
+      </div>
+    </section>
+
+    <!-- ══════════ ACコード ══════════ -->
+    <section id="accode">
+      <span class="sec-label">提出用</span>
+      <h2>AC コード全文</h2>
+      <div class="lead">前半・後半をつなげた提出用コードです。コピーしてそのまま提出できます。</div>
+
+      <div class="ac-code-block">
+        <div class="ac-code-header">
+          <span class="ac-filename">abc461_e.py</span>
+          <span class="ac-badge">✅ 全サンプル一致 + 総当たり300ケース照合済み</span>
+          <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        <pre><code class="language-python">import sys
+input = sys.stdin.readline
+
+N, Q = map(int, input().split())
+size = Q + 2
+row_bit = [0] * (size + 1)
+col_bit = [0] * (size + 1)
+
+def bit_add(bit, i, x):
+    i += 1
+    while i &lt;= size:
+        bit[i] += x
+        i += i &amp; (-i)
+
+def bit_sum(bit, i):
+    i += 1
+    s = 0
+    while i &gt; 0:
+        s += bit[i]
+        i -= i &amp; (-i)
+    return s
+
+row_time = [0] * (N + 1)
+col_time = [0] * (N + 1)
+bit_add(row_bit, 0, N)
+bit_add(col_bit, 0, N)
+total = 0
+for t in range(1, Q + 1):
+    typ, x = map(int, input().split())
+    if typ == 1:
+        old = row_time[x]
+        total += N - bit_sum(col_bit, old - 1)
+        bit_add(row_bit, old, -1)
+        bit_add(row_bit, t, 1)
+        row_time[x] = t
+    else:
+        old = col_time[x]
+        total -= N - bit_sum(row_bit, old)
+        bit_add(col_bit, old, -1)
+        bit_add(col_bit, t, 1)
+        col_time[x] = t
+    print(total)</code></pre>
+      </div>
+      <p class="muted" style="font-size:.8rem">※ CPython で時間が不安な場合は PyPy で提出してください。</p>
+    </section>
+
+    <!-- ══════════ まとめ ══════════ -->
+    <section id="summary">
+      <span class="sec-label">まとめ</span>
+      <h2>解法パターンの整理</h2>
+      <div class="timestamp">▶ 動画 15:00〜</div>
+      <div class="lead">「上書きは最後の時刻だけ持つ」「総数は増減で更新」「時刻の集計は BIT」— 3 点セットで覚えましょう。</div>
+
+      <div class="card">
+        <h3>1. 後勝ちの整理</h3>
+        <p>行の黒と列の白が重なったら、<strong>後に塗った方が勝つ</strong>。だからマスを覚える必要はなく、行・列の「最後に塗られた時刻」（row_time / col_time）だけ持てばよい。メモリは O(N) で済む。</p>
+      </div>
+      <div class="card">
+        <h3>2. 総数は増減だけ更新</h3>
+        <p>毎回数え直すと O(N) × Q 回で破綻。行を黒に: <strong>+（N − 今の黒マス数）</strong>、列を白に: <strong>−（今の黒マス数）</strong>。変化した 1 行・1 列の差分だけを合計に反映する。</p>
+      </div>
+      <div class="card">
+        <h3>3. 時刻の集計は BIT</h3>
+        <p>「時刻◯より前／後に塗られた本数」を <strong>O(log Q)</strong> で数える集計表。足す・引く・累計の 3 操作だけで、全体 O(Q log Q) ≈ 540 万回。Q = 3×10⁵ でも Python で間に合う。</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--blue)">
+        <h3>🔁 今日の解法パターン（上書き系クエリの定石）</h3>
+        <p>グリッドは作らない → 行・列の最後の時刻だけ記録 → 総数は増減だけ更新 → 時刻の集計は BIT → <strong style="color:var(--orange)">O(Q log Q) で完答</strong></p>
+        <p class="muted" style="margin-top:.4rem">「最終更新がいつか」さえ持っていれば最新状態は判定できる — 在庫表や顧客リストの更新履歴と同じ発想です。</p>
+      </div>
+    </section>
+
+    <!-- ══════════ 用語解説 ══════════ -->
+    <section id="glossary">
+      <span class="sec-label">GLOSSARY</span>
+      <h2>用語解説</h2>
+      <div class="timestamp">▶ 動画 16:30〜</div>
+      <div class="glossary-grid">
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">BIT（Fenwick Tree）</span>
+            <span class="term-reading">ビット / フェニックツリー</span>
+          </div>
+          <p class="term-desc">「件数の増減」と「先頭からの累計」をどちらも O(log N) でこなす集計表。売上台帳の小計欄のデータ構造版。本問では行用・列用の 2 本を使った。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/フェニック木" target="_blank">Wikipedia: フェニック木 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">クエリ</span>
+            <span class="term-reading">query</span>
+          </div>
+          <p class="term-desc">「この処理をして」という指示・問い合わせの 1 件。本問では「行を黒に」「列を白に」の 2 種類が最大 3×10⁵ 件届く。1 件あたりの処理を速くするのが腕の見せ所。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/クエリ" target="_blank">Wikipedia: クエリ 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">O 記法</span>
+            <span class="term-reading">オーきほう / Big-O notation</span>
+          </div>
+          <p class="term-desc">アルゴリズムの計算量（実行時間の増え方）を表す記法。本問の解法は O(Q log Q) — クエリ数 Q に対してほぼ比例でしか増えない。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/ランダウの記号" target="_blank">Wikipedia: ランダウの記号 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">TLE</span>
+            <span class="term-reading">ティーエルイー / Time Limit Exceeded</span>
+          </div>
+          <p class="term-desc">実行時間制限超過。本問の制限は 2 秒で、グリッドを素直にシミュレートする解法は確実に TLE になる。制約から「速い解法を要求されている」と読み取る。</p>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">AtCoder 公式 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">標準入力</span>
+            <span class="term-reading">ひょうじゅんにゅうりょく</span>
+          </div>
+          <p class="term-desc">プログラムにデータを渡す基本の入り口。競プロではここから問題の入力が流れてくる。キーボード入力やファイルからの流し込みも同じ仕組み。</p>
+          <a class="term-link" href="https://ja.wikipedia.org/wiki/標準ストリーム" target="_blank">Wikipedia: 標準ストリーム 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">sys.stdin.readline</span>
+            <span class="term-reading">シス・スタンダードイン・リードライン</span>
+          </div>
+          <p class="term-desc">Python で標準入力を高速に読む方法。<code>input()</code> より数倍速い。本問のように入力が 3×10⁵ 行を超える問題では必須のテクニック。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/sys.html#sys.stdin" target="_blank">Python公式: sys.stdin 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">map</span>
+            <span class="term-reading">マップ</span>
+          </div>
+          <p class="term-desc">リストなどの各要素に同じ関数をまとめて適用する Python の組み込み関数。<code>map(int, input().split())</code> は「空白区切りの文字列を全部 int に変換」の定型句。</p>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python公式: map 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <div class="term-head">
+            <span class="term-name">AtCoder</span>
+            <span class="term-reading">アットコーダー</span>
+          </div>
+          <p class="term-desc">日本最大級の競技プログラミングサイト。毎週土曜夜の ABC（Beginner Contest）は初学者の腕試しに最適。E 問題は中級者へのステップアップ問題。</p>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      出典: <a href="https://atcoder.jp/contests/abc461/tasks/abc461_e" target="_blank">AtCoder ABC461 E - E-liter</a> ｜ AtCoder×Pythonシリーズ
+    </footer>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => btn.textContent = 'コピー', 2000);
+  });
+}
+
+// サイドバー: 現在表示中セクションのハイライト
+const links = document.querySelectorAll('nav.sidebar a');
+const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => { if (s) obs.observe(s); });
+</script>
+</body>
+</html>

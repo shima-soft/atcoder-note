@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.pattern-cols {
+  display: flex;
+  gap: 1.2rem;
+  flex: 1;
+  overflow: hidden;
+}
+.diagram-box {
+  flex: 0 0 52%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .4rem;
+}
+.info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow: hidden;
+}
+.biz-example {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem .8rem;
+}
+.biz-example .biz-title {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.biz-step {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .2rem;
+}
+.snum {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.biz-step p {
+  font-size: .82rem;
+  color: var(--text);
+}
+.ok-box, .ng-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .5rem .8rem;
+}
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.box-title {
+  font-size: .8rem;
+  font-weight: 700;
+  margin-bottom: .2rem;
+}
+.box-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.box-list li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.box-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+</style>
+</head>
+<body style="position: relative;">
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">WHY HARD</span>
+    <h2 class="slide-title">単純な解法はなぜ通らない？</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">一言で</span>
+      <p>毎日全鳥を調べるとO(N×M)で時間超過</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 280" class="">
+        <!-- タイトル -->
+        <text x="260" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e" class="">単純解法の計算量</text>
+        <!-- 計算式 -->
+        <rect x="30" y="45" width="460" height="50" rx="8" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5" class=""></rect>
+        <text x="260" y="75" text-anchor="middle" font-size="16" font-weight="700" fill="#c9162e" class="">O(N × M) = O(30万 × 30万) = 900億回</text>
+        <!-- 比較 -->
+        <rect x="30" y="110" width="220" height="80" rx="8" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5" class=""></rect>
+        <text x="140" y="135" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e" class="">コンピュータの速さ</text>
+        <text x="140" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e" class="">秒間1億回</text>
+        <text x="140" y="175" text-anchor="middle" font-size="11" fill="#5e6a8a" class="">（典型的な処理速度）</text>
+        <rect x="270" y="110" width="220" height="80" rx="8" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.5" class=""></rect>
+        <text x="380" y="135" text-anchor="middle" font-size="12" font-weight="700" fill="#c9162e" class="">必要時間</text>
+        <text x="380" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e" class="">9000秒 = 約2.5時間</text>
+        <text x="380" y="175" text-anchor="middle" font-size="11" fill="#5e6a8a" class="">（制限時間2秒のはるか上）</text>
+        <!-- 結論 -->
+        <rect x="110" y="210" width="300" height="50" rx="8" fill="rgba(201,22,46,.1)" stroke="#c9162e" stroke-width="2" class=""></rect>
+        <text x="260" y="240" text-anchor="middle" font-size="16" font-weight="700" fill="#c9162e" class="">TLE（時間超過）で間違いなし</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 なぜ遅いのか</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-red)">1</span>
+          <p>毎日全N羽の鳥の色を調べる → 1日O(N)</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-red)">2</span>
+          <p>M日分計算する → 合計O(N×M)</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-red)">3</span>
+          <p>N=M=30万なら900億回 → 2秒で終わらない</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">💡 気づき</div>
+        <ul class="box-list">
+          <li>色の変化は特定の日だけ起きる</li>
+          <li>全部の日で全鳥を調べる必要はない</li>
+          <li>変化が起きる日だけに注目すればいい</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 失敗パターン</div>
+        <ul class="box-list">
+          <li>「毎日全部調べれば確実」と安易に思い込む</li>
+          <li>制約条件（N,M≤30万）を見落とす</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body></html>

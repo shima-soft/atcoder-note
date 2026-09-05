@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .5rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .3rem;
+  letter-spacing: .03em;
+}
+.prob-card p {
+  font-size: .85rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.prob-card p strong {
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .55rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .12rem;
+}
+.meta-card ul li {
+  font-size: .82rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .18rem .55rem;
+  font-size: .78rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+  display: inline-block;
+  margin-bottom: .2rem;
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .55rem 1rem;
+  flex: 1;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .78rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .25rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .25rem .7rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: .74rem;
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .75rem;
+}
+.sample-table td.correct {
+  color: var(--green);
+  font-weight: 900;
+  font-size: .82rem;
+}
+.sample-table td.input-cell {
+  text-align: left;
+  padding-left: 1.2rem;
+}
+.sample-table td .nlabel {
+  display: block;
+  color: var(--muted);
+  font-size: .68rem;
+}
+.sample-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">数列を半分に分けて、後ろ半分だけを足す</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>N は必ず偶数と決まっているので、前半と後半は同じ個数に分かれる</p>
+    </div>
+  </div>
+  <div class="slide-body">
+
+    <!-- 問題文 -->
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p>長さ <strong>N</strong> の整数の並び（数列）<strong>A</strong> が与えられます。<strong>N は必ず偶数</strong>です。
+         この数列をちょうど半分に分けたときの、<strong>後ろ半分の合計</strong>を出力してください。
+         つまり <strong>N ÷ 2 ＋ 1 番目から N 番目まで</strong>を足した値です。</p>
+    </div>
+
+    <!-- 制約 + 入力形式 -->
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約（入力の範囲）</h4>
+        <ul>
+          <li>2 ≤ N ≤ 100（N は偶数）</li>
+          <li>1 ≤ A の各要素 ≤ 100</li>
+          <li>入力はすべて整数</li>
+        </ul>
+        <p class="hint">→ N が偶数と保証されているので「半分に割り切れない」心配は不要。数も小さいので素直に足すだけでよい</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力の形式（2行）</h4>
+        <code>N</code><br>
+        <code>A1 A2 … AN</code>
+        <p class="hint" style="margin-top:.35rem">1行目に個数 N、2行目に N 個の数が空白区切りで並ぶ</p>
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="sample-card">
+      <h4>📊 入出力例で確認</h4>
+      <table class="sample-table">
+        <tr>
+          <th style="width:300px">入力</th>
+          <th style="width:70px">出力</th>
+          <th>なぜそうなる？</th>
+        </tr>
+        <tr>
+          <td class="input-cell"><span class="nlabel">N=8</span>1 3 7 8 4 2 5 6</td>
+          <td class="correct">17</td>
+          <td class="note">後ろ半分は 4・2・5・6 の4個 → 4+2+5+6 = 17</td>
+        </tr>
+        <tr>
+          <td class="input-cell"><span class="nlabel">N=2</span>1 100</td>
+          <td class="correct">100</td>
+          <td class="note">後ろ半分は 100 の1個だけ → そのまま 100</td>
+        </tr>
+        <tr>
+          <td class="input-cell"><span class="nlabel">N=10</span>31 41 59 26 53 58 97 93 23 84</td>
+          <td class="correct">355</td>
+          <td class="note">後ろ半分は 58・97・93・23・84 の5個 → 合計 355</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

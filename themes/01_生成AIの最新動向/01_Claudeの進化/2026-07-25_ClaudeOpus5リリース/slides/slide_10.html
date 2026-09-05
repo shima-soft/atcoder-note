@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.start-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.price-row {
+  display: flex;
+  gap: .6rem;
+  margin-top: .1rem;
+}
+.price-cell {
+  flex: 1;
+  background: rgba(26,150,192,.08);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+  text-align: center;
+}
+.price-cell .p-label { font-size: .7rem; color: var(--muted); font-weight: 700; }
+.price-cell .p-value { font-size: 1.25rem; color: var(--blue); font-weight: 900; line-height: 1.3; }
+.pill-row { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .1rem; }
+.pill {
+  background: rgba(26,150,192,.1);
+  color: var(--blue);
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .15rem .6rem;
+  border-radius: 99px;
+}
+.beta-item { font-size: .78rem; color: var(--text); line-height: 1.5; padding-left: .9rem; position: relative; margin-bottom: .2rem; }
+.beta-item::before { content: '▸'; position: absolute; left: 0; color: var(--blue); }
+.beta-item b { color: var(--blue); }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">GETTING STARTED</span>
+    <h2 class="slide-title">今日から使い始めるには</h2>
+    <p class="slide-sub">料金・使える場所・同時に公開されたベータ機能</p>
+  </div>
+  <div class="slide-body">
+    <div class="start-grid">
+      <div class="card">
+        <div class="card-icon">🙋</div>
+        <div class="card-title">Claude Pro / Max なら追加料金なし</div>
+        <div class="pill-row">
+          <span class="pill">Claude.ai</span>
+          <span class="pill">Claude Code</span>
+          <span class="pill">Claude Cowork</span>
+          <span class="pill">Claude API</span>
+        </div>
+        <div class="card-desc">サブスクをお使いなら、モデル選択で Opus 5 を選ぶだけ。<b>Max では標準モデル</b>、<b>Pro では最上位モデル</b>として使えます</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">💵</div>
+        <div class="card-title">API 料金も Opus 4.8 から据え置き</div>
+        <div class="price-row">
+          <div class="price-cell">
+            <div class="p-label">入力 100万トークン</div>
+            <div class="p-value">$5</div>
+          </div>
+          <div class="price-cell">
+            <div class="p-label">出力 100万トークン</div>
+            <div class="p-value">$25</div>
+          </div>
+        </div>
+        <div class="card-desc">自社システムに組み込む開発者向けの料金。性能は上がったのに単価は同じ。モデル名は <b>claude-opus-5</b></div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">急ぎのときは Fast mode</div>
+        <div class="card-desc">通常の約 2.5倍の速さで応答する高速モード。料金は通常の2倍で、Claude Code では利用クレジットの範囲で使える</div>
+        <div class="pill-row">
+          <span class="pill">約 2.5倍速</span>
+          <span class="pill">料金は2倍</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧪</div>
+        <div class="card-title">同時公開のベータ機能（開発者向け）</div>
+        <div class="beta-item"><b>会話の途中でツールを変更</b>できるように。ツールとは Claude に使わせる機能のこと。入れ替えても、それまでの会話を読み直す費用がかからない</div>
+        <div class="beta-item"><b>自動フォールバック</b>。安全判定で止まった要求を、別のモデルへ自動で振り替えられる</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

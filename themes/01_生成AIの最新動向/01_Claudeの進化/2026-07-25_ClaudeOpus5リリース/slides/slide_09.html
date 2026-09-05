@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.safety-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .8rem;
+  flex: 1;
+  overflow: hidden;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+.card-head .card-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+.metric {
+  margin-top: auto;
+  background: rgba(26,150,192,.08);
+  border-radius: 10px;
+  padding: .4rem .6rem;
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">SAFETY</span>
+    <h2 class="slide-title">賢くなっても、暴走させない</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>Anthropic 史上もっとも「筋の通った」モデル。危険な用途の能力はあえて伸ばさず、過剰なブロックは減らした</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="safety-grid">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🛡️</span>
+          <div class="card-title">歴代でもっとも「筋の通った」モデル</div>
+        </div>
+        <div class="card-desc">Claude の行動指針（Constitution）への沿い方が Opus 4.8・Sonnet 5・Fable 5 より良好。ウソをつく割合が最も低く、だまされて悪用されにくい</div>
+        <div class="card-desc">取り返しのつかない操作を避けるという点でも、歴代でもっとも安全だと報告されている</div>
+        <div class="metric">不適切な振る舞いのスコア 2.3（自社モデルで最低＝最も安全）</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🔐</span>
+          <div class="card-title">危険な用途の能力はあえて伸ばさない</div>
+        </div>
+        <div class="card-desc">サイバー攻撃の訓練はあえて行っていない。弱点を見つける力は最上位に近いが、見つけた弱点を悪用する能力は、意図的に低いまま抑えられている</div>
+        <div class="card-desc">生物学の危険な領域についても、能力をあえて伸ばさない方針を続けている</div>
+        <div class="metric">生物学・攻撃的サイバーは Mythos 5 に及ばない設計</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-icon">🚦</span>
+          <div class="card-title">「安全すぎて使えない」を減らす</div>
+        </div>
+        <div class="card-desc">正当な業務まで止めてしまう過剰な制限を緩和。セキュリティ関連の質問がブロックされた場合は、Opus 4.8 が自動で応答を引き継ぐ</div>
+        <div class="card-desc">セキュリティ業務を行う企業・研究者向けには、制限を緩めた版を使える制度も用意されている</div>
+        <div class="metric">制限の発動は Fable 5 比で約 85% 少ない見込み</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

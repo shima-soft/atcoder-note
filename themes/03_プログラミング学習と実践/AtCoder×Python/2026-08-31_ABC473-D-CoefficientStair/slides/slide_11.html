@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.wrap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .8rem;
+  flex: 1;
+  overflow: hidden;
+}
+.wrap-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.wc-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--g-orange);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 900;
+  flex-shrink: 0;
+}
+.wc-title {
+  font-size: .95rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.wc-body {
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.65;
+  flex: 1;
+}
+.wc-tag {
+  display: inline-block;
+  background: rgba(217,96,24,.1);
+  color: var(--orange);
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .12rem .5rem;
+  border-radius: 99px;
+  width: fit-content;
+}
+.pattern-box {
+  background: rgba(26,150,192,.06);
+  border: 1px solid rgba(26,150,192,.2);
+  border-radius: 12px;
+  padding: .6rem .9rem;
+}
+.pb-label { font-size: .68rem; font-weight: 700; color: var(--blue); margin-bottom: .3rem; }
+.pb-flow {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-wrap: wrap;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.pb-arrow { color: var(--muted); font-size: 1rem; }
+.pb-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .2rem .6rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">まとめ</span>
+    <h2 class="slide-title">「先に作れるか調べる」3ステップ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>「小さい制約Nに気づく → 到達可能性を先にDP → DFSで辞書順に枝刈り列挙」は全列挙系の頻出パターン</p>
+    </div>
+  </div>
+
+  <div class="slide-body" style="flex-direction:column;gap:.7rem;">
+    <!-- 3カード -->
+    <div class="wrap-grid">
+      <div class="wrap-card">
+        <div class="wc-num">1</div>
+        <div class="wc-title">N≤10 は「全探索してよい」の合図</div>
+        <div class="wc-body">
+          制約の中に極端に小さい数（今回はN）が<br>
+          あれば、それは全探索・DFSが<br>
+          前提になっているという出題者からの<br>
+          サインであることが多い。<br><br>
+          まず制約の桁数に注目する習慣をつけよう。
+        </div>
+        <span class="wc-tag">制約読み</span>
+      </div>
+
+      <div class="wrap-card">
+        <div class="wc-num">2</div>
+        <div class="wc-title">到達可能性を先にDPで判定</div>
+        <div class="wc-body">
+          「残りをこの先の重みで作れるか」を<br>
+          <strong>reach[idx][rem]</strong> として先に計算しておくと、<br>
+          DFSの途中で無駄な枝を<br>
+          その場で切り捨てられる。<br><br>
+          計算量は O(N×K) ≈ 200万回で十分高速。
+        </div>
+        <span class="wc-tag">到達可能性DP</span>
+      </div>
+
+      <div class="wrap-card">
+        <div class="wc-num">3</div>
+        <div class="wc-title">小さい順に試すだけで辞書順に</div>
+        <div class="wc-body">
+          各位置で候補を<strong>0から順に</strong>試す<br>
+          深さ優先探索（DFS）は、<br>
+          特別な工夫をしなくても<br>
+          結果が自然に辞書順になる。<br><br>
+          「全部出力せよ」系の定番の書き方。
+        </div>
+        <span class="wc-tag">DFS × 辞書順</span>
+      </div>
+    </div>
+
+    <!-- 「やってみる」の答え合わせ -->
+    <div class="pattern-box">
+      <div class="pb-label">📋 答え合わせ — N = 2, K = 5 の答えは3行</div>
+      <div class="pb-flow">
+        <span class="pb-step" style="border-color:var(--orange);color:var(--orange);">1 2</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step" style="border-color:var(--orange);color:var(--orange);">3 1</span>
+        <span class="pb-arrow">→</span>
+        <span class="pb-step" style="border-color:var(--orange);color:var(--orange);">5 0</span>
+        <span class="pb-arrow" style="font-size:.8rem">|</span>
+        <span class="pb-step" style="font-weight:400">1×1+2×2 = 5 / 1×3+2×1 = 5 / 1×5+2×0 = 5</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

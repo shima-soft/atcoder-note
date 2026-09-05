@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>公開モデルで確かめられている効果</title>
+<style>
+.compare-table table { font-size: .8rem; }
+.compare-table td.model { font-weight: 900; white-space: nowrap; }
+.compare-table tr.hl td { background: #f4efff; }
+.tbl-note {
+  margin-top: auto;
+  padding-top: .7rem;
+  display: flex;
+  gap: .7rem;
+}
+.tbl-note > div {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .55rem .8rem;
+}
+.tbl-note .nt { font-size: .76rem; font-weight: 900; color: var(--purple); margin-bottom: .15rem; }
+.tbl-note p { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">効果</span>
+    <h2 class="slide-title">小さいモデルが、大きいモデルに並ぶ</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>周回すれば、覚えている重みが小さいままでも大きなモデル並みに答えられる — 公開モデルで実際に確かめられている</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">モデル</th>
+            <th style="width:13%">覚える重み</th>
+            <th style="width:12%">周回</th>
+            <th style="width:33%">報告されている実力</th>
+            <th style="width:22%">出典</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hl">
+            <td class="model">Huginn-3.5B</td>
+            <td>3.5B</td>
+            <td>最大50周</td>
+            <td>50B級モデル1回ぶんの計算量に相当。周回を増やすほど算数・コードの成績が伸びる</td>
+            <td>arXiv:2502.05171<br>ICML 2025</td>
+          </tr>
+          <tr>
+            <td class="model">Ouro-1.4B-Thinking</td>
+            <td>1.4B</td>
+            <td>4周</td>
+            <td>4B級モデルと互角</td>
+            <td>arXiv:2510.25741</td>
+          </tr>
+          <tr class="hl">
+            <td class="model">Ouro-2.6B-Thinking</td>
+            <td>2.6B</td>
+            <td>4周</td>
+            <td>算数・理科の複数課題で8B級モデルと同等以上</td>
+            <td>arXiv:2510.25741</td>
+          </tr>
+          <tr>
+            <td class="model">Astra（OpenAI）</td>
+            <td>非公開</td>
+            <td>非公開</td>
+            <td>「小さいモデルを大きいモデルのように動かし、メモリと通信のコストを下げる」と報じられた</td>
+            <td>The Information<br>2026年9月1日 報道</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tbl-note">
+        <div>
+          <div class="nt">読み方</div>
+          <p>「覚える重み」は機材の大きさを、「周回」は考える深さを決める。この2つが切り離せたことが、この方式の成果です。</p>
+        </div>
+        <div>
+          <div class="nt">注意したい点</div>
+          <p>周回はいくらでも効くわけではありません。Huginn-3.5B では64周あたりで成績が頭打ちになると報告されています。</p>
+        </div>
+        <div>
+          <div class="nt">Astra の行だけ別物</div>
+          <p>上3行は誰でも検証できる公開モデル。Astra の行は関係者情報にもとづく報道で、数字は出ていません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

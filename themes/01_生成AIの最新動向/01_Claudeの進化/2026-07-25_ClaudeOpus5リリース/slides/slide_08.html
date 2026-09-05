@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.compare-table table { font-size: .84rem; }
+.compare-table td { padding: .72rem .7rem; }
+.compare-table th { padding: .55rem .7rem; font-size: .78rem; }
+.svc { font-weight: 900; white-space: nowrap; }
+.note { font-size: .7rem; color: var(--muted); margin-top: .5rem; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">REAL WORLD</span>
+    <h2 class="slide-title">先行導入した現場の評価</h2>
+    <p class="slide-sub">公開されたコメントから、用途別に効果を抜粋（従来の Opus モデルとの比較）</p>
+  </div>
+  <div class="slide-body">
+    <div class="compare-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">サービス・業務</th>
+            <th style="width:18%">用途</th>
+            <th>報告されている効果</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="svc">Devin</td>
+            <td><span class="pattern-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">開発エージェント</span></td>
+            <td>最上位モデル並みの実力を半分のコストで。とくに不具合の原因究明に強い</td>
+          </tr>
+          <tr>
+            <td class="svc">Cursor</td>
+            <td><span class="pattern-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">コード編集</span></td>
+            <td>Fable 5 のすぐ下の成績を、Opus の速度と価格で実現している</td>
+          </tr>
+          <tr>
+            <td class="svc">Zapier</td>
+            <td><span class="pattern-badge" style="background:rgba(0,143,106,.12);color:var(--green)">業務自動化</span></td>
+            <td>業務ベンチマークで首位。トークンを増やさずに合格率 100% を達成</td>
+          </tr>
+          <tr>
+            <td class="svc">Lovable</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">アプリ制作</span></td>
+            <td>最難関のタスクで Opus 4.7 比 22% 向上。実行のたびの結果のブレも小さい</td>
+          </tr>
+          <tr>
+            <td class="svc">JetBrains</td>
+            <td><span class="pattern-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">開発環境</span></td>
+            <td>書き始める前に考え、計画の段階で自分の誤りに気づけるようになった</td>
+          </tr>
+          <tr>
+            <td class="svc">金融トレーディング</td>
+            <td><span class="pattern-badge" style="background:rgba(122,59,206,.12);color:var(--purple)">データ分析</span></td>
+            <td>考えるのに使うトークンは約7分の1、待ち時間は半分以下で高精度</td>
+          </tr>
+          <tr>
+            <td class="svc">法務レビュー</td>
+            <td><span class="pattern-badge" style="background:rgba(0,143,106,.12);color:var(--green)">契約書レビュー</span></td>
+            <td>初回の修正案づくりでほぼ2倍のスコア。使うトークンは 26% 減</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">※ Anthropic 公式ブログに掲載された早期利用企業のコメントを要約。効果は業務内容により異なります</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

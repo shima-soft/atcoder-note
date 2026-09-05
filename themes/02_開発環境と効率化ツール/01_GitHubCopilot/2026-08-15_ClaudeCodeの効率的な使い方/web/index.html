@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Codeの効率的な使い方 - YouTube解説コンテンツ</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    body { background: #f9fafb; color: #1a1d2e; line-height: 1.8; padding: 2rem; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { border-bottom: 2px solid var(--blue); padding-bottom: 0.5rem; }
+    .content-section { margin-bottom: 3rem; }
+    .content-section h2 { border-left: 5px solid var(--blue); padding-left: 1rem; margin-bottom: 1.5rem; }
+    .tip-box { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; border-radius: 10px; margin: 1rem 0; }
+    .point-list { padding-left: 1.5rem; }
+    .point-list li { margin-bottom: 0.5rem; }
+    .highlight { font-weight: bold; color: var(--blue); }
+    .svg-container { text-align: center; margin: 2rem 0; background: #fff; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); }
+  </style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+  <div class="container">
+    <h1>Claude Code セッションを最大活用する</h1>
+    <p>AIを使いこなすための「賢い」使いかたを、効率とコストの両面から解説します。</p>
+
+    <div class="content-section">
+      <h2>1. トークンコストとキャッシュの仕組み</h2>
+      <p>AIへの命令には「入力（Prefill）」と「出力（Decode）」の2つの段階があります。特に<span class="highlight">Decode（生成）のコストは入力の約5倍</span>かかるため、無駄な出力を減らすことが重要です。</p>
+      <p>ここで鍵となるのが<span class="highlight">Prompt Caching</span>です。一度読み込んだ共通の指示や履歴を「キャッシュ」として再利用することで、次からのリクエストコストを大幅に削減できます。</p>
+    </div>
+
+    <div class="content-section">
+      <h2>2. 状況に応じた履歴管理（3つのコマンド）</h2>
+      <p>履歴をどう扱うかで、AIの賢さとコストのバランスが決まります。以下の3つを使い分けましょう。</p>
+      <ul>
+        <li><span class="highlight">/clear</span>: 別のタスクに移る時。履歴を完全にリセットし、ノイズを排除します。</li>
+        <li><span class="highlight">/rewind</span>: 直近の操作だけをやり直したい時。前方のキャッシュを維持したまま、失敗した部分だけを取り消します。</li>
+        <li><span class="highlight">/compact</span>: 同じタスクで履歴が長くなりすぎた時。内容を要約して、AIがスムーズに動けるように整理します。</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h2>3. コンテキストを「賢く」管理する</h2>
+      <p>AIに「探させる」のは、コストの無駄です。</p>
+      <ul>
+        <li><span class="highlight">@メンション</span>を活用しましょう。ファイルパスを直接打つのではなく、`@ファイル名` とすることで、AIは最初からその内容を把握でき、無駄なReadコールを防げます。</li>
+        <li><span class="highlight">CLAUDE.md</span> を最適化しましょう。汎用的な指示はここへ、ワークフロー固有の指示は「スキル」へ。必要な情報だけを適切な場所に置くのがコツです。</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h2>4. 複雑なタスクを賢く分離する</h2>
+      <p>すべてをメインの会話でやらせないことも重要です。</p>
+      <ul>
+        <li><span class="highlight">サブエージェント</span>の活用: ログ解析や大量のファイル探索など、情報量が多く単発の作業はサブエージェントに任せましょう。結果だけをメインコンテキストに戻すことで、全体の処理を高速化できます。</li>
+        <li><span class="highlight">出力の抑制</span>: テスト実行など、大量のテキストが出るコマンドには `quiet` や `tail` を組み合わせて、必要な情報だけがAIに伝わるように調整します。</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h2>5. まとめ：効率を最大化する3つの鉄則</h2>
+      <ol>
+        <li>キャッシュを意識する（モデル変更はセッションの最初かクリア直後に）</li>
+        <li>履歴を整理する（/clear, /rewind, /compact の使い分け）</li>
+        <li>情報を絞り込む（@メンションとサブエージェントの活用）</li>
+      </ol>
+    </div>
+
+    <div class="content-section">
+      <h2>用語解説</h2>
+      <div class="glossary-grid">
+        <div><strong>Prefill</strong><br>モデルが推論を開始する前に、プロンプトや履歴を処理する段階。</div>
+        <div><strong>Decode</strong><br>AIが1トークンずつ生成する段階。計算負荷が高く、コストも高い。</div>
+        <div><strong>Prompt Caching</strong><br>共通の入力内容を再利用し、再計算を省く技術。</div>
+        <div><strong>Subagent</strong><br>メインの会話とは別に独立したコンテキストで動く補助AI。</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

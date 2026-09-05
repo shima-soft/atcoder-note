@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方①</span>
+    <h2 class="slide-title">捨てる順番は関係ない。効くのは枚数の偶数・奇数だけ</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>数字ごとに分けて枚数を見れば、実際に捨てなくても残るカードが決まる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: 数字ごとに分けた図（入力例1） -->
+    <div class="diagram-box">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 388">
+        <!--
+          設計メモ
+          rowTop[i] = 40 + i*68   (card h=52)
+          card[j].x = 180 + j*66  (w=52, gap=14, 送り幅=66)
+        -->
+        <text x="280" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">入力例1のカードを、数字ごとに分けてみる</text>
+
+        <!-- 数字 1: 2枚 → 残らない -->
+        <text x="40" y="71" font-size="13" font-weight="700" fill="#5e6a8a">数字 1</text>
+        <rect x="180" y="40" width="52" height="52" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="206" y="72" text-anchor="middle" font-size="18" font-weight="700" fill="#a9b0c3">1</text>
+        <line x1="188" y1="48" x2="224" y2="84" stroke="#c8cede" stroke-width="2"/>
+        <rect x="246" y="40" width="52" height="52" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="272" y="72" text-anchor="middle" font-size="18" font-weight="700" fill="#a9b0c3">1</text>
+        <line x1="254" y1="48" x2="290" y2="84" stroke="#c8cede" stroke-width="2"/>
+        <text x="400" y="71" font-size="13" fill="#5e6a8a">2枚 → 残らない</text>
+
+        <!-- 数字 2: 2枚 → 残らない -->
+        <text x="40" y="139" font-size="13" font-weight="700" fill="#5e6a8a">数字 2</text>
+        <rect x="180" y="108" width="52" height="52" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="206" y="140" text-anchor="middle" font-size="18" font-weight="700" fill="#a9b0c3">2</text>
+        <line x1="188" y1="116" x2="224" y2="152" stroke="#c8cede" stroke-width="2"/>
+        <rect x="246" y="108" width="52" height="52" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="272" y="140" text-anchor="middle" font-size="18" font-weight="700" fill="#a9b0c3">2</text>
+        <line x1="254" y1="116" x2="290" y2="152" stroke="#c8cede" stroke-width="2"/>
+        <text x="400" y="139" font-size="13" fill="#5e6a8a">2枚 → 残らない</text>
+
+        <!-- 数字 7: 1枚 → 残る -->
+        <text x="40" y="207" font-size="13" font-weight="700" fill="#1a1d2e">数字 7</text>
+        <rect x="180" y="176" width="52" height="52" rx="7" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="206" y="208" text-anchor="middle" font-size="18" font-weight="700" fill="#d96018">7</text>
+        <text x="400" y="207" font-size="13" font-weight="700" fill="#d96018">1枚 → 1枚残る</text>
+
+        <!-- 数字 8: 3枚 → 1枚残る -->
+        <text x="40" y="275" font-size="13" font-weight="700" fill="#1a1d2e">数字 8</text>
+        <rect x="180" y="244" width="52" height="52" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="206" y="276" text-anchor="middle" font-size="18" font-weight="700" fill="#a9b0c3">8</text>
+        <line x1="188" y1="252" x2="224" y2="288" stroke="#c8cede" stroke-width="2"/>
+        <rect x="246" y="244" width="52" height="52" rx="7" fill="#eff1f7" stroke="#c8cede" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="272" y="276" text-anchor="middle" font-size="18" font-weight="700" fill="#a9b0c3">8</text>
+        <line x1="254" y1="252" x2="290" y2="288" stroke="#c8cede" stroke-width="2"/>
+        <rect x="312" y="244" width="52" height="52" rx="7" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="2.5"/>
+        <text x="338" y="276" text-anchor="middle" font-size="18" font-weight="700" fill="#d96018">8</text>
+        <text x="400" y="275" font-size="13" font-weight="700" fill="#d96018">3枚 → 1枚残る</text>
+
+        <!-- まとめ -->
+        <text x="280" y="326" text-anchor="middle" font-size="14" font-weight="700" fill="#d96018">枚数を2で割ったあまりが1の数字だけ、1枚残る</text>
+
+        <!-- 凡例 -->
+        <rect x="120" y="348" width="12" height="12" rx="3" fill="rgba(217,96,24,.14)" stroke="#d96018" stroke-width="2"/>
+        <text x="140" y="358" font-size="11" fill="#5e6a8a">残るカード</text>
+        <rect x="280" y="348" width="12" height="12" rx="3" fill="#eff1f7" stroke="#c8cede" stroke-width="2" stroke-dasharray="3 2"/>
+        <text x="300" y="358" font-size="11" fill="#5e6a8a">ペアで捨てられるカード</text>
+      </svg>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">💼 仕事で例えると…</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>請求書と入金明細を、<strong>同じ金額どうし</strong>で突き合わせて消し込む作業</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>1件ずつ相手を探すと、何度も一覧を往復することになる</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>金額ごとに件数を集計すれば、<strong>奇数件の金額</strong>だけが未処理として残ると一目で分かる</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 数字ごとに分けてよい理由</div>
+        <ul class="box-list">
+          <li>捨てられるのは同じ整数の2枚だけ。7 と 8 は互いに影響しない</li>
+          <li>山が2枚・4枚…なら消え、1枚・3枚…なら必ず1枚だけ余る</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ やらなくていいこと</div>
+        <ul class="box-list">
+          <li>リストから2枚探して削除する処理を書く（動くが行数が増える）</li>
+          <li>捨てる順番を工夫して答えを変えようとする（変わらない）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

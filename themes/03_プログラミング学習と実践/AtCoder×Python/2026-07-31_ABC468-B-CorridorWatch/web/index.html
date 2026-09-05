@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC468 B「Corridor Watch」解説 — AtCoder×Python</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css">
+<style>
+:root {
+  --bg: #f9fafb;
+  --surface: #eff1f7;
+  --card: #ffffff;
+  --border: #dde2ec;
+  --text: #1a1d2e;
+  --muted: #5e6a8a;
+  --orange: #d96018;
+  --green: #008f6a;
+  --blue: #1a96c0;
+  --purple: #7a3bce;
+  --pink: #cc0a6a;
+  --red: #c9162e;
+  --yellow: #a86a00;
+  --g-orange: linear-gradient(135deg, #e8873a, #d96018);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+}
+
+/* ▼ ヒーロー */
+.hero {
+  background: var(--g-orange);
+  color: #fff;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(255,255,255,.2);
+  border-radius: 99px;
+  padding: .2rem 1rem;
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: .8rem;
+}
+.hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: .3rem; }
+.hero .sub { opacity: .9; font-size: 1rem; }
+.hero .links {
+  margin-top: 1rem;
+  display: flex; gap: .9rem;
+  justify-content: center; flex-wrap: wrap;
+}
+.hero .links a { color: #fff; text-decoration: underline; font-size: .85rem; }
+
+/* ▼ 全体レイアウト */
+.layout {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem;
+  display: flex;
+  gap: 1.6rem;
+  align-items: flex-start;
+}
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 1.2rem;
+}
+.sidebar h2 {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .06em;
+  margin-bottom: .5rem;
+  padding-left: .8rem;
+}
+.sidebar a {
+  display: block;
+  font-size: .85rem;
+  color: var(--muted);
+  text-decoration: none;
+  padding: .35rem .8rem;
+  border-left: 3px solid transparent;
+  border-radius: 0 6px 6px 0;
+  transition: all .15s;
+}
+.sidebar a:hover { color: var(--text); background: var(--surface); }
+.sidebar a.active {
+  color: var(--orange);
+  font-weight: 700;
+  border-left-color: var(--orange);
+  background: rgba(217,96,24,.08);
+}
+.content { flex: 1; min-width: 0; max-width: 820px; }
+
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  scroll-margin-top: 1.2rem;
+}
+section h2 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--orange);
+  margin-bottom: .8rem;
+  padding-bottom: .4rem;
+  border-bottom: 2px solid var(--border);
+}
+section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 1.2rem 0 .4rem;
+}
+section p { margin-bottom: .6rem; }
+section strong { color: var(--orange); font-weight: 900; }
+
+/* ▼ 図（スライドからSVGをそのまま複製） */
+.fig {
+  width: 100%;
+  aspect-ratio: 540 / 330;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .6rem;
+  margin: .8rem 0 1rem;
+}
+.fig svg { display: block; }
+
+/* ▼ メタ情報 */
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: .8rem;
+}
+.meta-card {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .8rem 1rem;
+}
+.meta-card h4 {
+  font-size: .8rem; font-weight: 700;
+  color: var(--muted); margin-bottom: .4rem;
+}
+.meta-card ul { list-style: none; }
+.meta-card ul li {
+  font-size: .9rem;
+  padding-left: .8rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute; left: 0;
+  color: var(--orange); font-weight: 900;
+}
+.meta-card code, section p code, li code {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .1rem .4rem;
+  font-size: .86rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+.meta-card .note { font-size: .82rem; color: var(--muted); margin-top: .4rem; }
+
+/* ▼ 入出力例 */
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+  margin: .8rem 0;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .4rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .4rem .6rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  word-break: break-all;
+}
+.sample-table td.note {
+  text-align: left; color: var(--muted); font-size: .85rem; word-break: normal;
+}
+.sample-table td.ans { color: var(--green); font-weight: 900; }
+
+/* ▼ ステップ / 補足ボックス */
+.step-box {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem .8rem;
+  background: var(--surface);
+  border-radius: 10px;
+  margin-bottom: .4rem;
+}
+.step-num {
+  min-width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--g-orange);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .8rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.step-box p { margin: 0; font-size: .92rem; }
+.note-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+  margin-top: 1rem;
+}
+.ok-box, .ng-box {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .7rem 1rem;
+}
+.ok-box { border-left: 3px solid var(--green); }
+.ng-box { border-left: 3px solid var(--red); }
+.ok-box h4 { font-size: .85rem; color: var(--green); margin-bottom: .3rem; }
+.ng-box h4 { font-size: .85rem; color: var(--red); margin-bottom: .3rem; }
+.ok-box ul, .ng-box ul { list-style: none; }
+.ok-box li, .ng-box li {
+  font-size: .86rem;
+  padding-left: .8rem;
+  position: relative;
+}
+.ok-box li::before, .ng-box li::before {
+  content: '・'; position: absolute; left: 0; color: var(--muted);
+}
+
+/* ▼ ACコード */
+.ac-code-block {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+.ac-code-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--surface);
+  padding: .4rem .8rem;
+  border-bottom: 1px solid var(--border);
+}
+.ac-filename {
+  font-family: 'Consolas', monospace;
+  font-size: .82rem;
+  color: var(--muted);
+  flex: 1;
+}
+.ac-badge { font-size: .72rem; color: var(--green); font-weight: 700; }
+.copy-btn {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .2rem .6rem;
+  border-radius: 6px;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  background: transparent;
+  cursor: pointer;
+}
+.copy-btn:hover { background: rgba(217,96,24,.08); }
+.ac-code-block pre { margin: 0; padding: .8rem 1rem; overflow-x: auto; }
+.ac-code-block pre code.hljs { background: transparent !important; padding: 0 !important; font-size: .88rem; }
+
+/* ▼ セルフチェック */
+.selfcheck {
+  margin-top: 1.2rem;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .7rem 1rem;
+}
+.selfcheck summary {
+  cursor: pointer;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.selfcheck ol { margin: .6rem 0 0 1.2rem; }
+.selfcheck li { font-size: .88rem; margin-bottom: .5rem; }
+.selfcheck .ans-line {
+  display: block;
+  font-size: .84rem;
+  color: var(--green);
+  margin-top: .1rem;
+}
+
+/* ▼ 用語解説 */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+}
+.term-card {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: .8rem 1rem;
+}
+.term-card h4 { font-size: .9rem; font-weight: 900; margin-bottom: .1rem; }
+.term-card .reading { font-size: .78rem; color: var(--muted); margin-bottom: .3rem; }
+.term-card p { font-size: .84rem; color: var(--muted); line-height: 1.6; margin: 0; }
+.term-card a {
+  display: inline-block;
+  margin-top: .35rem;
+  font-size: .8rem;
+  color: var(--blue);
+  text-decoration: none;
+}
+.term-card a:hover { text-decoration: underline; }
+
+@media (max-width: 800px) {
+  .sidebar { display: none; }
+  .layout { padding: 1.2rem .9rem; }
+}
+@media (max-width: 600px) {
+  .meta-grid, .glossary-grid, .note-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 1.4rem; }
+  section { padding: 1.1rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">AtCoder×Pythonシリーズ</div>
+  <h1>ABC468 B — Corridor Watch</h1>
+  <p class="sub">ガードマンの見張りが届かないマスを数える — 絶対値と二重ループ</p>
+  <div class="links">
+    <a class="header-home" href="../../../../../index.html">← 一覧へ戻る</a>
+    <a href="https://atcoder.jp/contests/abc468/tasks/abc468_b" target="_blank">問題ページ 🔗</a>
+    <a href="../slideshow.html" target="_blank">スライドモードで見る 🔗</a>
+  </div>
+</div>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <h2>もくじ</h2>
+    <a href="#problem">問題を読み解く</a>
+    <a href="#idea">考え方</a>
+    <a href="#pitfall">つまずきポイント</a>
+    <a href="#trace">手を動かす</a>
+    <a href="#code">コード</a>
+    <a href="#glossary">用語解説</a>
+  </nav>
+
+  <div class="content">
+
+    <section id="problem">
+      <h2>📝 問題を読み解く</h2>
+      <p>1列に並んだ <strong>M個のマス</strong>（廊下）があり、<strong>G</strong> のマスにはガードマンが立っています。ガードマンは<strong>自分から距離D以内のマス</strong>を見張ります。最後まで<strong>誰にも見張られなかったマスが何個あるか</strong>を答えてください。</p>
+      <p>答えるのは「見張られた数」ではなく<strong>「見張られなかった数」</strong>です。ここを取り違えると、正しく数えても不正解になります。</p>
+
+      <div class="meta-grid">
+        <div class="meta-card">
+          <h4>🔒 制約</h4>
+          <ul>
+            <li>0 ≤ D &lt; M ≤ 100</li>
+            <li>S は G と . だけの長さ M の文字列</li>
+          </ul>
+          <p class="note">→ マスは最大100個。全部のマスを1つずつ調べても余裕</p>
+          <p class="note">→ D が 0 になる場合もあることに注意</p>
+        </div>
+        <div class="meta-card">
+          <h4>📥 入力形式</h4>
+          <code>M D</code><br>
+          <code>S</code>
+          <p class="note">1行目にマスの数と見張れる距離、2行目に配置の文字列。出力は「見張られていないマスの個数」を1行だけ。</p>
+        </div>
+      </div>
+
+      <h3>📊 入出力例</h3>
+      <table class="sample-table">
+        <tr><th>M D</th><th>S（配置）</th><th>出力</th><th>なぜそうなる？</th></tr>
+        <tr><td>7 1</td><td>.G...GG</td><td class="ans">1</td><td class="note">見張られないのはマス4だけ</td></tr>
+        <tr><td>6 5</td><td>......</td><td class="ans">6</td><td class="note">ガードマンが0人。全マスが見張られない</td></tr>
+        <tr><td>21 2</td><td>....G...GG.....G.....</td><td class="ans">6</td><td class="note">両端と真ん中の空白地帯、合わせて6マスが残る</td></tr>
+      </table>
+    </section>
+
+    <section id="idea">
+      <h2>💡 考え方 — 見張れるのは「左右にDマスずつ」</h2>
+      <p>ガードマンは左だけ、あるいは右だけを見ているわけではありません。<strong>左右どちらにも D マスずつ</strong>目が届きます。</p>
+      <p>距離の測り方は<strong>マス番号の引き算</strong>です。ただしそのまま引くとマイナスになることがあるため、<strong>絶対値</strong>を取ります。Python なら <code>abs()</code> で一発です。</p>
+
+      <div class="fig" data-slide="03"><svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          cell[i].x = 98 + i*62  (cellWidth=56, gap=6)
+          centers = 126,188,250,312,374,436,498
+          見張りゾーン: cell0-2 → x=93, w=189 (right=282)
+          入力例1: M=7, D=1, S=".G...GG"
+        -->
+
+        <!-- 見張りゾーン（主役: マス2のガードマン） -->
+        <text x="188" y="52" text-anchor="middle" font-size="13" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">距離が1以下 → 監視される</text>
+        <rect x="93" y="62" width="189" height="72" rx="12" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2.5"/>
+
+        <!-- 1段目: 配置 S -->
+        <text x="14" y="106" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">配置S</text>
+
+        <rect x="98"  y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="126" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="160" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="188" y="106" text-anchor="middle" font-size="24" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="222" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="250" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">.</text>
+
+        <rect x="284" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="346" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="408" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="436" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="470" y="70" width="56" height="56" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="498" y="106" text-anchor="middle" font-size="24" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <!-- マス番号 -->
+        <text x="14"  y="148" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス番号</text>
+        <text x="126" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="188" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="250" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="312" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="374" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="436" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+        <text x="498" y="148" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7</text>
+
+        <!-- 2段目: マス2からの距離 -->
+        <text x="14" y="186" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス2から</text>
+        <text x="14" y="200" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">の距離</text>
+
+        <rect x="98"  y="164" width="56" height="44" rx="9" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="126" y="193" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">1</text>
+        <rect x="160" y="164" width="56" height="44" rx="9" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="188" y="193" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">0</text>
+        <rect x="222" y="164" width="56" height="44" rx="9" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="250" y="193" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">1</text>
+
+        <rect x="284" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">2</text>
+        <rect x="346" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">3</text>
+        <rect x="408" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="436" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">4</text>
+        <rect x="470" y="164" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="498" y="193" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">5</text>
+
+        <!-- まとめ -->
+        <rect x="60" y="228" width="420" height="62" rx="12" fill="rgba(0,143,106,.1)" stroke="var(--green)" stroke-width="2"/>
+        <text x="270" y="252" text-anchor="middle" font-size="14" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス2から左右に1マスずつ = マス1〜3 を監視</text>
+        <text x="270" y="276" text-anchor="middle" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">距離 = 引き算の絶対値 → abs(x - i)</text>
+
+        <!-- 凡例 -->
+        <rect x="100" y="302" width="11" height="11" rx="2" fill="rgba(217,96,24,.09)" stroke="var(--orange)" stroke-width="2"/>
+        <text x="116" y="311" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">距離D以下（監視される）</text>
+        <rect x="240" y="302" width="11" height="11" rx="2" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="256" y="311" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">距離D超（監視されない）</text>
+      </svg></div>
+
+      <h3>店舗を巡回する担当者の受け持ち範囲と同じ</h3>
+      <div class="step-box"><span class="step-num">①</span><p>担当者がいる店から、左右にD店ずつが受け持ち範囲</p></div>
+      <div class="step-box"><span class="step-num">②</span><p>距離は「番号の差」— 左右どちらでも測り方は同じ</p></div>
+      <div class="step-box"><span class="step-num">③</span><p>誰の受け持ちにもならない店が、今回の答え</p></div>
+
+      <div class="note-grid">
+        <div class="ok-box">
+          <h4>✅ 距離の測り方</h4>
+          <ul>
+            <li>マス4とマス2の距離 → 4 − 2 = 2</li>
+            <li>マス2とマス4の距離 → 2 − 4 = −2 の絶対値で 2</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h4>❌ ありがちな勘違い</h4>
+          <ul>
+            <li>右側だけ見張ると思ってしまう（左右どちらも見張る）</li>
+            <li>D = 0 のとき何も見張らないと思ってしまう</li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="selfcheck">
+        <summary>🤔 理解度セルフチェック（クリックで答えを表示）</summary>
+        <ol>
+          <li>D = 0 のガードマンは何マスを見張りますか？
+            <span class="ans-line">答え: 自分が立っている1マスだけです。距離0以内には自分自身が含まれます。</span></li>
+          <li>マス3のガードマン（D = 2）はどこまで見張れますか？
+            <span class="ans-line">答え: マス1からマス5までです（左に2マス、右に2マス）。</span></li>
+        </ol>
+      </details>
+    </section>
+
+    <section id="pitfall">
+      <h2>⚠️ つまずきポイント — 見張り範囲の「足し算」では数えられない</h2>
+      <p>「ガードマン1人につき見張れるマス数を計算して全部足す」——この方法はうまくいきません。入力例1で試すと、3 + 3 + 2 で <strong>8マス</strong>。廊下は7マスしかないのに、見張られたマスが8個になってしまいます。</p>
+      <p>原因は<strong>重なり</strong>です。マス6とマス7は、マス6の人からもマス7の人からも見張られているため、二重にカウントされています。</p>
+      <p>そこで<strong>視点をひっくり返します</strong>。ガードマン側から数えるのをやめて、<strong>マス側から「自分は誰かに見られているか」を1回だけ確認する</strong>のです。</p>
+
+      <div class="fig" data-slide="04"><svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          cell[i].x = 56 + i*62  (cellWidth=56, gap=6)
+          centers = 84,146,208,270,332,394,456
+          パネル1: y=16..156 / パネル2: y=174..314
+          入力例1: M=7, D=1, S=".G...GG"
+        -->
+
+        <!-- ▼ NG パネル -->
+        <rect x="16" y="16" width="508" height="140" rx="12" fill="rgba(201,22,46,.06)" stroke="rgba(201,22,46,.25)" stroke-width="1.5"/>
+        <text x="36" y="42" font-size="14" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">❌ 見張れるマス数を足し算する → 3 + 3 + 2 = 8</text>
+
+        <rect x="56"  y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="84"  y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="118" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="146" y="85" text-anchor="middle" font-size="18" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="180" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="208" y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="242" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="270" y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="304" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="332" y="85" text-anchor="middle" font-size="18" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="366" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="394" y="85" text-anchor="middle" font-size="18" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="428" y="60" width="56" height="38" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="456" y="85" text-anchor="middle" font-size="18" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <rect x="56"  y="104" width="180" height="13" rx="6" fill="rgba(217,96,24,.16)" stroke="var(--orange)" stroke-width="1"/>
+        <text x="146" y="114" text-anchor="middle" font-size="10" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス2 → 3マス</text>
+        <rect x="304" y="104" width="180" height="13" rx="6" fill="rgba(217,96,24,.16)" stroke="var(--orange)" stroke-width="1"/>
+        <text x="394" y="114" text-anchor="middle" font-size="10" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス6 → 3マス</text>
+        <rect x="366" y="121" width="118" height="13" rx="6" fill="rgba(217,96,24,.16)" stroke="var(--orange)" stroke-width="1"/>
+        <text x="425" y="131" text-anchor="middle" font-size="10" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス7 → 2マス</text>
+
+        <text x="36" y="149" font-size="11" font-weight="700" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">マス6・7が二重にカウントされている（合計8 ＞ 7マス）</text>
+
+        <!-- ▼ OK パネル -->
+        <rect x="16" y="174" width="508" height="140" rx="12" fill="rgba(0,143,106,.07)" stroke="rgba(0,143,106,.28)" stroke-width="1.5"/>
+        <text x="36" y="200" font-size="14" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">⭕ マスごとに「見られているか」を判定する</text>
+
+        <rect x="56"  y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="84"  y="251" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="118" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="146" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="180" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="208" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="242" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="270" y="251" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="304" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="332" y="251" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="366" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="394" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="428" y="222" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="456" y="251" text-anchor="middle" font-size="20" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <text x="84"  y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="146" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="208" y="284" text-anchor="middle" font-size="11" fill="var(--orange)" font-weight="900" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="270" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="332" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="394" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+        <text x="456" y="284" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7</text>
+
+        <text x="270" y="306" text-anchor="middle" font-size="12" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">マス3 は マス2 のガードマンから距離1 → 監視されている</text>
+      </svg></div>
+
+      <div class="step-box"><span class="step-num">①</span><p>担当者ごとの受け持ち店数を足すと、重複分が二重に乗る</p></div>
+      <div class="step-box"><span class="step-num">②</span><p>店側から「誰か担当がいるか」を1回だけ確認する</p></div>
+      <div class="step-box"><span class="step-num">③</span><p>この見方なら、重なっていても数え間違えない</p></div>
+
+      <div class="note-grid">
+        <div class="ok-box">
+          <h4>✅ マスごとに見るメリット</h4>
+          <ul>
+            <li>範囲が重なっても1回しか数えない</li>
+            <li>端からはみ出した分も自然に無視できる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h4>❌ 足し算方式のつまずき</h4>
+          <ul>
+            <li>重なりを引く計算が必要になり複雑化する</li>
+            <li>端で範囲が切れる分も別途調整が必要</li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="selfcheck">
+        <summary>🤔 理解度セルフチェック（クリックで答えを表示）</summary>
+        <ol>
+          <li>2人のガードマンから同時に見張られているマスは、何マスとして数えますか？
+            <span class="ans-line">答え: 1マスです。塗り絵と同じで、同じ場所を2回塗っても面積は増えません。</span></li>
+          <li>マス側から確認すると、なぜ端の処理が楽になるのですか？
+            <span class="ans-line">答え: 存在しないマスは、そもそもマス側から見にいかないためです。</span></li>
+        </ol>
+      </details>
+    </section>
+
+    <section id="trace">
+      <h2>✍️ 手を動かす — 入力例1の7マスを塗りつぶしてみる</h2>
+      <p>M は 7、D は 1、配置は「.G...GG」。ガードマンはマス2・マス6・マス7の3人です。3人分の見張り範囲を重ねて塗り、残ったマスを数えます。</p>
+
+      <div class="fig" data-slide="05"><svg viewBox="0 0 540 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          cell[i].x = 98 + i*62  (cellWidth=56, gap=6)
+          centers = 126,188,250,312,374,436,498
+          範囲バー: マス2→cell0-2(98,w=180) / マス6→cell4-6(346,w=180) / マス7→cell5-6(408,w=118)
+          入力例1: M=7, D=1, S=".G...GG"
+        -->
+
+        <!-- マス番号 -->
+        <text x="14"  y="32" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス番号</text>
+        <text x="126" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="188" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="250" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="312" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="374" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+        <text x="436" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">6</text>
+        <text x="498" y="32" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">7</text>
+
+        <!-- 1段目: 配置 S -->
+        <text x="14" y="69" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">配置S</text>
+        <rect x="98"  y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="126" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="160" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="188" y="69" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="222" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="250" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="284" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="346" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="69" text-anchor="middle" font-size="20" font-weight="700" fill="#9aa3bd" font-family="'Noto Sans JP',sans-serif">.</text>
+        <rect x="408" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="436" y="69" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+        <rect x="470" y="42" width="56" height="40" rx="9" fill="#ffffff" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="498" y="69" text-anchor="middle" font-size="20" font-weight="900" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">G</text>
+
+        <!-- 2〜4段目: 各ガードマンの見張り範囲 -->
+        <text x="14" y="112" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス2の範囲</text>
+        <rect x="98" y="94" width="180" height="26" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="188" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス1〜3</text>
+
+        <text x="14" y="146" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス6の範囲</text>
+        <rect x="346" y="128" width="180" height="26" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="436" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス5〜7</text>
+
+        <text x="14" y="180" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">マス7の範囲</text>
+        <rect x="408" y="162" width="118" height="26" rx="8" fill="rgba(217,96,24,.14)" stroke="var(--orange)" stroke-width="1.5"/>
+        <text x="467" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">マス6〜7</text>
+
+        <!-- 5段目: 監視されているか -->
+        <text x="14" y="226" font-size="10" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">監視は？</text>
+        <rect x="98"  y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="126" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="160" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="188" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="222" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="250" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="284" y="200" width="56" height="44" rx="9" fill="rgba(201,22,46,.1)" stroke="var(--red)" stroke-width="2.5"/>
+        <text x="312" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">✗</text>
+        <rect x="346" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="374" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="408" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="436" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+        <rect x="470" y="200" width="56" height="44" rx="9" fill="#ffffff" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="498" y="229" text-anchor="middle" font-size="20" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">✓</text>
+
+        <!-- 答え -->
+        <rect x="110" y="262" width="320" height="48" rx="10" fill="rgba(201,22,46,.08)" stroke="var(--red)" stroke-width="1.5"/>
+        <text x="270" y="281" text-anchor="middle" font-size="13" font-weight="700" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">監視されていないのは マス4 だけ</text>
+        <text x="270" y="303" text-anchor="middle" font-size="15" font-weight="900" fill="var(--red)" font-family="'Noto Sans JP',sans-serif">答えは 1</text>
+      </svg></div>
+
+      <div class="step-box"><span class="step-num">①</span><p>ガードマンごとに見張り範囲を書き出す</p></div>
+      <div class="step-box"><span class="step-num">②</span><p>すべての範囲を重ねて、廊下を塗りつぶす</p></div>
+      <div class="step-box"><span class="step-num">③</span><p>塗られずに残ったマスの数が答え</p></div>
+
+      <p>マス1〜3はマス2の人が、マス5〜7はマス6の人が、マス6〜7はマス7の人が塗ります。マス7の人の右側（マス8）は存在しないので無視します。残ったのは<strong>マス4だけ</strong>——答えは <strong>1</strong> です。</p>
+
+      <div class="note-grid">
+        <div class="ok-box">
+          <h4>✅ 他の入力例でも同じ手順</h4>
+          <ul>
+            <li>「......」D=5 → ガードマンが0人なので6マス</li>
+            <li>「....G...GG.....G.....」D=2 → 残るのは6マス</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h4>❌ ここで間違えやすい</h4>
+          <ul>
+            <li>マス7の範囲は右にはみ出すが、存在しない分は無視</li>
+            <li>「監視された数」ではなく「されていない数」を答える</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="code">
+      <h2>💻 コード — Python 13行で完成</h2>
+      <p>外側のループが「調べるマス」、内側のループが「ガードマン探し」。塗り絵の手順が、そのまま二重ループになります。</p>
+
+      <div class="ac-code-block">
+        <div class="ac-code-header">
+          <span class="ac-filename">abc468_b.py</span>
+          <span class="ac-badge">✅ AC 確認済み</span>
+          <button class="copy-btn" onclick="copyCode(this)">コピー</button>
+        </div>
+        <pre><code class="language-python">M, D = map(int, input().split())
+S = input()
+
+count = 0
+for x in range(M):
+    watched = False
+    for i in range(M):
+        if S[i] == "G" and abs(x - i) &lt;= D:
+            watched = True
+    if watched == False:
+        count += 1
+
+print(count)</code></pre>
+      </div>
+
+      <h3>行ごとの解説</h3>
+      <p><strong>1〜2行目 — 入力の受け取り:</strong> マスの数 M と距離 D を整数として読み込み、配置の文字列 S を受け取る。<code>S[i]</code> で i 番目の1文字を取り出せる。</p>
+      <p><strong>5〜6行目 — 調べたいマスを1つ選ぶ:</strong> Python は 0 から数えるので <code>x = 0</code> がマス1。<code>watched</code>（見られているか）を False にしておく — これが「フラグ」の役割をする。</p>
+      <p><strong>7〜9行目 — 全ガードマンとの距離を確認:</strong> <code>S[i] == "G"</code> でガードマンを見つけ、<code>abs(x - i) &lt;= D</code> なら見張られている。番号を0から数えても差は変わらないのでそのまま使える。1人でも見つかれば True にする。</p>
+      <p><strong>10〜13行目 — 残ったマスを数える:</strong> 最後まで False のままだったマスだけ <code>count</code> を1増やし、全部調べ終えたら出力する。</p>
+
+      <div class="note-grid">
+        <div class="ok-box">
+          <h4>✅ ここだけ押さえる</h4>
+          <ul>
+            <li>1人でも見つかれば True。何人いても数え方は変わらない</li>
+            <li><code>abs()</code> で左右の距離を同じ形で判定できる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h4>❌ 書き間違えやすい所</h4>
+          <ul>
+            <li><code>watched</code> を外側のループの外で初期化してしまう</li>
+            <li>不等号を <code>&lt;</code> にして D ちょうどのマスを外してしまう</li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="selfcheck">
+        <summary>🤔 理解度セルフチェック（クリックで答えを表示）</summary>
+        <ol>
+          <li><code>watched = False</code> を外側のループの外に書くと、どうなりますか？
+            <span class="ans-line">答え: 一度 True になると戻らないため、以降のマスがすべて「見張られている」判定になります。</span></li>
+          <li><code>abs()</code> を使わずに <code>x - i &lt;= D</code> と書くと、どうなりますか？
+            <span class="ans-line">答え: 差がマイナスのときも条件が成立してしまい、左側に遠く離れたマスまで見張られる判定になります。</span></li>
+        </ol>
+      </details>
+    </section>
+
+    <section id="glossary">
+      <h2>📖 用語解説</h2>
+      <div class="glossary-grid">
+
+        <div class="term-card">
+          <h4>絶対値</h4>
+          <div class="reading">ぜったいち</div>
+          <p>数からマイナス符号を取り除いた値。−2 も 2 も絶対値は 2。「どれだけ離れているか」を表すのに使う。</p>
+          <a href="https://ja.wikipedia.org/wiki/絶対値" target="_blank">Wikipedia 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>abs()</h4>
+          <div class="reading">アブス</div>
+          <p>絶対値を返す Python の組み込み関数。<code>abs(x - i)</code> で左右どちらの離れ方も同じ形で測れる。</p>
+          <a href="https://docs.python.org/ja/3/library/functions.html#abs" target="_blank">Python docs 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>文字列</h4>
+          <div class="reading">もじれつ</div>
+          <p>文字を並べたデータ。今回の S のように <code>S[i]</code> で1文字ずつ取り出して調べられる。</p>
+          <a href="https://docs.python.org/ja/3/tutorial/introduction.html#text" target="_blank">Python docs 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>インデックス</h4>
+          <div class="reading">いんでっくす</div>
+          <p>「何番目か」を表す番号。Python は 0 から数えるので、マス1 は <code>S[0]</code> にあたる。</p>
+          <a href="https://ja.wikipedia.org/wiki/添字" target="_blank">Wikipedia 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>全探索</h4>
+          <div class="reading">ぜんたんさく</div>
+          <p>考えられる場合を1つずつすべて調べる方法。今回はマスとガードマンの組み合わせを総当たりで確認する。</p>
+        </div>
+
+        <div class="term-card">
+          <h4>二重ループ</h4>
+          <div class="reading">にじゅうるーぷ</div>
+          <p>for の中にもう1つ for を書く形。「全マス × 全ガードマン」のような組み合わせを調べるときの定番。</p>
+        </div>
+
+        <div class="term-card">
+          <h4>フラグ</h4>
+          <div class="reading">ふらぐ</div>
+          <p>「見つかったかどうか」を覚えておく目印の変数。True / False の2択で持つ。今回の <code>watched</code> がこれ。</p>
+          <a href="https://docs.python.org/ja/3/library/stdtypes.html#boolean-values" target="_blank">Python docs 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>input()</h4>
+          <div class="reading">インプット</div>
+          <p>1行分の入力を文字列として読み込む組み込み関数。AtCoder では毎回使う基本の命令。</p>
+          <a href="https://docs.python.org/ja/3/library/functions.html#input" target="_blank">Python docs 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>map()</h4>
+          <div class="reading">マップ</div>
+          <p>並んだ要素すべてに同じ変換をかける関数。<code>map(int, ...)</code> は「全部まとめて整数に直す」定型文。</p>
+          <a href="https://docs.python.org/ja/3/library/functions.html#map" target="_blank">Python docs 🔗</a>
+        </div>
+
+        <div class="term-card">
+          <h4>AtCoder</h4>
+          <div class="reading">アットコーダー</div>
+          <p>日本発の競技プログラミングサイト。毎週コンテストが開催され、初心者向けの ABC が入門に最適。</p>
+          <a href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+
+function copyCode(btn) {
+  const code = btn.closest('.ac-code-block').querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => { btn.textContent = 'コピー'; }, 2000);
+  });
+}
+
+const links = [...document.querySelectorAll('.sidebar a')];
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

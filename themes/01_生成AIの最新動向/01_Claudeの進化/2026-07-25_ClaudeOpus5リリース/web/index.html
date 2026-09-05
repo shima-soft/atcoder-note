@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Opus 5 徹底解説 | Web版</title>
+<style>
+:root {
+  --bg:#f9fafb; --surface:#eff1f7; --card:#fff; --border:#dde2ec; --text:#1a1d2e; --muted:#5e6a8a;
+  --blue:#1a96c0; --green:#008f6a; --orange:#d96018; --purple:#7a3bce; --red:#c9162e;
+  --header-h:52px; --sidebar-w:220px;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.7; }
+.site-header { position:fixed; top:0; left:0; right:0; height:var(--header-h); background:var(--card); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 1.5rem; gap:1rem; z-index:10; }
+.header-ep { background:linear-gradient(135deg,#2ab8e0,#1a96c0); color:#fff; font-size:.68rem; font-weight:700; padding:.15rem .55rem; border-radius:99px; white-space:nowrap; }
+.header-title { font-size:.95rem; font-weight:900; white-space:nowrap; }
+.header-sub { font-size:.78rem; color:var(--muted); margin-left:auto; }
+.header-link { font-size:.78rem; color:var(--blue); text-decoration:none; padding:.2rem .6rem; border:1px solid var(--blue); border-radius:6px; white-space:nowrap; }
+.page-layout { display:flex; margin-top:var(--header-h); min-height:calc(100vh - var(--header-h)); }
+.sidebar { width:var(--sidebar-w); flex-shrink:0; position:sticky; top:var(--header-h); height:calc(100vh - var(--header-h)); overflow-y:auto; padding:1.2rem 0; border-right:1px solid var(--border); background:var(--card); }
+.nav-section-label { font-size:.65rem; font-weight:700; color:var(--muted); padding:.5rem 1rem .2rem; letter-spacing:.06em; text-transform:uppercase; }
+.nav-item { display:block; padding:.4rem 1rem; font-size:.8rem; color:var(--muted); text-decoration:none; border-left:3px solid transparent; line-height:1.4; }
+.nav-item:hover, .nav-item.active { background:var(--surface); color:var(--blue); border-left-color:var(--blue); font-weight:700; }
+.nav-item .ts { font-size:.68rem; opacity:.7; margin-left:.3rem; }
+.main-content { flex:1; max-width:900px; padding:2rem 2.5rem; margin:0 auto; }
+section { margin-bottom:3.2rem; scroll-margin-top:calc(var(--header-h) + 16px); }
+.section-label { display:inline-block; padding:.15rem .6rem; border-radius:99px; font-size:.68rem; font-weight:700; margin-bottom:.5rem; background:rgba(26,150,192,.12); color:var(--blue); }
+.section-title { font-size:1.6rem; font-weight:900; margin-bottom:.4rem; line-height:1.25; }
+.section-sub { font-size:.9rem; color:var(--muted); margin-bottom:1.2rem; }
+.timestamp { font-size:.72rem; color:var(--muted); background:var(--surface); border-radius:99px; padding:.1rem .5rem; margin-left:.4rem; white-space:nowrap; }
+.hitokoto-web { display:flex; align-items:center; gap:.6rem; border-left:3px solid var(--blue); padding-left:.8rem; margin-bottom:1.2rem; }
+.hitokoto-web .badge { font-size:.65rem; font-weight:700; color:#fff; background:var(--blue); padding:.1rem .45rem; border-radius:99px; white-space:nowrap; }
+.hitokoto-web p { font-size:.92rem; font-weight:700; }
+.hero { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.4rem 1.6rem; margin-bottom:1.4rem; }
+.hero h1 { font-size:1.85rem; font-weight:900; line-height:1.25; margin-bottom:.3rem; }
+.hero .hero-sub { color:var(--muted); font-size:.9rem; margin-bottom:.9rem; }
+.hero ol { padding-left:1.3rem; }
+.hero li { font-size:.9rem; margin-bottom:.3rem; }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin-bottom:1rem; }
+.cards.cols2 { grid-template-columns:repeat(2,1fr); }
+.card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.8rem 1rem; }
+.card-head { display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
+.card-head .ico { font-size:1.3rem; line-height:1; }
+.num { display:inline-flex; align-items:center; justify-content:center; min-width:26px; height:26px; border-radius:50%; color:#fff; background:linear-gradient(135deg,#2ab8e0,#1a96c0); font-size:.72rem; font-weight:900; padding:0 .4rem; flex-shrink:0; }
+.card h3 { font-size:.9rem; font-weight:900; margin-bottom:.25rem; }
+.card p, .card li { font-size:.82rem; color:var(--muted); line-height:1.6; }
+.card ul { padding-left:1rem; }
+.metric { margin-top:.5rem; background:rgba(26,150,192,.08); border-radius:8px; padding:.35rem .6rem; font-size:.78rem; font-weight:700; color:var(--blue); }
+code { font-family:'Consolas','Cascadia Code',monospace; background:#eef7fb; color:#116b88; padding:.08rem .3rem; border-radius:5px; font-size:.88em; }
+.diagram { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.7rem; display:flex; justify-content:center; margin:1rem 0; }
+.diagram svg { width:100%; height:auto; max-width:640px; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-bottom:1rem; }
+.ok-box, .ng-box { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.7rem .9rem; }
+.ok-box { border-left:3px solid var(--green); }
+.ng-box { border-left:3px solid var(--red); }
+.ok-box h3, .ng-box h3 { font-size:.86rem; font-weight:900; margin-bottom:.3rem; }
+.ok-box li, .ng-box li { font-size:.82rem; color:var(--muted); }
+.ok-box ul, .ng-box ul { padding-left:1.1rem; }
+.steps { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.9rem 1rem; margin-bottom:1rem; }
+.steps h3 { font-size:.86rem; font-weight:900; color:var(--muted); margin-bottom:.5rem; }
+.step { display:flex; align-items:center; gap:.6rem; margin-bottom:.35rem; }
+.step p { font-size:.86rem; }
+.command-table { width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border:1px solid var(--border); border-radius:12px; background:var(--card); margin:1rem 0; }
+.command-table th, .command-table td { padding:.58rem .7rem; border-bottom:1px solid var(--border); text-align:left; vertical-align:top; font-size:.86rem; }
+.command-table th { background:var(--surface); color:var(--muted); font-weight:900; font-size:.78rem; }
+.command-table tr:last-child td { border-bottom:none; }
+.badge-pill { display:inline-block; padding:.1rem .5rem; border-radius:99px; font-size:.72rem; font-weight:700; white-space:nowrap; }
+.price-row { display:flex; gap:.7rem; margin:.5rem 0; }
+.price-cell { flex:1; background:rgba(26,150,192,.08); border-radius:10px; padding:.5rem .7rem; text-align:center; }
+.price-cell .p-label { font-size:.72rem; color:var(--muted); font-weight:700; }
+.price-cell .p-value { font-size:1.4rem; color:var(--blue); font-weight:900; line-height:1.3; }
+.pill-row { display:flex; flex-wrap:wrap; gap:.3rem; margin:.4rem 0; }
+.pill { background:rgba(26,150,192,.1); color:var(--blue); font-size:.74rem; font-weight:700; padding:.15rem .6rem; border-radius:99px; }
+.source-box { background:#eaf7fc; border:1px solid rgba(26,150,192,.2); border-radius:12px; padding:.8rem 1rem; font-size:.84rem; }
+.source-box a { color:var(--blue); }
+.note-box { background:var(--surface); border-radius:10px; padding:.7rem .9rem; font-size:.82rem; color:var(--muted); margin:.8rem 0; }
+.check { margin-top:.8rem; border:1px solid var(--border); border-radius:10px; background:var(--card); overflow:hidden; }
+.check summary { cursor:pointer; padding:.6rem .8rem; font-weight:900; font-size:.86rem; }
+.check ul { padding:0 1.2rem .8rem 1.8rem; color:var(--muted); font-size:.84rem; }
+.glossary { display:grid; grid-template-columns:repeat(2,1fr); gap:.65rem; }
+.term { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:.65rem .8rem; }
+.term strong { font-size:.86rem; }
+.term span { font-size:.7rem; color:var(--muted); margin-left:.4rem; }
+.term p { font-size:.78rem; color:var(--muted); line-height:1.55; margin-top:.1rem; }
+.term a { font-size:.72rem; color:var(--blue); text-decoration:none; }
+.term a:hover { text-decoration:underline; }
+.sub-head { font-size:1rem; font-weight:900; margin:1.4rem 0 .6rem; }
+@media (max-width:800px) {
+  .sidebar { display:none; }
+  .main-content { padding:1.2rem 1rem; }
+  .cards, .cards.cols2, .glossary, .two-col { grid-template-columns:1fr; }
+  .header-sub, .header-ep { display:none; }
+  .site-header { padding:0 .9rem; gap:.6rem; }
+  .header-title { font-size:.88rem; }
+  .header-link { margin-left:auto; font-size:.74rem; padding:.15rem .5rem; }
+  .hero { padding:1.1rem 1.1rem; }
+  .hero h1 { font-size:1.5rem; }
+  .section-title { font-size:1.35rem; }
+  .price-row { flex-direction:column; }
+  .diagram { padding:.4rem; }
+}
+</style>
+<!-- analytics:begin -->
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "2fd81b548e44473da5496a5299f2430e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<!-- analytics:end -->
+</head>
+<body>
+<header class="site-header">
+  <a class="header-home" href="../../../../../index.html" style="font-size:.74rem;font-weight:700;color:#7a3bce;text-decoration:none;white-space:nowrap">← 一覧</a>
+  <span class="header-ep">CLAUDE NEWS</span>
+  <span class="header-title">Claude Opus 5 徹底解説</span>
+  <span class="header-sub">2026年7月24日リリース</span>
+  <a class="header-link" href="flowchart.html">深さ選びフロー</a>
+</header>
+<div class="page-layout">
+  <nav class="sidebar">
+    <div class="nav-section-label">目次</div>
+    <a class="nav-item" href="#overview">4つの進化領域<span class="ts">1:10</span></a>
+    <a class="nav-item" href="#cost">賢さを半額で<span class="ts">2:40</span></a>
+    <a class="nav-item" href="#effort">考える深さ5段階<span class="ts">4:10</span></a>
+    <a class="nav-item" href="#verify">自分で答え合わせ<span class="ts">6:00</span></a>
+    <a class="nav-item" href="#agentic">最後までやり切る<span class="ts">7:50</span></a>
+    <a class="nav-item" href="#expertise">専門分野の精度<span class="ts">9:20</span></a>
+    <a class="nav-item" href="#realworld">現場の評価<span class="ts">10:50</span></a>
+    <a class="nav-item" href="#safety">安全性<span class="ts">12:20</span></a>
+    <a class="nav-item" href="#start">使い始めるには<span class="ts">14:00</span></a>
+    <a class="nav-item" href="#action">まとめ<span class="ts">15:40</span></a>
+    <a class="nav-item" href="#glossary">用語解説<span class="ts">16:40</span></a>
+  </nav>
+  <main class="main-content">
+
+    <section id="overview">
+      <div class="hero">
+        <span class="section-label">OVERVIEW</span>
+        <h1>値段はそのまま。中身だけが2倍賢くなった</h1>
+        <p class="hero-sub">Claude Opus 5（2026年7月24日リリース）を、初学者・ビジネスパーソン向けに解説します。</p>
+        <ol>
+          <li>最上位モデル Fable 5 に迫る賢さを、半分のコストで使える</li>
+          <li>自分で答え合わせをして直す「粘り強さ」が身についた</li>
+          <li>料金は Opus 4.8 と同じ。Claude Pro / Max なら追加料金なしで使える</li>
+        </ol>
+      </div>
+      <h2 class="section-title">Opus 5 — 4つの進化領域<span class="timestamp">動画 1:10</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>賢さ・粘り強さ・仕事の完遂力・安全性が同時に向上。それでも料金は Opus 4.8 と同じ</p>
+      </div>
+      <div class="cards cols2">
+        <div class="card">
+          <div class="card-head"><span class="ico">💰</span><h3>最上位モデルに迫る賢さを半額で</h3></div>
+          <p>同社の最上位モデル Fable 5 とほぼ同じ成績を、1タスクあたり半分のコストで達成。「考える深さ」も5段階で調整できる。</p>
+          <div class="metric">CursorBench 3.2 で Fable 5 との差 0.5% 以内</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">🔍</span><h3>自分で答え合わせをして直す</h3></div>
+          <p>できたつもりで終わらせず、自分の成果物を点検して間違いを見つけ、直してから提出する働き方に変わった。</p>
+          <div class="metric">ARC-AGI 3（初見の問題を解く力）で2位の3倍</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">🤖</span><h3>実務のタスクを最後までやり切る</h3></div>
+          <p>「調べて・判断して・関係者に共有する」といった複数工程の仕事を、途中で止まらずに終わらせられる。</p>
+          <div class="metric">Zapier の業務ベンチマークで合格率 100%</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">🛡️</span><h3>史上もっとも「筋の通った」モデル</h3></div>
+          <p>ウソをつく・だまされて悪用される・取り返しのつかない操作をする、といった振る舞いが歴代で最も少ない。</p>
+          <div class="metric">不適切な振る舞いのスコア 2.3（自社最低値）</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cost">
+      <span class="section-label">COST PERFORMANCE</span>
+      <h2 class="section-title">最上位モデルに迫る賢さを半額で<span class="timestamp">動画 2:40</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>料金は Opus 4.8 と同じまま、コーディング評価の成績は2倍以上。最上位 Fable 5 とは0.5%差まで接近した</p>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 460 270" width="640" height="376" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="210" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">同じ料金でどれだけ賢くなったか</text>
+          <text x="30" y="52" font-size="10" font-weight="700" fill="#5e6a8a">BEFORE（Opus 4.8）</text>
+          <rect x="30" y="60" width="170" height="36" rx="6" fill="#dde2ec"/>
+          <text x="115" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">成績 1.0（基準）</text>
+          <text x="210" y="118" text-anchor="middle" font-size="20" fill="#1a96c0">↓</text>
+          <text x="210" y="136" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">料金は据え置きのまま</text>
+          <text x="30" y="155" font-size="10" font-weight="700" fill="#1a96c0">AFTER（Opus 5）</text>
+          <rect x="30" y="163" width="360" height="36" rx="6" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="210" y="185" text-anchor="middle" font-size="11" font-weight="700" fill="#1a96c0">成績 2倍以上</text>
+          <rect x="30" y="213" width="360" height="32" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="210" y="233" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">1タスクあたりの費用は Opus 4.8 より低下</text>
+          <text x="210" y="262" text-anchor="middle" font-size="9" fill="#5e6a8a">※ Frontier-Bench v0.1 での内部計測</text>
+        </svg>
+      </div>
+      <div class="steps">
+        <h3>📋 事務職の活用例</h3>
+        <div class="step"><span class="num">1</span><p>毎月の請求データの突き合わせを Claude にまとめて依頼する</p></div>
+        <div class="step"><span class="num">2</span><p>難しい部分だけ上位モデルに切り替える、という使い分けが不要に</p></div>
+        <div class="step"><span class="num">3</span><p>同じ料金でもやり直しが減り、1件あたりの実質コストが下がる</p></div>
+      </div>
+      <div class="two-col">
+        <div class="ok-box">
+          <h3>✅ 使えるシーン</h3>
+          <ul>
+            <li>毎日くり返す定型業務（Pro / Max なら追加料金なし）</li>
+            <li>品質を落とさずに費用を抑えたい大量処理</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h3>⚠️ 注意点</h3>
+          <ul>
+            <li>ベンチマークはあくまで目安。自社の業務で試すこと</li>
+            <li>サイバーセキュリティ分野は Mythos 5 が依然上位</li>
+          </ul>
+        </div>
+      </div>
+      <details class="check"><summary>理解度セルフチェック</summary><ul>
+        <li>Opus 5 の料金が Opus 4.8 と比べてどうなったか説明できる</li>
+        <li>「成績2倍以上」がどの評価での数字か言える</li>
+        <li>月額プランと API で、料金の考え方がどう違うか整理できる</li>
+      </ul></details>
+    </section>
+
+    <section id="effort">
+      <span class="section-label">EFFORT</span>
+      <h2 class="section-title">考える深さを5段階で選ぶ<span class="timestamp">動画 4:10</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>仕事の重さに合わせて「じっくり考える／さっと答える」を切り替えられる。いちばん浅い設定でも他社モデルを上回る</p>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 500 250" width="640" height="320" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">エフォート（考える深さ）の5段階</text>
+          <text x="45" y="55" text-anchor="start" font-size="10" font-weight="700" fill="#5e6a8a">速い・安い</text>
+          <text x="447" y="55" text-anchor="end" font-size="10" font-weight="700" fill="#1a96c0">深い・高精度</text>
+          <line x1="45" y1="66" x2="447" y2="66" stroke="#dde2ec" stroke-width="2"/>
+          <rect x="45"  y="90" width="74" height="44" rx="8" fill="#e8f4f9" stroke="#a5d9ea" stroke-width="1"/>
+          <text x="82"  y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">low</text>
+          <rect x="127" y="90" width="74" height="44" rx="8" fill="#cfeaf3" stroke="#a5d9ea" stroke-width="1"/>
+          <text x="164" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">medium</text>
+          <rect x="209" y="90" width="74" height="44" rx="8" fill="#a5d9ea" stroke="#6ec4de" stroke-width="1"/>
+          <text x="246" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">high</text>
+          <rect x="291" y="90" width="74" height="44" rx="8" fill="#6ec4de" stroke="#1a96c0" stroke-width="1"/>
+          <text x="328" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#0d4a5c">xhigh</text>
+          <rect x="373" y="90" width="74" height="44" rx="8" fill="#1a96c0" stroke="#1a96c0" stroke-width="1"/>
+          <text x="410" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">max</text>
+          <rect x="20" y="150" width="180" height="44" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="110" y="169" text-anchor="middle" font-size="10" fill="#5e6a8a">いちばん浅い low でも</text>
+          <text x="110" y="182" text-anchor="middle" font-size="10" fill="#5e6a8a">他社モデルより高スコア</text>
+          <rect x="290" y="150" width="190" height="44" rx="8" fill="rgba(26,150,192,.1)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="385" y="169" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">max では Fable 5 と</text>
+          <text x="385" y="182" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">わずか 0.5% 差</text>
+          <text x="250" y="220" text-anchor="middle" font-size="9" fill="#5e6a8a">※ 深くするほどトークン消費と待ち時間が増えます</text>
+        </svg>
+      </div>
+      <div class="steps">
+        <h3>📋 営業パーソンの活用例</h3>
+        <div class="step"><span class="num">1</span><p>日々のメール下書きは <code>low</code>〜<code>medium</code> で素早く仕上げる</p></div>
+        <div class="step"><span class="num">2</span><p>大型案件の提案書レビューは <code>max</code> に上げてじっくり考えさせる</p></div>
+        <div class="step"><span class="num">3</span><p>モデルは変えず、仕事の重さで「深さ」だけを切り替える</p></div>
+      </div>
+      <div class="two-col">
+        <div class="ok-box">
+          <h3>✅ 効率も改善</h3>
+          <ul>
+            <li>法務レビューでは Opus 4.8 比 26% 少ないトークンで同等品質</li>
+            <li>財務モデリングでは正答率 +9pt、所要時間 60% 削減の報告も</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h3>⚠️ 注意点</h3>
+          <ul>
+            <li>いつも <code>max</code> にすると費用と待ち時間が膨らむ</li>
+            <li>迷ったら <code>medium</code> から始めて、必要な時だけ上げる</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-box">迷ったときは <a href="flowchart.html">深さ選びフロー</a> で、仕事の種類から目安の設定を確認できます。</div>
+      <details class="check"><summary>理解度セルフチェック</summary><ul>
+        <li>エフォートの5段階を順に言える</li>
+        <li>自分の日常業務を、どの段階に割り当てるか決められる</li>
+        <li>深くした場合に増えるコスト（トークン・時間）を説明できる</li>
+      </ul></details>
+    </section>
+
+    <section id="verify">
+      <span class="section-label">SELF-VERIFY</span>
+      <h2 class="section-title">自分で答え合わせをして直す<span class="timestamp">動画 6:00</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>「できました」で終わらせず、自分で試し、間違いを見つけ、直してから返してくるようになった</p>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 500 250" width="640" height="320" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="20" y="30" font-size="10" font-weight="700" fill="#5e6a8a">BEFORE（これまでのモデル）</text>
+          <rect x="20"  y="40" width="110" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <text x="75"  y="64" text-anchor="middle" font-size="10" fill="#5e6a8a">作業する</text>
+          <text x="145" y="65" text-anchor="middle" font-size="14" fill="#5e6a8a">→</text>
+          <rect x="160" y="40" width="110" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <text x="215" y="64" text-anchor="middle" font-size="10" fill="#5e6a8a">できたと判断</text>
+          <text x="285" y="65" text-anchor="middle" font-size="14" fill="#5e6a8a">→</text>
+          <rect x="300" y="40" width="110" height="40" rx="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1"/>
+          <text x="355" y="64" text-anchor="middle" font-size="10" fill="#5e6a8a">そのまま提出</text>
+          <rect x="420" y="40" width="64" height="40" rx="8" fill="#fdeaec" stroke="#c9162e" stroke-width="1"/>
+          <text x="452" y="64" text-anchor="middle" font-size="10" font-weight="700" fill="#c9162e">不具合</text>
+          <line x1="20" y1="100" x2="484" y2="100" stroke="#dde2ec" stroke-width="1" stroke-dasharray="4 4"/>
+          <text x="20" y="125" font-size="10" font-weight="700" fill="#1a96c0">AFTER（Opus 5）</text>
+          <rect x="20"  y="135" width="110" height="40" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="75"  y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">作業する</text>
+          <text x="145" y="160" text-anchor="middle" font-size="14" fill="#1a96c0">→</text>
+          <rect x="160" y="135" width="110" height="40" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="215" y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">自分で点検</text>
+          <text x="285" y="160" text-anchor="middle" font-size="14" fill="#1a96c0">→</text>
+          <rect x="300" y="135" width="110" height="40" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="355" y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">直してから提出</text>
+          <rect x="420" y="135" width="64" height="40" rx="8" fill="rgba(0,143,106,.12)" stroke="#008f6a" stroke-width="1"/>
+          <text x="452" y="159" text-anchor="middle" font-size="10" font-weight="700" fill="#008f6a">完了</text>
+          <path d="M 215,178 C 215,200 75,200 75,180" fill="none" stroke="#1a96c0" stroke-width="1.5"/>
+          <polygon points="70,181 80,181 75,173" fill="#1a96c0"/>
+          <text x="145" y="215" text-anchor="middle" font-size="9" font-weight="700" fill="#1a96c0">問題があれば自分で戻ってやり直す</text>
+          <text x="250" y="240" text-anchor="middle" font-size="9" fill="#5e6a8a">※ 検証と修正の往復を、指示されなくても自分で回すようになった</text>
+        </svg>
+      </div>
+      <div class="steps">
+        <h3>📋 Anthropic が公開した実例</h3>
+        <div class="step"><span class="num">1</span><p>図面から3Dモデルを作る課題。ただし図面は直接見られない</p></div>
+        <div class="step"><span class="num">2</span><p>Opus 5 は形を読み取るプログラムを自作して情報を取り出した</p></div>
+        <div class="step"><span class="num">3</span><p>他モデルが5回試しても解けなかった課題を、何度も成功させた</p></div>
+      </div>
+      <div class="two-col">
+        <div class="ok-box">
+          <h3>✅ 業務での効果</h3>
+          <ul>
+            <li>Web制作では、スマホ幅での表示崩れを自分で見つけて修正</li>
+            <li>不具合の見た目ではなく、原因そのものを直せる</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h3>⚠️ 注意点</h3>
+          <ul>
+            <li>点検の往復が増えるぶん、時間と費用はかかる</li>
+            <li>最終確認は人が行う、という前提は変わらない</li>
+          </ul>
+        </div>
+      </div>
+      <details class="check"><summary>理解度セルフチェック</summary><ul>
+        <li>「自己検証」で増えた工程を、従来の流れと比べて説明できる</li>
+        <li>自分の業務で、AIに点検までやらせたい作業を1つ挙げられる</li>
+      </ul></details>
+    </section>
+
+    <section id="agentic">
+      <span class="section-label">AGENTIC WORK</span>
+      <h2 class="section-title">実務のタスクを最後までやり切る<span class="timestamp">動画 7:50</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>Zapier の業務ベンチマークで合格率100%。旧モデルが完了できなかった一連の流れを最後まで終わらせた</p>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 500 250" width="640" height="320" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">解約防止の流れを一気通貫で実行</text>
+          <rect x="25"  y="45" width="130" height="56" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="90"  y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">解約リスクの高い</text>
+          <text x="90"  y="83" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">顧客を洗い出す</text>
+          <text x="168" y="78" text-anchor="middle" font-size="14" fill="#1a96c0">→</text>
+          <rect x="180" y="45" width="130" height="56" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="245" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">担当者に通知して</text>
+          <text x="245" y="83" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">対応を促す</text>
+          <text x="323" y="78" text-anchor="middle" font-size="14" fill="#1a96c0">→</text>
+          <rect x="335" y="45" width="130" height="56" rx="8" fill="rgba(26,150,192,.12)" stroke="#1a96c0" stroke-width="1"/>
+          <text x="400" y="70" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">対応チーム向けに</text>
+          <text x="400" y="83" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">要約を作成</text>
+          <text x="25" y="133" font-size="10" font-weight="700" fill="#1a1d2e">業務ベンチマークの合格率</text>
+          <text x="25" y="161" font-size="10" fill="#5e6a8a">これまでのモデル</text>
+          <rect x="115" y="148" width="30" height="18" rx="4" fill="#dde2ec"/>
+          <text x="400" y="161" text-anchor="start" font-size="10" fill="#5e6a8a">不合格</text>
+          <text x="25" y="193" font-size="10" font-weight="700" fill="#1a96c0">Opus 5</text>
+          <rect x="115" y="180" width="270" height="18" rx="4" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="400" y="193" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">合格率 100%</text>
+          <text x="250" y="230" text-anchor="middle" font-size="9" fill="#5e6a8a">※ Zapier AutomationBench。トークン消費は従来モデルと同水準</text>
+        </svg>
+      </div>
+      <div class="steps">
+        <h3>📋 事務職の活用例</h3>
+        <div class="step"><span class="num">1</span><p>契約更新が近い顧客リストを渡し、危ない先を洗い出してもらう</p></div>
+        <div class="step"><span class="num">2</span><p>担当営業ごとに、送るべき連絡文の下書きまで作ってもらう</p></div>
+        <div class="step"><span class="num">3</span><p>最後に上長向けのサマリーを1枚にまとめてもらう</p></div>
+      </div>
+      <div class="two-col">
+        <div class="ok-box">
+          <h3>✅ 使えるシーン</h3>
+          <ul>
+            <li>「調べる→判断する→共有する」が続く多工程の仕事</li>
+            <li>浅いエフォート設定でも他モデルより多くの業務を完遂</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h3>⚠️ 注意点</h3>
+          <ul>
+            <li>社外への送信・確定処理は必ず人が最終確認する</li>
+            <li>元データが古いと、判断そのものがずれる</li>
+          </ul>
+        </div>
+      </div>
+      <details class="check"><summary>理解度セルフチェック</summary><ul>
+        <li>AIに任せる範囲と、人が必ず行う範囲の線引きを説明できる</li>
+        <li>自分の業務で、多工程まとめて任せられる仕事を1つ挙げられる</li>
+      </ul></details>
+    </section>
+
+    <section id="expertise">
+      <span class="section-label">EXPERTISE</span>
+      <h2 class="section-title">専門分野の精度が一段上がった<span class="timestamp">動画 9:20</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>化学・生物の研究から取引先調査まで、Opus 4.8 をすべての評価項目で上回った</p>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 400 255" width="560" height="357" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="200" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">Opus 4.8 からの改善幅</text>
+          <text x="15" y="50" font-size="10" fill="#5e6a8a">有機化学（分子構造の読み取り）</text>
+          <rect x="15" y="56" width="163" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="73" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+10.2ポイント</text>
+          <text x="15" y="98" font-size="10" fill="#5e6a8a">タンパク質の働きの予測</text>
+          <rect x="15" y="104" width="123" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="121" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+7.7ポイント</text>
+          <text x="15" y="146" font-size="10" fill="#5e6a8a">企業データの分析業務</text>
+          <rect x="15" y="152" width="176" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="169" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+11%</text>
+          <text x="15" y="194" font-size="10" fill="#5e6a8a">取引先のデューデリジェンス</text>
+          <rect x="15" y="200" width="272" height="24" rx="5" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="300" y="217" text-anchor="start" font-size="10" font-weight="700" fill="#1a96c0">+17%</text>
+          <text x="200" y="243" text-anchor="middle" font-size="9" fill="#5e6a8a">※ Anthropic 社内評価と Box 社の実測値（対 Opus 4.8）</text>
+        </svg>
+      </div>
+      <div class="steps">
+        <h3>📋 先行導入した企業の評価</h3>
+        <div class="step"><span class="num">1</span><p>Box: 専門文書の分析で全体 +8%、取引先調査では +17% 改善</p></div>
+        <div class="step"><span class="num">2</span><p>財務分析: 正答率が平均 +9ポイント、所要時間は 60% 短縮</p></div>
+        <div class="step"><span class="num">3</span><p>法務: 契約書の初回修正案づくりで Opus 4.8 のほぼ2倍の評価</p></div>
+      </div>
+      <div class="two-col">
+        <div class="ok-box">
+          <h3>✅ 使えるシーン</h3>
+          <ul>
+            <li>専門用語の多い資料の読み解きと要点整理</li>
+            <li>数字と表を扱う分析、取引先の調査レポート</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <h3>⚠️ 注意点</h3>
+          <ul>
+            <li>長時間の自律的な生物研究は Mythos 5 が依然上位</li>
+            <li>専門判断の最終責任は人にある、という前提は同じ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="realworld">
+      <span class="section-label">REAL WORLD</span>
+      <h2 class="section-title">先行導入した現場の評価<span class="timestamp">動画 10:50</span></h2>
+      <p class="section-sub">公開されたコメントから、用途別に効果を抜粋（従来の Opus モデルとの比較）</p>
+      <table class="command-table">
+        <thead><tr><th style="width:22%">サービス・業務</th><th style="width:20%">用途</th><th>報告されている効果</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Devin</strong></td><td><span class="badge-pill" style="background:rgba(26,150,192,.12);color:var(--blue)">開発エージェント</span></td><td>最上位モデル並みの実力を半分のコストで。とくに不具合の原因究明に強い</td></tr>
+          <tr><td><strong>Cursor</strong></td><td><span class="badge-pill" style="background:rgba(26,150,192,.12);color:var(--blue)">コード編集</span></td><td>Fable 5 のすぐ下の成績を、Opus の速度と価格で実現している</td></tr>
+          <tr><td><strong>Zapier</strong></td><td><span class="badge-pill" style="background:rgba(0,143,106,.12);color:var(--green)">業務自動化</span></td><td>業務ベンチマークで首位。トークンを増やさずに合格率 100% を達成</td></tr>
+          <tr><td><strong>Lovable</strong></td><td><span class="badge-pill" style="background:rgba(122,59,206,.12);color:var(--purple)">アプリ制作</span></td><td>最難関のタスクで Opus 4.7 比 22% 向上。実行のたびの結果のブレも小さい</td></tr>
+          <tr><td><strong>JetBrains</strong></td><td><span class="badge-pill" style="background:rgba(26,150,192,.12);color:var(--blue)">開発環境</span></td><td>書き始める前に考え、計画の段階で自分の誤りに気づけるようになった</td></tr>
+          <tr><td><strong>金融トレーディング</strong></td><td><span class="badge-pill" style="background:rgba(122,59,206,.12);color:var(--purple)">データ分析</span></td><td>考えるのに使うトークンは約7分の1、待ち時間は半分以下で高精度</td></tr>
+          <tr><td><strong>法務レビュー</strong></td><td><span class="badge-pill" style="background:rgba(0,143,106,.12);color:var(--green)">契約書レビュー</span></td><td>初回の修正案づくりでほぼ2倍のスコア。使うトークンは 26% 減</td></tr>
+        </tbody>
+      </table>
+      <div class="note-box">※ Anthropic 公式ブログに掲載された早期利用企業のコメントを要約。効果は業務内容により異なります。共通するのは「速い・安い」だけでなく「判断が丁寧になった」という評価の多さです。</div>
+    </section>
+
+    <section id="safety">
+      <span class="section-label">SAFETY</span>
+      <h2 class="section-title">賢くなっても、暴走させない<span class="timestamp">動画 12:20</span></h2>
+      <div class="hitokoto-web">
+        <span class="badge">一言で</span>
+        <p>Anthropic 史上もっとも「筋の通った」モデル。危険な用途の能力はあえて伸ばさず、過剰なブロックは減らした</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-head"><span class="ico">🛡️</span><h3>歴代でもっとも「筋の通った」モデル</h3></div>
+          <p>Claude の行動指針（Constitution）への沿い方が Opus 4.8・Sonnet 5・Fable 5 より良好。ウソをつく割合が最も低く、だまされて悪用されにくい。</p>
+          <p style="margin-top:.4rem">取り返しのつかない操作を避けるという点でも、歴代でもっとも安全だと報告されている。</p>
+          <div class="metric">不適切な振る舞いのスコア 2.3（自社モデルで最低＝最も安全）</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">🔐</span><h3>危険な用途の能力はあえて伸ばさない</h3></div>
+          <p>サイバー攻撃の訓練はあえて行っていない。弱点を見つける力は最上位に近いが、見つけた弱点を悪用する能力は、意図的に低いまま抑えられている。</p>
+          <p style="margin-top:.4rem">生物学の危険な領域についても、能力をあえて伸ばさない方針を続けている。</p>
+          <div class="metric">生物学・攻撃的サイバーは Mythos 5 に及ばない設計</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">🚦</span><h3>「安全すぎて使えない」を減らす</h3></div>
+          <p>正当な業務まで止めてしまう過剰な制限を緩和。セキュリティ関連の質問がブロックされた場合は、Opus 4.8 が自動で応答を引き継ぐ。</p>
+          <p style="margin-top:.4rem">セキュリティ業務を行う企業・研究者向けには、制限を緩めた版を使える制度も用意されている。</p>
+          <div class="metric">制限の発動は Fable 5 比で約 85% 少ない見込み</div>
+        </div>
+      </div>
+      <details class="check"><summary>理解度セルフチェック</summary><ul>
+        <li>「賢くなったのに安全性も上がった」と言える根拠を1つ挙げられる</li>
+        <li>ブロックされた場合に何が起きるか説明できる</li>
+      </ul></details>
+    </section>
+
+    <section id="start">
+      <span class="section-label">GETTING STARTED</span>
+      <h2 class="section-title">今日から使い始めるには<span class="timestamp">動画 14:00</span></h2>
+      <p class="section-sub">料金・使える場所・同時に公開されたベータ機能</p>
+      <div class="cards cols2">
+        <div class="card">
+          <div class="card-head"><span class="ico">🙋</span><h3>Claude Pro / Max なら追加料金なし</h3></div>
+          <div class="pill-row">
+            <span class="pill">Claude.ai</span>
+            <span class="pill">Claude Code</span>
+            <span class="pill">Claude Cowork</span>
+            <span class="pill">Claude API</span>
+          </div>
+          <p>サブスクをお使いなら、モデル選択で Opus 5 を選ぶだけ。<strong>Max では標準モデル</strong>、<strong>Pro では最上位モデル</strong>として使えます。</p>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">💵</span><h3>API 料金も Opus 4.8 から据え置き</h3></div>
+          <div class="price-row">
+            <div class="price-cell"><div class="p-label">入力 100万トークン</div><div class="p-value">$5</div></div>
+            <div class="price-cell"><div class="p-label">出力 100万トークン</div><div class="p-value">$25</div></div>
+          </div>
+          <p>自社システムに組み込む開発者向けの料金。性能は上がったのに単価は同じ。モデル名は <code>claude-opus-5</code></p>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">⚡</span><h3>急ぎのときは Fast mode</h3></div>
+          <p>通常の約 2.5倍の速さで応答する高速モード。料金は通常の2倍で、Claude Code では利用クレジットの範囲で使える。</p>
+          <div class="pill-row"><span class="pill">約 2.5倍速</span><span class="pill">料金は2倍</span></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="ico">🧪</span><h3>同時公開のベータ機能（開発者向け）</h3></div>
+          <p><strong>会話の途中でツールを変更</strong>できるように。ツールとは Claude に使わせる機能のこと。入れ替えても、それまでの会話を読み直す費用がかからない。</p>
+          <p style="margin-top:.4rem"><strong>自動フォールバック</strong>。安全判定で止まった要求を、別のモデルへ自動で振り替えられる。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="action">
+      <span class="section-label">WRAP UP</span>
+      <h2 class="section-title">まとめ — 今日から試せること<span class="timestamp">動画 15:40</span></h2>
+      <p class="section-sub">Claude Opus 5 の進化を、明日の仕事に活かすための3つのアクション</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-head"><span class="num">1</span><span class="ico">🔁</span></div>
+          <h3>いつものモデルを Opus 5 に切り替える</h3>
+          <p>まずは1週間、いつもの仕事をそのまま任せて、手戻りの回数を比べてみましょう。</p>
+          <div class="metric">言い方の例<br>「先月の請求データを突き合わせて、差異を一覧にして」</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="num" style="background:var(--blue)">2</span><span class="ico">🎛️</span></div>
+          <h3>大事な仕事だけ「深さ」を上げる</h3>
+          <p>日々のメールは <code>low</code>〜<code>medium</code>、提案書のレビューや契約書チェックは <code>max</code>。同じモデルのまま、考える深さだけを使い分けます。</p>
+          <div class="metric">使い分けの例<br>日次のメール = low ／ 契約書レビュー = max</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="num" style="background:var(--purple)">3</span><span class="ico">🤖</span></div>
+          <h3>多工程の仕事をまるごと任せる</h3>
+          <p>「リストを分析して→危ない先を選んで→連絡文の下書きまで作って」と一度に依頼。最後の確認と送信だけは必ず人が行いましょう。</p>
+          <div class="metric">任せる範囲の例<br>調べる・まとめる・下書きまで（送信は人）</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <span class="section-label">GLOSSARY</span>
+      <h2 class="section-title">用語解説<span class="timestamp">動画 16:40</span></h2>
+      <div class="glossary">
+        <div class="term"><strong>Anthropic</strong><span>アンソロピック</span><p>Claude を開発した米国のAI安全研究企業（2021年設立）。</p><a href="https://www.anthropic.com" target="_blank">anthropic.com 🔗</a></div>
+        <div class="term"><strong>Claude Opus 5</strong><span>クロード オーパス ファイブ</span><p>2026年7月24日公開の最新モデル。日常使いできる価格帯の主力。</p><a href="https://www.anthropic.com/news/claude-opus-5" target="_blank">リリース記事 🔗</a></div>
+        <div class="term"><strong>Fable 5</strong><span>フェイブル ファイブ</span><p>Anthropic の最上位モデル。今回 Opus 5 が半額でほぼ同等に迫った。</p></div>
+        <div class="term"><strong>Mythos 5</strong><span>ミュトス ファイブ</span><p>比較対象のモデル。サイバー攻撃や生物学の領域では Opus 5 より高能力とされる。</p></div>
+        <div class="term"><strong>トークン</strong><span>トークン</span><p>AIが文章を処理する最小単位。日本語1文字≒1〜3トークン。料金計算の基準。</p></div>
+        <div class="term"><strong>エフォート</strong><span>エフォート</span><p>「考える深さ」の設定。low / medium / high / xhigh / max の5段階。</p></div>
+        <div class="term"><strong>ベンチマーク</strong><span>ベンチマーク</span><p>AIの性能を測る共通テスト。学力テストの偏差値のようなもの。</p></div>
+        <div class="term"><strong>エージェント</strong><span>エージェント</span><p>AIが自分で判断しながら複数の作業を進める働き方。有能な代行者のイメージ。</p></div>
+        <div class="term"><strong>API</strong><span>エーピーアイ</span><p>システム同士の「連携口」。自社の仕組みに Claude を組み込む際に使う。</p></div>
+        <div class="term"><strong>Constitution</strong><span>コンスティテューション</span><p>Claude の行動指針をまとめた文書。社内でいう行動規範にあたる。</p></div>
+        <div class="term"><strong>アライメント</strong><span>アライメント</span><p>AIを人の意図や価値観に沿って動かすこと。「筋が通っている」度合い。</p></div>
+        <div class="term"><strong>デューデリジェンス</strong><span>デューデリジェンス</span><p>取引や契約の前に、相手企業の実態やリスクを詳しく調べること。</p></div>
+      </div>
+      <h3 class="sub-head">登場したサービス・企業</h3>
+      <div class="glossary">
+        <div class="term"><strong>Devin</strong><span>デヴィン</span><p>「AIソフトウェアエンジニア」と呼ばれる開発代行サービス。</p><a href="https://devin.ai" target="_blank">devin.ai 🔗</a></div>
+        <div class="term"><strong>Cursor</strong><span>カーソル</span><p>AIを組み込んだプログラム編集ツール。</p><a href="https://cursor.com" target="_blank">cursor.com 🔗</a></div>
+        <div class="term"><strong>Zapier</strong><span>ザピアー</span><p>アプリ同士をつないで業務を自動化するサービス。プログラミング不要。</p><a href="https://zapier.com" target="_blank">zapier.com 🔗</a></div>
+        <div class="term"><strong>Lovable</strong><span>ラバブル</span><p>やりたいことを文章で書くと Webアプリを作ってくれるサービス。</p><a href="https://lovable.dev" target="_blank">lovable.dev 🔗</a></div>
+        <div class="term"><strong>JetBrains</strong><span>ジェットブレインズ</span><p>プログラム開発用ソフト（IDE）を作る企業。</p><a href="https://www.jetbrains.com" target="_blank">jetbrains.com 🔗</a></div>
+        <div class="term"><strong>Box</strong><span>ボックス</span><p>企業向けのクラウド文書管理サービス。</p><a href="https://www.box.com" target="_blank">box.com 🔗</a></div>
+      </div>
+      <div class="source-box" style="margin-top:1rem">
+        出典: <a href="https://www.anthropic.com/news/claude-opus-5" target="_blank">Anthropic 公式ブログ「Introducing Claude Opus 5」</a>（2026年7月24日公開）<br>
+        ※ 動画タイムスタンプは台本の想定時間から算出した目安です。
+      </div>
+    </section>
+
+  </main>
+</div>
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(item => item.classList.toggle('active', item.getAttribute('href') === '#' + entry.target.id));
+    }
+  });
+}, { rootMargin:'-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

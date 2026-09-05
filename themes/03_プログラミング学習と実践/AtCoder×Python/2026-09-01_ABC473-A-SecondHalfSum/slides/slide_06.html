@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem 1.2rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: 1.1rem 1.2rem;
+  font-size: .92rem;
+  line-height: 1.85;
+  overflow: hidden;
+}
+.info-col {
+  gap: .5rem;
+}
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .5rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .22rem;
+}
+.line-explain p {
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .76rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード</span>
+    <h2 class="slide-title">Python 9行で完成</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>後半の開始位置を n // 2 で求め、そこから最後まで順に足すだけ</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- 左カラム: コードブロック -->
+    <div class="diagram-box">
+      <div class="code-label">PYTHON</div>
+      <pre><code class="language-python">n = int(input())
+a = list(map(int, input().split()))
+
+half = n // 2
+total = 0
+for i in range(half, n):
+    total = total + a[i]
+
+print(total)</code></pre>
+    </div>
+
+    <!-- 右カラム: 行ごとの解説 -->
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜2行目 — 入力を受け取る</h4>
+        <p>1行目の個数を <code>int(input())</code> で整数にして n へ。2行目は <code>input().split()</code> で空白ごとに切り分け、
+           <code>map(int, ...)</code> で全部を整数に変え、<code>list(...)</code> でリスト a にまとめる。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>4〜5行目 — 後半の開始位置と合計の箱</h4>
+        <p><code>n // 2</code> は割り算の答えを整数で求める書き方。n=8 なら half は 4 になり、これが<strong>後半の先頭の添字</strong>。
+           合計を入れる <code>total</code> は 0 から始める。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>6〜9行目 — 後半だけを足して出力</h4>
+        <p><code>range(half, n)</code> は half から n の1つ手前までの番号を順に出す。
+           n=8 なら 4・5・6・7 の4回まわり、a[i] を total に足していく。最後に total を表示する。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 慣れてきたら</div>
+        <ul class="box-list">
+          <li><code style="font-size:.74rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">a[half:]</code> は「halfから最後まで」の取り出し</li>
+          <li><code style="font-size:.74rem;color:var(--orange);background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:.02rem .3rem">print(sum(a[half:]))</code> と1行にもできる</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

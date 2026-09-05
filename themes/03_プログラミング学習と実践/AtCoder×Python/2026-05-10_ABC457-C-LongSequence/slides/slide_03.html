@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">失敗アプローチ</span>
+    <h2 class="slide-title">なぜ全シーケンスを構築するのはダメか</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">制約の罠</span>
+      <p>C_i は最大 10⁹ — B 全体のサイズは最大 2 × 10⁵ × 10⁹ に達する</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+    <div class="diagram-box">
+      <svg viewBox="0 0 380 320" style="width:100%;height:100%;max-width:380px;">
+        <!-- タイトル -->
+        <text x="190" y="30" font-size="16" font-weight="900" text-anchor="middle" fill="#1a1d2e">
+          全シーケンス構築
+        </text>
+        <text x="190" y="50" font-size="13" text-anchor="middle" fill="#d96018">
+          メモリ不足 × TLE
+        </text>
+
+        <!-- NG1: メモリ不足 -->
+        <rect x="20" y="75" width="160" height="45" fill="#fff5f1" stroke="#c9162e" stroke-width="2" rx="8"/>
+        <text x="100" y="95" font-size="12" font-weight="700" text-anchor="middle" fill="#c9162e">
+          メモリ不足 ⚠️
+        </text>
+        <text x="100" y="110" font-size="11" text-anchor="middle" fill="#1a1d2e">
+          B全体: 2×10⁵ × 10⁹
+        </text>
+        <text x="100" y="122" font-size="10" text-anchor="middle" fill="#5e6a8a">
+          = 2×10¹⁴ 要素
+        </text>
+
+        <!-- NG2: TLE -->
+        <rect x="200" y="75" width="160" height="45" fill="#fff5f1" stroke="#c9162e" stroke-width="2" rx="8"/>
+        <text x="280" y="95" font-size="12" font-weight="700" text-anchor="middle" fill="#c9162e">
+          TLE（時間超過）
+        </text>
+        <text x="280" y="110" font-size="11" text-anchor="middle" fill="#1a1d2e">
+          B 構築に数秒
+        </text>
+        <text x="280" y="122" font-size="10" text-anchor="middle" fill="#5e6a8a">
+          & アクセスに秒
+        </text>
+
+        <!-- 矢印 下 -->
+        <line x1="100" y1="120" x2="100" y2="150" stroke="#d96018" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <line x1="280" y1="120" x2="280" y2="150" stroke="#d96018" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- 悪い手順 -->
+        <rect x="30" y="150" width="320" height="130" fill="#f5f6fa" stroke="#5e6a8a" stroke-width="1" stroke-dasharray="3,3" rx="8"/>
+        <text x="40" y="167" font-size="11" font-weight="700" fill="#5e6a8a">
+          ❌ 素朴な実装:
+        </text>
+        <text x="40" y="182" font-size="10" font-family="Monaco" fill="#1a1d2e">
+          # 全シーケンスを構築
+        </text>
+        <text x="40" y="194" font-size="10" font-family="Monaco" fill="#1a1d2e">
+          B = []
+        </text>
+        <text x="40" y="206" font-size="10" font-family="Monaco" fill="#1a1d2e">
+          for i in range(N):
+        </text>
+        <text x="40" y="218" font-size="10" font-family="Monaco" fill="#1a1d2e">
+          &nbsp;&nbsp;B += A[i] * C[i]
+        </text>
+        <text x="40" y="230" font-size="10" font-family="Monaco" fill="#1a1d2e">
+          print(B[K-1])
+        </text>
+
+        <!-- 矢印マーカー -->
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+            <polygon points="0,0 10,5 0,10" fill="#d96018"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🚫 失敗理由</div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--red);">1</div>
+          <p><strong>メモリ爆発</strong><br>C_i=10⁹ 時、全体は 10¹⁴ 要素超。メモリ不足で即エラー</p>
+        </div>
+        <div class="biz-step">
+          <div class="snum" style="background:var(--red);">2</div>
+          <p><strong>計算時間</strong><br>リスト連結 += で数秒〜数分。制限時間 2 秒では TLE</p>
+        </div>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 制約をよく読もう</div>
+        <ul class="box-list">
+          <li>C_i ≤ 10⁹: 繰り返し回数が巨大</li>
+          <li>Σ(L_i) ≤ 2×10⁵: 元のシーケンス群は小さい</li>
+          <li>→ 「元データは小」「繰り返し数は大」のギャップが鍵</li>
+        </ul>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 解決の方針</div>
+        <ul class="box-list">
+          <li>B 全体を構築しない</li>
+          <li>K がどのシーケンスに属するか見つける</li>
+          <li>そのシーケンス内での相対位置で答えを取得</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

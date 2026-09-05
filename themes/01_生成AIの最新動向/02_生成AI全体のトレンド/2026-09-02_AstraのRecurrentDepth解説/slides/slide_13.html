@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>用語解説</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Astra</span><span class="term-reading">アストラ</span></div>
+        <p class="term-desc">OpenAI の次期主要モデル。2026年9月時点で一般提供はされていない。</p>
+        <a class="term-link" href="https://openai.com" target="_blank">openai.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Recurrent Depth</span><span class="term-reading">リカレント デプス</span></div>
+        <p class="term-desc">同じ層のかたまりに何周もくぐらせて深く考えさせる方式。直訳は「くり返しの深さ」。</p>
+        <a class="term-link" href="https://arxiv.org/abs/2502.05171" target="_blank">arxiv.org 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">周回</span><span class="term-reading">しゅうかい</span></div>
+        <p class="term-desc">中核ブロックを1回くぐること。本編ではこの回数を「周」と数える。論文では recurrence / loop。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Chain of Thought</span><span class="term-reading">チェーン オブ ソート</span></div>
+        <p class="term-desc">考えを言葉で書き出させて答えの精度を上げる方式。推論そのものではなく、推論のやり方の一つ（今の主流）。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">潜在推論</span><span class="term-reading">せんざいすいろん</span></div>
+        <p class="term-desc">Latent Reasoning。言葉にせず内部の数字のまま進む推論。人が途中を読めない。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">監視性</span><span class="term-reading">かんしせい</span></div>
+        <p class="term-desc">Monitorability。AIの考えを外から読んで確認できる性質。今のAI安全対策の土台になっている。</p>
+        <a class="term-link" href="https://arxiv.org/abs/2507.11473" target="_blank">arxiv.org 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">層</span><span class="term-reading">そう / レイヤー</span></div>
+        <p class="term-desc">AIが情報を一段ずつ処理する単位。工場の工程にあたる。積むほど深く考えられる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">パラメータ</span><span class="term-reading">ぱらめーた</span></div>
+        <p class="term-desc">モデルが覚えている重み。本編の「重み」はこれ。3.5B は35億個の意味。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Transformer</span><span class="term-reading">トランスフォーマー</span></div>
+        <p class="term-desc">今のAIの基本構造。層を積み重ねて作る。Recurrent Depth はその積み方を変えた工夫。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Huginn-3.5B</span><span class="term-reading">フギン</span></div>
+        <p class="term-desc">Recurrent Depth を実際に確かめた公開モデル。誰でも動かせる。名前は北欧神話のカラス。</p>
+        <a class="term-link" href="https://huggingface.co/tomg-group-umd/huginn-0125" target="_blank">huggingface.co 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Ouro</span><span class="term-reading">ウロ</span></div>
+        <p class="term-desc">周回する言語モデルの公開ファミリー。1.4B / 2.6B で数倍サイズ級に並んだ。</p>
+        <a class="term-link" href="https://arxiv.org/abs/2510.25741" target="_blank">arxiv.org 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">The Information</span><span class="term-reading">ジ インフォメーション</span></div>
+        <p class="term-desc">米国のテック専門メディア。今回の Astra の報道元。会員制で一次記事は有料。</p>
+        <a class="term-link" href="https://www.theinformation.com" target="_blank">theinformation.com 🔗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

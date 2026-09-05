@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-pink);color:#fff">TROUBLE 2</span>
+    <h2 class="slide-title">目で見ても、はみ出しは見つからない</h2>
+    <div class="hitokoto" style="border-color:var(--pink)">
+      <span class="badge" style="background:var(--pink)">一言で</span>
+      <p>何度見返しても気づけませんでした。人の目で確認するのをやめて、機械に測らせました</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          上カード（脇役）: x=30 y=40  w=440 h=52  → bottom=92
+          矢印: y=98 → 112
+          下カード（主役）: x=30 y=118 w=440 h=104 → bottom=222
+          viewBox: 0 0 500 250
+        -->
+        <svg viewBox="0 0 500 250" width="620" height="310" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <defs>
+            <marker id="arp2" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 z" fill="#cc0a6a"/>
+            </marker>
+          </defs>
+
+          <text x="250" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">見返しても気づけなかったもの</text>
+
+          <!-- 人の目（脇役） -->
+          <rect x="30" y="40" width="440" height="52" rx="10" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="50" y="62" text-anchor="start" font-size="10" fill="#5e6a8a">自分の目で確認 → 問題なしと判断した</text>
+          <text x="50" y="80" text-anchor="start" font-size="10" fill="#5e6a8a">実際には、図の外に文字がはみ出していた</text>
+
+          <line x1="250" y1="98" x2="250" y2="110" stroke="#cc0a6a" stroke-width="1.5" marker-end="url(#arp2)"/>
+
+          <!-- 機械の実測（主役） -->
+          <rect x="30" y="118" width="440" height="104" rx="10" fill="rgba(204,10,106,.06)" stroke="#cc0a6a" stroke-width="2.5"/>
+          <text x="44" y="137" text-anchor="start" font-size="9.5" font-weight="700" fill="#cc0a6a">svg_check.py の出力（実際のログ）</text>
+          <text x="44" y="160" text-anchor="start" font-size="11" fill="#c9162e" font-family="'Consolas','Courier New',monospace">[ERROR] out-of-viewbox: '考える深さ→'</text>
+          <text x="76" y="180" text-anchor="start" font-size="11" fill="#1a1d2e" font-family="'Consolas','Courier New',monospace">bbox=[-10,90,55,13]</text>
+          <text x="44" y="204" text-anchor="start" font-size="10" fill="#5e6a8a">文字の左端が x=-10。図の外へ10px出ていた</text>
+
+          <text x="250" y="240" text-anchor="middle" font-size="9" fill="#5e6a8a">ブラウザで実際に描画し、1文字ずつ位置を測っている</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 機械に測らせる手順</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">1</span>
+            <p>できたスライドを、実際にブラウザで描画する</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">2</span>
+            <p>文字1つずつの幅と位置をピクセルで実測する</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-pink)">3</span>
+            <p>枠から出ていたらエラーとして一覧に出す</p>
+          </div>
+        </div>
+        <div class="ok-box" style="border-left-color:var(--pink)">
+          <div class="box-title">✅ そのうえで決めたこと</div>
+          <ul class="box-list">
+            <li>エラーが0件になるまで、そのスライドは完成にしない</li>
+            <li>「たぶん大丈夫」で次に進まない</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 分かったこと</div>
+          <ul class="box-list">
+            <li>頭の中の幅の見積もりは当てにならない</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">グラフへの変換</span>
+    <h2 class="slide-title">交換の連鎖を「地図」として描く</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>アイテム＝丸いノード、交換＝矢印の有向グラフに変換すると「到達可能なノードを数える」問題になる</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: グラフSVG（例1） -->
+    <div class="diagram-box">
+      <svg viewBox="0 0 500 340" width="500" height="340" font-family="'Noto Sans JP','Meiryo',sans-serif">
+        <!--
+          例1の交換ペア: (1→2), (2→3), (3→4), (2→4), (5→2)
+          ノード座標:
+            Node 1: (90, 170)  ← start (orange)
+            Node 2: (230, 170) ← reachable (green)
+            Node 3: (380, 80)  ← reachable (green)
+            Node 4: (380, 260) ← reachable (green)
+            Node 5: (90, 300)  ← unreachable (muted)
+        -->
+        <defs>
+          <marker id="arr-g" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#008f6a"/>
+          </marker>
+          <marker id="arr-m" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#5e6a8a" opacity="0.5"/>
+          </marker>
+        </defs>
+
+        <!-- 背景ゾーン: 到達可能エリア -->
+        <rect x="55" y="40" width="380" height="270" rx="16" fill="rgba(0,143,106,.06)" stroke="rgba(0,143,106,.2)" stroke-width="1.5" stroke-dasharray="6,3"/>
+        <text x="420" y="58" text-anchor="end" fill="rgba(0,143,106,.7)" font-size="11" font-weight="700">到達可能エリア</text>
+
+        <!-- エッジ: 1→2 (橙→緑) -->
+        <line x1="114" y1="170" x2="206" y2="170" stroke="#008f6a" stroke-width="2" marker-end="url(#arr-g)"/>
+
+        <!-- エッジ: 2→3 (緑→緑) -->
+        <!-- 方向: (150,-90) unit=(0.857,-0.514) -->
+        <line x1="250" y1="158" x2="363" y2="91" stroke="#008f6a" stroke-width="2" marker-end="url(#arr-g)"/>
+
+        <!-- エッジ: 2→4 (緑→緑) -->
+        <!-- 方向: (150,90) unit=(0.857,0.514) -->
+        <line x1="250" y1="182" x2="363" y2="249" stroke="#008f6a" stroke-width="2" marker-end="url(#arr-g)"/>
+
+        <!-- エッジ: 3→4 (緑→緑) -->
+        <line x1="380" y1="104" x2="380" y2="236" stroke="#008f6a" stroke-width="2" marker-end="url(#arr-g)"/>
+
+        <!-- エッジ: 5→2 (未到達→到達可能) →点線でグレー -->
+        <!-- 方向: (140,-130) unit=(0.732,-0.681) -->
+        <line x1="107" y1="288" x2="208" y2="183" stroke="#5e6a8a" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-m)" opacity="0.6"/>
+
+        <!-- ノード: 2 (green, reachable) -->
+        <circle cx="230" cy="170" r="26" fill="#008f6a"/>
+        <text x="230" y="175" text-anchor="middle" fill="white" font-size="16" font-weight="700">2</text>
+
+        <!-- ノード: 3 (green, reachable) -->
+        <circle cx="380" cy="80" r="26" fill="#008f6a"/>
+        <text x="380" y="85" text-anchor="middle" fill="white" font-size="16" font-weight="700">3</text>
+
+        <!-- ノード: 4 (green, reachable) -->
+        <circle cx="380" cy="260" r="26" fill="#008f6a"/>
+        <text x="380" y="265" text-anchor="middle" fill="white" font-size="16" font-weight="700">4</text>
+
+        <!-- ノード: 5 (muted, unreachable) -->
+        <circle cx="90" cy="300" r="26" fill="#eff1f7" stroke="#dde2ec" stroke-width="2"/>
+        <text x="90" y="305" text-anchor="middle" fill="#5e6a8a" font-size="16" font-weight="700">5</text>
+        <text x="90" y="334" text-anchor="middle" fill="#5e6a8a" font-size="10">到達不可</text>
+
+        <!-- ノード: 1 (orange, start) — 最後に描いてエッジの上に来るように -->
+        <circle cx="90" cy="170" r="26" fill="#d96018"/>
+        <text x="90" y="175" text-anchor="middle" fill="white" font-size="16" font-weight="700">1</text>
+        <text x="90" y="150" text-anchor="middle" fill="#d96018" font-size="11" font-weight="700">スタート</text>
+
+        <!-- 凡例 -->
+        <rect x="160" y="280" width="230" height="44" rx="8" fill="white" stroke="#dde2ec"/>
+        <circle cx="178" cy="296" r="8" fill="#d96018"/>
+        <text x="192" y="300" fill="#1a1d2e" font-size="11">スタート地点</text>
+        <circle cx="178" cy="314" r="8" fill="#008f6a"/>
+        <text x="192" y="318" fill="#1a1d2e" font-size="11">到達できるノード</text>
+        <circle cx="298" cy="296" r="8" fill="#eff1f7" stroke="#dde2ec" stroke-width="1.5"/>
+        <text x="312" y="300" fill="#5e6a8a" font-size="11">到達できないノード</text>
+      </svg>
+    </div>
+
+    <!-- 右: 変換ルールと業務例 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔄 変換ルール（問題→グラフ）</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p>各アイテム番号（1〜N）を「ノード（丸）」として配置</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>交換ペア（A_i, B_i）を「A_i → B_i の矢印（辺）」として追加</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>ノード1から矢印をたどって到達できるノードを全部数える</p>
+        </div>
+      </div>
+
+      <div class="biz-example">
+        <div class="biz-title">💼 仕事で例えると</div>
+        <div class="sec-body" style="font-size:.8rem;color:var(--text);line-height:1.6;">
+          「Aさんが知っている情報はBさんに伝えられる」という連絡網。<br>
+          最初はノード1（自分）だけが知っている。<br>
+          矢印をたどって<strong>情報が届く人を全員数える</strong>問題。
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title">✅ 問題の本質</div>
+        <ul class="box-list">
+          <li>「アイテムが手に入るか」＝「ノード1から到達できるか」</li>
+          <li>矢印は一方通行（A→B でも B→A には戻れない）</li>
+          <li>これを「有向グラフの到達可能性問題」という</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

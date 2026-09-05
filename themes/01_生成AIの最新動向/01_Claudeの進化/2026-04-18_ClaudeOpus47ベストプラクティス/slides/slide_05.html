@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.effort-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  overflow: hidden;
+}
+.effort-table-wrap {
+  flex: 1;
+  overflow: hidden;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .78rem;
+}
+th {
+  background: var(--card);
+  padding: .4rem .7rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+td {
+  padding: .45rem .7rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.5;
+  vertical-align: middle;
+}
+tr:nth-child(even) td { background: rgba(239,241,247,.5); }
+tr:last-child td { border-bottom: none; }
+.effort-badge {
+  display: inline-block;
+  padding: .15rem .55rem;
+  border-radius: 99px;
+  font-size: .72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+}
+.cost-bar {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+.cost-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+}
+.dot-fill { background: var(--purple); }
+.dot-empty { background: #dde2ec; }
+.default-tag {
+  display: inline-block;
+  background: rgba(122,59,206,.15);
+  color: var(--purple);
+  font-size: .62rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+  margin-left: .4rem;
+  white-space: nowrap;
+}
+.summary-box {
+  background: rgba(122,59,206,.06);
+  border: 1px solid rgba(122,59,206,.25);
+  border-radius: 12px;
+  padding: .55rem 1rem;
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.summary-box strong { color: var(--purple); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">POINT 03</span>
+    <h2 class="slide-title">エフォート設定 — 5段階の賢い使い分け</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>問題の難しさに合わせてAIの「考える深さ」を調整。コストと精度のバランスが鍵</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="effort-layout">
+      <div class="effort-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>設定値</th>
+              <th>使いどき（業務例）</th>
+              <th>コスト</th>
+              <th>速度</th>
+              <th>思考の深さ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(94,106,138,.12);color:#5e6a8a">low</span></td>
+              <td>メール文面チェック・簡単なデータ変換・定型コピー</td>
+              <td><div class="cost-bar"><div class="cost-dot dot-fill"></div><div class="cost-dot dot-empty"></div><div class="cost-dot dot-empty"></div><div class="cost-dot dot-empty"></div><div class="cost-dot dot-empty"></div></div></td>
+              <td>⚡ 最速</td>
+              <td>浅い（表面のみ）</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(26,150,192,.12);color:var(--blue)">medium</span></td>
+              <td>標準的な文書要約・ルーティンコーディング・FAQ回答</td>
+              <td><div class="cost-bar"><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-empty"></div><div class="cost-dot dot-empty"></div><div class="cost-dot dot-empty"></div></div></td>
+              <td>🚀 速い</td>
+              <td>標準</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(0,143,106,.12);color:var(--green)">high</span></td>
+              <td>要件整理・中規模なコード修正・競合調査レポート</td>
+              <td><div class="cost-bar"><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-empty"></div><div class="cost-dot dot-empty"></div></div></td>
+              <td>🏃 普通</td>
+              <td>やや深い</td>
+            </tr>
+            <tr>
+              <td>
+                <span class="effort-badge" style="background:rgba(122,59,206,.15);color:var(--purple)">xhigh</span>
+                <span class="default-tag">推奨デフォルト</span>
+              </td>
+              <td>ほとんどの開発作業・複雑な資料作成・システム設計</td>
+              <td><div class="cost-bar"><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-empty"></div></div></td>
+              <td>🚶 やや遅</td>
+              <td>深い（推奨）</td>
+            </tr>
+            <tr>
+              <td><span class="effort-badge" style="background:rgba(201,22,46,.12);color:var(--red)">max</span></td>
+              <td>本番バグ修正・難解な仕様策定・高度な分析・意思決定</td>
+              <td><div class="cost-bar"><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div><div class="cost-dot dot-fill"></div></div></td>
+              <td>🐢 遅い</td>
+              <td>最大（収穫逓減あり）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="summary-box">
+        💡 <strong>ほとんどの作業は「xhigh」がベストバランス。</strong>
+        「max」は難題に限定しよう — すべてに使うとコストが跳ね上がる。
+        簡単なチェック作業は「low / medium」でコストを抑えて。
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

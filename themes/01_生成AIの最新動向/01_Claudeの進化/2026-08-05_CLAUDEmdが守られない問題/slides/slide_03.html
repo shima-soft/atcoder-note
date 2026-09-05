@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">WHY</span>
+    <h2 class="slide-title">ルールを足しても直らなかった理由</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>Claude も人も、画面を見ずに幅を見積もっている。見積もりの精度は、注意書きでは上がらない</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          左パネル（脇役・グレー）: x=18  w=214 (18..232)  center=125
+          右パネル（主役・青）   : x=268 w=214 (268..482) center=375
+          サンプル枠は左右とも w=130 / パネル中心に配置 (左 x=60 / 右 x=310)
+          viewBox: 0 0 500 310
+        -->
+        <svg viewBox="0 0 500 310" width="600" height="372" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <text x="250" y="26" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1d2e">同じ図を、目で見た場合と測った場合</text>
+
+          <!-- 左: 目で見る（脇役） -->
+          <rect x="18" y="46" width="214" height="248" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+          <text x="125" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">👀 目で確認する</text>
+          <rect x="60" y="104" width="130" height="54" rx="8" fill="#ffffff" stroke="#c8cede" stroke-width="1"/>
+          <text x="125" y="136" text-anchor="middle" font-size="13" fill="#5e6a8a">📥 Subscribe</text>
+          <text x="125" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#5e6a8a">ずれは見つからない</text>
+          <text x="125" y="252" text-anchor="middle" font-size="11.5" fill="#5e6a8a">31本ぶん・約370枚を</text>
+          <text x="125" y="270" text-anchor="middle" font-size="11.5" fill="#5e6a8a">目視で見つけるのは無理</text>
+
+          <!-- 右: ツールで測る（主役） -->
+          <rect x="268" y="46" width="214" height="248" rx="10" fill="rgba(26,150,192,.07)" stroke="#1a96c0" stroke-width="2"/>
+          <text x="375" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#1a96c0">📐 ツールで測る</text>
+          <rect x="310" y="104" width="130" height="54" rx="8" fill="#ffffff" stroke="#1a96c0" stroke-width="1"/>
+          <text x="375" y="136" text-anchor="middle" font-size="13" fill="#1a1d2e">📥 Subscribe</text>
+          <text x="375" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#c9162e">実測幅 56px / 枠 60px</text>
+          <text x="375" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="#c9162e">左右に 2px はみ出し</text>
+          <text x="375" y="252" text-anchor="middle" font-size="11.5" fill="#5e6a8a">機械なら370枚を</text>
+          <text x="375" y="270" text-anchor="middle" font-size="11.5" fill="#5e6a8a">数十秒で終わる</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">🧭 何が起きていたか</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>Claude は文字の幅を「計算」で見積もる。実際に描いて確かめてはいない</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>人もスライドを縮小表示で見る。数 px のずれは目に映らない</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>誰も測っていないので、指摘されるまで「できている」ことになる</p>
+          </div>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ ルールでは埋まらない差</div>
+          <ul class="box-list">
+            <li>「はみ出さないこと」と書いても、判定する目盛りが増えるわけではない</li>
+            <li>書き足すほど読む量が増え、他の指示まで薄まる</li>
+          </ul>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 発想を変える</div>
+          <ul class="box-list">
+            <li>守らせるのではなく、守れたかを測れるようにする</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>ステージ1 探索と振り返りから初期マニュアルを作る</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">しくみ①</span>
+    <h2 class="slide-title">ステージ1: 探索と振り返りから「初期マニュアル」を作る</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>クラウドAIに実際に手を動かさせ、成功も失敗も振り返りレポートに — 100件超を束ねて一冊に要約する</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="Skill Creationパイプライン Explore-Reflect と Cluster Distill Merge">
+        <!-- Step A -->
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#7a3bce">Step A: Explore &amp; Reflect</text>
+        <rect x="18" y="30" width="590" height="86" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <!-- タスク投入 -->
+        <rect x="34" y="44" width="150" height="56" rx="10" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="109" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">代表タスク</text>
+        <text x="109" y="78" text-anchor="middle" font-size="11" fill="#5e6a8a">180件 / 207件</text>
+        <text x="109" y="92" text-anchor="middle" font-size="10" fill="#5e6a8a">AppWorld / WorkBench</text>
+
+        <polygon points="194,73 214,73 214,68 224,77 214,86 214,81 194,81" fill="#7a3bce"/>
+
+        <rect x="230" y="44" width="150" height="56" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="305" y="62" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">クラウドAgentが実行</text>
+        <text x="305" y="78" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.85)">評価器で成功/失敗を判定</text>
+        <text x="305" y="92" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.7)">軌跡＋フィードバックを保持</text>
+
+        <polygon points="390,73 410,73 410,68 420,77 410,86 410,81 390,81" fill="#7a3bce"/>
+
+        <rect x="426" y="44" width="150" height="56" rx="10" fill="#ffffff" stroke="#7a3bce"/>
+        <text x="501" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">振り返りレポート</text>
+        <text x="501" y="78" text-anchor="middle" font-size="11" fill="#5e6a8a">圧縮した実行記録</text>
+        <text x="501" y="92" text-anchor="middle" font-size="10" fill="#5e6a8a">より速い解法・落とし穴・道具</text>
+
+        <text x="310" y="132" text-anchor="middle" font-size="10" fill="#5e6a8a">生の軌跡は冗長（観測・試行錯誤だらけ）— 要点だけを「使える経験」に蒸留する</text>
+
+        <!-- Step B -->
+        <text x="34" y="152" font-size="12" font-weight="900" fill="#7a3bce">Step B: Create Initial Skill（3つの役割で束ねる）</text>
+        <rect x="18" y="160" width="590" height="232" rx="14" fill="#ffffff" stroke="#dde2ec"/>
+
+        <!-- Cluster -->
+        <rect x="34" y="174" width="170" height="82" rx="10" fill="#f4efff" stroke="#7a3bce"/>
+        <text x="119" y="192" text-anchor="middle" font-size="12" font-weight="900" fill="#7a3bce">Cluster Agent</text>
+        <text x="119" y="208" text-anchor="middle" font-size="11" fill="#1a1d2e">レポートを束ねる</text>
+        <text x="119" y="224" text-anchor="middle" font-size="10" fill="#5e6a8a">種類・アプリ・道具で分類</text>
+        <text x="119" y="238" text-anchor="middle" font-size="10" fill="#5e6a8a">類似は統合、数 C に収める</text>
+
+        <polygon points="214,215 234,215 234,210 244,219 234,228 234,223 214,223" fill="#5e6a8a"/>
+
+        <!-- Distill -->
+        <rect x="250" y="174" width="170" height="82" rx="10" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="335" y="192" text-anchor="middle" font-size="12" font-weight="900" fill="#1a1d2e">Distill SubAgent ×C</text>
+        <text x="335" y="208" text-anchor="middle" font-size="11" fill="#1a1d2e">束ごとに要点抽出</text>
+        <text x="335" y="224" text-anchor="middle" font-size="10" fill="#5e6a8a">手順・テンプレ・落とし穴</text>
+        <text x="335" y="238" text-anchor="middle" font-size="10" fill="#5e6a8a">頻出は横断、それ以外は個別</text>
+        <text x="335" y="250" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3bce">→ Insight Ic を出力</text>
+
+        <polygon points="430,215 450,215 450,210 460,219 450,228 450,223 430,223" fill="#5e6a8a"/>
+
+        <!-- Merge -->
+        <rect x="466" y="174" width="130" height="82" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="531" y="192" text-anchor="middle" font-size="12" font-weight="900" fill="#ffffff">Merge Agent</text>
+        <text x="531" y="208" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.9)">一冊に統合</text>
+        <text x="531" y="224" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.8)">横断知識→表紙</text>
+        <text x="531" y="238" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.8)">個別→別冊＋トリガー</text>
+
+        <!-- 制約 -->
+        <rect x="34" y="268" width="560" height="56" rx="10" fill="#f9fafb" stroke="#dde2ec"/>
+        <text x="50" y="286" font-size="11" font-weight="700" fill="#1a1d2e">長さ予算 Lmax で“溢れない一冊”に</text>
+        <text x="50" y="300" font-size="10.5" fill="#5e6a8a">表紙 SKILL.md は400行以内、別冊は1ファイル250行以内。</text>
+        <text x="50" y="314" font-size="10.5" fill="#5e6a8a">100ファイル・1万行超を、必要な粒度だけ残して圧縮する。</text>
+
+        <rect x="34" y="334" width="560" height="56" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="310" y="352" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7a3bce">⚠ 直に「Skillを書いて」と頼むと幻覚する</text>
+        <text x="310" y="366" text-anchor="middle" font-size="10" fill="#7a3bce">タスク説明だけでは暗黙ルールが不足 — 必ず実行→振り返りを経る</text>
+        <text x="310" y="380" text-anchor="middle" font-size="9.5" fill="#5e6a8a">例: 実環境にないルールを勝手に作る幻覚を防ぐ</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>ベテランが180件の仕事を試しにやってみる</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>日報を「種類別」に束ね、使えるコツだけ抜く</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>共通心得は1枚目、詳細は別紙に分ける</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ 工夫</div>
+        <ul class="box-list">
+          <li>クラスタ数Cを絞り、並列で蒸留して高速化</li>
+          <li>頻出ルールは表紙に昇格、稀な手順は別冊へ</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 失敗パターン</div>
+        <ul class="box-list">
+          <li>レポートを束ねず全部投げ込むと文脈溢れ＋焦点ぼけ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.slide-body {
+  flex-direction: column;
+  gap: .55rem;
+}
+.prob-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .65rem 1rem;
+}
+.prob-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .35rem;
+  letter-spacing: .03em;
+}
+.prob-card p {
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.prob-card p strong {
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .55rem;
+}
+.meta-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+}
+.meta-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.meta-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.meta-card ul li {
+  font-size: .84rem;
+  color: var(--text);
+  padding-left: .7rem;
+  position: relative;
+}
+.meta-card ul li::before {
+  content: '・';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 900;
+}
+.meta-card .hint {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  padding-left: .7rem;
+  border-left: 2px solid var(--border);
+}
+.meta-card code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .2rem .6rem;
+  font-size: .82rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--text);
+  display: inline-block;
+  margin-bottom: .25rem;
+}
+.sample-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .6rem 1rem;
+  flex: 1;
+}
+.sample-card h4 {
+  font-size: .76rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.sample-table th {
+  background: var(--surface);
+  padding: .3rem .6rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: center;
+}
+.sample-table td {
+  padding: .3rem .8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+.sample-table td.note {
+  text-align: left;
+  font-family: inherit;
+  color: var(--muted);
+  font-size: .78rem;
+}
+.sample-table td.correct {
+  color: var(--green);
+  font-weight: 900;
+}
+.sample-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">問題を読み解く</span>
+    <h2 class="slide-title">ABC454 A — 閉区間（Closed Interval）</h2>
+  </div>
+  <div class="slide-body">
+
+    <!-- 問題文 -->
+    <div class="prob-card">
+      <h4>📝 何を求める問題？</h4>
+      <p>整数 <strong>L</strong> と <strong>R</strong> が与えられます。
+        <strong>L 以上 R 以下</strong>の整数（両端の L・R も含む）が、全部で<strong>いくつあるか</strong>を答えてください。</p>
+    </div>
+
+    <!-- 制約 + 入力形式 -->
+    <div class="meta-row">
+      <div class="meta-card">
+        <h4>🔒 制約（入力の範囲）</h4>
+        <ul>
+          <li>1 ≤ L ≤ R ≤ 100</li>
+          <li>L と R はどちらも整数</li>
+          <li>必ず L ≤ R（L と R が同じ場合もある）</li>
+        </ul>
+        <p class="hint">→ 最小: L=1, R=1（答えは1）　最大: L=1, R=100（答えは100）</p>
+      </div>
+      <div class="meta-card">
+        <h4>📥 入力の形式</h4>
+        <code>L R</code>
+        <p class="hint" style="margin-top:.4rem">1行に L と R が空白区切りで与えられる</p>
+        <p class="hint">例: <code style="font-size:.75rem">3 5</code> → L=3, R=5</p>
+      </div>
+    </div>
+
+    <!-- 入出力例 -->
+    <div class="sample-card">
+      <h4>📊 入出力例で確認</h4>
+      <table class="sample-table">
+        <tr>
+          <th style="width:120px">入力</th>
+          <th style="width:100px">出力</th>
+          <th>なぜそうなる？</th>
+        </tr>
+        <tr>
+          <td>3 5</td>
+          <td class="correct">3</td>
+          <td class="note">3, 4, 5 → 3個 ✅</td>
+        </tr>
+        <tr>
+          <td>1 7</td>
+          <td class="correct">7</td>
+          <td class="note">1, 2, 3, 4, 5, 6, 7 → 7個 ✅</td>
+        </tr>
+        <tr>
+          <td>14 79</td>
+          <td class="correct">66</td>
+          <td class="note">14 から 79 まで → 79 − 14 + 1 = 66 ✅</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

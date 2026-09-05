@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../specs/common.css">
+<style>
+.diagram-box {
+  align-items: flex-start;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">考え方</span>
+    <h2 class="slide-title">4つの式を順番に試す</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>1つでも9に一致すればNine — 全部外れたらNein</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- SVG: 4パターン確認図 -->
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          card[col].x = 16 + col * 262  (w=246, gap=16, 送り幅=262)
+          card[row].y = 64 + row * 104  (h=88, gap=16, 送り幅=104)
+        -->
+
+        <!-- 入力値ヘッダー -->
+        <text x="270" y="34" text-anchor="middle" font-size="22" font-weight="900" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">A = 16, B = 7</text>
+
+        <!-- カード1: A+B（不一致） -->
+        <rect x="16" y="64" width="246" height="88" rx="12" fill="white" stroke="#dde2ec" stroke-width="1.5" opacity=".55"/>
+        <text x="36" y="88" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">A ＋ B</text>
+        <text x="36" y="120" font-size="19" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">16 + 7 = 23</text>
+        <text x="238" y="120" text-anchor="end" font-size="16" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">✗</text>
+
+        <!-- カード2: A-B（一致・主役） -->
+        <rect x="278" y="64" width="246" height="88" rx="12" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="2.5"/>
+        <text x="298" y="88" font-size="13" font-weight="700" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">A － B</text>
+        <text x="298" y="120" font-size="19" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">16 - 7 = 9</text>
+        <text x="500" y="120" text-anchor="end" font-size="16" font-weight="900" fill="#008f6a" font-family="'Noto Sans JP',sans-serif">✓</text>
+
+        <!-- カード3: A×B（不一致） -->
+        <rect x="16" y="168" width="246" height="88" rx="12" fill="white" stroke="#dde2ec" stroke-width="1.5" opacity=".55"/>
+        <text x="36" y="192" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">A × B</text>
+        <text x="36" y="224" font-size="19" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">16 x 7 = 112</text>
+        <text x="238" y="224" text-anchor="end" font-size="16" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">✗</text>
+
+        <!-- カード4: A÷B（不一致） -->
+        <rect x="278" y="168" width="246" height="88" rx="12" fill="white" stroke="#dde2ec" stroke-width="1.5" opacity=".55"/>
+        <text x="298" y="192" font-size="13" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">A ÷ B</text>
+        <text x="298" y="224" font-size="17" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">16 ÷ 7 = 2 あまり2</text>
+        <text x="500" y="224" text-anchor="end" font-size="16" font-weight="900" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">✗</text>
+
+        <!-- 矢印 -->
+        <line x1="270" y1="272" x2="270" y2="304" stroke="#5e6a8a" stroke-width="2"/>
+        <polygon points="263,301 277,301 270,312" fill="#5e6a8a"/>
+
+        <!-- 結果ボックス -->
+        <rect x="120" y="318" width="300" height="62" rx="12" fill="rgba(0,143,106,.1)" stroke="#008f6a" stroke-width="2"/>
+        <text x="270" y="343" text-anchor="middle" font-size="13" fill="#008f6a" font-weight="700" font-family="'Noto Sans JP',sans-serif">A－B が 9 に一致</text>
+        <text x="270" y="365" text-anchor="middle" font-size="19" fill="#008f6a" font-weight="900" font-family="'Noto Sans JP',sans-serif">→ 判定は Nine</text>
+      </svg>
+    </div>
+
+    <!-- 右カラム: 説明 -->
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 経費照合の作業で考える</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>合計・差額・掛け算・割り算の<strong>4パターン</strong>を順番に計算</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>「16－7」が基準額の<strong>9と一致</strong></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>1つでも一致すれば → <strong>Nine と判定</strong></p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ Nineになる条件</div>
+        <ul class="box-list">
+          <li>A+B、A－B、A×B、A÷B のいずれか</li>
+          <li>その<strong>1つでも 9 に等しい</strong>とき</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">❌ Neinになる例</div>
+        <ul class="box-list">
+          <li>66 7 → どの式も9にならない</li>
+          <li>9 9 → 18・0・81・1 で一致なし</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

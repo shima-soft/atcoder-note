@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex自動化の選択フローチャート</title>
+<style>
+:root { --bg:#f9fafb; --surface:#eff1f7; --card:#fff; --border:#dde2ec; --text:#1a1d2e; --muted:#5e6a8a; --blue:#1a96c0; --green:#008f6a; --yellow:#a86a00; }
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { min-height:100vh; background:var(--bg); color:var(--text); font-family:'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif; }
+header { position:fixed; top:0; left:0; right:0; height:52px; background:var(--card); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 1.5rem; gap:1rem; z-index:2; }
+header a { color:var(--muted); text-decoration:none; font-weight:700; font-size:.85rem; }
+header strong { font-size:.94rem; }
+main { padding:88px 1.5rem 3rem; max-width:720px; margin:0 auto; }
+.head { text-align:center; margin-bottom:1.6rem; }
+.head h1 { font-size:1.6rem; font-weight:900; margin-bottom:.4rem; }
+.head p { color:var(--muted); line-height:1.7; }
+.card, .result { background:var(--card); border:2px solid var(--border); border-radius:8px; padding:1.2rem; margin-bottom:1rem; }
+.card.active { border-color:var(--blue); box-shadow:0 4px 16px rgba(26,150,192,.12); }
+.card.done { opacity:.55; pointer-events:none; }
+.num { display:inline-flex; width:28px; height:28px; border-radius:50%; background:var(--blue); color:#fff; align-items:center; justify-content:center; font-weight:900; margin-bottom:.7rem; }
+.q { font-size:1.05rem; font-weight:900; margin-bottom:.4rem; }
+.hint { color:var(--muted); font-size:.86rem; line-height:1.65; margin-bottom:.9rem; }
+.choices { display:grid; gap:.6rem; }
+button { border:1px solid var(--border); border-radius:8px; background:var(--surface); padding:.75rem .9rem; text-align:left; font-weight:800; color:var(--text); cursor:pointer; }
+button:hover { border-color:var(--blue); background:rgba(26,150,192,.08); }
+.result { display:none; border-color:var(--green); }
+.result.show { display:block; }
+.result h2 { color:var(--green); margin-bottom:.4rem; }
+.result p { line-height:1.7; color:var(--muted); }
+.reset { text-align:center; margin-top:1rem; }
+.reset button { text-align:center; background:var(--card); }
+</style>
+</head>
+<body>
+<header><a href="index.html">記事に戻る</a><strong>Codex自動化の選択フローチャート</strong></header>
+<main>
+  <div class="head">
+    <h1>どのCodex自動化を使う？</h1>
+    <p>3つの質問で、Thread automation / Standalone automation / codex exec / GitHub Actionの候補を選びます。</p>
+  </div>
+  <div class="card active" id="q1">
+    <span class="num">1</span>
+    <div class="q">同じ会話の文脈を残したいですか？</div>
+    <p class="hint">デプロイ見守り、長いレビュー、継続調査のように「前回の続き」が重要ならYES。</p>
+    <div class="choices">
+      <button onclick="answer('thread')">YES - 同じスレッドに戻ってほしい</button>
+      <button onclick="next('q1','q2')">NO - 毎回独立していてよい</button>
+    </div>
+  </div>
+  <div class="card" id="q2" style="display:none">
+    <span class="num">2</span>
+    <div class="q">GitHub ActionsやCIの中で動かしますか？</div>
+    <p class="hint">PRレビュー、CI失敗調査、リリース前チェックなど、ワークフロー内で走らせるならYES。</p>
+    <div class="choices">
+      <button onclick="next('q2','q3')">YES - CI/CDに組み込みたい</button>
+      <button onclick="answer('standalone')">NO - Codexアプリ内で定期点検したい</button>
+    </div>
+  </div>
+  <div class="card" id="q3" style="display:none">
+    <span class="num">3</span>
+    <div class="q">GitHub上のPRやCIイベントをきっかけにしますか？</div>
+    <p class="hint">GitHubのイベントで起動するならCodex GitHub Action。自前スクリプトやログ処理ならcodex exec。</p>
+    <div class="choices">
+      <button onclick="answer('action')">YES - GitHubイベントで起動したい</button>
+      <button onclick="answer('exec')">NO - スクリプトやバッチで呼びたい</button>
+    </div>
+  </div>
+  <div class="result" id="result"></div>
+  <div class="reset"><button onclick="resetFlow()">最初からやり直す</button></div>
+</main>
+<script>
+const results = {
+  thread: ['Thread automation', '同じ会話に戻る定期実行が向いています。見守り、継続レビュー、長い調査など、前回までの文脈を残したい作業で使います。'],
+  standalone: ['Standalone automation', '毎回独立して実行する自動化が向いています。週次点検、複数プロジェクトの確認、Triageで結果を分けたい作業に合います。'],
+  action: ['Codex GitHub Action', 'PRやCIイベントをきっかけにCodexを動かす構成が向いています。権限とAPIキーの扱いを最小化して設計します。'],
+  exec: ['codex exec', 'スクリプトやバッチ処理からCodexを非対話で呼び出す形が向いています。ログ要約やJSON出力などの機械処理に合います。']
+};
+function next(current, target) {
+  document.getElementById(current).classList.add('done');
+  const nextEl = document.getElementById(target);
+  nextEl.style.display = 'block';
+  nextEl.classList.add('active');
+  nextEl.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+function answer(key) {
+  document.querySelectorAll('.card').forEach(el => el.classList.add('done'));
+  const [title, body] = results[key];
+  const result = document.getElementById('result');
+  result.innerHTML = `<h2>${title}</h2><p>${body}</p>`;
+  result.classList.add('show');
+  result.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+function resetFlow() {
+  document.querySelectorAll('.card').forEach(el => { el.classList.remove('done','active'); el.style.display = el.id === 'q1' ? 'block' : 'none'; });
+  document.getElementById('q1').classList.add('active');
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('result').innerHTML = '';
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+.code-wrap {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+}
+.code-panel {
+  flex: 0 0 56%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .7rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.5);
+  margin-bottom: .4rem;
+  letter-spacing: .06em;
+}
+pre {
+  margin: 0;
+  flex: 1;
+  overflow: hidden;
+}
+pre code.hljs { background: transparent !important; padding: 0 !important; font-size: .78rem; line-height: 1.55; }
+.desc-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow: hidden;
+}
+.desc-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .5rem .75rem;
+}
+.desc-block h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .2rem;
+}
+.desc-block p {
+  font-size: .8rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.line-badge {
+  display: inline-block;
+  background: rgba(217,96,24,.12);
+  color: var(--orange);
+  border-radius: 6px;
+  padding: .05rem .4rem;
+  font-size: .68rem;
+  font-weight: 700;
+  font-family: 'Consolas', monospace;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード（19行）</span>
+    <h2 class="slide-title">Python 実装 — 全探索 + 点対称チェック</h2>
+  </div>
+  <div class="slide-body">
+    <div class="code-wrap">
+
+      <!-- コードパネル -->
+      <div class="code-panel">
+        <div class="code-label">PYTHON — ABC455B Spiral Galaxy</div>
+        <pre><code class="language-python">H, W = map(int, input().split())
+S = []
+for i in range(H):
+    S.append(input())
+count = 0
+for h1 in range(H):
+    for h2 in range(h1, H):
+        for w1 in range(W):
+            for w2 in range(w1, W):
+                ok = True
+                for i in range(h1, h2 + 1):
+                    for j in range(w1, w2 + 1):
+                        pr = h1 + h2 - i
+                        pc = w1 + w2 - j
+                        if S[i][j] != S[pr][pc]:
+                            ok = False
+                if ok:
+                    count += 1
+print(count)</code></pre>
+      </div>
+
+      <!-- 解説カラム -->
+      <div class="desc-col">
+
+        <div class="desc-block">
+          <h4>📥 入力受け取り（1〜4行目）</h4>
+          <p><span class="line-badge">L1</span> H と W を整数で取得<br>
+             <span class="line-badge">L2-4</span> H 行分の文字列をリスト S に追加。<br>
+             S[0]="<code style="font-size:.72rem">.#</code>"、S[1]="<code style="font-size:.72rem">#.</code>"… のように使う</p>
+        </div>
+
+        <div class="desc-block">
+          <h4>🔁 4重ループで全長方形を列挙（6〜9行目）</h4>
+          <p><span class="line-badge">h1,h2</span> 開始行・終了行（h1≤h2）<br>
+             <span class="line-badge">w1,w2</span> 開始列・終了列（w1≤w2）<br>
+             これで全ての長方形を網羅できる</p>
+        </div>
+
+        <div class="desc-block">
+          <h4>✅ 点対称チェック（10〜16行目）</h4>
+          <p>長方形内の全マス (i, j) について<br>
+             <strong>pr = h1+h2−i, pc = w1+w2−j</strong> を計算し<br>
+             <strong>S[i][j] == S[pr][pc]</strong> を確認。<br>
+             1つでも違ったら ok = False にする</p>
+        </div>
+
+        <div class="desc-block">
+          <h4>➕ カウントと出力（17〜19行目）</h4>
+          <p>全セルがOKなら count を +1。<br>
+             最後に count を出力する</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

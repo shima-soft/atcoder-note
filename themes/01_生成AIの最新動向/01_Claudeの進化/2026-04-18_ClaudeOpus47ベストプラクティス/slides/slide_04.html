@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box svg { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(0,143,106,.12);color:var(--green)">POINT 02</span>
+    <h2 class="slide-title">タスクを包括的に指定する技術</h2>
+    <div class="hitokoto" style="border-color:var(--green)">
+      <span class="badge" style="background:var(--green)">一言で</span>
+      <p>あいまいな指示は途中停止の原因。最初に「何を・どのレベルまで・何をやらないか」を伝える</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <!-- SVG図 -->
+      <div class="diagram-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 360" font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif">
+          <defs>
+            <marker id="arrowG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#008f6a"></path>
+            </marker>
+            <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#c9162e"></path>
+            </marker>
+            <marker id="arrowM" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#5e6a8a"></path>
+            </marker>
+          </defs>
+
+          <!-- 上段: 曖昧な指示ルート (NG) -->
+          <text x="295" y="14.4" text-anchor="middle" font-size="15" font-weight="700" fill="#c9162e">❌ 曖昧な指示ルート</text>
+
+          <!-- 曖昧指示ボックス -->
+          <rect x="30" y="32" width="160" height="52" rx="10" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.4"></rect>
+          <text x="110" y="53" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">曖昧な指示</text>
+          <text x="110" y="68" text-anchor="middle" font-size="9" fill="#5e6a8a">「いい感じにまとめて」</text>
+          <text x="110" y="78" text-anchor="middle" font-size="9" fill="#5e6a8a">「適当に作って」</text>
+
+          <line x1="190" y1="58" x2="230" y2="58" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR)"></line>
+
+          <!-- Claude悩む -->
+          <rect x="231" y="32" width="120" height="52" rx="10" fill="#fff" stroke="#dde2ec" stroke-width="1.4"></rect>
+          <text x="291" y="53" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Claude</text>
+          <text x="291" y="68" text-anchor="middle" font-size="9" fill="#5e6a8a">仕様が不明…</text>
+          <text x="291" y="78" text-anchor="middle" font-size="9" fill="#c9162e">途中停止・確認待ち</text>
+
+          <line x1="351" y1="58" x2="391" y2="58" stroke="#c9162e" stroke-width="1.6" marker-end="url(#arrowR)"></line>
+
+          <!-- NG結果 -->
+          <rect x="392" y="32" width="168" height="52" rx="10" fill="rgba(201,22,46,.06)" stroke="#c9162e" stroke-width="1.4"></rect>
+          <text x="476" y="50" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">❌ 手直し多発</text>
+          <text x="476" y="65" text-anchor="middle" font-size="9" fill="#5e6a8a">手戻り・コスト増大</text>
+          <text x="476" y="78" text-anchor="middle" font-size="9" fill="#5e6a8a">仕上がりも期待外れ</text>
+
+          <!-- 区切り -->
+          <line x1="30" y1="101" x2="560" y2="101" stroke="#dde2ec" stroke-width="1"></line>
+
+          <!-- 下段: 包括的な指示ルート (OK) -->
+          <text x="295" y="122.6" text-anchor="middle" font-size="15" font-weight="700" fill="#008f6a">✅ 包括的な指示ルート</text>
+
+          <!-- 指示要素: 3つのブロック -->
+          <!-- box: 何を -->
+          <rect x="30" y="140" width="120" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="90" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">① 何を</text>
+          <text x="90" y="177" text-anchor="middle" font-size="9" fill="#5e6a8a">タスクの全体像</text>
+          <text x="90" y="190" text-anchor="middle" font-size="9" fill="#5e6a8a">最終ゴール</text>
+
+          <!-- box: どのレベルまで -->
+          <rect x="168" y="140" width="140" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="238" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">② どのレベルまで</text>
+          <text x="238" y="177" text-anchor="middle" font-size="9" fill="#5e6a8a">成功の基準</text>
+          <text x="238" y="190" text-anchor="middle" font-size="9" fill="#5e6a8a">品質・形式の指定</text>
+
+          <!-- box: 何をしない -->
+          <rect x="326" y="140" width="130" height="58" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.4"></rect>
+          <text x="391" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">③ 何をしない</text>
+          <text x="391" y="177" text-anchor="middle" font-size="9" fill="#5e6a8a">除外事項</text>
+          <text x="391" y="190" text-anchor="middle" font-size="9" fill="#5e6a8a">スコープ外の明示</text>
+
+          <!-- 矢印: 3つ合流 → Claude -->
+          <line x1="90" y1="198" x2="90" y2="220" stroke="#008f6a" stroke-width="1.4"></line>
+          <line x1="238" y1="198" x2="238" y2="220" stroke="#008f6a" stroke-width="1.4"></line>
+          <line x1="391" y1="198" x2="391" y2="220" stroke="#008f6a" stroke-width="1.4"></line>
+          <line x1="90" y1="220" x2="470" y2="220" stroke="#008f6a" stroke-width="1.4"></line>
+          <line x1="280" y1="220" x2="280" y2="240" stroke="#008f6a" stroke-width="1.4" marker-end="url(#arrowG)"></line>
+
+          <!-- Claude自律実行 -->
+          <rect x="196" y="241" width="168" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.8"></rect>
+          <text x="280" y="261" text-anchor="middle" font-size="12" font-weight="700" fill="#008f6a">Claude 自律実行</text>
+          <text x="280" y="276" text-anchor="middle" font-size="9" fill="#5e6a8a">確認なし / 完成まで走り切る</text>
+          <text x="280" y="287" text-anchor="middle" font-size="9" fill="#5e6a8a">（途中停止なし）</text>
+
+          <line x1="364" y1="267" x2="406" y2="267" stroke="#008f6a" stroke-width="1.8" marker-end="url(#arrowG)"></line>
+
+          <!-- OK結果 -->
+          <rect x="407" y="241" width="150" height="52" rx="10" fill="rgba(0,143,106,.08)" stroke="#008f6a" stroke-width="1.8"></rect>
+          <text x="482" y="261" text-anchor="middle" font-size="11" font-weight="700" fill="#008f6a">✅ 完成品</text>
+          <text x="482" y="276" text-anchor="middle" font-size="9" fill="#5e6a8a">期待通りの仕上がり</text>
+          <text x="482" y="287" text-anchor="middle" font-size="9" fill="#5e6a8a">手直し最小</text>
+
+          <!-- バッチ質問の補足 -->
+          <rect x="30" y="304.1" width="530" height="39.9" rx="8" fill="rgba(26,150,192,.06)" stroke="#1a96c0" stroke-width="1"></rect>
+          <text x="295" y="320.7" text-anchor="middle" font-size="12" fill="#1a96c0" font-weight="600">💡 途中で質問したいことが出てきたら「まとめてバッチ質問」がコツ — 都度割り込まない</text>
+          <text x="295" y="338" text-anchor="middle" font-size="12" fill="#5e6a8a">質問は一度まとめてClaudeに渡し、回答を受け取ってから作業再開</text>
+        </svg>
+      </div>
+
+      <!-- 右カラム -->
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">💼 実務シナリオ: 提案書作成</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--red)">❌</span>
+            <p>「A社向けの提案書を作って」（ゴール・形式・除外不明）</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--green)">✅</span>
+            <p>「A社向けにクラウド移行の提案書をPPT形式6枚で。価格比較はCFO確認済みのものを使い、競合言及は除く」</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 指示テンプレート</div>
+          <ul class="box-list">
+            <li>「〇〇を使って△△し、□□形式で出力」</li>
+            <li>「〜〜は不要、〜〜は除く」を必ず追加</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 曖昧ワードに注意</div>
+          <ul class="box-list">
+            <li>「いい感じに」「適当に」「なんとなく」</li>
+            <li>成功基準なし → 仕上がりが毎回ブレる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

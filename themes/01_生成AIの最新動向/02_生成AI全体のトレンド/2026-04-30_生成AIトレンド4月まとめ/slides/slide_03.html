@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">ANTHROPIC ★★★</span>
+    <h2 class="slide-title">Claude Opus 4.7 — 4つの進化ポイント</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>エージェント時代を見据えた「使い続けられるAI」へ — 価格据え置きで全面強化</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+
+      <!-- SVG diagram -->
+      <div class="diagram-box">
+        <svg viewBox="0 0 600 395" xmlns="http://www.w3.org/2000/svg"
+             font-family="'Noto Sans JP','Hiragino Sans','Meiryo',sans-serif" width="100%" height="100%">
+
+          <!-- Header bar -->
+          <rect width="600" height="42" fill="#7a3bce" rx="10"/>
+          <rect y="32" width="600" height="10" fill="#7a3bce"/>
+          <text x="300" y="27" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">2026年4月16日リリース — Anthropic</text>
+
+          <!--
+            box[0] x=10  y=52  w=278 h=148
+            box[1] x=312 y=52  w=278 h=148
+            box[2] x=10  y=212 w=278 h=148
+            box[3] x=312 y=212 w=278 h=148
+          -->
+
+          <!-- Box 1: ビジョン機能 -->
+          <rect x="10" y="52" width="278" height="148" fill="#fff" rx="10" stroke="#dde2ec"/>
+          <rect x="10" y="52" width="278" height="5" fill="#1a96c0" rx="3"/>
+          <text x="26" y="74" fill="#1a1d2e" font-size="11" font-weight="700">👁 ビジョン機能</text>
+          <text x="26" y="100" fill="#7a3bce" font-size="25" font-weight="900">3倍以上</text>
+          <text x="26" y="122" fill="#5e6a8a" font-size="10">画像解析解像度が大幅向上</text>
+          <text x="26" y="140" fill="#5e6a8a" font-size="10">860 px → 2,576 px（長辺最大値）</text>
+          <text x="26" y="158" fill="#5e6a8a" font-size="10">決算資料・図表スクリーンショットが鮮明に</text>
+          <text x="26" y="176" fill="#1a96c0" font-size="9" font-weight="700">📌 高解像度画像ほど処理コストが増加することに注意</text>
+
+          <!-- Box 2: コーディング性能 -->
+          <rect x="312" y="52" width="278" height="148" fill="#fff" rx="10" stroke="#dde2ec"/>
+          <rect x="312" y="52" width="278" height="5" fill="#1a96c0" rx="3"/>
+          <text x="328" y="74" fill="#1a1d2e" font-size="11" font-weight="700">💻 コーディング性能</text>
+          <text x="328" y="100" fill="#7a3bce" font-size="25" font-weight="900">+13%</text>
+          <text x="328" y="122" fill="#5e6a8a" font-size="10">Anthropic 内部ベンチマーク比</text>
+          <text x="328" y="140" fill="#5e6a8a" font-size="10">旧版で未対応だった 4 タスクも解決可能に</text>
+          <text x="328" y="158" fill="#5e6a8a" font-size="10">Excel マクロ・データ整形コードも自動生成</text>
+          <text x="328" y="176" fill="#1a96c0" font-size="9" font-weight="700">📌 生成コードは必ずテスト環境で動作確認を</text>
+
+          <!-- Box 3: エージェント機能 -->
+          <rect x="10" y="212" width="278" height="148" fill="#fff" rx="10" stroke="#dde2ec"/>
+          <rect x="10" y="212" width="278" height="5" fill="#1a96c0" rx="3"/>
+          <text x="26" y="234" fill="#1a1d2e" font-size="11" font-weight="700">🤖 エージェント機能</text>
+          <text x="26" y="258" fill="#7a3bce" font-size="17" font-weight="900">長時間タスク安定化</text>
+          <text x="26" y="280" fill="#5e6a8a" font-size="10">数時間の自律処理でも途中停止が激減</text>
+          <text x="26" y="298" fill="#5e6a8a" font-size="10">ツール呼び出しエラーが大幅減少</text>
+          <text x="26" y="316" fill="#5e6a8a" font-size="10">障害発生時は自動で別手順を再試行</text>
+          <text x="26" y="336" fill="#1a96c0" font-size="9" font-weight="700">📌 指示は「何を・どこまで・何をしない」を明示</text>
+
+          <!-- Box 4: エフォート制御 -->
+          <rect x="312" y="212" width="278" height="148" fill="#fff" rx="10" stroke="#dde2ec"/>
+          <rect x="312" y="212" width="278" height="5" fill="#1a96c0" rx="3"/>
+          <text x="328" y="234" fill="#1a1d2e" font-size="11" font-weight="700">🎚 エフォート制御</text>
+          <text x="328" y="257" fill="#7a3bce" font-size="25" font-weight="900">5段階</text>
+          <!-- Effort level pills y=268 -->
+          <rect x="328" y="266" width="28" height="16" fill="#eff1f7" rx="8"/>
+          <text x="342" y="278" text-anchor="middle" fill="#5e6a8a" font-size="9">min</text>
+          <rect x="360" y="266" width="28" height="16" fill="#eff1f7" rx="8"/>
+          <text x="374" y="278" text-anchor="middle" fill="#5e6a8a" font-size="9">low</text>
+          <rect x="392" y="266" width="30" height="16" fill="#eff1f7" rx="8"/>
+          <text x="407" y="278" text-anchor="middle" fill="#5e6a8a" font-size="9">high</text>
+          <rect x="426" y="266" width="36" height="16" fill="#7a3bce" rx="8"/>
+          <text x="444" y="278" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">xhigh</text>
+          <rect x="466" y="266" width="30" height="16" fill="#eff1f7" rx="8"/>
+          <text x="481" y="278" text-anchor="middle" fill="#5e6a8a" font-size="9">max</text>
+          <text x="328" y="302" fill="#5e6a8a" font-size="10">新レベル「xhigh」を追加（4→5段階に）</text>
+          <text x="328" y="320" fill="#5e6a8a" font-size="10">Claude Code のデフォルトが xhigh に変更</text>
+          <text x="328" y="336" fill="#1a96c0" font-size="9" font-weight="700">📌 全作業を max にするとコスト増。用途で使い分けを</text>
+
+          <!-- Footer: price -->
+          <rect x="10" y="370" width="580" height="18" fill="rgba(122,59,206,.08)" rx="6"/>
+          <text x="300" y="383" text-anchor="middle" fill="#7a3bce" font-size="10" font-weight="700">価格は Opus 4.6 と据え置き — 入力 $5 / 出力 $25（100万トークンあたり）</text>
+        </svg>
+      </div>
+
+      <!-- Info column -->
+      <div class="info-col">
+        <div class="biz-example" style="border-left:3px solid var(--blue)">
+          <div class="biz-title">💼 営業・事務職での活用例</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-purple)">1</span>
+            <p>決算資料のスクリーンショットをそのまま貼り付け→要点3行で要約</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-purple)">2</span>
+            <p>エフォートを「xhigh」に設定して契約書や重要文書をレビュー</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-purple)">3</span>
+            <p>「競合5社調査してA4一枚にまとめて」とエージェントに丸投げ</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 使えるシーン</div>
+          <ul class="box-list">
+            <li>図表・グラフ入り資料の内容把握と報告書作成</li>
+            <li>定型業務の自動化スクリプト生成（Excelマクロ等）</li>
+            <li>複数時間かかるリサーチ・まとめ作業の自動実行</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>新トークナイザー採用で同文章でもトークン量が最大35%増加</li>
+            <li>Opus 4.6向けプロンプトは動作確認必須（挙動が変わる場合あり）</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

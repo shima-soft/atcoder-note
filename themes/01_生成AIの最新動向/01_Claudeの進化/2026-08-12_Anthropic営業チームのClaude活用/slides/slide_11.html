@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+  flex: 1;
+  overflow: hidden;
+}
+.ov-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .4rem;
+  position: relative;
+  overflow: hidden;
+}
+.ov-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  border-radius: 14px 0 0 14px;
+  background: var(--blue);
+}
+.ov-head { display: flex; align-items: center; gap: .5rem; }
+.ov-icon { font-size: 1.35rem; line-height: 1; }
+.ov-title { font-size: .95rem; font-weight: 900; color: var(--text); }
+.ov-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 99px;
+  font-size: .68rem;
+  font-weight: 700;
+  width: fit-content;
+  background: rgba(26,150,192,.12);
+  color: var(--blue);
+}
+.ov-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+.ov-highlight { font-size: .78rem; font-weight: 700; color: var(--blue); margin-top: .1rem; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">WRAP UP</span>
+    <h2 class="slide-title">持ち帰るのはこの4つ</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>AI に仕事を渡したのではなく、下ごしらえを渡して、判断だけ手元に残した</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">🔁</span>
+          <span class="ov-title">変わったのは分担</span>
+        </div>
+        <span class="ov-badge">仕事が消えたわけではない</span>
+        <div class="ov-desc">探す・調べる・書き出すまでを Claude が担い、人は読んで直して決める。送信ボタンは最後まで人の手にある</div>
+        <div class="ov-highlight">1日5時間あった返信作業が、確認の作業に変わった</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">📚</span>
+          <span class="ov-title">効き目の源は渡した材料</span>
+        </div>
+        <span class="ov-badge">賢さより文脈</span>
+        <div class="ov-desc">よくある質問と回答、自分の書きぶり、狙う顧客像、判断の基準。渡した材料の質が、そのまま出てくるものの質になる</div>
+        <div class="ov-highlight">材料がないまま自動化しても、答えは揺れる</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">🙋</span>
+          <span class="ov-title">作ったのは営業担当本人</span>
+        </div>
+        <span class="ov-badge">プログラミングスキルは不要</span>
+        <div class="ov-desc">やったことは、資料の置き場所を教える・やってほしい手順を日本語で書く・結果に感想を返す。この3つだけ</div>
+        <div class="ov-highlight">現場の人が自分の仕事に合わせて組み立てられる</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-head">
+          <span class="ov-icon">👣</span>
+          <span class="ov-title">明日からの第一歩</span>
+        </div>
+        <span class="ov-badge">まず1枚から</span>
+        <div class="ov-desc">よく聞かれる質問と、自分の最善の回答を1枚にまとめる。自動化を考えるのはその後でよい</div>
+        <div class="ov-highlight">仕組みより先に、知識をそろえる</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

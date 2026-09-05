@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ABC472 D - Bomber Mad 解説</title>
+<link rel="stylesheet" href="../../specs/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+
+.diagram-box {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: .8rem 1rem;
+  flex-direction: column;
+  gap: .5rem;
+}
+.code-label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .04em;
+  margin-bottom: .2rem;
+}
+pre {
+  width: 100%;
+  background: #282c34;
+  border-radius: 10px;
+  padding: .7rem 1rem;
+  font-size: .72rem;
+  line-height: 1.48;
+  overflow: hidden;
+}
+.info-col { gap: .5rem; }
+.line-explain {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .45rem .8rem;
+}
+.line-explain h4 {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: .2rem;
+}
+.line-explain p {
+  font-size: .78rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.line-explain code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .05rem .35rem;
+  font-size: .74rem;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--orange);
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード②</span>
+    <h2 class="slide-title">多始点BFS本体（19行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">実装</span>
+      <p>安全マスを距離0で全部キューへ。あとは普通の幅優先探索</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <!-- 左カラム: コードブロック -->
+    <div class="diagram-box">
+      <div class="code-label">PYTHON（中盤）</div>
+      <pre><code class="language-python">q = deque()
+for i in range(H):
+    for j in range(W):
+        if S[i][j] == '.' and not row[i]:
+            if not col[j]:
+                dist[i][j] = 0
+                q.append((i, j))
+
+while q:
+    i, j = q.popleft()
+    for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        ni = i + di
+        nj = j + dj
+        if 0 <= ni < H and 0 <= nj < W:
+            if S[ni][nj] == '.':
+                if dist[ni][nj] == -1:
+                    dist[ni][nj] = dist[i][j] + 1
+                    q.append((ni, nj))</code></pre>
+    </div>
+
+    <!-- 右カラム: 行ごとの解説 -->
+    <div class="info-col">
+
+      <div class="line-explain">
+        <h4>1〜8行目 — 出発点を全部キューへ</h4>
+        <p>「空マス ∧ 行にも列にも爆弾なし」＝<strong>安全マス</strong>を、距離 0 にしてキューに追加する。ここが多始点BFSの心臓部。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>9〜11行目 — 先頭を取り出す</h4>
+        <p><code>while q:</code> でキューが空になるまで回す。<code>i, j = q.popleft()</code> は「座標のペア (i, j) を取り出す」書き方。</p>
+      </div>
+
+      <div class="line-explain">
+        <h4>12〜19行目 — 4方向へ広げる</h4>
+        <p>上下左右 (di, dj) を試し、<strong>グリッド内・空マス・未訪問</strong>（dist が −1）の3条件を満たしたら距離＋1で登録。</p>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ ポイント</div>
+        <ul class="box-list">
+          <li>爆弾マスには<strong>絶対に距離を書かない</strong>（<code>S[ni][nj] == '.'</code> のチェック）</li>
+          <li><code>dist == -1</code> の確認で二重登録を防ぐ</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.body-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .7rem; flex: 1; overflow: hidden;
+}
+.section-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: .7rem .9rem;
+  display: flex; flex-direction: column; gap: .35rem; overflow: hidden;
+}
+.sec-label {
+  font-size: .68rem; font-weight: 700; color: var(--purple);
+  text-transform: uppercase; letter-spacing: .06em;
+  padding-bottom: .3rem; border-bottom: 1px solid var(--border);
+}
+.sec-title { font-size: .82rem; font-weight: 900; color: var(--text); }
+.sec-body { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+.code-block {
+  background: #1a1d2e; color: #e8e8e8; border-radius: 8px;
+  padding: .5rem .7rem; font-family: 'Consolas', monospace;
+  font-size: .68rem; line-height: 1.6; overflow: hidden;
+  margin-top: .15rem;
+}
+.code-block .cm { color: #6a7a9a; }
+.code-block .kw { color: #c792ea; }
+.code-block .fn { color: #82aaff; }
+.code-block .str { color: #c3e88d; }
+.code-block .num { color: #f78c6c; }
+.hint-box {
+  background: rgba(122,59,206,.06); border: 1px solid rgba(122,59,206,.2);
+  border-radius: 10px; padding: .4rem .6rem;
+  font-size: .76rem; color: var(--text); line-height: 1.6;
+}
+.pointer-viz {
+  display: flex; flex-direction: column; gap: .15rem;
+  background: var(--surface); border-radius: 8px; padding: .4rem .5rem;
+  margin: .15rem 0;
+}
+.pv-row { display: flex; align-items: center; gap: .3rem; }
+.pv-label { font-size: .65rem; font-weight: 700; color: var(--muted); min-width: 20px; }
+.pv-bar {
+  display: flex; gap: 2px; flex: 1;
+}
+.pv-cell {
+  width: 24px; height: 24px; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 700; background: var(--card);
+  border: 1px solid var(--border);
+}
+.pv-cell.r1 { border-color: var(--green); background: rgba(0,143,106,.1); }
+.pv-cell.r2 { border-color: var(--orange); background: rgba(217,96,24,.1); }
+.pv-cell.both { border-color: var(--purple); background: rgba(122,59,206,.1); }
+.arrow-label { font-size: .65rem; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">解法ステップ 2</span>
+    <h2 class="slide-title">尺取り法（2ポインタ）で総和 K の区間を数える</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">仕組み</span>
+      <p>B が単調非減少 → (l, r) を前方向にしか進めない</p>
+    </div>
+  </div>
+  <div class="body-grid slide-body">
+    <div class="section-card">
+      <div class="sec-label">アルゴリズム</div>
+      <div class="sec-title">count_eq(B, K) — 2ポインタで O(W)</div>
+      <div class="sec-body">
+        r₁ = 「B[r] − B[l] ≥ K」となる最小の r<br>
+        r₂ = 「B[r] − B[l] > K」となる最小の r<br>
+        → r₂ − r₁ が l 固定時の条件を満たす r の個数
+      </div>
+      <div class="code-block">
+<span class="kw">def</span> <span class="fn">count_eq</span>(arr, k):<br>
+&nbsp;&nbsp;n = <span class="fn">len</span>(arr)<br>
+&nbsp;&nbsp;r1 = r2 = <span class="num">0</span><br>
+&nbsp;&nbsp;res = <span class="num">0</span><br>
+&nbsp;&nbsp;<span class="kw">for</span> l <span class="kw">in</span> <span class="fn">range</span>(n - <span class="num">1</span>):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;r1 = <span class="fn">max</span>(r1, l + <span class="num">1</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;r2 = <span class="fn">max</span>(r2, l + <span class="num">1</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">while</span> r1 &lt; n <span class="kw">and</span> arr[r1] - arr[l] &lt; k:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r1 += <span class="num">1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">while</span> r2 &lt; n <span class="kw">and</span> arr[r2] - arr[l] &lt;= k:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r2 += <span class="num">1</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;res += r2 - r1<br>
+&nbsp;&nbsp;<span class="kw">return</span> res
+      </div>
+      <div class="hint-box">
+        💡 arr = B, k = K で呼ぶと B[r]−B[l]=K のペア数が求まる。<br>
+        「≥K」と「>K」の差分で「=K」を得る。
+      </div>
+    </div>
+    <div class="section-card">
+      <div class="sec-label">動作イメージ</div>
+      <div class="sec-title">B = [0, 1, 2, 2, 3], K = 1 の場合</div>
+      <div class="pointer-viz">
+        <div class="pv-row">
+          <span class="pv-label">B</span>
+          <div class="pv-bar">
+            <span class="pv-cell">0</span>
+            <span class="pv-cell">1</span>
+            <span class="pv-cell">2</span>
+            <span class="pv-cell">2</span>
+            <span class="pv-cell">3</span>
+          </div>
+        </div>
+        <div class="pv-row">
+          <span class="pv-label" style="color:var(--green)">r₁</span>
+          <div class="pv-bar">
+            <span class="pv-cell" style="opacity:.3">0</span>
+            <span class="pv-cell r1">1</span>
+            <span class="pv-cell">2</span>
+            <span class="pv-cell">2</span>
+            <span class="pv-cell">3</span>
+          </div>
+          <span class="arrow-label">B[r]−B[l] ≥ 1</span>
+        </div>
+        <div class="pv-row">
+          <span class="pv-label" style="color:var(--orange)">r₂</span>
+          <div class="pv-bar">
+            <span class="pv-cell" style="opacity:.3">0</span>
+            <span class="pv-cell" style="opacity:.3">1</span>
+            <span class="pv-cell r2">2</span>
+            <span class="pv-cell">2</span>
+            <span class="pv-cell">3</span>
+          </div>
+          <span class="arrow-label">B[r]−B[l] > 1（≥ 2）</span>
+        </div>
+        <div style="font-size:.72rem;color:var(--text);margin-top:.1rem;">
+          l=0 のとき: r₁=1, r₂=2 → 1個 (r=1) ✅
+        </div>
+      </div>
+      <div class="sec-body" style="margin-top:.2rem;">
+        l が 1 増えると r₁, r₂ も右に進むだけで戻らない。<br>
+        各ポインタは合計でたかだか W 回しか進まない → <strong>O(W)</strong>。
+      </div>
+      <div class="hint-box" style="margin-top:auto;">
+        💡 全要素が非負という性質が鍵。<br>
+        負の値があると単調性が崩れ 2ポインタは使えない。
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

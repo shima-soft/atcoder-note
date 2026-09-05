@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>結果 手数は3分の1 コストは数回で元が取れる</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-purple);color:#fff">実験結果 ②</span>
+    <h2 class="slide-title">結果② 手数は3分の1、コストは数回で元が取れる</h2>
+    <div class="hitokoto">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>迷いが減り平均36回→9.9回。作るコストは一度きりで、他機種にも流用できる</p>
+    </div>
+  </div>
+  <div class="pattern-cols slide-body">
+    <div class="diagram-box">
+      <svg width="620" height="430" viewBox="0 0 620 430" role="img" aria-label="手数削減とコストと汎化の図">
+        <!-- 手数 BEFORE/AFTER -->
+        <text x="34" y="22" font-size="12" font-weight="900" fill="#5e6a8a">① 1タスクあたりの平均手数（AppWorld-Normal）</text>
+        <rect x="20" y="30" width="580" height="110" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <!-- BEFORE -->
+        <text x="34" y="56" font-size="11" font-weight="700" fill="#5e6a8a">BEFORE（Skillなし）</text>
+        <rect x="34" y="64" width="332" height="22" rx="6" fill="#c9cfdd"/>
+        <text x="40" y="79" font-size="11" fill="#1a1d2e">36.1回</text>
+        <text x="380" y="79" font-size="11" fill="#5e6a8a">あちこち試して迷子に</text>
+        <!-- AFTER -->
+        <text x="34" y="102" font-size="11" font-weight="700" fill="#7a3bce">AFTER（SkillSmith）</text>
+        <rect x="34" y="110" width="91" height="22" rx="6" fill="#7a3bce"/>
+        <text x="40" y="125" font-size="11" font-weight="700" fill="#ffffff">9.9回</text>
+        <!-- 固定xで縦揃え  -->
+        <text x="380" y="125" font-size="11" font-weight="700" fill="#7a3bce">約 72% 削減・最短ルートで完遂</text>
+
+        <!-- コスト -->
+        <text x="34" y="156" font-size="12" font-weight="900" fill="#5e6a8a">② コスト — 一度作れば使い回し</text>
+        <rect x="20" y="164" width="580" height="92" rx="12" fill="#ffffff" stroke="#dde2ec"/>
+        <!-- クラウド毎回 -->
+        <rect x="34" y="176" width="260" height="28" rx="8" fill="#fdecee" stroke="#e8b0b8"/>
+        <text x="164" y="194" text-anchor="middle" font-size="11" font-weight="700" fill="#c9162e">クラウドAgent: 1回ごとに課金</text>
+        <text x="420" y="194" font-size="11" fill="#5e6a8a">使うほど積み上がる</text>
+        <!-- SkillSmith -->
+        <rect x="34" y="210" width="260" height="28" rx="8" fill="#f4efff" stroke="#c9b3ec"/>
+        <text x="164" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#7a3bce">SkillSmith: オフラインで一度だけ</text>
+        <text x="420" y="228" font-size="11" fill="#5e6a8a">本番は課金ゼロ</text>
+        <text x="34" y="246" font-size="10.5" fill="#1a1d2e">論文の試算: 数十タスクで元が取れる（破線が閾値）。以降は“使い放題”になる</text>
+        <line x1="34" y1="250" x2="580" y2="250" stroke="#7a3bce" stroke-dasharray="4 3"/>
+
+        <!-- 汎化 -->
+        <text x="34" y="274" font-size="12" font-weight="900" fill="#5e6a8a">③ 作ったSkillは他機種にも流用できる（RQ4）</text>
+        <rect x="20" y="282" width="580" height="86" rx="12" fill="#f4efff" stroke="#c9b3ec"/>
+        <rect x="34" y="296" width="170" height="52" rx="10" fill="#7a3bce" stroke="#7a3bce"/>
+        <text x="119" y="316" text-anchor="middle" font-size="11" font-weight="900" fill="#ffffff">Qwen3.6-27Bで作成</text>
+        <text x="119" y="332" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.85)">元のSkill</text>
+        <text x="214" y="324" text-anchor="middle" font-size="16" fill="#7a3bce">→</text>
+        <rect x="230" y="296" width="90" height="52" rx="10" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="275" y="316" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">Qwen3-8B</text>
+        <text x="275" y="332" text-anchor="middle" font-size="10" fill="#008f6a">そのまま効く</text>
+        <rect x="330" y="296" width="90" height="52" rx="10" fill="#ffffff" stroke="#c9b3ec"/>
+        <text x="375" y="316" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1d2e">他SLM</text>
+        <text x="375" y="332" text-anchor="middle" font-size="10" fill="#008f6a">再作成不要</text>
+        <rect x="430" y="296" width="156" height="52" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="508" y="316" text-anchor="middle" font-size="11" fill="#1a1d2e">モデルをまたいで汎化</text>
+        <text x="508" y="332" text-anchor="middle" font-size="10" fill="#5e6a8a">作り直しコストなし</text>
+        <text x="34" y="362" font-size="11" fill="#5e6a8a">一度のオフライン学習で作ったSkillが、別サイズのローカルモデルでも同様に効く — 全端末に配れる</text>
+
+        <!-- 注記 -->
+        <rect x="20" y="372" width="580" height="44" rx="10" fill="#ffffff" stroke="#dde2ec"/>
+        <text x="34" y="390" font-size="11" font-weight="700" fill="#1a1d2e">分解実験（Ablation）でも: 初期Skillだけより進化後がさらに伸び、束ねる・圧縮する各工程が寄与</text>
+        <text x="34" y="406" font-size="10" fill="#5e6a8a">＝「作る」だけでなく「失敗で磨く」までが効いている</text>
+      </svg>
+    </div>
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">たとえるなら</div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">1</span><p>マニュアルなしの新人は36回も寄り道</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">2</span><p>手順書ありなら10回で最短ルート</p></div>
+        <div class="biz-step"><span class="snum" style="background:var(--g-purple)">3</span><p>作る手間は最初だけ。コピーはタダ</p></div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ うれしい副産物</div>
+        <ul class="box-list">
+          <li>手数が減る＝待ち時間も減る</li>
+          <li>全社員の端末に同じSkillを配れる</li>
+        </ul>
+      </div>
+      <div class="ng-box">
+        <div class="box-title">⚠️ 注意</div>
+        <ul class="box-list">
+          <li>代表タスク180件は事前に用意が必要（対象業務を決める）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

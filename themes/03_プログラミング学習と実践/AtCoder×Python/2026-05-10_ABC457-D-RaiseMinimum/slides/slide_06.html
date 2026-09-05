@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<style>
+pre code.hljs { background: transparent !important; padding: 0 !important; }
+.code-panel {
+  flex: 0 0 54%;
+  background: #282c34;
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.code-label {
+  font-size: .68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .06em;
+  margin-bottom: .4rem;
+}
+pre {
+  flex: 1;
+  overflow: hidden;
+  font-size: .78rem;
+  line-height: 1.7;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">コード①</span>
+    <h2 class="slide-title">入力処理 + 判定関数 ok(m)（15 行）</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">ポイント</span>
+      <p>ops が K を超えた時点で即 False を返し、無駄な加算を省く</p>
+    </div>
+  </div>
+
+  <div class="pattern-cols slide-body">
+    <!-- 左: コード -->
+    <div class="code-panel">
+      <div class="code-label">PYTHON — 入力 + 判定関数</div>
+      <pre><code class="language-python">import sys
+input = sys.stdin.readline
+
+N, K = map(int, input().split())
+A = list(map(int, input().split()))
+
+def ok(m):
+    ops = 0
+    for i in range(N):
+        if A[i] < m:
+            diff = m - A[i]
+            cnt = (diff + i) // (i + 1)
+            ops += cnt
+            if ops > K:
+                return False
+    return True</code></pre>
+    </div>
+
+    <!-- 右: 解説 -->
+    <div class="info-col">
+      <div class="biz-example">
+        <div class="biz-title">🔍 ok(m) の処理の流れ</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">1</span>
+          <p><code>for i in range(N)</code> で各要素を順番に確認（0始まり）</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">2</span>
+          <p>A[i] &lt; m のとき、不足量 <code>diff = m - A[i]</code></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">3</span>
+          <p>操作1回で <code>i+1</code> 増える（1始まりの番号 = i+1）<br>
+            切り上げ: <code>(diff + i) // (i + 1)</code></p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">4</span>
+          <p>累積 ops が K を超えたら即 <code>False</code>（早期終了）</p>
+        </div>
+      </div>
+      <div class="ok-box">
+        <div class="box-title">✅ インデックスの対応</div>
+        <ul class="box-list">
+          <li>問題の i は 1 始まり、Python の <code>range(N)</code> は 0 始まり</li>
+          <li>Python の <code>i</code> ＝ 問題の <code>i − 1</code></li>
+          <li>1回の操作で加わる量 = 問題の i = <code>i + 1</code></li>
+          <li>切り上げ式: <code>(diff + i) // (i+1)</code> = ⌈diff ÷ (i+1)⌉</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll());</script>
+</body></html>

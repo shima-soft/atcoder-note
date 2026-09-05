@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.compare-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow: hidden;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .78rem;
+}
+th {
+  padding: .4rem .7rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+th.th-46 { background: rgba(94,106,138,.08); }
+th.th-47 { background: rgba(122,59,206,.08); color: var(--purple); }
+td {
+  padding: .42rem .7rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  line-height: 1.5;
+  vertical-align: middle;
+}
+tr:nth-child(even) td { background: rgba(239,241,247,.5); }
+tr:last-child td { border-bottom: none; }
+.item-label {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: .76rem;
+}
+.old-val { color: #5e6a8a; }
+.new-val { color: var(--purple); font-weight: 700; }
+.badge-old {
+  display: inline-block;
+  background: rgba(94,106,138,.1);
+  color: var(--muted);
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+}
+.badge-new {
+  display: inline-block;
+  background: rgba(122,59,206,.12);
+  color: var(--purple);
+  font-size: .65rem;
+  font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 99px;
+}
+.badge-improve {
+  display: inline-block;
+  background: rgba(0,143,106,.12);
+  color: var(--green);
+  font-size: .62rem;
+  font-weight: 700;
+  padding: .08rem .35rem;
+  border-radius: 99px;
+  margin-left: .3rem;
+}
+.note-box {
+  background: rgba(122,59,206,.06);
+  border: 1px solid rgba(122,59,206,.2);
+  border-radius: 10px;
+  padding: .5rem .9rem;
+  font-size: .78rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.note-box strong { color: var(--purple); }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">COMPARE</span>
+    <h2 class="slide-title">Opus 4.6 vs 4.7 — 主要比較</h2>
+    <div class="hitokoto" style="border-color:var(--purple)">
+      <span class="badge" style="background:var(--purple)">一言で</span>
+      <p>どこが変わったか一覧で把握。移行時の「なぜ動作が違う？」がこれで解消</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="compare-layout">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">比較項目</th>
+            <th class="th-46" style="width:36%">Opus 4.6（旧）</th>
+            <th class="th-47" style="width:36%">Opus 4.7（新）</th>
+            <th style="width:8%">評価</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="item-label">思考予算</td>
+            <td class="old-val"><span class="badge-old">手動</span> thinking_budget=N を指定</td>
+            <td class="new-val"><span class="badge-new">自動</span> アダプティブ思考で自動調整</td>
+            <td><span class="badge-improve">改善</span></td>
+          </tr>
+          <tr>
+            <td class="item-label">レスポンス長</td>
+            <td class="old-val">固定傾向（やや長め）</td>
+            <td class="new-val">タスク複雑さに応じて可変</td>
+            <td><span class="badge-improve">改善</span></td>
+          </tr>
+          <tr>
+            <td class="item-label">デフォルト冗長性</td>
+            <td class="old-val">高め（前置き・まとめが多い）</td>
+            <td class="new-val">低め（必要最小限・要求で増やせる）</td>
+            <td><span class="badge-improve">改善</span></td>
+          </tr>
+          <tr>
+            <td class="item-label">ツール使用</td>
+            <td class="old-val">積極的（すぐ使う）</td>
+            <td class="new-val">慎重（推論で先に解決しようとする）</td>
+            <td><span class="badge-improve">改善</span></td>
+          </tr>
+          <tr>
+            <td class="item-label">サブエージェント</td>
+            <td class="old-val">比較的よく生成（コスト高め）</td>
+            <td class="new-val">必要な場合のみ（コスト最適）</td>
+            <td><span class="badge-improve">改善</span></td>
+          </tr>
+          <tr>
+            <td class="item-label">エフォート設定</td>
+            <td class="old-val">非対応</td>
+            <td class="new-val">5段階（low / medium / high / xhigh / max）</td>
+            <td><span class="badge-improve">新機能</span></td>
+          </tr>
+          <tr>
+            <td class="item-label">得意領域</td>
+            <td class="old-val">汎用（幅広いタスク）</td>
+            <td class="new-val">コーディング・エージェントタスクに特化</td>
+            <td><span class="badge-improve">特化</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note-box">
+        💡 <strong>移行の鍵:</strong> thinking_budget 削除 + effort: "xhigh" 追加 + プロンプト簡素化 の3点だけでOK。
+        Opus 4.7はより少ない指示で、より高い品質を出せるようになった。
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .55rem .85rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.term-head {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.term-name    { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-link    { font-size: .65rem; color: var(--blue); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.term-link:hover { text-decoration: underline; }
+.term-desc    { font-size: .78rem; color: var(--muted); line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+          <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+        </div>
+        <p class="term-desc">日本発のプログラミングコンテストプラットフォーム。定期的に開催されるABCなどのコンテストで力試しができる。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ABC</span>
+          <span class="term-reading">エービーシー</span>
+        </div>
+        <p class="term-desc">AtCoder Beginner Contest の略。毎週土曜開催で、A〜H問題（難易度順）から構成される初心者〜上級者向けコンテスト。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">set()</span>
+          <span class="term-reading">セット</span>
+          <a class="term-link" href="https://docs.python.org/ja/3/library/stdtypes.html#set" target="_blank">Python公式 🔗</a>
+        </div>
+        <p class="term-desc">Pythonの組み込み型。リストから重複を除いた「集合」を作る。set([1,2,1]) → {1,2}。要素の順序は保証されない。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">len()</span>
+          <span class="term-reading">レン / レングス</span>
+        </div>
+        <p class="term-desc">Pythonの組み込み関数。リスト・集合・文字列などの要素数を返す。len({1,2,3}) → 3。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">map()</span>
+          <span class="term-reading">マップ</span>
+        </div>
+        <p class="term-desc">各要素に関数を適用するPython組み込み関数。map(int, "1 2 3".split()) で文字列を整数リストに変換するのが典型的な使い方。</p>
+      </div>
+
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">🐍 Python 豆知識</span>
+          <span class="term-reading">競プロで有利な理由</span>
+        </div>
+        <p class="term-desc">set()・len()・sorted() がそのまま使える。コードが短くなるぶん「解法の考え方」に集中できるのが競プロで Python を使う最大のメリット。</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

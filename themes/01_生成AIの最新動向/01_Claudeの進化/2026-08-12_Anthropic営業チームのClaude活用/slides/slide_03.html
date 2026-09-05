@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.wide-diagram {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  padding: .5rem;
+}
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">OVERVIEW</span>
+    <h2 class="slide-title">1日の流れ — いつ、誰が動いているか</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>Claude は決まった時間に勝手に動き、人はその結果を見て決める。この2段構えが全体の骨格</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="wide-diagram">
+      <!--
+        列: box[i].x = 42 + i * 234  (boxWidth=210, gap=24) → 42, 276, 510, 744 / 最右right=954
+        ゾーン背景: x = 42 - 12 = 30 / right = 954 + 12 = 966 → w=936
+        viewBox: 0 0 1000 460
+      -->
+      <svg viewBox="0 0 1000 460" width="1152" height="530" font-family="'Noto Sans JP','Meiryo',sans-serif">
+        <text x="500" y="36" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1d2e">Claude が動く時間と、人が動く時間</text>
+
+        <!-- 時間帯ヘッダ -->
+        <text x="147" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">深夜（自動で実行）</text>
+        <text x="381" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">朝いちばん</text>
+        <text x="615" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">日中 1時間ごと</text>
+        <text x="849" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#5e6a8a">必要になったとき</text>
+
+        <!-- Claude レーン（主役・青） -->
+        <rect x="30" y="92" width="936" height="150" rx="14" fill="rgba(26,150,192,.06)" stroke="#1a96c0" stroke-width="1.5"/>
+        <text x="44" y="112" font-size="12" font-weight="700" fill="#1a96c0">Claude が自動で動く</text>
+        <rect x="42" y="122" width="210" height="100" rx="10" fill="#ffffff" stroke="#9fd4e6" stroke-width="1.2"/>
+        <text x="147" y="158" text-anchor="middle" font-size="13" fill="#1a1d2e">100社超をまとめて</text>
+        <text x="147" y="177" text-anchor="middle" font-size="13" fill="#1a1d2e">下調べする</text>
+        <text x="147" y="196" text-anchor="middle" font-size="13" fill="#5e6a8a">5つの道具に接続</text>
+        <polygon points="258,164 271,172 258,180" fill="#9fd4e6"/>
+        <rect x="276" y="122" width="210" height="100" rx="10" fill="#ffffff" stroke="#9fd4e6" stroke-width="1.2"/>
+        <text x="381" y="158" text-anchor="middle" font-size="13" fill="#1a1d2e">会社ごとの要約と</text>
+        <text x="381" y="177" text-anchor="middle" font-size="13" fill="#1a1d2e">点数、次の打ち手が</text>
+        <text x="381" y="196" text-anchor="middle" font-size="13" fill="#1a1d2e">そろっている</text>
+        <polygon points="492,164 505,172 492,180" fill="#9fd4e6"/>
+        <rect x="510" y="122" width="210" height="100" rx="10" fill="#ffffff" stroke="#9fd4e6" stroke-width="1.2"/>
+        <text x="615" y="167" text-anchor="middle" font-size="13" fill="#1a1d2e">受信箱を確認して</text>
+        <text x="615" y="186" text-anchor="middle" font-size="13" fill="#1a1d2e">返信の下書きを作る</text>
+        <polygon points="726,164 739,172 726,180" fill="#9fd4e6"/>
+        <rect x="744" y="122" width="210" height="100" rx="10" fill="#ffffff" stroke="#9fd4e6" stroke-width="1.2"/>
+        <text x="849" y="167" text-anchor="middle" font-size="13" fill="#1a1d2e">頼めばその場で</text>
+        <text x="849" y="186" text-anchor="middle" font-size="13" fill="#1a1d2e">調べて答える</text>
+
+        <!-- 人レーン（脇役・グレー） -->
+        <rect x="30" y="268" width="936" height="124" rx="14" fill="#ffffff" stroke="#dde2ec" stroke-width="1.2"/>
+        <text x="44" y="288" font-size="12" font-weight="700" fill="#5e6a8a">人が確認して決める</text>
+        <rect x="42" y="298" width="210" height="74" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="147" y="340" text-anchor="middle" font-size="13" fill="#5e6a8a">（人は寝ている）</text>
+        <rect x="276" y="298" width="210" height="74" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="381" y="330" text-anchor="middle" font-size="13" fill="#5e6a8a">要約を読んで</text>
+        <text x="381" y="349" text-anchor="middle" font-size="13" fill="#5e6a8a">今日の相手を決める</text>
+        <rect x="510" y="298" width="210" height="74" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="615" y="330" text-anchor="middle" font-size="13" fill="#5e6a8a">下書きを直して</text>
+        <text x="615" y="349" text-anchor="middle" font-size="13" fill="#5e6a8a">送信する</text>
+        <rect x="744" y="298" width="210" height="74" rx="10" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="849" y="330" text-anchor="middle" font-size="13" fill="#5e6a8a">結果を見て</text>
+        <text x="849" y="349" text-anchor="middle" font-size="13" fill="#5e6a8a">次の一手を決める</text>
+
+        <!-- 凡例 -->
+        <rect x="30" y="418" width="14" height="14" rx="3" fill="rgba(26,150,192,.06)" stroke="#1a96c0" stroke-width="1.5"/>
+        <text x="50" y="430" font-size="12" fill="#5e6a8a">Claude が自動で動く（人の操作なし）</text>
+        <rect x="320" y="418" width="14" height="14" rx="3" fill="#f7f8fa" stroke="#dde2ec" stroke-width="1"/>
+        <text x="340" y="430" font-size="12" fill="#5e6a8a">人が読んで判断する</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</body>
+</html>

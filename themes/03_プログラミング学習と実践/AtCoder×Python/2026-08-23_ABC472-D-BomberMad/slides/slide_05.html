@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ABC472 D - Bomber Mad 解説</title>
+  <link rel="stylesheet" href="../../specs/common.css">
+</head>
+<body>
+  <div class="slide">
+    <div class="slide-header">
+      <span class="label" style="background:var(--g-orange);color:#fff">アルゴリズム解説 (3)</span>
+      <h2 class="slide-title">安全マス側から一気に広げる</h2>
+      <div class="hitokoto" style="border-color:var(--orange)">
+        <span class="badge" style="background:var(--orange)">一言で</span>
+        <p>多始点BFS —— 「始点を全部キューへ」以外は普通のBFSと同じ</p>
+      </div>
+    </div>
+    <div class="pattern-cols slide-body">
+      <div class="diagram-box">
+        <svg viewBox="0 0 620 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- 図タイトル -->
+          <text x="310" y="48" text-anchor="middle" font-size="16" font-weight="bold" fill="var(--text)">安全マス（緑）を距離0にして、波のように広げる</text>
+
+          <!-- 1行目 -->
+          <rect x="107" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="136" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="165" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="194" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="223" y="76" width="58" height="58" rx="6" fill="#3a3f55"/>
+          <text x="252" y="112" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="281" y="76" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="310" y="109" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="339" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="368" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="397" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="426" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="455" y="76" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="484" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+
+          <!-- 2行目 -->
+          <rect x="107" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="136" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="165" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="194" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="223" y="134" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="252" y="168" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="281" y="134" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="310" y="168" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="339" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="368" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="397" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="426" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+          <rect x="455" y="134" width="58" height="58" rx="6" fill="var(--green)" stroke="var(--green)" stroke-width="2"/>
+          <text x="484" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">0</text>
+
+          <!-- 3行目 -->
+          <rect x="107" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="136" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="165" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="194" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="223" y="192" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="252" y="225" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="281" y="192" width="58" height="58" rx="6" fill="#3a3f55"/>
+          <text x="310" y="228" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="339" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="368" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="397" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="426" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+          <rect x="455" y="192" width="58" height="58" rx="6" fill="#f2a06a"/>
+          <text x="484" y="226" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">1</text>
+
+          <!-- 4行目 -->
+          <rect x="107" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="136" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="165" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="194" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="223" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="252" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">3</text>
+          <rect x="281" y="250" width="58" height="58" rx="6" fill="#3a3f55"/>
+          <text x="310" y="286" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">#</text>
+          <rect x="339" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="368" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="397" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="426" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+          <rect x="455" y="250" width="58" height="58" rx="6" fill="#e3e6ef"/>
+          <text x="484" y="283" text-anchor="middle" font-size="15" fill="var(--muted)">2</text>
+
+          <!-- 凡例 -->
+          <rect x="30" y="326" width="16" height="16" rx="4" fill="var(--green)"/>
+          <text x="52" y="340" text-anchor="start" font-size="14" fill="var(--text)">距離0 安全マス</text>
+          <rect x="196" y="326" width="16" height="16" rx="4" fill="#f2a06a"/>
+          <text x="218" y="340" text-anchor="start" font-size="14" fill="var(--text)">距離1</text>
+          <rect x="300" y="326" width="16" height="16" rx="4" fill="#e3e6ef"/>
+          <text x="322" y="340" text-anchor="start" font-size="14" fill="var(--text)">距離2以上</text>
+          <rect x="430" y="326" width="16" height="16" rx="4" fill="#3a3f55"/>
+          <text x="452" y="340" text-anchor="start" font-size="14" fill="var(--text)">爆弾</text>
+
+          <!-- 手順ピル -->
+          <rect x="12" y="372" width="185" height="46" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="104" y="400" text-anchor="middle" font-size="13.5" fill="var(--text)">① 全安全マスを出発点に</text>
+          <path d="M 202 395 L 214 395" stroke="var(--orange)" stroke-width="2.5" fill="none" marker-end="url(#arrow-p)"/>
+          <rect x="219" y="372" width="185" height="46" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="312" y="400" text-anchor="middle" font-size="13.5" fill="var(--text)">② 隣へ距離＋1で広げる</text>
+          <path d="M 409 395 L 421 395" stroke="var(--orange)" stroke-width="2.5" fill="none" marker-end="url(#arrow-p)"/>
+          <rect x="426" y="372" width="185" height="46" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          <text x="518" y="400" text-anchor="middle" font-size="13.5" fill="var(--text)">③ 全マスの距離が確定</text>
+
+          <defs>
+            <marker id="arrow-p" markerWidth="7" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="userSpaceOnUse">
+              <path d="M0,0 L0,7 L7,3.5 Z" fill="var(--orange)"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <h4 style="margin:0 0 .3rem 0;font-size:.78rem">💡 例えるなら</h4>
+          <p style="font-size:.82rem;line-height:1.55">倉庫（安全マス）<strong>全部から同時に</strong>トラックを出発させ、各地点に「最初に届いた便の所要時間」を書き込む作業。どの地点も<strong>最寄りの倉庫</strong>の値が必ず先に届く。</p>
+        </div>
+        <div class="ok-box">
+          <div class="box-title" style="color:var(--green)">✅ なぜ正しいのか</div>
+          <ul class="box-list">
+            <li>BFSは近い場所から<strong>順番に</strong>訪れる</li>
+            <li>だから各マスに最初に書き込まれた数＝最寄り安全マスまでの距離</li>
+          </ul>
+        </div>
+        <div class="ok-box">
+          <div class="box-title" style="color:var(--green)">✅ 実装もシンプル</div>
+          <ul class="box-list">
+            <li>普通のBFSとの違いは初期化だけ</li>
+            <li>「距離0のマスをキューに全部入れてから始める」。道具はキュー1本</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

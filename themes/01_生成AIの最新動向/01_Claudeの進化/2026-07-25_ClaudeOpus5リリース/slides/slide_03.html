@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-blue);color:#fff">COST PERFORMANCE</span>
+    <h2 class="slide-title">最上位モデルに迫る賢さを半額で</h2>
+    <div class="hitokoto" style="border-color:var(--blue)">
+      <span class="badge" style="background:var(--blue)">一言で</span>
+      <p>料金は Opus 4.8 と同じまま、コーディング評価の成績は2倍以上。最上位 Fable 5 とは0.5%差まで接近した</p>
+    </div>
+  </div>
+  <div class="slide-body">
+    <div class="pattern-cols">
+      <div class="diagram-box">
+        <!--
+          描画領域は x=30〜390（幅360）に統一。中心 x=210
+          BEFORE bar: x=30, w=170 / AFTER bar: x=30, w=360（2倍以上を表現）
+          費用カード: x=30, w=360（バーと左右端を揃える）
+          viewBox: 0 0 460 270
+        -->
+        <svg viewBox="0 0 460 270" width="640" height="376" font-family="'Noto Sans JP','Meiryo',sans-serif">
+          <!-- タイトル -->
+          <text x="210" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1d2e">同じ料金でどれだけ賢くなったか</text>
+
+          <!-- BEFORE -->
+          <text x="30" y="52" font-size="10" font-weight="700" fill="#5e6a8a">BEFORE（Opus 4.8）</text>
+          <rect x="30" y="60" width="170" height="36" rx="6" fill="#dde2ec"/>
+          <text x="115" y="82" text-anchor="middle" font-size="11" font-weight="700" fill="#5e6a8a">成績 1.0（基準）</text>
+
+          <!-- 矢印 -->
+          <text x="210" y="118" text-anchor="middle" font-size="20" fill="#1a96c0">↓</text>
+          <text x="210" y="136" text-anchor="middle" font-size="10" font-weight="700" fill="#1a96c0">料金は据え置きのまま</text>
+
+          <!-- AFTER -->
+          <text x="30" y="155" font-size="10" font-weight="700" fill="#1a96c0">AFTER（Opus 5）</text>
+          <rect x="30" y="163" width="360" height="36" rx="6" fill="rgba(26,150,192,.18)" stroke="#1a96c0" stroke-width="1.5"/>
+          <text x="210" y="185" text-anchor="middle" font-size="11" font-weight="700" fill="#1a96c0">成績 2倍以上</text>
+
+          <!-- 費用カード -->
+          <rect x="30" y="213" width="360" height="32" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+          <text x="210" y="233" text-anchor="middle" font-size="10" font-weight="700" fill="#1a1d2e">1タスクあたりの費用は Opus 4.8 より低下</text>
+
+          <!-- 補足 -->
+          <text x="210" y="262" text-anchor="middle" font-size="9" fill="#5e6a8a">※ Frontier-Bench v0.1 での内部計測</text>
+        </svg>
+      </div>
+      <div class="info-col">
+        <div class="biz-example">
+          <div class="biz-title">📋 事務職の活用例</div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">1</span>
+            <p>毎月の請求データの突き合わせを Claude にまとめて依頼する</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">2</span>
+            <p>難しい部分だけ上位モデルに切り替える、という使い分けが不要に</p>
+          </div>
+          <div class="biz-step">
+            <span class="snum" style="background:var(--g-blue)">3</span>
+            <p>同じ料金でもやり直しが減り、1件あたりの実質コストが下がる</p>
+          </div>
+        </div>
+        <div class="ok-box">
+          <div class="box-title">✅ 使えるシーン</div>
+          <ul class="box-list">
+            <li>毎日くり返す定型業務（Pro / Max なら追加料金なし）</li>
+            <li>品質を落とさずに費用を抑えたい大量処理</li>
+          </ul>
+        </div>
+        <div class="ng-box">
+          <div class="box-title">⚠️ 注意点</div>
+          <ul class="box-list">
+            <li>ベンチマークはあくまで目安。自社の業務で試すこと</li>
+            <li>サイバーセキュリティ分野は Mythos 5 が依然上位</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

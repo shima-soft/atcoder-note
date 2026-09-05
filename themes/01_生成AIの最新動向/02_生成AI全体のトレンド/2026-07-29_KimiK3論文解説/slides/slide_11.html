@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<title>用語解説</title>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(122,59,206,.12);color:var(--purple)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Kimi K3</span><span class="term-reading">キミ ケイスリー</span></div>
+        <p class="term-desc">2026年7月に公開された2.8兆パラメータのAIモデル。モデル本体まで公開されている点が特徴。</p>
+        <a class="term-link" href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank">huggingface.co</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Moonshot AI</span><span class="term-reading">ムーンショット エーアイ</span></div>
+        <p class="term-desc">Kimiシリーズを開発する中国のAI企業。対話AI「Kimi」で知られる。</p>
+        <a class="term-link" href="https://www.moonshot.ai" target="_blank">moonshot.ai</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">MoE</span><span class="term-reading">エムオーイー</span></div>
+        <p class="term-desc">混合エキスパート。多数の専門家のうち一部だけを動かし、巨大でも計算量を抑える仕組み。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">パラメータ</span><span class="term-reading">パラメータ</span></div>
+        <p class="term-desc">AIが学習で身につけた「調整つまみ」の数。多いほど表現力が高くなりやすい。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">トークン</span><span class="term-reading">トークン</span></div>
+        <p class="term-desc">文章を細かく区切った処理単位。日本語ではおよそ1文字〜数文字で1トークン。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">コンテキストウィンドウ</span><span class="term-reading">コンテキストウィンドウ</span></div>
+        <p class="term-desc">一度に渡せる文章量の上限。AIの「見渡せる机の広さ」にあたる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">KDA</span><span class="term-reading">ケイディーエー</span></div>
+        <p class="term-desc">Kimi Delta Attention。長い文脈を安く処理する仕組み。要所を見渡す MLA と3対1で組み合わせる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Attention Residuals</span><span class="term-reading">アテンション レジデュアルズ</span></div>
+        <p class="term-desc">深い層からでも前のブロックの情報を直接取りに行ける仕組み。情報の目減りを防ぐ。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SFT</span><span class="term-reading">エスエフティー</span></div>
+        <p class="term-desc">教師あり微調整。良質なお手本を見せて、AIに作業の進め方を覚えさせる工程。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">RL</span><span class="term-reading">アールエル（強化学習）</span></div>
+        <p class="term-desc">うまくいった行動にご褒美を与えて上達させる学習方法。長時間の作業訓練に使われる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">MOPD</span><span class="term-reading">エムオーピーディー</span></div>
+        <p class="term-desc">複数の先生モデルの答え方を1つの生徒モデルに写し取る手法（多教師オンポリシー蒸留）。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">オープンウェイト</span><span class="term-reading">オープンウェイト</span></div>
+        <p class="term-desc">モデル本体（重み）が公開され、誰でも入手・改変・再配布できる状態。動かす設備は別途必要。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .45rem; flex: 1; overflow: hidden;
+}
+.term-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: .5rem .8rem;
+  display: flex; flex-direction: column; gap: .15rem;
+}
+.term-head { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.term-name { font-size: .88rem; font-weight: 900; color: var(--text); }
+.term-reading { font-size: .72rem; color: var(--muted); font-weight: 500; }
+.term-link { font-size: .65rem; color: var(--blue); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.term-link:hover { text-decoration: underline; }
+.term-desc { font-size: .76rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">尺取り法</span>
+          <span class="term-reading">しゃくとりほう</span>
+        </div>
+        <p class="term-desc">2つのポインタ（添え字）を条件に応じて前進させながら範囲を走査するアルゴリズム。しゃくとり虫のようにポインタが動くことから命名。単調性のある配列に対して有効。</p>
+        <a class="term-link" href="https://qiita.com/drken/items/ecd1a472d3a0a7db8d56" target="_blank">詳しくは 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">累積和（Prefix Sum）</span>
+          <span class="term-reading">るいせきわ</span>
+        </div>
+        <p class="term-desc">配列の先頭から i 番目までの総和を事前計算しておくテクニック。区間の総和を O(1) で求められる。B[r]−B[l] で区間 [l+1, r] の和。</p>
+        <a class="term-link" href="https://qiita.com/drken/items/56a6b68edef8fc605821" target="_blank">詳しくは 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">2次元累積和</span>
+          <span class="term-reading">にじげんるいせきわ</span>
+        </div>
+        <p class="term-desc">2次元配列の各セルについて、左上からの矩形和を事前計算する手法。長方形領域の和を O(1) で求められる。本問でも列ごとの和を高速に計算するために内部的に使用。</p>
+        <a class="term-link" href="https://qiita.com/drken/items/56a6b68edef8fc605821" target="_blank">詳しくは 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">単調非減少</span>
+          <span class="term-reading">たんちょうひげんしょう</span>
+        </div>
+        <p class="term-desc">数列の各要素が前の要素以上である性質（広義の増加）。A[j] ≥ 0 なら累積和 B は単調非減少になる。尺取り法が使える条件。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">2ポインタ</span>
+          <span class="term-reading">にポインタ</span>
+        </div>
+        <p class="term-desc">2つのインデックス（ポインタ）を使って配列を走査する手法。尺取り法の別名。各ポインタが高々1回ずつ配列をなめるため O(N) で動作する。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">O(H²W)</span>
+          <span class="term-reading">オー・エイチにじょう・ダブリュー</span>
+        </div>
+        <p class="term-desc">本解法の時間計算量。H が500、W が500 のとき約1.25×10⁸ 回の操作。競プロでは「500³ までは Python で通ることがある」とされるが、定数倍に注意が必要。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">AtCoder</span>
+          <span class="term-reading">アットコーダー</span>
+        </div>
+        <p class="term-desc">日本発の競技プログラミングプラットフォーム。毎週土曜 21:00 から ABC（AtCoder Beginner Contest）が開催。初心者からトッププロまで幅広く参加。</p>
+        <a class="term-link" href="https://atcoder.jp" target="_blank">atcoder.jp 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">グリッド（格子）</span>
+          <span class="term-reading">グリッド（こうし）</span>
+        </div>
+        <p class="term-desc">行と列からなる2次元のマス目構造。競プロでは文字列の配列として与えられることが多い。本問では H×W の各セルが 0 または 1。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

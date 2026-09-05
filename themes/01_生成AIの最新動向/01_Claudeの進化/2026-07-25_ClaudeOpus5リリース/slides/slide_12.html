@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: .5rem;
+  flex: 1;
+  overflow: hidden;
+}
+.term-card { padding: .7rem .8rem; justify-content: center; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Anthropic</span>
+          <span class="term-reading">アンソロピック</span>
+        </div>
+        <p class="term-desc">Claude を開発した米国のAI安全研究企業（2021年設立）。</p>
+        <a class="term-link" href="https://www.anthropic.com" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Claude Opus 5</span>
+          <span class="term-reading">クロード オーパス ファイブ</span>
+        </div>
+        <p class="term-desc">2026年7月24日公開の最新モデル。日常使いできる価格帯の主力。</p>
+        <a class="term-link" href="https://www.anthropic.com/news/claude-opus-5" target="_blank">anthropic.com 🔗</a>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Fable 5</span>
+          <span class="term-reading">フェイブル ファイブ</span>
+        </div>
+        <p class="term-desc">Anthropic の最上位モデル。今回 Opus 5 が半額でほぼ同等に迫った。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Mythos 5</span>
+          <span class="term-reading">ミュトス ファイブ</span>
+        </div>
+        <p class="term-desc">比較対象のモデル。サイバー攻撃や生物学の領域では Opus 5 より高能力とされる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">トークン</span>
+          <span class="term-reading">トークン</span>
+        </div>
+        <p class="term-desc">AIが文章を処理する最小単位。日本語1文字≒1〜3トークン。料金計算の基準。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">エフォート</span>
+          <span class="term-reading">エフォート</span>
+        </div>
+        <p class="term-desc">「考える深さ」の設定。low / medium / high / xhigh / max の5段階。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">ベンチマーク</span>
+          <span class="term-reading">ベンチマーク</span>
+        </div>
+        <p class="term-desc">AIの性能を測る共通テスト。学力テストの偏差値のようなもの。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">エージェント</span>
+          <span class="term-reading">エージェント</span>
+        </div>
+        <p class="term-desc">AIが自分で判断しながら複数の作業を進める働き方。有能な代行者のイメージ。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">API</span>
+          <span class="term-reading">エーピーアイ</span>
+        </div>
+        <p class="term-desc">システム同士の「連携口」。自社の仕組みに Claude を組み込む際に使う。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">Constitution</span>
+          <span class="term-reading">コンスティテューション</span>
+        </div>
+        <p class="term-desc">Claude の行動指針をまとめた文書。社内でいう行動規範にあたる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">アライメント</span>
+          <span class="term-reading">アライメント</span>
+        </div>
+        <p class="term-desc">AIを人の意図や価値観に沿って動かすこと。「筋が通っている」度合い。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head">
+          <span class="term-name">デューデリジェンス</span>
+          <span class="term-reading">デューデリジェンス</span>
+        </div>
+        <p class="term-desc">取引や契約の前に、相手企業の実態やリスクを詳しく調べること。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

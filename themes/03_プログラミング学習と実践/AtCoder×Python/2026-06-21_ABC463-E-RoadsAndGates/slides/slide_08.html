@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><link rel="stylesheet" href="common.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"><style>.code-card code{font-size:.72rem;line-height:1.42}</style></head><body><div class="slide surface"><div class="slide-header"><span class="label" style="background:var(--g-orange);color:#fff">コード①</span><h2 class="slide-title">入力と道路グラフ（18行）</h2><p class="slide-sub">道路は双方向なので、同じコストで2方向へ登録する</p></div><div class="code-layout slide-body"><div class="code-card"><pre><code class="language-python">import sys
+import heapq
+
+input = sys.stdin.readline
+N, M, Y = map(int, input().split())
+
+graph = []
+for _ in range(N + 2):
+    graph.append([])
+
+for _ in range(M):
+    u, v, T = map(int, input().split())
+    u -= 1
+    v -= 1
+    graph[u].append((v, T))
+    graph[v].append((u, T))
+
+X = list(map(int, input().split()))</code></pre></div><div class="code-notes"><div class="biz-example"><div class="biz-title">読みどころ</div><div class="biz-step"><span class="snum" style="background:var(--orange)">1</span><p>N+2頂点ぶんの隣接リストを用意</p></div><div class="biz-step"><span class="snum" style="background:var(--green)">2</span><p>都市番号を0始まりへ変換</p></div><div class="biz-step"><span class="snum" style="background:var(--blue)">3</span><p>道路をu→v、v→uへ追加</p></div></div><div class="note-box"><div class="box-title">内包表記を使わない</div><ul class="box-list"><li>初学者が追いやすいよう、graphはforループで作る</li><li>heapqは最小候補を高速に取り出す道具</li></ul></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script><script>document.addEventListener('DOMContentLoaded',()=>hljs.highlightAll())</script></body></html>
+

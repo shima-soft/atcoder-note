@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="slide surface">
+  <div class="slide-header">
+    <span class="label" style="background:rgba(26,150,192,.12);color:var(--blue)">GLOSSARY</span>
+    <h2 class="slide-title">用語解説</h2>
+    <p class="slide-sub">このスライドで登場した用語の読み方と概要</p>
+  </div>
+  <div class="slide-body">
+    <div class="glossary-grid">
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Codex</span><span class="term-reading">コーデックス</span><a class="term-link" href="https://developers.openai.com/codex" target="_blank">公式</a></div>
+        <p class="term-desc">OpenAIのコーディングエージェント。開発作業を理解し、編集・レビュー・実行を手伝う。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Plugin</span><span class="term-reading">プラグイン</span></div>
+        <p class="term-desc">Skill、App、MCP serverなどを束ねる再利用パッケージ。チーム配布にも使える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Skill</span><span class="term-reading">スキル</span></div>
+        <p class="term-desc">特定作業の手順書。Codexが必要に応じて読み、正しい進め方を守るために使う。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">App</span><span class="term-reading">アップ</span></div>
+        <p class="term-desc">GmailやSlackなど外部サービスとの接続。認証やサービス側の規約確認が重要。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">MCP</span><span class="term-reading">エム・シー・ピー</span></div>
+        <p class="term-desc">Model Context Protocol。外部ツールや共有情報をCodexへ渡すための接続規格。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Marketplace</span><span class="term-reading">マーケットプレイス</span></div>
+        <p class="term-desc">プラグイン一覧を配るカタログ。個人、チーム、リポジトリ単位の配布に使える。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">plugin.json</span><span class="term-reading">プラグイン・ジェイソン</span></div>
+        <p class="term-desc">プラグイン名、説明、含めるSkillなどを記す設定ファイル。パッケージの名札に近い。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">SKILL.md</span><span class="term-reading">スキル・マークダウン</span></div>
+        <p class="term-desc">Skill本体の説明ファイル。いつ使うか、何を参照するか、手順などを書く。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Authentication</span><span class="term-reading">オーセンティケーション</span></div>
+        <p class="term-desc">本人確認やログイン。外部アプリ連携では、誰の権限で読むかを決める入口。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Approval</span><span class="term-reading">アプルーバル</span></div>
+        <p class="term-desc">実行前の承認。Codexが作業する時に、人が許可するか確認する仕組み。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Workspace</span><span class="term-reading">ワークスペース</span></div>
+        <p class="term-desc">組織やチームの利用範囲。共有プラグインや管理者ポリシーの境界になる。</p>
+      </div>
+      <div class="term-card">
+        <div class="term-head"><span class="term-name">Hook</span><span class="term-reading">フック</span></div>
+        <p class="term-desc">特定タイミングで動く仕組み。作業前後のチェックやルール適用に使われる。</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

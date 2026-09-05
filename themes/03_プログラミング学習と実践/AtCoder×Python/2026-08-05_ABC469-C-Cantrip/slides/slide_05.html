@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.diagram-box {
+  align-items: flex-start;
+  padding: .8rem;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-header">
+    <span class="label" style="background:var(--g-orange);color:#fff">気づき②</span>
+    <h2 class="slide-title">答えは「k個目のはずれの位置」</h2>
+    <div class="hitokoto" style="border-color:var(--orange)">
+      <span class="badge" style="background:var(--orange)">計算量</span>
+      <p>O(N) — Python では N ≤ 1000万 が目安。80万なら余裕で間に合う</p>
+    </div>
+  </div>
+  <div class="slide-body pattern-cols">
+
+    <div class="diagram-box">
+      <svg viewBox="0 0 540 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <!--
+          袋の列: box[i].x = 86 + i*76 (w=64, gap=12)  center = 118,194,270,346,422  right=454
+          オレンジ = はずれ(x)。灰色 = 当たり(o)
+        -->
+        <text x="24" y="36" font-size="14" font-weight="700" fill="var(--text)" font-family="'Noto Sans JP',sans-serif">入力例1: S = oxoxo</text>
+
+        <!-- 位置番号 -->
+        <text x="118" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="194" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="270" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3</text>
+        <text x="346" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4</text>
+        <text x="422" y="56" text-anchor="middle" font-size="11" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">5</text>
+
+        <!-- 袋の列 -->
+        <rect x="86" y="62" width="64" height="58" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+        <text x="118" y="99" text-anchor="middle" font-size="24" font-weight="700" fill="#5e6a8a" font-family="'Consolas',monospace">o</text>
+
+        <rect x="162" y="62" width="64" height="58" rx="8" fill="rgba(217,96,24,.12)" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="194" y="99" text-anchor="middle" font-size="24" font-weight="700" fill="var(--orange)" font-family="'Consolas',monospace">x</text>
+
+        <rect x="238" y="62" width="64" height="58" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+        <text x="270" y="99" text-anchor="middle" font-size="24" font-weight="700" fill="#5e6a8a" font-family="'Consolas',monospace">o</text>
+
+        <rect x="314" y="62" width="64" height="58" rx="8" fill="rgba(217,96,24,.12)" stroke="var(--orange)" stroke-width="2.5"/>
+        <text x="346" y="99" text-anchor="middle" font-size="24" font-weight="700" fill="var(--orange)" font-family="'Consolas',monospace">x</text>
+
+        <rect x="390" y="62" width="64" height="58" rx="8" fill="#ffffff" stroke="#dde2ec" stroke-width="1"/>
+        <text x="422" y="99" text-anchor="middle" font-size="24" font-weight="700" fill="#5e6a8a" font-family="'Consolas',monospace">o</text>
+
+        <!-- はずれの通し番号 -->
+        <text x="194" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">1個目のはずれ</text>
+        <text x="346" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="var(--orange)" font-family="'Noto Sans JP',sans-serif">2個目のはずれ</text>
+
+        <!-- 対応表: 列中心 k=111 / 位置=265 / 答え=424 -->
+        <rect x="50" y="164" width="440" height="176" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
+        <text x="270" y="194" text-anchor="middle" font-size="14" font-weight="900" fill="var(--text)" font-family="'Noto Sans JP',sans-serif">k個目のはずれの位置 = そのまま答え</text>
+
+        <rect x="62" y="206" width="416" height="26" rx="4" fill="var(--surface)"/>
+        <text x="111" y="224" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">k</text>
+        <text x="265" y="224" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">k個目のはずれはどこ？</text>
+        <text x="424" y="224" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">答え</text>
+
+        <text x="111" y="256" text-anchor="middle" font-size="12.5" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">1</text>
+        <text x="265" y="256" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">2番目にある</text>
+        <text x="424" y="256" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">2</text>
+
+        <text x="111" y="286" text-anchor="middle" font-size="12.5" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">2</text>
+        <text x="265" y="286" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">4番目にある</text>
+        <text x="424" y="286" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">4</text>
+
+        <text x="111" y="316" text-anchor="middle" font-size="12.5" fill="#1a1d2e" font-family="'Noto Sans JP',sans-serif">3, 4, 5</text>
+        <text x="265" y="316" text-anchor="middle" font-size="12.5" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">3個目のはずれが無い</text>
+        <text x="424" y="316" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">5 (=N)</text>
+
+        <!-- 例外ケース -->
+        <rect x="50" y="364" width="440" height="84" rx="10" fill="rgba(0,143,106,.07)" stroke="var(--green)" stroke-width="1.5"/>
+        <text x="270" y="396" text-anchor="middle" font-size="13.5" font-weight="900" fill="var(--green)" font-family="'Noto Sans JP',sans-serif">はずれが k 個そろわないときは N</text>
+        <text x="270" y="424" text-anchor="middle" font-size="12" fill="#5e6a8a" font-family="'Noto Sans JP',sans-serif">当たりが尽きる前に列が空になる = 全部の袋を開けられる</text>
+      </svg>
+    </div>
+
+    <div class="info-col">
+
+      <div class="biz-example">
+        <div class="biz-title">💡 解き方の手順（3ステップ）</div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">①</span>
+          <p>S を左から1回なめ、<strong>x の位置</strong>を順にメモ</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">②</span>
+          <p>k 番目のメモがあれば、それが答え</p>
+        </div>
+        <div class="biz-step">
+          <span class="snum" style="background:var(--g-orange)">③</span>
+          <p>メモが k 個に足りなければ答えは <strong>N</strong></p>
+        </div>
+      </div>
+
+      <div class="ok-box">
+        <div class="box-title" style="color:var(--green)">✅ 計算量まとめ</div>
+        <ul class="box-list">
+          <li>x の位置を集める: O(N)</li>
+          <li>各 k は取り出すだけ: 合計 O(N)</li>
+          <li>Python で O(N) は N ≤ 1000万 が目安</li>
+        </ul>
+      </div>
+
+      <div class="ng-box">
+        <div class="box-title" style="color:var(--red)">⚠️ 実装の注意</div>
+        <ul class="box-list">
+          <li>位置は1から数える（添字は0からなので +1）</li>
+          <li>N行を1行ずつ print すると遅い → まとめて出力</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
